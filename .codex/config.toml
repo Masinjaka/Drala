@@ -1,5 +1,8 @@
 [mcp_servers.supabase]
 url = "https://mcp.supabase.com/mcp?project_ref=fqqpmzurvunhilnnhmtf"
 
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
+
 [features]
 rmcp_client = true

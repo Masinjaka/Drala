@@ -5,6 +5,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('has no item background color', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: EnvelopeCard(
+            envelope: const Envelope(
+              id: 'food',
+              name: 'Food',
+              categoryId: 'category',
+              categoryName: 'Food',
+              emoji: '🍔',
+              color: 'FFFF9800',
+              amount: 100000,
+              spent: 25000,
+              currencyCode: 'MGA',
+            ),
+            onDelete: () {},
+          ),
+        ),
+      ),
+    );
+
+    final surface = tester.widget<Container>(
+      find.byKey(const Key('envelope-card-surface')),
+    );
+    expect((surface.decoration! as BoxDecoration).color, isNull);
+  });
+
   testWidgets('shows a red warning when an envelope is over budget',
       (tester) async {
     await tester.pumpWidget(

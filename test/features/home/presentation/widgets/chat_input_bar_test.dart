@@ -23,19 +23,18 @@ void main() {
       ),
     );
 
-    expect(find.text('Expense, income, or transfer'), findsOneWidget);
+    expect(find.text('Your expenses…'), findsOneWidget);
+    final hint = tester.getRect(find.text('Your expenses…'));
+    final input = tester.getRect(find.byKey(const Key('chat-input-container')));
+    expect(hint.center.dy, input.center.dy);
     expect(find.byIcon(Icons.arrow_upward_rounded), findsOneWidget);
-    final sendIcon = tester.widget<Icon>(
-      find.byIcon(Icons.arrow_upward_rounded),
-    );
-    expect(sendIcon.color, Colors.black);
-    final sendCircle = tester.widget<CircleAvatar>(
+    expect(
       find.ancestor(
         of: find.byIcon(Icons.arrow_upward_rounded),
-        matching: find.byType(CircleAvatar),
+        matching: find.byType(IconButton),
       ),
+      findsOneWidget,
     );
-    expect(sendCircle.backgroundColor, const Color(0xFF10B981));
 
     await tester.enterText(
       find.byType(TextField),
@@ -72,7 +71,7 @@ void main() {
 
     await tester.enterText(
       find.byType(TextField),
-      'First line\nSecond line\nThird line',
+      'First line\nSecond line\nThird line\nFourth line',
     );
     await tester.pumpAndSettle();
 
@@ -82,7 +81,7 @@ void main() {
         )
         .height;
     expect(multilineHeight, greaterThan(initialHeight));
-    expect(multilineHeight, lessThanOrEqualTo(110));
+    expect(multilineHeight, lessThanOrEqualTo(120));
   });
 
   testWidgets('unfocuses the chat field when tapping outside', (tester) async {

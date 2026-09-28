@@ -2,7 +2,6 @@ import 'package:budgets/core/ui/amount_visibility_controller.dart';
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
 import 'package:budgets/core/ui/app_responsive_scope.dart';
 import 'package:budgets/features/ai_entry/presentation/view_models/ai_entry_view_model.dart';
-import 'package:budgets/features/home/presentation/widgets/home_collapsing_surface.dart';
 import 'package:budgets/features/home/presentation/widgets/home_dashboard.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
@@ -21,7 +20,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      tester.getSize(find.byType(HomeCollapsingSurface)).width,
+      tester.getSize(find.byKey(const Key('home-dashboard-background'))).width,
       900,
     );
   });
@@ -33,7 +32,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(
-      tester.getSize(find.byType(HomeCollapsingSurface)).width,
+      tester.getSize(find.byKey(const Key('home-dashboard-background'))).width,
       400,
     );
   });
@@ -66,6 +65,7 @@ Widget _app() {
             notificationViewModel: notifications,
             onNotificationsPressed: () {},
             onFinanceChanged: () async {},
+            onDateSelected: (_) {},
           ),
         ),
       ),

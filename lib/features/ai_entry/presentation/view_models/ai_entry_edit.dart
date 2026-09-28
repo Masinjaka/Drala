@@ -6,7 +6,7 @@ extension AiEntryEditing on AiEntryViewModel {
     ManualEntryInput input,
   ) async {
     _isSubmitting = true;
-    notifyListeners();
+    _notify();
     try {
       final entry = await _repository.updateFinanceEntry(entryId, input);
       final previousIndex = _entries.indexWhere((item) => item.id == entryId);
@@ -15,26 +15,28 @@ extension AiEntryEditing on AiEntryViewModel {
         updated.insert(previousIndex < 0 ? 0 : previousIndex, entry);
       }
       _entries = List.unmodifiable(updated);
+      _replaceMonthlyEntry(entryId, entry);
       await refreshBalances();
       return entry;
     } finally {
       _isSubmitting = false;
-      notifyListeners();
+      _notify();
     }
   }
 
   Future<void> deleteFinanceEntry(String entryId) async {
     _isSubmitting = true;
-    notifyListeners();
+    _notify();
     try {
       await _repository.deleteFinanceEntry(entryId);
       _entries = List.unmodifiable(
         _entries.where((entry) => entry.id != entryId),
       );
+      _removeMonthlyEntry(entryId);
       await refreshBalances();
     } finally {
       _isSubmitting = false;
-      notifyListeners();
+      _notify();
     }
   }
 }

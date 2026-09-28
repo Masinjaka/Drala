@@ -18,11 +18,14 @@ class ChatHomeLayout extends StatelessWidget {
     required this.viewModel,
     required this.activityCalendarViewModel,
     this.currencyState,
+    this.isCurrencyLoading = false,
     required this.onOpenDrawer,
     required this.onCloseDrawer,
     required this.onDateSelected,
     required this.onEnvelopePressed,
     required this.onStatsPressed,
+    required this.onWalletsPressed,
+    required this.onCategoriesPressed,
     required this.onPlanPressed,
     required this.onFeedbackPressed,
     required this.onSettingsPressed,
@@ -41,11 +44,14 @@ class ChatHomeLayout extends StatelessWidget {
   final AiEntryViewModel viewModel;
   final ActivityCalendarViewModel activityCalendarViewModel;
   final CurrencyState? currencyState;
+  final bool isCurrencyLoading;
   final VoidCallback onOpenDrawer;
   final VoidCallback onCloseDrawer;
   final ValueChanged<DateTime> onDateSelected;
   final VoidCallback onEnvelopePressed;
   final VoidCallback onStatsPressed;
+  final VoidCallback onWalletsPressed;
+  final VoidCallback onCategoriesPressed;
   final VoidCallback onPlanPressed;
   final VoidCallback onFeedbackPressed;
   final Future<void> Function() onSettingsPressed;
@@ -75,22 +81,18 @@ class ChatHomeLayout extends StatelessWidget {
             notificationViewModel: notificationViewModel,
             onNotificationsPressed: onNotificationsPressed,
             onFinanceChanged: onFinanceChanged,
+            onDateSelected: onDateSelected,
             currencyState: currencyState,
+            isCurrencyLoading: isCurrencyLoading,
           );
           final drawer = HomeDrawer(
             width: drawerWidth,
-            today: today,
-            selectedDate: selectedDate,
-            onDateSelected: onDateSelected,
             onEnvelopePressed: onEnvelopePressed,
             onStatsPressed: onStatsPressed,
-            onPlanPressed: onPlanPressed,
-            onFeedbackPressed: onFeedbackPressed,
+            onWalletsPressed: onWalletsPressed,
+            onCategoriesPressed: onCategoriesPressed,
             onSettingsPressed: onSettingsPressed,
-            viewModel: viewModel,
-            activityCalendarViewModel: activityCalendarViewModel,
-            currencyState: currencyState,
-            onCollapsePressed: persistent ? onCloseDrawer : null,
+            onCollapsePressed: onCloseDrawer,
           );
           if (persistent) {
             return PersistentSidebarLayout(
@@ -112,7 +114,7 @@ class ChatHomeLayout extends StatelessWidget {
           return SlidingDrawerLayout(
             controller: drawerController,
             drawerWidth: drawerWidth,
-            maximumDimming: 0.09,
+            maximumDimming: 0.59,
             onDragUpdate: (details) => onDragUpdate(details, drawerWidth),
             onDragEnd: onDragEnd,
             onDragCancel: onDragCancel,

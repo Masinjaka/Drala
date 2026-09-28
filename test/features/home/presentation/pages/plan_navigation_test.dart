@@ -12,7 +12,7 @@ void main() {
       MaterialApp(home: ChatHomePage(today: DateTime(2026, 7, 16))),
     );
 
-    await tester.tap(find.byTooltip('Menu'));
+    await tester.tap(find.byKey(const Key('home-menu-button')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('drawer-plan-button')), findsNothing);
     expect(find.text('Plan'), findsNothing);

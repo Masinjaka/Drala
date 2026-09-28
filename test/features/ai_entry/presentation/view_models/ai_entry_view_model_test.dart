@@ -21,6 +21,42 @@ void main() {
     expect(viewModel.isLoading, isFalse);
   });
 
+  test('keeps current-month totals when the selected day changes', () async {
+    final repository = FakeAiEntryRepository()
+      ..entries = [_datedEntry('Daily expense', 50, DateTime(2026, 7, 15))]
+      ..monthlyEntries = [
+        _datedEntry('Salary', 500, DateTime(2026, 7, 1), income: true),
+        _datedEntry('Rent', 200, DateTime(2026, 7, 2)),
+        _datedEntry('Food', 50, DateTime(2026, 7, 15)),
+      ];
+    final viewModel = AiEntryViewModel(repository, DateTime(2026, 7, 17));
+
+    await viewModel.loadDate(DateTime(2026, 7, 15));
+    repository.entries = [
+      _datedEntry('Another day', 25, DateTime(2026, 7, 16)),
+    ];
+    final sameMonthLoad = viewModel.loadDate(DateTime(2026, 7, 16));
+    expect(viewModel.isSummaryLoading, isFalse);
+    await sameMonthLoad;
+
+    expect(repository.requestedMonth, DateTime(2026, 7));
+    expect(repository.monthLoadCount, 1);
+    expect(viewModel.monthlyIncome, 500);
+    expect(viewModel.monthlyExpenses, 250);
+
+    repository.monthlyEntries = [
+      _datedEntry('August salary', 700, DateTime(2026, 8), income: true),
+    ];
+    final nextMonthLoad = viewModel.loadDate(DateTime(2026, 8));
+    expect(viewModel.isSummaryLoading, isTrue);
+    await nextMonthLoad;
+
+    expect(repository.requestedMonth, DateTime(2026, 8));
+    expect(repository.monthLoadCount, 2);
+    expect(viewModel.monthlyIncome, 700);
+    expect(viewModel.monthlyExpenses, 0);
+  });
+
   test('inserts a submitted entry without reloading existing entries',
       () async {
     final repository = FakeAiEntryRepository()
@@ -188,6 +224,24 @@ FinanceEntry _entry(String title) => FinanceEntry(
       currencyCode: 'MGA',
       iconKey: 'food',
       emoji: '🍔',
+    );
+
+FinanceEntry _datedEntry(
+  String title,
+  double amount,
+  DateTime occurredAt, {
+  bool income = false,
+}) =>
+    FinanceEntry(
+      id: title,
+      title: title,
+      categoryName: 'Other',
+      amount: amount,
+      occurredAt: occurredAt,
+      transactionType: income ? 'income' : 'expense',
+      currencyCode: 'MGA',
+      iconKey: 'other',
+      emoji: '🧾',
     );
 
 FinanceEntry _transferEntry() => FinanceEntry(

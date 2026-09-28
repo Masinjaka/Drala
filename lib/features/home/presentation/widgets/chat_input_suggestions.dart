@@ -1,4 +1,3 @@
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 
 class ChatInputSuggestions extends StatelessWidget {
@@ -44,8 +43,8 @@ class ChatInputSuggestions extends StatelessWidget {
                   child: Text(
                     suggestion,
                     style: const TextStyle(
-                      fontSize: AppTypography.supporting,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),

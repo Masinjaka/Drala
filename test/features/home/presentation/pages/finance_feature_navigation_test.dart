@@ -63,7 +63,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byTooltip('Menu'));
+    await tester.tap(find.byKey(const Key('home-menu-button')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('drawer-envelope-button')));
     await tester.pumpAndSettle();
@@ -83,7 +83,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byTooltip('Menu'));
+    await tester.tap(find.byKey(const Key('home-menu-button')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('drawer-stats-button')));
     await tester.pumpAndSettle();

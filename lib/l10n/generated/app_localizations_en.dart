@@ -251,16 +251,28 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get chatHint => 'Expense, income, or transfer';
+  String get chatHint => 'Your expenses…';
 
   @override
-  String get expenseSuggestion => 'I spent X on Y today';
+  String get chatIncomeHint => 'Your income…';
 
   @override
-  String get incomeSuggestion => 'I received a payment of X';
+  String get chatTransferHint => 'Transfer between wallets…';
 
   @override
-  String get transferSuggestion => 'Transfer X from wallet A to wallet B';
+  String expenseSuggestion(Object amount) {
+    return 'I spent $amount on burgers';
+  }
+
+  @override
+  String incomeSuggestion(Object amount) {
+    return 'I received $amount from my salary';
+  }
+
+  @override
+  String transferSuggestion(Object amount) {
+    return 'Transfer $amount from Cash to Savings';
+  }
 
   @override
   String get addReceipt => 'Add receipt';
@@ -682,4 +694,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get feedbackSent => 'Feedback sent. Thank you!';
+
+  @override
+  String get availableBalance => 'Available balance';
+
+  @override
+  String get thisMonth => 'This month';
+
+  @override
+  String get operations => 'Operations';
+
+  @override
+  String get categories => 'Categories';
 }

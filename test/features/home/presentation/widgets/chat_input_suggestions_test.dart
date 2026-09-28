@@ -29,20 +29,20 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(tester.getSize(reveal).height, greaterThan(0));
-    expect(find.text('I spent X on Y today'), findsOneWidget);
-    expect(find.text('I received a payment of X'), findsOneWidget);
+    expect(find.text('I spent 30 000 Ar on burgers'), findsOneWidget);
+    expect(find.text('I received 1 200 000 Ar from my salary'), findsOneWidget);
     expect(
-      find.text('Transfer X from wallet A to wallet B'),
+      find.text('Transfer 200 000 Ar from Cash to Savings'),
       findsOneWidget,
     );
 
-    await tester.tap(find.text('I spent X on Y today'));
+    await tester.tap(find.text('I spent 30 000 Ar on burgers'));
     await tester.pumpAndSettle();
 
     expect(tester.getSize(reveal).height, 0);
     expect(
       tester.widget<TextField>(find.byType(TextField)).controller?.text,
-      'I spent X on Y today',
+      'I spent 30 000 Ar on burgers',
     );
   });
 

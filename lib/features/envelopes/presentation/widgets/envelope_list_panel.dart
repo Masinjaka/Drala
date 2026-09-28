@@ -2,8 +2,8 @@ import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_card.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_empty_state.dart';
-import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class EnvelopeListPanel extends StatefulWidget {
   const EnvelopeListPanel({
@@ -38,48 +38,27 @@ class _EnvelopeListPanelState extends State<EnvelopeListPanel> {
   @override
   Widget build(BuildContext context) {
     _scheduleReveal();
-    return Container(
-      constraints: const BoxConstraints(minHeight: 205),
-      padding: const EdgeInsets.fromLTRB(14, 16, 14, 14),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x16000000),
-            blurRadius: 14,
-            offset: Offset(0, 5),
-          ),
+    if (widget.envelopes.isEmpty) return const EnvelopeEmptyState();
+    return Column(
+      children: [
+        for (var index = 0; index < widget.envelopes.length; index++) ...[
+          KeyedSubtree(
+            key: Key('envelope-${widget.envelopes[index].id}'),
+            child: EnvelopeCard(
+              key: widget.envelopes[index].id == widget.targetEnvelopeId
+                  ? _targetKey
+                  : null,
+              envelope: widget.envelopes[index],
+              onDelete: () => widget.onDelete(widget.envelopes[index].id),
+              displayCurrency: widget.displayCurrency,
+            ),
+          )
+              .animate(delay: (50 * index).ms)
+              .fadeIn(duration: 200.ms)
+              .slideY(begin: .5, duration: 200.ms, curve: Curves.easeOut),
+          if (index < widget.envelopes.length - 1) const SizedBox(height: 10),
         ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.l10n.monthlyEnvelopes,
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 14),
-          if (widget.envelopes.isEmpty)
-            const EnvelopeEmptyState()
-          else
-            for (var index = 0; index < widget.envelopes.length; index++) ...[
-              KeyedSubtree(
-                key: Key('envelope-${widget.envelopes[index].id}'),
-                child: EnvelopeCard(
-                  key: widget.envelopes[index].id == widget.targetEnvelopeId
-                      ? _targetKey
-                      : null,
-                  envelope: widget.envelopes[index],
-                  onDelete: () => widget.onDelete(widget.envelopes[index].id),
-                  displayCurrency: widget.displayCurrency,
-                ),
-              ),
-              if (index < widget.envelopes.length - 1)
-                const SizedBox(height: 8),
-            ],
-        ],
-      ),
+      ],
     );
   }
 
@@ -98,7 +77,7 @@ class _EnvelopeListPanelState extends State<EnvelopeListPanel> {
         target,
         duration: const Duration(milliseconds: 420),
         curve: Curves.easeOutCubic,
-        alignment: 0.35,
+        alignment: .35,
       );
     });
   }

@@ -11,27 +11,21 @@ class MonthlySpendingChart extends StatelessWidget {
     final maximum =
         values.fold<int>(0, (max, value) => value > max ? value : max);
     return Container(
-      height: 190,
-      padding: const EdgeInsets.fromLTRB(17, 17, 14, 14),
+      height: 215,
+      padding: const EdgeInsets.fromLTRB(24, 27, 13, 2),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLowest,
+        color: Theme.of(context).scaffoldBackgroundColor,
+        border: Border.all(color: Theme.of(context).colorScheme.onSurface),
         borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x0E000000),
-            blurRadius: 14,
-            offset: Offset(0, 5),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             context.l10n.dailySpending,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 18),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,

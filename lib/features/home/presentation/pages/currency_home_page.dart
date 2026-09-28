@@ -10,10 +10,11 @@ class CurrencyHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currency = ref.watch(currencyControllerProvider).value;
+    final currency = ref.watch(currencyControllerProvider);
     return ChatHomePage(
       isSignedIn: isSignedIn,
-      currencyState: currency,
+      currencyState: currency.value,
+      isCurrencyLoading: currency.isLoading,
     );
   }
 }

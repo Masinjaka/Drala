@@ -7,6 +7,8 @@ import 'package:budgets/widgets/permission_request_dialog.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_android/image_picker_android.dart';
+import 'package:image_picker_platform_interface/image_picker_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 /// Pick an image from camera or gallery with proper permission handling.
@@ -132,6 +134,7 @@ Future<File?> pickImageWithPermissions(
   }
 
   try {
+    _enableAndroidPhotoPicker();
     final picker = ImagePicker();
     final picked = await picker.pickImage(
         source: source, maxWidth: 1024, maxHeight: 1024, imageQuality: 85);
@@ -147,5 +150,13 @@ Future<File?> pickImageWithPermissions(
       );
     }
     return null;
+  }
+}
+
+void _enableAndroidPhotoPicker() {
+  if (!Platform.isAndroid) return;
+  final implementation = ImagePickerPlatform.instance;
+  if (implementation is ImagePickerAndroid) {
+    implementation.useAndroidPhotoPicker = true;
   }
 }

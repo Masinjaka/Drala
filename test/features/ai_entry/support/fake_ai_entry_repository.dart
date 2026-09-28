@@ -11,12 +11,15 @@ import 'package:budgets/features/ai_entry/domain/repositories/ai_entry_repositor
 
 class FakeAiEntryRepository implements AiEntryRepository {
   List<FinanceEntry> entries = [];
+  List<FinanceEntry> monthlyEntries = [];
   AiEntryResult? result;
   DateTime? requestedDate;
+  DateTime? requestedMonth;
   String? submittedMessage;
   DateTime? submittedDate;
   int remaining = 20;
   int dateLoadCount = 0;
+  int monthLoadCount = 0;
   bool hasAnyEntriesValue = false;
   Completer<AiEntryResult>? resultCompleter;
   List<WalletSummary> walletItems = const [];
@@ -41,6 +44,13 @@ class FakeAiEntryRepository implements AiEntryRepository {
     dateLoadCount++;
     requestedDate = date;
     return List.unmodifiable(entries);
+  }
+
+  @override
+  Future<List<FinanceEntry>> entriesForMonth(DateTime month) async {
+    monthLoadCount++;
+    requestedMonth = month;
+    return List.unmodifiable(monthlyEntries);
   }
 
   @override

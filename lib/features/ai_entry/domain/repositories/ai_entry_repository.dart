@@ -9,6 +9,8 @@ import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 abstract interface class AiEntryRepository {
   Future<List<FinanceEntry>> entriesForDate(DateTime date);
 
+  Future<List<FinanceEntry>> entriesForMonth(DateTime month);
+
   Future<bool> hasAnyEntries();
 
   Future<Set<DateTime>> activityDatesForMonth(DateTime month);

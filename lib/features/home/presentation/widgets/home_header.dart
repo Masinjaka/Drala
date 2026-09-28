@@ -31,7 +31,7 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 48,
+      height: 56,
       child: Row(
         children: [
           AnimatedBuilder(
@@ -46,11 +46,11 @@ class HomeHeader extends StatelessWidget {
             ),
             child: IconButton(
               onPressed: onMenuPressed,
-              icon: const Icon(Icons.menu_rounded, size: 30),
+              icon: const Icon(Icons.menu_rounded, size: 32),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints.tightFor(
                 width: 80,
-                height: 48,
+                height: 56,
               ),
               tooltip: context.l10n.menu,
             ),

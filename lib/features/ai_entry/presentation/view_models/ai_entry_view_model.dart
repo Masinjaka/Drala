@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 part 'ai_entry_data_reset.dart';
 part 'ai_entry_edit.dart';
+part 'ai_entry_monthly_totals.dart';
 part 'ai_entry_receipt.dart';
 part 'ai_entry_result_application.dart';
 part 'ai_entry_wallets.dart';
@@ -26,7 +27,10 @@ class AiEntryViewModel extends ChangeNotifier {
   final ReceiptRepository? _receiptRepository;
   DateTime _selectedDate;
   List<FinanceEntry> _entries = const [];
+  List<FinanceEntry> _monthlyEntries = const [];
+  DateTime? _monthlyEntriesMonth;
   bool _isLoading = false;
+  bool _isSummaryLoading = false;
   bool _isSubmitting = false;
   AiQuota? _quota;
   List<WalletSummary> _wallets = const [];
@@ -37,7 +41,10 @@ class AiEntryViewModel extends ChangeNotifier {
 
   DateTime get selectedDate => _selectedDate;
   List<FinanceEntry> get entries => _entries;
+  num get monthlyIncome => _monthlyTotal((entry) => entry.isIncome);
+  num get monthlyExpenses => _monthlyTotal((entry) => entry.isExpense);
   bool get isLoading => _isLoading;
+  bool get isSummaryLoading => _isSummaryLoading;
   bool get isSubmitting => _isSubmitting;
   int? get remainingRequests => _quota?.remaining;
   bool get hasUnlimitedAiRequests => _quota?.unlimited ?? false;
@@ -50,7 +57,12 @@ class AiEntryViewModel extends ChangeNotifier {
 
   Future<void> loadDate(DateTime date) async {
     _selectedDate = DateUtils.dateOnly(date);
+    final targetMonth = DateTime(_selectedDate.year, _selectedDate.month);
+    final shouldLoadMonth = _monthlyEntriesMonth == null ||
+        _monthlyEntriesMonth!.year != targetMonth.year ||
+        _monthlyEntriesMonth!.month != targetMonth.month;
     _isLoading = true;
+    _isSummaryLoading = shouldLoadMonth;
     notifyListeners();
     final quotaFuture = _quota == null
         ? _repository.aiQuota().then<AiQuota?>((quota) => quota).catchError(
@@ -73,8 +85,19 @@ class AiEntryViewModel extends ChangeNotifier {
             .then<bool?>((value) => value)
             .catchError((_) => null)
         : Future<bool?>.value(_hasAnyEntries);
+    final monthlyEntriesFuture = !shouldLoadMonth
+        ? Future<List<FinanceEntry>?>.value(null)
+        : _repository
+            .entriesForMonth(targetMonth)
+            .then<List<FinanceEntry>?>((entries) => entries)
+            .catchError((_) => null);
     try {
       _entries = await _repository.entriesForDate(_selectedDate);
+      final monthlyEntries = await monthlyEntriesFuture;
+      if (monthlyEntries != null) {
+        _monthlyEntries = List.unmodifiable(monthlyEntries);
+        _monthlyEntriesMonth = targetMonth;
+      }
       final hasHistory = await historyFuture;
       _hasAnyEntries = _entries.isNotEmpty || (hasHistory ?? true);
       _quota = await quotaFuture;
@@ -86,6 +109,7 @@ class AiEntryViewModel extends ChangeNotifier {
       _totalFunds = await totalFuture ?? _walletBalance;
     } finally {
       _isLoading = false;
+      _isSummaryLoading = false;
       notifyListeners();
     }
   }
@@ -148,6 +172,7 @@ class AiEntryViewModel extends ChangeNotifier {
       if (DateUtils.isSameDay(_selectedDate, input.occurredAt)) {
         _entries = _mergeNewEntries([entry], _entries);
       }
+      _mergeMonthlyEntries([entry]);
       await refreshBalances();
       notifyListeners();
       return entry;

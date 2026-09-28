@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_control_metrics.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -63,7 +64,7 @@ class MonthNavigation extends StatelessWidget {
     required VoidCallback? onPressed,
   }) {
     return SizedBox.square(
-      dimension: 32,
+      dimension: AppControlMetrics.iconButtonSize,
       child: IconButton(
         key: key,
         onPressed: onPressed,
@@ -72,7 +73,7 @@ class MonthNavigation extends StatelessWidget {
           backgroundColor: Theme.of(context).cardColor,
           disabledBackgroundColor: Theme.of(context).cardColor,
         ),
-        icon: Icon(icon, size: 20),
+        icon: Icon(icon, size: AppControlMetrics.iconSize),
       ),
     );
   }

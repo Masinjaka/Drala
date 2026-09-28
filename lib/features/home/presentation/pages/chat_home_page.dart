@@ -27,6 +27,7 @@ class ChatHomePage extends StatefulWidget {
     this.receiptRepository,
     this.isSignedIn,
     this.currencyState,
+    this.isCurrencyLoading = false,
     this.notificationRepository,
     super.key,
   });
@@ -38,6 +39,7 @@ class ChatHomePage extends StatefulWidget {
   final ReceiptRepository? receiptRepository;
   final bool Function()? isSignedIn;
   final CurrencyState? currencyState;
+  final bool isCurrencyLoading;
   final FinanceNotificationRepository? notificationRepository;
 
   @override
@@ -148,6 +150,12 @@ class _ChatHomePageState extends State<ChatHomePage>
       statsRepository: widget.statsRepository,
       onDataDeleted: _resetAfterDataDeletion,
       currencyState: widget.currencyState,
+      wallets: _aiEntryViewModel.wallets,
+      onAddWallet: _aiEntryViewModel.addWallet,
+      onUpdateWallet: _aiEntryViewModel.updateWallet,
+      onDeleteWallet: _aiEntryViewModel.deleteWallet,
+      walletsListenable: _aiEntryViewModel,
+      walletReader: () => _aiEntryViewModel.wallets,
     );
     return NotificationPermissionPrompt(
       child: ChatHomeLayout(
@@ -157,11 +165,14 @@ class _ChatHomePageState extends State<ChatHomePage>
         viewModel: _aiEntryViewModel,
         activityCalendarViewModel: _activityCalendarViewModel,
         currencyState: widget.currencyState,
+        isCurrencyLoading: widget.isCurrencyLoading,
         onOpenDrawer: _drawer.open,
         onCloseDrawer: _drawer.close,
         onDateSelected: _selectDate,
         onEnvelopePressed: destinations.openEnvelopes,
         onStatsPressed: destinations.openStats,
+        onWalletsPressed: destinations.openWallets,
+        onCategoriesPressed: destinations.openCategories,
         onPlanPressed: destinations.openPlans,
         onFeedbackPressed: destinations.openFeedback,
         notificationViewModel: _notificationViewModel,

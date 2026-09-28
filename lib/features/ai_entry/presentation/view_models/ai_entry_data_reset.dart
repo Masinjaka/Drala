@@ -3,6 +3,9 @@ part of 'ai_entry_view_model.dart';
 extension AiEntryDataReset on AiEntryViewModel {
   Future<void> resetAfterDataDeletion() async {
     _entries = const [];
+    _monthlyEntries = const [];
+    _monthlyEntriesMonth = DateTime(_selectedDate.year, _selectedDate.month);
+    _isSummaryLoading = false;
     _wallets = List.unmodifiable(
       _wallets.where((wallet) => wallet.isDefault).map(_emptyWallet),
     );

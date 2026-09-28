@@ -2,7 +2,8 @@ abstract final class AppBreakpoints {
   static const double persistentNavigation = 600;
   static const double expanded = 1024;
   static const double collapsedSidebarWidth = 68;
-  static const double mobileDrawerFraction = 0.95;
+  static const double mobileDrawerFraction = 285 / 412;
+  static const double maximumMobileDrawerWidth = 360;
 
   static bool usesPersistentNavigation(double width) =>
       width >= persistentNavigation;
@@ -10,5 +11,5 @@ abstract final class AppBreakpoints {
   static double sidebarWidth(double width) => width >= expanded ? 360 : 320;
 
   static double mobileDrawerWidth(double width) =>
-      width * mobileDrawerFraction;
+      (width * mobileDrawerFraction).clamp(0, maximumMobileDrawerWidth);
 }

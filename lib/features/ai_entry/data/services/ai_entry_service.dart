@@ -106,6 +106,12 @@ class AiEntryService {
     return FinanceEntryQueryService(_client).entriesForDate(userId, date);
   }
 
+  Future<List<FinanceEntry>> entriesForMonth(DateTime month) {
+    return FinanceEntryQueryService(
+      _client,
+    ).entriesForMonth(_requireUserId(), month);
+  }
+
   Future<bool> hasAnyEntries() {
     return FinanceEntryQueryService(_client).hasAnyEntries(_requireUserId());
   }

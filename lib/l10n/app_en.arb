@@ -79,10 +79,12 @@
   "transferCount": "{count, plural, =1{1 transfer} other{{count} transfers}}",
   "unlimitedAiRequests": "Unlimited AI requests with Drala Plus",
   "aiRequestsRemaining": "You have {count} AI requests remaining today",
-  "chatHint": "Expense, income, or transfer",
-  "expenseSuggestion": "I spent X on Y today",
-  "incomeSuggestion": "I received a payment of X",
-  "transferSuggestion": "Transfer X from wallet A to wallet B",
+  "chatHint": "Your expenses…",
+  "chatIncomeHint": "Your income…",
+  "chatTransferHint": "Transfer between wallets…",
+  "expenseSuggestion": "I spent {amount} on burgers",
+  "incomeSuggestion": "I received {amount} from my salary",
+  "transferSuggestion": "Transfer {amount} from Cash to Savings",
   "addReceipt": "Add receipt",
   "manualEntry": "Manual entry",
   "send": "Send",
@@ -241,5 +243,9 @@
   "feedbackHint": "Describe an issue or share an idea",
   "feedbackRequired": "Please enter your feedback",
   "sendFeedback": "Send feedback",
-  "feedbackSent": "Feedback sent. Thank you!"
+  "feedbackSent": "Feedback sent. Thank you!",
+  "availableBalance": "Available balance",
+  "thisMonth": "This month",
+  "operations": "Operations",
+  "categories": "Categories"
 }

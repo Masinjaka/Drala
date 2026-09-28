@@ -9,9 +9,28 @@ class FinanceEntryQueryService {
   Future<List<FinanceEntry>> entriesForDate(
     String userId,
     DateTime date,
+  ) =>
+      _entriesForRange(
+        userId,
+        DateTime(date.year, date.month, date.day),
+        DateTime(date.year, date.month, date.day + 1),
+      );
+
+  Future<List<FinanceEntry>> entriesForMonth(
+    String userId,
+    DateTime month,
+  ) =>
+      _entriesForRange(
+        userId,
+        DateTime(month.year, month.month),
+        DateTime(month.year, month.month + 1),
+      );
+
+  Future<List<FinanceEntry>> _entriesForRange(
+    String userId,
+    DateTime start,
+    DateTime end,
   ) async {
-    final start = DateTime(date.year, date.month, date.day);
-    final end = DateTime(date.year, date.month, date.day + 1);
     final results = await Future.wait([
       _transactionRows(userId, start, end),
       _transferRows(userId, start, end),

@@ -26,6 +26,10 @@ class SupabaseAiEntryRepository implements AiEntryRepository {
       _service.entriesForDate(date);
 
   @override
+  Future<List<FinanceEntry>> entriesForMonth(DateTime month) =>
+      _service.entriesForMonth(month);
+
+  @override
   Future<bool> hasAnyEntries() => _service.hasAnyEntries();
 
   @override

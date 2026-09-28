@@ -255,17 +255,28 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get chatHint => 'Dépense, revenu ou transfert';
+  String get chatHint => 'Vos dépenses…';
 
   @override
-  String get expenseSuggestion => 'J’ai dépensé X pour Y aujourd’hui';
+  String get chatIncomeHint => 'Vos gains…';
 
   @override
-  String get incomeSuggestion => 'J’ai reçu un paiement de X';
+  String get chatTransferHint => 'Transfert entre portefeuilles…';
 
   @override
-  String get transferSuggestion =>
-      'Transférer X du portefeuille A au portefeuille B';
+  String expenseSuggestion(Object amount) {
+    return 'J’ai dépensé $amount pour des burgers';
+  }
+
+  @override
+  String incomeSuggestion(Object amount) {
+    return 'J’ai reçu $amount de salaire';
+  }
+
+  @override
+  String transferSuggestion(Object amount) {
+    return 'Transférer $amount de Principal à Épargne';
+  }
 
   @override
   String get addReceipt => 'Ajouter un reçu';
@@ -692,4 +703,16 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get feedbackSent => 'Avis envoyé. Merci !';
+
+  @override
+  String get availableBalance => 'Solde disponible';
+
+  @override
+  String get thisMonth => 'Ce mois-ci';
+
+  @override
+  String get operations => 'Opérations';
+
+  @override
+  String get categories => 'Catégories';
 }

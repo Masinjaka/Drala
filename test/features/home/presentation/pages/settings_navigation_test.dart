@@ -19,10 +19,10 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byTooltip('Menu'));
+    await tester.tap(find.byKey(const Key('home-menu-button')));
     await tester.pumpAndSettle();
-    expect(find.text('Settings'), findsNothing);
-    final settingsButton = find.byKey(const Key('drawer-profile-button'));
+    expect(find.text('Settings'), findsOneWidget);
+    final settingsButton = find.byKey(const Key('drawer-settings-button'));
     await tester.tap(settingsButton);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
@@ -42,6 +42,6 @@ void main() {
     await tester.tap(find.byTooltip('Back'));
     await tester.pump(const Duration(milliseconds: 500));
 
-    expect(find.text('1 000 000 Ar'), findsOneWidget);
+    expect(find.text('1M'), findsOneWidget);
   });
 }

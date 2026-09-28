@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_control_metrics.dart';
 import 'package:flutter/material.dart';
 
 class CalendarViewToggle extends StatelessWidget {
@@ -15,7 +16,7 @@ class CalendarViewToggle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: SizedBox(
-        height: 32,
+        height: AppControlMetrics.iconButtonSize,
         child: IconButton(
           key: const Key('calendar-view-toggle'),
           onPressed: onPressed,
@@ -25,7 +26,10 @@ class CalendarViewToggle extends StatelessWidget {
             turns: isExpanded ? 0.5 : 0,
             duration: const Duration(milliseconds: 260),
             curve: Curves.easeInOutCubic,
-            child: const Icon(Icons.keyboard_arrow_down_rounded, size: 23),
+            child: const Icon(
+              Icons.keyboard_arrow_down_rounded,
+              size: AppControlMetrics.iconSize,
+            ),
           ),
         ),
       ),

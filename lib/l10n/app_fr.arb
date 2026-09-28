@@ -79,10 +79,12 @@
   "transferCount": "{count, plural, =0{0 transfert} =1{1 transfert} other{{count} transferts}}",
   "unlimitedAiRequests": "Requêtes IA illimitées avec Drala Plus",
   "aiRequestsRemaining": "Il vous reste {count} requêtes IA aujourd’hui",
-  "chatHint": "Dépense, revenu ou transfert",
-  "expenseSuggestion": "J’ai dépensé X pour Y aujourd’hui",
-  "incomeSuggestion": "J’ai reçu un paiement de X",
-  "transferSuggestion": "Transférer X du portefeuille A au portefeuille B",
+  "chatHint": "Vos dépenses…",
+  "chatIncomeHint": "Vos gains…",
+  "chatTransferHint": "Transfert entre portefeuilles…",
+  "expenseSuggestion": "J’ai dépensé {amount} pour des burgers",
+  "incomeSuggestion": "J’ai reçu {amount} de salaire",
+  "transferSuggestion": "Transférer {amount} de Principal à Épargne",
   "addReceipt": "Ajouter un reçu",
   "manualEntry": "Saisie manuelle",
   "send": "Envoyer",
@@ -213,5 +215,9 @@
   "feedbackHint": "Décrivez un problème ou partagez une idée",
   "feedbackRequired": "Veuillez saisir votre avis",
   "sendFeedback": "Envoyer l’avis",
-  "feedbackSent": "Avis envoyé. Merci !"
+  "feedbackSent": "Avis envoyé. Merci !",
+  "availableBalance": "Solde disponible",
+  "thisMonth": "Ce mois-ci",
+  "operations": "Opérations",
+  "categories": "Catégories"
 }

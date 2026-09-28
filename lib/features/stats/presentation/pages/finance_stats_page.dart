@@ -1,13 +1,13 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/month_navigation.dart';
+import 'package:budgets/core/ui/detail_page_header.dart';
+import 'package:budgets/core/ui/month_carousel.dart';
 import 'package:budgets/features/stats/data/repositories/supabase_monthly_stats_repository.dart';
 import 'package:budgets/features/stats/data/services/monthly_stats_service.dart';
 import 'package:budgets/features/stats/domain/repositories/monthly_stats_repository.dart';
 import 'package:budgets/features/stats/presentation/view_models/monthly_stats_view_model.dart';
 import 'package:budgets/features/stats/presentation/widgets/monthly_spending_chart.dart';
 import 'package:budgets/features/stats/presentation/widgets/stats_metrics_grid.dart';
-import 'package:budgets/features/stats/presentation/widgets/stats_top_spending_card.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -70,32 +70,6 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        surfaceTintColor: Colors.transparent,
-        title: ListenableBuilder(
-          listenable: _viewModel,
-          builder: (context, _) => Row(
-            children: [
-              Expanded(
-                child: Text(
-                  context.l10n.stats,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w800),
-                ),
-              ),
-              const SizedBox(width: 8),
-              MonthNavigation(
-                month: _viewModel.month,
-                onPrevious: () => _changeMonth(-1),
-                onNext: () => _changeMonth(1),
-                canGoNext: _canGoForward,
-              ),
-            ],
-          ),
-        ),
-      ),
       body: ListenableBuilder(
         listenable: _viewModel,
         builder: (context, _) {
@@ -103,29 +77,30 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
           if (stats == null) {
             return const Center(child: CircularProgressIndicator());
           }
-          return LayoutBuilder(
-            builder: (context, constraints) => RefreshIndicator(
-              onRefresh: _load,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  width: constraints.maxWidth.clamp(0, 760),
-                  child: ListView(
-                    padding: const EdgeInsets.fromLTRB(22, 18, 22, 32),
-                    children: [
-                      StatsMetricsGrid(
-                        stats: stats,
-                        displayCurrency: widget.displayCurrency,
-                      ),
-                      const SizedBox(height: 28),
-                      MonthlySpendingChart(values: stats.dailyExpenses),
-                      const SizedBox(height: 28),
-                      StatsTopSpendingCard(
-                        stats: stats,
-                        displayCurrency: widget.displayCurrency,
-                      ),
-                    ],
-                  ),
+          return SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: RefreshIndicator(
+                onRefresh: _load,
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(29, 0, 29, 32),
+                  children: [
+                    DetailPageHeader(title: context.l10n.stats),
+                    const SizedBox(height: 24),
+                    MonthCarousel(
+                      month: _viewModel.month,
+                      onChanged: _changeMonth,
+                      canGoNext: _canGoForward,
+                    ),
+                    const SizedBox(height: 28),
+                    StatsMetricsGrid(
+                      stats: stats,
+                      displayCurrency: widget.displayCurrency,
+                    ),
+                    const SizedBox(height: 17),
+                    MonthlySpendingChart(values: stats.dailyExpenses),
+                  ],
                 ),
               ),
             ),

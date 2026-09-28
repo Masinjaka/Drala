@@ -491,26 +491,38 @@ abstract class AppLocalizations {
   /// No description provided for @chatHint.
   ///
   /// In en, this message translates to:
-  /// **'Expense, income, or transfer'**
+  /// **'Your expenses…'**
   String get chatHint;
+
+  /// No description provided for @chatIncomeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your income…'**
+  String get chatIncomeHint;
+
+  /// No description provided for @chatTransferHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer between wallets…'**
+  String get chatTransferHint;
 
   /// No description provided for @expenseSuggestion.
   ///
   /// In en, this message translates to:
-  /// **'I spent X on Y today'**
-  String get expenseSuggestion;
+  /// **'I spent {amount} on burgers'**
+  String expenseSuggestion(Object amount);
 
   /// No description provided for @incomeSuggestion.
   ///
   /// In en, this message translates to:
-  /// **'I received a payment of X'**
-  String get incomeSuggestion;
+  /// **'I received {amount} from my salary'**
+  String incomeSuggestion(Object amount);
 
   /// No description provided for @transferSuggestion.
   ///
   /// In en, this message translates to:
-  /// **'Transfer X from wallet A to wallet B'**
-  String get transferSuggestion;
+  /// **'Transfer {amount} from Cash to Savings'**
+  String transferSuggestion(Object amount);
 
   /// No description provided for @addReceipt.
   ///
@@ -1255,6 +1267,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Feedback sent. Thank you!'**
   String get feedbackSent;
+
+  /// No description provided for @availableBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Available balance'**
+  String get availableBalance;
+
+  /// No description provided for @thisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get thisMonth;
+
+  /// No description provided for @operations.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get operations;
+
+  /// No description provided for @categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categories;
 }
 
 class _AppLocalizationsDelegate

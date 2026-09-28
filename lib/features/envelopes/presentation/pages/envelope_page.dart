@@ -1,13 +1,11 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/month_navigation.dart';
 import 'package:budgets/features/envelopes/data/repositories/supabase_envelope_repository.dart';
 import 'package:budgets/features/envelopes/data/services/envelope_service.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
 import 'package:budgets/features/envelopes/presentation/view_models/envelope_view_model.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/add_envelope_sheet.dart';
-import 'package:budgets/features/envelopes/presentation/widgets/envelope_list_panel.dart';
-import 'package:budgets/features/envelopes/presentation/widgets/envelope_summary_card.dart';
+import 'package:budgets/features/envelopes/presentation/widgets/envelope_page_content.dart';
 import 'package:budgets/features/home/domain/errors/wallet_selection_required_exception.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_source_sheet.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -33,7 +31,10 @@ class EnvelopePage extends StatefulWidget {
 }
 
 class _EnvelopePageState extends State<EnvelopePage> {
+  static const _initialPage = 1200;
   late final EnvelopeViewModel _viewModel;
+  late final PageController _pageController;
+  late final DateTime _pageOrigin;
 
   @override
   void initState() {
@@ -45,6 +46,8 @@ class _EnvelopePageState extends State<EnvelopePage> {
           ),
       widget.initialMonth ?? DateTime.now(),
     );
+    _pageOrigin = _viewModel.month;
+    _pageController = PageController(initialPage: _initialPage);
     WidgetsBinding.instance.addPostFrameCallback((_) => _load());
   }
 
@@ -57,8 +60,27 @@ class _EnvelopePageState extends State<EnvelopePage> {
   }
 
   Future<void> _changeMonth(int offset) async {
+    final target = DateTime(
+      _viewModel.month.year,
+      _viewModel.month.month + offset,
+    );
     try {
-      await _viewModel.changeMonth(offset);
+      await Future.wait([
+        _viewModel.changeMonth(offset),
+        _pageController.animateToPage(
+          _pageForMonth(target),
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+        ),
+      ]);
+    } catch (error) {
+      if (mounted) showErrorToast(context, error);
+    }
+  }
+
+  Future<void> _selectPage(int page) async {
+    try {
+      await _viewModel.selectMonth(_monthForPage(page));
     } catch (error) {
       if (mounted) showErrorToast(context, error);
     }
@@ -113,6 +135,7 @@ class _EnvelopePageState extends State<EnvelopePage> {
 
   @override
   void dispose() {
+    _pageController.dispose();
     _viewModel.dispose();
     super.dispose();
   }
@@ -121,79 +144,29 @@ class _EnvelopePageState extends State<EnvelopePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        surfaceTintColor: Colors.transparent,
-        title: Text(
-          context.l10n.envelope,
-          style: const TextStyle(fontWeight: FontWeight.w800),
-        ),
-        actions: [
-          IconButton(
-            key: const Key('add-envelope-button'),
-            onPressed: _showAddSheet,
-            icon: const Icon(Icons.add_rounded),
-            tooltip: context.l10n.addEnvelope,
-          ),
-          const SizedBox(width: 10),
-        ],
-      ),
       body: ListenableBuilder(
         listenable: _viewModel,
-        builder: (context, _) {
-          if (_viewModel.isLoading && _viewModel.envelopes.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return LayoutBuilder(
-            builder: (context, constraints) => RefreshIndicator(
-              onRefresh: _load,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  width: constraints.maxWidth.clamp(0.0, 760.0),
-                  child: ListView(
-                    padding: const EdgeInsets.fromLTRB(22, 8, 22, 32),
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: MonthNavigation(
-                          month: _viewModel.month,
-                          onPrevious: () => _changeMonth(-1),
-                          onNext: () => _changeMonth(1),
-                          canGoNext: _canGoForward,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      EnvelopeSummaryCard(
-                        budget: _viewModel.totalBudget,
-                        spent: _viewModel.totalSpent,
-                        currencyCode: _currencyCode,
-                        displayCurrency: widget.displayCurrency,
-                      ),
-                      const SizedBox(height: 28),
-                      EnvelopeListPanel(
-                        envelopes: _viewModel.envelopes,
-                        onDelete: _viewModel.delete,
-                        displayCurrency: widget.displayCurrency,
-                        targetEnvelopeId: widget.initialEnvelopeId,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
+        builder: (context, _) => EnvelopePageContent(
+          viewModel: _viewModel,
+          pageController: _pageController,
+          pageOrigin: _pageOrigin,
+          initialPage: _initialPage,
+          initialEnvelopeId: widget.initialEnvelopeId,
+          displayCurrency: widget.displayCurrency,
+          onAdd: _showAddSheet,
+          onMonthChanged: _changeMonth,
+          onPageChanged: _selectPage,
+          onRefresh: _load,
+        ),
       ),
     );
   }
 
-  String get _currencyCode => _viewModel.envelopes.isEmpty
-      ? 'MGA'
-      : _viewModel.envelopes.first.currencyCode;
-
-  bool get _canGoForward {
-    final now = DateTime.now();
-    return _viewModel.month.isBefore(DateTime(now.year, now.month));
-  }
+  DateTime _monthForPage(int page) =>
+      DateTime(_pageOrigin.year, _pageOrigin.month + page - _initialPage);
+  int _pageForMonth(DateTime month) =>
+      _initialPage +
+      (month.year - _pageOrigin.year) * 12 +
+      month.month -
+      _pageOrigin.month;
 }

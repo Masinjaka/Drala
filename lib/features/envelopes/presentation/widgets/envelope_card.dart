@@ -1,9 +1,8 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
-import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_overspend_warning.dart';
-import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/features/envelopes/presentation/widgets/envelope_progress.dart';
 import 'package:flutter/material.dart';
 
 class EnvelopeCard extends StatelessWidget {
@@ -20,129 +19,59 @@ class EnvelopeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final progress = envelope.progress.clamp(0.0, 1.0);
-    final accent = envelope.isExceeded
-        ? const Color(0xFFD84A3A)
-        : Theme.of(context).colorScheme.onSurface;
-    return Container(
-      padding: const EdgeInsets.fromLTRB(17, 16, 14, 16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(19),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 42,
-                height: 42,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  shape: BoxShape.circle,
-                ),
-                child:
-                    Text(envelope.emoji, style: const TextStyle(fontSize: 19)),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    final foreground = Theme.of(context).colorScheme.onSurface;
+    return Column(
+      children: [
+        GestureDetector(
+          onLongPress: onDelete,
+          child: Container(
+            key: const Key('envelope-card-surface'),
+            height: 110,
+            padding: const EdgeInsets.fromLTRB(19, 13, 13, 10),
+            decoration: BoxDecoration(
+              border:
+                  Border.all(color: Theme.of(context).colorScheme.onSurface),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${envelope.emoji} ${envelope.categoryName}',
+                    style: TextStyle(
+                        color: foreground,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600)),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      envelope.name,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      envelope.categoryName,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: 11.5,
-                      ),
-                    ),
+                    PrivacyText(_compact(_convert(envelope.spent)),
+                        style: TextStyle(
+                            color: foreground,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600)),
+                    PrivacyText(_compact(_convert(envelope.amount), gap: false),
+                        style: TextStyle(
+                            color: foreground,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600)),
                   ],
                 ),
-              ),
-              PopupMenuButton<String>(
-                icon: const Icon(Icons.more_horiz_rounded, size: 21),
-                onSelected: (_) => onDelete(),
-                itemBuilder: (_) => [
-                  PopupMenuItem(
-                    value: 'delete',
-                    child: Text(context.l10n.deleteEnvelope),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: LinearProgressIndicator(
-              minHeight: 7,
-              value: progress,
-              backgroundColor:
-                  Theme.of(context).colorScheme.outline.withValues(alpha: .28),
-              valueColor: AlwaysStoppedAnimation(accent),
+                const SizedBox(height: 15),
+                EnvelopeProgress(
+                  value: envelope.progress.clamp(0, 1),
+                  foregroundColor: foreground,
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: 10),
-          if (envelope.isExceeded) ...[
-            EnvelopeOverspendWarning(
-              envelope: envelope,
-              displayCurrency: displayCurrency,
-            ),
-            const SizedBox(height: 10),
-          ],
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: PrivacyText(
-                  context.l10n.amountSpent(
-                    formatAmountWithCurrency(
-                      _convert(envelope.spent),
-                      displayCurrency?.code ?? envelope.currencyCode,
-                      preserveFraction: true,
-                    ),
-                  ),
-                  hiddenText: context.l10n.amountSpent('***'),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: accent,
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Flexible(
-                child: PrivacyText(
-                  context.l10n.ofAmount(
-                    formatAmountWithCurrency(
-                      _convert(envelope.amount),
-                      displayCurrency?.code ?? envelope.currencyCode,
-                      preserveFraction: true,
-                    ),
-                  ),
-                  hiddenText: context.l10n.ofAmount('***'),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 11.5,
-                  ),
-                ),
-              ),
-            ],
-          ),
+        ),
+        if (envelope.isExceeded) ...[
+          const SizedBox(height: 6),
+          EnvelopeOverspendWarning(
+              envelope: envelope, displayCurrency: displayCurrency),
         ],
-      ),
+      ],
     );
   }
 
@@ -152,4 +81,15 @@ class EnvelopeCard extends StatelessWidget {
         envelope.currencyCode,
       ) ??
       amount;
+
+  String _compact(num value, {bool gap = true}) {
+    final separator = gap ? ' ' : '';
+    if (value.abs() >= 1000000) {
+      return '${_trim(value / 1000000)}${separator}M';
+    }
+    if (value.abs() >= 1000) return '${_trim(value / 1000)}${separator}k';
+    return _trim(value);
+  }
+
+  String _trim(num value) => value.toStringAsFixed(value % 1 == 0 ? 0 : 1);
 }

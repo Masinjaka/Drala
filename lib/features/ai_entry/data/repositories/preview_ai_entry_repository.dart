@@ -102,6 +102,12 @@ class PreviewAiEntryRepository implements AiEntryRepository {
   }
 
   @override
+  Future<List<FinanceEntry>> entriesForMonth(DateTime month) async {
+    if (month.year != today.year || month.month != today.month) return const [];
+    return entriesForDate(today);
+  }
+
+  @override
   Future<bool> hasAnyEntries() async => true;
 
   @override

@@ -22,15 +22,12 @@ void main() {
     expect(find.text('Dépenses'), findsOneWidget);
     expect(find.text('Revenus'), findsOneWidget);
     expect(find.byKey(const Key('stats-net-card')), findsOneWidget);
-    expect(find.byIcon(Icons.account_balance_wallet_outlined), findsOneWidget);
-    expect(find.byIcon(Icons.receipt_long_outlined), findsOneWidget);
-    expect(find.byIcon(Icons.calendar_month_outlined), findsOneWidget);
-    expect(find.byIcon(Icons.arrow_upward_rounded), findsOneWidget);
-    expect(find.byIcon(Icons.arrow_downward_rounded), findsOneWidget);
-    expect(find.byIcon(Icons.payments_outlined), findsOneWidget);
+    expect(find.text('🙂'), findsOneWidget);
+    expect(find.text('😟'), findsOneWidget);
+    expect(find.text('🔁'), findsOneWidget);
+    expect(find.text('🌑'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
-
 }
 
 const _stats = MonthlyStats(

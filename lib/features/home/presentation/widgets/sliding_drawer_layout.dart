@@ -10,7 +10,7 @@ class SlidingDrawerLayout extends StatelessWidget {
     required this.onDragUpdate,
     required this.onDragEnd,
     required this.onDragCancel,
-    this.maximumDimming = 0.09,
+    this.maximumDimming = 0.59,
     super.key,
   });
 
@@ -27,6 +27,30 @@ class SlidingDrawerLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        _dragSurface(
+          key: const Key('home-drag-surface'),
+          behavior: HitTestBehavior.deferToChild,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              KeyedSubtree(key: const Key('home-page-panel'), child: home),
+              AnimatedBuilder(
+                animation: controller,
+                builder: (context, _) => IgnorePointer(
+                  ignoring: controller.value == 0,
+                  child: GestureDetector(
+                    onTap: controller.reverse,
+                    child: ColoredBox(
+                      key: const Key('home-dim-overlay'),
+                      color: Color.fromRGBO(
+                          36, 36, 36, maximumDimming * controller.value),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
         Positioned(
           left: 0,
           top: 0,
@@ -43,42 +67,6 @@ class SlidingDrawerLayout extends StatelessWidget {
               ),
             ),
             child: drawer,
-          ),
-        ),
-        _dragSurface(
-          key: const Key('home-drag-surface'),
-          behavior: HitTestBehavior.deferToChild,
-          child: AnimatedBuilder(
-            animation: controller,
-            builder: (context, child) {
-              final panel = KeyedSubtree(
-                key: const Key('home-page-panel'),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    child!,
-                    IgnorePointer(
-                      child: ColoredBox(
-                        key: const Key('home-dim-overlay'),
-                        color: Color.fromRGBO(
-                          0,
-                          0,
-                          0,
-                          maximumDimming * controller.value,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-              final offset = drawerWidth * controller.value;
-              if (offset.abs() < 0.001) return panel;
-              return Transform.translate(
-                offset: Offset(offset, 0),
-                child: panel,
-              );
-            },
-            child: home,
           ),
         ),
       ],

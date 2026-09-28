@@ -1,7 +1,7 @@
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_button_theme.dart';
+import 'package:budgets/core/ui/app_icon_button_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   // Dark colors
@@ -30,46 +30,44 @@ class AppTheme {
     scaffoldBackgroundColor: backgroundLight,
     cardColor: secondaryLight,
     primaryColor: primaryGreen,
-    fontFamily: GoogleFonts.nunito().fontFamily,
-    textTheme: GoogleFonts.nunitoTextTheme(
-      const TextTheme(
-        bodyLarge: TextStyle(
-          color: textLight,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w600,
-        ),
-        bodyMedium: TextStyle(
-          color: textLight,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w600,
-        ),
-        titleLarge: TextStyle(
-          color: textLight,
-          fontSize: AppTypography.headline,
-          fontWeight: FontWeight.w700,
-        ),
-        titleMedium: TextStyle(
-          color: textLight,
-          fontSize: AppTypography.title,
-          fontWeight: FontWeight.w700,
-        ),
-        titleSmall: TextStyle(
-          color: textLight,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w600,
-        ),
-        bodySmall: TextStyle(
-          color: textLight,
-          fontSize: AppTypography.supporting,
-          fontWeight: FontWeight.w600,
-        ),
-        labelLarge: TextStyle(
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w600,
-        ),
-        labelMedium: TextStyle(
-          fontWeight: FontWeight.w600,
-        ),
+    fontFamily: 'Alexandria',
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(
+        color: textLight,
+        fontSize: AppTypography.body,
+        fontWeight: FontWeight.w600,
+      ),
+      bodyMedium: TextStyle(
+        color: textLight,
+        fontSize: AppTypography.body,
+        fontWeight: FontWeight.w600,
+      ),
+      titleLarge: TextStyle(
+        color: textLight,
+        fontSize: AppTypography.headline,
+        fontWeight: FontWeight.w700,
+      ),
+      titleMedium: TextStyle(
+        color: textLight,
+        fontSize: AppTypography.title,
+        fontWeight: FontWeight.w700,
+      ),
+      titleSmall: TextStyle(
+        color: textLight,
+        fontSize: AppTypography.body,
+        fontWeight: FontWeight.w600,
+      ),
+      bodySmall: TextStyle(
+        color: textLight,
+        fontSize: AppTypography.supporting,
+        fontWeight: FontWeight.w600,
+      ),
+      labelLarge: TextStyle(
+        fontSize: AppTypography.body,
+        fontWeight: FontWeight.w600,
+      ),
+      labelMedium: TextStyle(
+        fontWeight: FontWeight.w600,
       ),
     ),
     appBarTheme: const AppBarTheme(
@@ -90,6 +88,7 @@ class AppTheme {
     textButtonTheme: AppButtonTheme.text(Brightness.light),
     outlinedButtonTheme: AppButtonTheme.outlined(Brightness.light),
     filledButtonTheme: AppButtonTheme.filled(Brightness.light),
+    iconButtonTheme: AppIconButtonTheme.data,
     colorScheme: const ColorScheme.light(
       primary: primaryGreen,
       onPrimary: interactiveTextColor,
@@ -113,46 +112,44 @@ class AppTheme {
     scaffoldBackgroundColor: backgroundDark,
     cardColor: secondaryDark,
     primaryColor: primaryGreen,
-    fontFamily: GoogleFonts.nunito().fontFamily,
-    textTheme: GoogleFonts.nunitoTextTheme(
-      const TextTheme(
-        bodyLarge: TextStyle(
-          color: textDark,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w600,
-        ),
-        bodyMedium: TextStyle(
-          color: textDark,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w600,
-        ),
-        titleLarge: TextStyle(
-          color: textDark,
-          fontSize: AppTypography.headline,
-          fontWeight: FontWeight.w700,
-        ),
-        titleMedium: TextStyle(
-          color: textDark,
-          fontSize: AppTypography.title,
-          fontWeight: FontWeight.w700,
-        ),
-        titleSmall: TextStyle(
-          color: textDark,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w600,
-        ),
-        bodySmall: TextStyle(
-          color: textDark,
-          fontSize: AppTypography.supporting,
-          fontWeight: FontWeight.w600,
-        ),
-        labelLarge: TextStyle(
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w600,
-        ),
-        labelMedium: TextStyle(
-          fontWeight: FontWeight.w600,
-        ),
+    fontFamily: 'Alexandria',
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(
+        color: textDark,
+        fontSize: AppTypography.body,
+        fontWeight: FontWeight.w600,
+      ),
+      bodyMedium: TextStyle(
+        color: textDark,
+        fontSize: AppTypography.body,
+        fontWeight: FontWeight.w600,
+      ),
+      titleLarge: TextStyle(
+        color: textDark,
+        fontSize: AppTypography.headline,
+        fontWeight: FontWeight.w700,
+      ),
+      titleMedium: TextStyle(
+        color: textDark,
+        fontSize: AppTypography.title,
+        fontWeight: FontWeight.w700,
+      ),
+      titleSmall: TextStyle(
+        color: textDark,
+        fontSize: AppTypography.body,
+        fontWeight: FontWeight.w600,
+      ),
+      bodySmall: TextStyle(
+        color: textDark,
+        fontSize: AppTypography.supporting,
+        fontWeight: FontWeight.w600,
+      ),
+      labelLarge: TextStyle(
+        fontSize: AppTypography.body,
+        fontWeight: FontWeight.w600,
+      ),
+      labelMedium: TextStyle(
+        fontWeight: FontWeight.w600,
       ),
     ),
     appBarTheme: const AppBarTheme(
@@ -173,6 +170,7 @@ class AppTheme {
     textButtonTheme: AppButtonTheme.text(Brightness.dark),
     outlinedButtonTheme: AppButtonTheme.outlined(Brightness.dark),
     filledButtonTheme: AppButtonTheme.filled(Brightness.dark),
+    iconButtonTheme: AppIconButtonTheme.data,
     colorScheme: const ColorScheme.dark(
       primary: primaryGreen,
       onPrimary: interactiveTextColor,
