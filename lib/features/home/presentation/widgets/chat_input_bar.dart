@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/home/domain/models/receipt_input_result.dart';
 import 'package:budgets/features/home/presentation/services/receipt_input_service.dart';
 import 'package:budgets/features/home/presentation/widgets/chat_example_suggestions.dart';
-import 'package:budgets/features/home/presentation/widgets/chat_input_suggestions.dart';
+import 'package:budgets/features/home/presentation/widgets/chat_input_composer_layout.dart';
 import 'package:budgets/features/home/presentation/widgets/chat_send_button.dart';
-import 'package:budgets/features/home/presentation/widgets/chat_suggestions_reveal.dart';
 import 'package:budgets/features/home/presentation/widgets/chat_text_input.dart';
 import 'package:budgets/features/home/presentation/widgets/receipt_input_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -33,39 +30,26 @@ class ChatInputBar extends StatefulWidget {
   @override
   State<ChatInputBar> createState() => _ChatInputBarState();
 }
+
 class _ChatInputBarState extends State<ChatInputBar> {
   final _controller = TextEditingController(), _focusNode = FocusNode();
+  final _textInputKey = GlobalKey();
   bool _isProcessingReceipt = false;
-  int _hintIndex = 0;
-  Timer? _hintTimer;
   @override
   void initState() {
     super.initState();
     _controller.addListener(_refreshComposer);
     _focusNode.addListener(_refreshComposer);
-    _hintTimer = Timer.periodic(const Duration(seconds: 3), (_) {
-      if (mounted && _controller.text.isEmpty) {
-        setState(() => _hintIndex = (_hintIndex + 1) % 3);
-      }
-    });
   }
+
   void _refreshComposer() => setState(() {});
   @override
   void dispose() {
-    _hintTimer?.cancel();
     _controller.removeListener(_refreshComposer);
     _focusNode.removeListener(_refreshComposer);
     _controller.dispose();
     _focusNode.dispose();
     super.dispose();
-  }
-
-  void _useSuggestion(String suggestion) {
-    _controller.value = TextEditingValue(
-      text: suggestion,
-      selection: TextSelection.collapsed(offset: suggestion.length),
-    );
-    _focusNode.requestFocus();
   }
 
   Future<void> _submit() async {
@@ -123,75 +107,75 @@ class _ChatInputBarState extends State<ChatInputBar> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hints = [
-      context.l10n.chatHint,
-      context.l10n.chatIncomeHint,
-      context.l10n.chatTransferHint,
-    ];
+    final suggestions =
+        ChatExampleSuggestions.build(context, widget.currencyCode);
     final isBusy = widget.isSubmitting || _isProcessingReceipt;
-    final showSuggestions =
-        _focusNode.hasFocus && _controller.text.trim().isEmpty && !isBusy;
+    final isFocused = _focusNode.hasFocus;
+    final animationDuration = MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 220);
+    final textInput = ChatTextInput(
+      key: _textInputKey,
+      controller: _controller,
+      focusNode: _focusNode,
+      enabled: !isBusy,
+      hints: suggestions,
+      cursorColor: theme.colorScheme.inverseSurface,
+      hintColor: theme.colorScheme.onSurfaceVariant,
+    );
+    final addButton = SizedBox(
+      width: 48,
+      height: 40,
+      child: IconButton(
+        onPressed: isBusy ? null : _showReceiptOptions,
+        icon: const Icon(Icons.add_rounded, size: 22),
+        padding: EdgeInsets.zero,
+        tooltip: context.l10n.addReceipt,
+      ),
+    );
+    final sendButton = ChatSendButton(
+      key: Key(widget.isQuotaExhausted ? 'manual-entry-send' : 'ai-send'),
+      isBusy: isBusy,
+      isManualEntry: widget.isQuotaExhausted,
+      onPressed: isBusy
+          ? null
+          : widget.isQuotaExhausted
+              ? widget.onManualEntryRequested
+              : _submit,
+      tooltip: widget.isQuotaExhausted
+          ? context.l10n.manualEntry
+          : context.l10n.send,
+      bottomPadding: isFocused ? 4 : 0,
+    );
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ChatSuggestionsReveal(
-          visible: showSuggestions,
-          child: ChatInputSuggestions(
-            suggestions:
-                ChatExampleSuggestions.build(context, widget.currencyCode),
-            onSelected: _useSuggestion,
-          ),
-        ),
-        Container(
-          key: const Key('chat-input-container'),
-          constraints: const BoxConstraints(minHeight: 56, maxHeight: 120),
-          margin: const EdgeInsets.symmetric(horizontal: 29),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF4F4F4),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              SizedBox(
-                width: 56,
-                height: 56,
-                child: IconButton(
-                  onPressed: isBusy ? null : _showReceiptOptions,
-                  icon: const Icon(Icons.add_rounded, size: 29),
-                  padding: EdgeInsets.zero,
-                  tooltip: context.l10n.addReceipt,
-                ),
+        TextFieldTapRegion(
+          consumeOutsideTaps: isFocused,
+          child: AnimatedSize(
+            duration: animationDuration,
+            curve: Curves.easeInOutCubic,
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              key: const Key('chat-input-container'),
+              constraints: BoxConstraints(
+                minHeight: isFocused ? 85 : 48,
+                maxHeight: isFocused ? 157 : 48,
               ),
-              Expanded(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 56),
-                  child: ChatTextInput(
-                    controller: _controller,
-                    focusNode: _focusNode,
-                    enabled: !isBusy,
-                    hint: hints[_hintIndex],
-                    cursorColor: theme.colorScheme.inverseSurface,
-                    hintColor: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
+              margin: const EdgeInsets.symmetric(horizontal: 29),
+              decoration: BoxDecoration(
+                color: theme.brightness == Brightness.light
+                    ? const Color(0xFFF4F4F4)
+                    : theme.colorScheme.surfaceContainer,
+                borderRadius: BorderRadius.circular(12),
               ),
-              ChatSendButton(
-                key: Key(
-                  widget.isQuotaExhausted ? 'manual-entry-send' : 'ai-send',
-                ),
-                isBusy: isBusy,
-                isManualEntry: widget.isQuotaExhausted,
-                onPressed: isBusy
-                    ? null
-                    : widget.isQuotaExhausted
-                        ? widget.onManualEntryRequested
-                        : _submit,
-                tooltip: widget.isQuotaExhausted
-                    ? context.l10n.manualEntry
-                    : context.l10n.send,
+              child: ChatInputComposerLayout(
+                isFocused: isFocused,
+                textInput: textInput,
+                addButton: addButton,
+                sendButton: sendButton,
               ),
-            ],
+            ),
           ),
         ),
       ],

@@ -8,6 +8,7 @@ import 'package:budgets/features/home/domain/errors/wallet_selection_required_ex
 import 'package:budgets/features/home/domain/models/manual_entry_sheet_result.dart';
 import 'package:budgets/features/home/domain/models/wallet_funding_choice.dart';
 import 'package:budgets/features/home/presentation/widgets/manual_entry_sheet.dart';
+import 'package:budgets/features/home/presentation/widgets/finance_entry_detail_sheet_route.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_funding_prompt.dart';
 import 'package:budgets/widgets/delete_confirmation_dialog.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -65,20 +66,28 @@ class ManualFinanceEntryActions {
     BuildContext context, {
     FinanceEntry? entry,
   }) {
+    final categories = viewModel.manualEntryCategories();
+    if (entry != null) {
+      return showFinanceEntryDetailSheet(
+        context,
+        entry: entry,
+        categories: categories,
+        currencyState: currencyState,
+      );
+    }
     return ManualEntrySheet.show(
       context,
-      categories: viewModel.manualEntryCategories(),
-      targetDate: entry?.occurredAt ?? viewModel.selectedDate,
+      categories: categories,
+      targetDate: viewModel.selectedDate,
       currencyState: currencyState,
-      entry: entry,
     );
   }
 
   Future<void> _delete(BuildContext context, FinanceEntry entry) async {
     final confirmed = await showDeleteConfirmationDialog(
       context: context,
-      title: 'Delete entry?',
-      message: 'This transaction and its balance changes will be removed.',
+      title: context.l10n.deleteTransactionQuestion,
+      message: context.l10n.deleteTransactionDescription,
       confirmText: context.l10n.delete,
       cancelText: context.l10n.cancel,
     );

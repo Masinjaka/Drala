@@ -46,7 +46,7 @@ class HomeHeader extends StatelessWidget {
             ),
             child: IconButton(
               onPressed: onMenuPressed,
-              icon: const Icon(Icons.menu_rounded, size: 32),
+              icon: const Icon(Icons.menu_rounded, size: 28),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints.tightFor(
                 width: 80,

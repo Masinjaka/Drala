@@ -1,4 +1,3 @@
-import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/widgets/custom_textfield.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -53,45 +52,81 @@ class _DestructiveConfirmationDialogState
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(widget.title),
-      content: SingleChildScrollView(
+    final colors = Theme.of(context).colorScheme;
+    return Dialog(
+      elevation: 0,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 29),
+      backgroundColor: colors.surfaceContainerLowest,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.description),
+            Text(widget.title,
+                style: TextStyle(
+                    color: colors.onSurface,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600)),
+            const SizedBox(height: 12),
+            Text(widget.description,
+                style: TextStyle(
+                    color: colors.onSurface,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w400,
+                    height: 1.25)),
             const SizedBox(height: 16),
             CustomTextField(
               key: const Key('danger-confirmation-field'),
               controller: _controller,
-              title: Text(
-                widget.instruction,
-                style: const TextStyle(fontWeight: FontWeight.w700),
-              ),
+              title: Text(widget.instruction,
+                  style: const TextStyle(fontWeight: FontWeight.w600)),
               hint: context.l10n.confirmation,
-              fillColor: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(14),
+              fillColor: colors.surfaceContainer,
+              borderRadius: BorderRadius.circular(7),
               fontSize: AppTypography.body,
             ),
+            const SizedBox(height: 20),
+            Row(children: [
+              Expanded(
+                child: SizedBox(
+                  height: 40,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: colors.onSurface,
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                      side: BorderSide(color: colors.onSurface),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7)),
+                    ),
+                    child: Text(context.l10n.cancel),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: SizedBox(
+                  height: 40,
+                  child: FilledButton(
+                    key: const Key('danger-confirm-button'),
+                    onPressed: _matches ? _confirm : null,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colors.error,
+                      foregroundColor: colors.onError,
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7)),
+                    ),
+                    child: Text(context.l10n.delete),
+                  ),
+                ),
+              ),
+            ]),
           ],
         ),
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(context.l10n.cancel),
-        ),
-        FilledButton(
-          key: const Key('danger-confirm-button'),
-          onPressed: _matches ? _confirm : null,
-          style: FilledButton.styleFrom(
-            backgroundColor: AppTheme.dangerColor,
-            foregroundColor: AppTheme.interactiveTextColor,
-          ),
-          child: Text(context.l10n.delete),
-        ),
-      ],
     );
   }
 }

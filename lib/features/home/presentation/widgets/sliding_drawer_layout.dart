@@ -27,9 +27,8 @@ class SlidingDrawerLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        _dragSurface(
+        KeyedSubtree(
           key: const Key('home-drag-surface'),
-          behavior: HitTestBehavior.deferToChild,
           child: Stack(
             fit: StackFit.expand,
             children: [

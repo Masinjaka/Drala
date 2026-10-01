@@ -62,7 +62,7 @@ void main() {
             )
             .first,
       ),
-      const Rect.fromLTWH(29, 826, 354, 56),
+      const Rect.fromLTWH(29, 834, 354, 48),
     );
 
     await expectLater(

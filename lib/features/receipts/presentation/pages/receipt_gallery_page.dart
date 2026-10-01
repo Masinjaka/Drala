@@ -11,6 +11,7 @@ import 'package:budgets/features/receipts/presentation/view_models/receipt_galle
 import 'package:budgets/features/receipts/presentation/widgets/receipt_gallery_card.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/widgets/delete_confirmation_dialog.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 
@@ -117,22 +118,14 @@ class _ReceiptGalleryPageState extends State<ReceiptGalleryPage> {
       );
 
   Future<void> _confirmDelete(ReceiptScan scan) async {
-    final confirmed = await showDialog<bool>(
+    final confirmed = await showDeleteConfirmationDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(context.l10n.deleteReceiptQuestion),
-        content: Text(context.l10n.deleteReceiptDescription),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text(context.l10n.cancel)),
-          TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text(context.l10n.delete)),
-        ],
-      ),
+      title: context.l10n.deleteReceiptQuestion,
+      message: context.l10n.deleteReceiptDescription,
+      confirmText: context.l10n.delete,
+      cancelText: context.l10n.cancel,
     );
-    if (confirmed != true) return;
+    if (!confirmed) return;
     try {
       await _viewModel.delete(scan);
       if (mounted) showSuccessToast(context, context.l10n.receiptDeleted);

@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
-import 'package:budgets/features/transactions/presentation/widgets/transaction_detail_bottom_sheet.dart';
+import 'package:budgets/features/transactions/presentation/widgets/transaction_detail_sheet_route.dart';
+import 'package:budgets/features/transactions/presentation/widgets/transaction_list_item_content.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/delete_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -10,9 +12,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:vibration/vibration.dart';
 import 'package:budgets/features/transactions/domain/providers/transaction_provider.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
-import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
-import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 
 class TransactionListItem extends ConsumerStatefulWidget {
   final TransactionModel transaction;
@@ -91,8 +91,8 @@ class _TransactionListItemState extends ConsumerState<TransactionListItem>
     final transaction = widget.transaction;
     final shouldDelete = await showDeleteConfirmationDialog(
       context: context,
-      title: 'Supprimer la transaction',
-      message: 'Êtes-vous sûr de vouloir supprimer cette transaction ?',
+      title: context.l10n.deleteTransactionQuestion,
+      message: context.l10n.deleteTransactionDescription,
     );
     if (!shouldDelete || transaction.id == null) {
       await _resetSwipeFeedbackState();
@@ -153,74 +153,11 @@ class _TransactionListItemState extends ConsumerState<TransactionListItem>
             ),
           ],
         ),
-        child: Material(
-          color: Theme.of(context).cardColor,
+        child: TransactionListItemContent(
+          transaction: transaction,
+          currency: currency,
           borderRadius: cardBorderRadius,
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            borderRadius: cardBorderRadius,
-            onTap: () => showModalBottomSheet(
-              context: context,
-              backgroundColor: Colors.transparent,
-              isScrollControlled: true,
-              builder: (context) =>
-                  TransactionDetailBottomSheet(transaction: transaction),
-            ),
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceDim,
-                      borderRadius: BorderRadius.circular(8)),
-                  child: Center(
-                      child: Text(
-                          (transaction.category?.emoji != null)
-                              ? transaction.category!.emoji!
-                              : '❓',
-                          style: TextStyle(fontSize: 18))),
-                ),
-                SizedBox(width: 12.8),
-                Expanded(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(transaction.category?.name ?? 'Uncategorized',
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15)),
-                        SizedBox(height: 4),
-                        Text(transaction.description ?? '',
-                            style: TextStyle(
-                                color: Theme.of(context).hintColor,
-                                fontSize: 14)),
-                      ]),
-                ),
-                SizedBox(width: 12.8),
-                if (currency == null)
-                  textSkeleton(context, 80, 16)
-                else
-                  Text(
-                    formatAmountWithCurrency(
-                        convertFromMga(
-                          transaction.amount,
-                          currency.rateFor(currency.code),
-                        ),
-                        currency.code,
-                        preserveFraction: true),
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.tertiary,
-                        fontSize: 14),
-                  ),
-              ]),
-            ),
-          ),
+          onTap: () => showTransactionDetailSheet(context, transaction),
         ),
       ),
     );

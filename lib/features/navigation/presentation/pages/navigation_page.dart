@@ -154,8 +154,8 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
         child: SizedBox(
-          width: 52,
-          height: 52,
+          width: 48,
+          height: 48,
           child: FloatingActionButton(
             onPressed: isFabVisible ? () => _onFabPressed(currentIndex) : null,
             backgroundColor: Theme.of(context).primaryColor,

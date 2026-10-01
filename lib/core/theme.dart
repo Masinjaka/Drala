@@ -4,7 +4,8 @@ import 'package:budgets/core/ui/app_icon_button_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Dark colors
+  static const String fontFamily = 'Alexandria';
+
   static const Color backgroundDark = Color(0xFF08090A);
   static const Color secondaryDark = Color(0xFF141617);
   static const Color borderColorDark = Color(0xff303237);
@@ -16,7 +17,6 @@ class AppTheme {
   static const Color mutedTextDark = Color(0xFFB5B7B8);
   static const Color raisedSurfaceDark = Color(0xFF1D2022);
 
-  // Light colors
   static const Color backgroundLight = Color(0xFFFEFEFE);
   static const Color secondaryLight = neutralSurface;
   static const Color raisedSurfaceLight = Colors.white;
@@ -24,23 +24,22 @@ class AppTheme {
   static const Color mutedTextLight = Color(0xFF606060);
   static const Color borderColorLight = Color(0xFFD8D8D8);
   static const Color interactiveTextColor = Colors.black;
-
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     scaffoldBackgroundColor: backgroundLight,
     cardColor: secondaryLight,
     primaryColor: primaryGreen,
-    fontFamily: 'Alexandria',
+    fontFamily: fontFamily,
     textTheme: const TextTheme(
       bodyLarge: TextStyle(
         color: textLight,
         fontSize: AppTypography.body,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       bodyMedium: TextStyle(
         color: textLight,
         fontSize: AppTypography.body,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       titleLarge: TextStyle(
         color: textLight,
@@ -55,19 +54,23 @@ class AppTheme {
       titleSmall: TextStyle(
         color: textLight,
         fontSize: AppTypography.body,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       bodySmall: TextStyle(
         color: textLight,
         fontSize: AppTypography.supporting,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       labelLarge: TextStyle(
         fontSize: AppTypography.body,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       labelMedium: TextStyle(
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
+      ),
+      labelSmall: TextStyle(
+        fontSize: AppTypography.caption,
+        fontWeight: FontWeight.w500,
       ),
     ),
     appBarTheme: const AppBarTheme(
@@ -94,6 +97,7 @@ class AppTheme {
       onPrimary: interactiveTextColor,
       secondary: secondaryGreen,
       error: dangerColor,
+      onError: interactiveTextColor,
       surface: secondaryLight,
       surfaceDim: backgroundLight,
       surfaceContainer: secondaryLight,
@@ -112,17 +116,17 @@ class AppTheme {
     scaffoldBackgroundColor: backgroundDark,
     cardColor: secondaryDark,
     primaryColor: primaryGreen,
-    fontFamily: 'Alexandria',
+    fontFamily: fontFamily,
     textTheme: const TextTheme(
       bodyLarge: TextStyle(
         color: textDark,
         fontSize: AppTypography.body,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       bodyMedium: TextStyle(
         color: textDark,
         fontSize: AppTypography.body,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       titleLarge: TextStyle(
         color: textDark,
@@ -137,19 +141,23 @@ class AppTheme {
       titleSmall: TextStyle(
         color: textDark,
         fontSize: AppTypography.body,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       bodySmall: TextStyle(
         color: textDark,
         fontSize: AppTypography.supporting,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       labelLarge: TextStyle(
         fontSize: AppTypography.body,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       labelMedium: TextStyle(
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
+      ),
+      labelSmall: TextStyle(
+        fontSize: AppTypography.caption,
+        fontWeight: FontWeight.w500,
       ),
     ),
     appBarTheme: const AppBarTheme(
@@ -176,6 +184,7 @@ class AppTheme {
       onPrimary: interactiveTextColor,
       secondary: secondaryGreen,
       error: dangerColor,
+      onError: interactiveTextColor,
       surface: secondaryDark,
       surfaceDim: backgroundDark,
       surfaceContainer: secondaryDark,

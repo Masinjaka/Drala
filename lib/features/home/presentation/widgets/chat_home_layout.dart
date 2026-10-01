@@ -74,6 +74,7 @@ class ChatHomeLayout extends StatelessWidget {
               ? AppBreakpoints.sidebarWidth(width)
               : AppBreakpoints.mobileDrawerWidth(width);
           final home = HomeDashboard(
+            activityCalendarViewModel: activityCalendarViewModel,
             today: today,
             drawerProgress: drawerController,
             onMenuPressed: onOpenDrawer,

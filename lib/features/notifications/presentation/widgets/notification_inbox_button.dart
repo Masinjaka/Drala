@@ -24,7 +24,7 @@ class NotificationInboxButton extends StatelessWidget {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              const Icon(Icons.notifications_none_rounded, size: 32),
+              const Icon(Icons.notifications_none_rounded, size: 28),
               if (viewModel.unreadCount > 0)
                 const Positioned(
                   right: -5,

@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/features/home/presentation/widgets/calendar_label_formatter.dart';
 import 'package:flutter/material.dart';
 
 class CalendarPeriodPicker extends StatelessWidget {
@@ -7,21 +8,6 @@ class CalendarPeriodPicker extends StatelessWidget {
     required this.onTap,
     super.key,
   });
-
-  static const _months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
 
   final DateTime focusedDay;
   final VoidCallback onTap;
@@ -42,7 +28,10 @@ class CalendarPeriodPicker extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  '${_months[focusedDay.month - 1]} ${focusedDay.year}',
+                  CalendarLabelFormatter.monthYear(
+                    focusedDay,
+                    Localizations.localeOf(context).toLanguageTag(),
+                  ),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.inverseSurface,
                     fontSize: AppTypography.body,

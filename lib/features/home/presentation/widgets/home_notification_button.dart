@@ -22,12 +22,14 @@ class HomeNotificationButton extends StatelessWidget {
           OutlinedSquareButton(
             key: const Key('notification-inbox-button'),
             icon: Icons.notifications_none_rounded,
+            visualSize: 34,
+            iconSize: 22,
             onPressed: onPressed,
           ),
           if (viewModel.unreadCount > 0)
             Positioned(
-              right: -6,
-              top: -7,
+              right: -1,
+              top: -2,
               child: Container(
                 key: const Key('notification-warning-badge'),
                 width: 16,

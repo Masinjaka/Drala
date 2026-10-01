@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/features/home/presentation/widgets/calendar_label_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -45,6 +46,8 @@ class ResumeCalendarTheme {
     final color =
         Theme.of(context).colorScheme.onSurface.withValues(alpha: .55);
     return DaysOfWeekStyle(
+      dowTextFormatter: (date, locale) =>
+          CalendarLabelFormatter.weekday(date, locale as String?),
       weekdayStyle: TextStyle(
         color: color,
         fontSize: AppTypography.caption,

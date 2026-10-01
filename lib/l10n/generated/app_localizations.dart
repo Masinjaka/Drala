@@ -494,6 +494,12 @@ abstract class AppLocalizations {
   /// **'Your expenses…'**
   String get chatHint;
 
+  /// No description provided for @startTyping.
+  ///
+  /// In en, this message translates to:
+  /// **'Start typing...'**
+  String get startTyping;
+
   /// No description provided for @chatIncomeHint.
   ///
   /// In en, this message translates to:
@@ -1070,6 +1076,12 @@ abstract class AppLocalizations {
   /// **'Transactions'**
   String get transactions;
 
+  /// No description provided for @homeWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get homeWelcome;
+
   /// No description provided for @averagePerDay.
   ///
   /// In en, this message translates to:
@@ -1291,6 +1303,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Categories'**
   String get categories;
+
+  /// No description provided for @deleteTransactionQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete transaction?'**
+  String get deleteTransactionQuestion;
+
+  /// No description provided for @deleteTransactionDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this transaction? This action is irreversible.'**
+  String get deleteTransactionDescription;
+
+  /// No description provided for @deleteBudgetQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete budget?'**
+  String get deleteBudgetQuestion;
+
+  /// No description provided for @deleteBudgetDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this budget? This action is irreversible.'**
+  String get deleteBudgetDescription;
+
+  /// No description provided for @deleteGoalQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete goal?'**
+  String get deleteGoalQuestion;
+
+  /// No description provided for @deleteGoalDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this goal? This action is irreversible.'**
+  String get deleteGoalDescription;
+
+  /// No description provided for @deleteCategoryQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete category?'**
+  String get deleteCategoryQuestion;
+
+  /// No description provided for @deleteCategoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this category? This action is irreversible.'**
+  String get deleteCategoryDescription;
+
+  /// No description provided for @editTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit transaction'**
+  String get editTransaction;
+
+  /// No description provided for @expense.
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get expense;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get title;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @searchCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Search a category'**
+  String get searchCategories;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
 }
 
 class _AppLocalizationsDelegate

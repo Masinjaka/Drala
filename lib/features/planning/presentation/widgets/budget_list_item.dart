@@ -6,6 +6,7 @@ import 'package:budgets/features/planning/domain/models/budget_model.dart';
 import 'package:budgets/features/planning/domain/providers/budget_provider.dart';
 import 'package:budgets/features/planning/presentation/widgets/add_budget_bottom_sheet.dart';
 import 'package:budgets/features/planning/presentation/widgets/planning_common_widgets.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/delete_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -72,8 +73,8 @@ class _BudgetListItemState extends ConsumerState<BudgetListItem>
   Future<bool> _showDeleteDialog(BuildContext context) {
     return showDeleteConfirmationDialog(
       context: context,
-      title: 'Supprimer le budget',
-      message: 'Êtes-vous sûr de vouloir supprimer ce budget ?',
+      title: context.l10n.deleteBudgetQuestion,
+      message: context.l10n.deleteBudgetDescription,
     );
   }
 

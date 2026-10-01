@@ -1,9 +1,7 @@
-import 'dart:ui';
-
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/utils/animated_dialog.dart';
-import 'package:budgets/widgets/custom_button.dart';
+import 'package:budgets/widgets/delete_confirmation_dialog.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -90,61 +88,13 @@ class CategoryModule {
 
   Future<void> deleteCategory(
       WidgetRef ref, Category category, BuildContext context) async {
-    final String? result = await showAnimatedDialog(
+    final confirmed = await showDeleteConfirmationDialog(
       context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return Stack(
-          children: [
-            BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-              child: Container(color: Colors.transparent),
-            ),
-            Center(
-              child: AlertDialog(
-                backgroundColor: Theme.of(dialogContext).cardColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                title: Text(
-                  'Supprimer la catégorie ?',
-                  style: TextStyle(
-                    color: Theme.of(dialogContext).textTheme.bodyLarge?.color,
-                  ),
-                ),
-                content: Text(
-                  'T\'es sûr de vouloir retirer cette catégorie ?',
-                  style: TextStyle(
-                    color: Theme.of(dialogContext).textTheme.bodyLarge?.color,
-                    fontSize: 15,
-                  ),
-                ),
-                actions: [
-                  CustomButton(
-                    text: 'Annuler',
-                    width: 120,
-                    backgroundColor: Theme.of(dialogContext).cardColor,
-                    borderColor: Colors.transparent,
-                    onPressed: () => Navigator.of(dialogContext).pop(),
-                  ),
-                  CustomButton(
-                    text: 'Supprimer',
-                    width: 120,
-                    backgroundColor: Colors.red,
-                    borderColor: Colors.transparent,
-                    onPressed: () async {
-                      Navigator.of(dialogContext).pop('deleted');
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
+      title: context.l10n.deleteCategoryQuestion,
+      message: context.l10n.deleteCategoryDescription,
     );
 
-    if (result != null) {
+    if (confirmed) {
       try {
         await ref
             .read(categoriesProvider.notifier)

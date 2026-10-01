@@ -258,6 +258,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get chatHint => 'Vos dépenses…';
 
   @override
+  String get startTyping => 'Commencez à écrire...';
+
+  @override
   String get chatIncomeHint => 'Vos gains…';
 
   @override
@@ -594,6 +597,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transactions => 'Transactions';
 
   @override
+  String get homeWelcome => 'Bienvenue';
+
+  @override
   String get averagePerDay => 'Moyenne / jour';
 
   @override
@@ -715,4 +721,50 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get categories => 'Catégories';
+
+  @override
+  String get deleteTransactionQuestion => 'Supprimer la transaction ?';
+
+  @override
+  String get deleteTransactionDescription =>
+      'Voulez-vous vraiment supprimer cette transaction ? Cette action est irréversible.';
+
+  @override
+  String get deleteBudgetQuestion => 'Supprimer le budget ?';
+
+  @override
+  String get deleteBudgetDescription =>
+      'Voulez-vous vraiment supprimer ce budget ? Cette action est irréversible.';
+
+  @override
+  String get deleteGoalQuestion => 'Supprimer l’objectif ?';
+
+  @override
+  String get deleteGoalDescription =>
+      'Voulez-vous vraiment supprimer cet objectif ? Cette action est irréversible.';
+
+  @override
+  String get deleteCategoryQuestion => 'Supprimer la catégorie ?';
+
+  @override
+  String get deleteCategoryDescription =>
+      'Voulez-vous vraiment supprimer cette catégorie ? Cette action est irréversible.';
+
+  @override
+  String get editTransaction => 'Modifier la transaction';
+
+  @override
+  String get expense => 'Dépense';
+
+  @override
+  String get title => 'Titre';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get searchCategories => 'Rechercher une catégorie';
+
+  @override
+  String get done => 'Terminé';
 }

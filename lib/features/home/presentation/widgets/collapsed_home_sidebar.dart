@@ -36,7 +36,7 @@ class CollapsedHomeSidebar extends StatelessWidget {
               key: const Key('persistent-sidebar-toggle'),
               onPressed: onExpand,
               tooltip: context.l10n.expandMenu,
-              icon: const Icon(Icons.menu_rounded, size: 28),
+              icon: const Icon(Icons.menu_rounded, size: 24),
             ),
             const Spacer(),
             _destination(

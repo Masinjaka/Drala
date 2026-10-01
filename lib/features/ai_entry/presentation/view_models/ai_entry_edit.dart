@@ -5,7 +5,14 @@ extension AiEntryEditing on AiEntryViewModel {
     String entryId,
     ManualEntryInput input,
   ) async {
-    _isSubmitting = true;
+    final original = _entries.where((entry) => entry.id == entryId).firstOrNull;
+    if (original != null) {
+      _pendingEdits = Map.unmodifiable({
+        ..._pendingEdits,
+        entryId: FinanceEntryEditChanges.between(original, input),
+      });
+    }
+    _isEditing = true;
     _notify();
     try {
       final entry = await _repository.updateFinanceEntry(entryId, input);
@@ -19,13 +26,14 @@ extension AiEntryEditing on AiEntryViewModel {
       await refreshBalances();
       return entry;
     } finally {
-      _isSubmitting = false;
+      _pendingEdits = Map.unmodifiable({..._pendingEdits}..remove(entryId));
+      _isEditing = false;
       _notify();
     }
   }
 
   Future<void> deleteFinanceEntry(String entryId) async {
-    _isSubmitting = true;
+    _isEditing = true;
     _notify();
     try {
       await _repository.deleteFinanceEntry(entryId);
@@ -35,7 +43,7 @@ extension AiEntryEditing on AiEntryViewModel {
       _removeMonthlyEntry(entryId);
       await refreshBalances();
     } finally {
-      _isSubmitting = false;
+      _isEditing = false;
       _notify();
     }
   }

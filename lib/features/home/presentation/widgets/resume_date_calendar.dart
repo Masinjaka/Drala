@@ -13,6 +13,7 @@ class ResumeDateCalendar extends StatefulWidget {
     required this.activityDates,
     required this.onDaySelected,
     required this.onVisibleMonthChanged,
+    this.initiallyExpanded = false,
     super.key,
   });
 
@@ -21,6 +22,7 @@ class ResumeDateCalendar extends StatefulWidget {
   final Set<DateTime> activityDates;
   final ValueChanged<DateTime> onDaySelected;
   final ValueChanged<DateTime> onVisibleMonthChanged;
+  final bool initiallyExpanded;
 
   @override
   State<ResumeDateCalendar> createState() => _ResumeDateCalendarState();
@@ -39,7 +41,8 @@ class _ResumeDateCalendarState extends State<ResumeDateCalendar> {
   void initState() {
     super.initState();
     _selectedDay = DateUtils.dateOnly(widget.selectedDay);
-    _focusedDay = _today;
+    _focusedDay = _selectedDay;
+    _isMonthView = widget.initiallyExpanded;
   }
 
   Future<void> _selectPeriod() async {
@@ -97,6 +100,7 @@ class _ResumeDateCalendarState extends State<ResumeDateCalendar> {
               const SizedBox(height: 11),
               TableCalendar<void>(
                 key: ValueKey('${_focusedDay.year}-${_focusedDay.month}'),
+                locale: Localizations.localeOf(context).toLanguageTag(),
                 firstDay: DateTime(_firstYear),
                 lastDay: _today,
                 focusedDay: _focusedDay,

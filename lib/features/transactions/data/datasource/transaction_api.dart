@@ -105,8 +105,9 @@ class TransactionsApi {
     String? categoryName,
     Map<String, String>? subcategoryAmounts,
     TransactionType? transactionType,
-    DateTime? date,
-  ) {
+    DateTime? date, {
+    String? title,
+  }) {
     return Wrapper.execute(() {
       return _mutations.edit(
         transactionId: transactionId,
@@ -115,6 +116,7 @@ class TransactionsApi {
         categoryName: _required(categoryName, 'Category'),
         subcategoryAmounts: subcategoryAmounts,
         type: transactionType ?? TransactionType.expense,
+        title: title,
         date: date,
       );
     });

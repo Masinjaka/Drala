@@ -1,5 +1,6 @@
 import 'package:budgets/features/ai_entry/domain/models/ai_entry_result.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
+import 'package:budgets/features/ai_entry/domain/models/finance_entry_edit_changes.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_quota.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_input.dart';
@@ -32,6 +33,8 @@ class AiEntryViewModel extends ChangeNotifier {
   bool _isLoading = false;
   bool _isSummaryLoading = false;
   bool _isSubmitting = false;
+  bool _isEditing = false;
+  Map<String, FinanceEntryEditChanges> _pendingEdits = const {};
   AiQuota? _quota;
   List<WalletSummary> _wallets = const [];
   bool _walletsLoaded = false;
@@ -45,7 +48,9 @@ class AiEntryViewModel extends ChangeNotifier {
   num get monthlyExpenses => _monthlyTotal((entry) => entry.isExpense);
   bool get isLoading => _isLoading;
   bool get isSummaryLoading => _isSummaryLoading;
-  bool get isSubmitting => _isSubmitting;
+  bool get isSubmitting => _isSubmitting || _isEditing;
+  bool get isAddingEntry => _isSubmitting;
+  Map<String, FinanceEntryEditChanges> get pendingEdits => _pendingEdits;
   int? get remainingRequests => _quota?.remaining;
   bool get hasUnlimitedAiRequests => _quota?.unlimited ?? false;
   List<WalletSummary> get wallets => _wallets;

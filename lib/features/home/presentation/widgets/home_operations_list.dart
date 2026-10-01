@@ -1,5 +1,6 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
+import 'package:budgets/features/ai_entry/domain/models/finance_entry_edit_changes.dart';
 import 'package:budgets/features/home/presentation/widgets/home_operation_row.dart';
 import 'package:budgets/features/home/presentation/widgets/home_operation_skeleton.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -13,6 +14,8 @@ class HomeOperationsList extends StatelessWidget {
     required this.isAdding,
     required this.onEntryTap,
     this.currencyState,
+    this.asSliver = false,
+    this.pendingEdits = const {},
     super.key,
   });
 
@@ -21,68 +24,61 @@ class HomeOperationsList extends StatelessWidget {
   final bool isAdding;
   final ValueChanged<FinanceEntry> onEntryTap;
   final CurrencyState? currencyState;
+  final bool asSliver;
+  final Map<String, FinanceEntryEditChanges> pendingEdits;
 
   @override
   Widget build(BuildContext context) {
-    final expenses = entries.where((entry) => entry.isExpense).length;
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(29, 7, 28, 0),
-          child: Row(
-            children: [
-              Expanded(
-                child: Text(context.l10n.operations,
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w600)),
-              ),
-              Text(context.l10n.expenseCount(expenses),
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w600)),
-            ],
+    final slivers = <Widget>[
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(29, 7, 28, 8),
+          child: Text(
+            '${entries.length} ${context.l10n.transactions.toLowerCase()}',
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
           ),
         ),
-        const SizedBox(height: 2),
-        Expanded(
-          child: isLoading
-              ? ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 29),
-                  itemCount: 3,
-                  itemBuilder: (context, index) => _animateItem(
+      ),
+      SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 29),
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              if (isLoading) {
+                return _animateItem(
                     HomeOperationSkeleton(
-                      key: ValueKey('loading-operation-$index'),
-                    ),
-                    index,
-                  ),
-                )
-              : ListView.builder(
-                  key: const Key('transaction-scroll-view'),
-                  padding: const EdgeInsets.symmetric(horizontal: 29),
-                  itemCount: entries.length + (isAdding ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (isAdding && index == 0) {
-                      return _animateItem(
-                        const HomeOperationSkeleton(
-                          key: Key('pending-operation-skeleton'),
-                        ),
-                        0,
-                      );
-                    }
-                    final entryIndex = index - (isAdding ? 1 : 0);
-                    final entry = entries[entryIndex];
-                    return _animateItem(
-                      HomeOperationRow(
-                        key: ValueKey('operation-${entry.id}'),
-                        entry: entry,
-                        currencyState: currencyState,
-                        onTap: () => onEntryTap(entry),
-                      ),
-                      entryIndex,
-                    );
-                  },
+                        key: ValueKey('loading-operation-$index')),
+                    index);
+              }
+              if (isAdding && index == 0) {
+                return _animateItem(
+                    const HomeOperationSkeleton(
+                        key: Key('pending-operation-skeleton')),
+                    0);
+              }
+              final entryIndex = index - (isAdding ? 1 : 0);
+              final entry = entries[entryIndex];
+              return _animateItem(
+                HomeOperationRow(
+                  key: ValueKey('operation-${entry.id}'),
+                  entry: entry,
+                  pendingEdit: pendingEdits[entry.id],
+                  currencyState: currencyState,
+                  onTap: () => onEntryTap(entry),
                 ),
+                entryIndex,
+              );
+            },
+            childCount: isLoading ? 3 : entries.length + (isAdding ? 1 : 0),
+          ),
         ),
-      ],
+      ),
+    ];
+    if (asSliver) return SliverMainAxisGroup(slivers: slivers);
+    return CustomScrollView(
+      key: const Key('transaction-scroll-view'),
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: slivers,
     );
   }
 

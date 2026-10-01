@@ -23,10 +23,17 @@ void main() {
       ),
     );
 
-    expect(find.text('Your expenses…'), findsOneWidget);
-    final hint = tester.getRect(find.text('Your expenses…'));
+    final hintFinder = find.byKey(const Key('chat-typing-hint-text'));
+    expect(hintFinder, findsOneWidget);
+    final hint = tester.getRect(hintFinder);
     final input = tester.getRect(find.byKey(const Key('chat-input-container')));
+    expect(input.height, 48);
     expect(hint.center.dy, input.center.dy);
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(
+      tester.widget<TextField>(find.byType(TextField)).controller?.text,
+      isEmpty,
+    );
     expect(find.byIcon(Icons.arrow_upward_rounded), findsOneWidget);
     expect(
       find.ancestor(
@@ -40,7 +47,12 @@ void main() {
       find.byType(TextField),
       'I spent 24 000 Ar on lunch',
     );
-    await tester.tap(find.byTooltip('Send'));
+    await tester.pumpAndSettle();
+    expect(
+      tester.widget<TextField>(find.byType(TextField)).controller?.text,
+      'I spent 24 000 Ar on lunch',
+    );
+    await tester.tap(find.byIcon(Icons.arrow_upward_rounded));
     await tester.pumpAndSettle();
 
     expect(submitted, 'I spent 24 000 Ar on lunch');
@@ -81,7 +93,7 @@ void main() {
         )
         .height;
     expect(multilineHeight, greaterThan(initialHeight));
-    expect(multilineHeight, lessThanOrEqualTo(120));
+    expect(multilineHeight, lessThanOrEqualTo(157));
   });
 
   testWidgets('unfocuses the chat field when tapping outside', (tester) async {

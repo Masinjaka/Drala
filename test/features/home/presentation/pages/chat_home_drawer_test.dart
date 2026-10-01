@@ -37,7 +37,7 @@ void main() {
     expect(_dimming(tester), 0);
   });
 
-  testWidgets('edge drag controls the overlay drawer', (tester) async {
+  testWidgets('edge drag does not open the overlay drawer', (tester) async {
     usePhoneWindow(tester);
     await tester.pumpWidget(
       MaterialApp(home: ChatHomePage(today: DateTime(2026, 7, 16))),
@@ -48,18 +48,12 @@ void main() {
     final dragSurface = find.byKey(const Key('home-drag-surface'));
     final drawerWidth = AppBreakpoints.mobileDrawerWidth(400);
     final start = tester.getTopLeft(dragSurface) + const Offset(8, 120);
-    final gesture = await tester.startGesture(start);
-
-    await gesture.moveBy(const Offset(120, 0));
-    await tester.pump();
+    await tester.dragFrom(start, const Offset(120, 0));
+    await tester.pumpAndSettle();
 
     expect(tester.getTopLeft(homePanel).dx, 0);
-    expect(_translation(tester, drawerPanel), closeTo(120 - drawerWidth, 1));
-    expect(_dimming(tester), closeTo(.59 * 120 / drawerWidth, .005));
-
-    await gesture.up();
-    await tester.pumpAndSettle();
     expect(_translation(tester, drawerPanel), closeTo(-drawerWidth, .01));
+    expect(_dimming(tester), 0);
   });
 
   testWidgets('tablet uses a collapsible persistent side panel',

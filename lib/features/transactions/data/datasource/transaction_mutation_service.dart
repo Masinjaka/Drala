@@ -81,6 +81,7 @@ class TransactionMutationService {
     required String categoryName,
     required Map<String, String>? subcategoryAmounts,
     required TransactionType type,
+    String? title,
     DateTime? date,
   }) async {
     final userId = _requireUserId();
@@ -93,13 +94,15 @@ class TransactionMutationService {
         .single();
     final numericAmount = _parseAmount(amount);
 
-    await _client.from('transaction').update({
+    final updates = <String, dynamic>{
       'description': description,
       'amount': numericAmount,
       'date': date?.toUtc().toIso8601String() ?? existing['date'],
       'category_id': categoryId,
       'transaction_type': type.value,
-    }).eq('id', transactionId);
+    };
+    if (title != null) updates['title'] = title;
+    await _client.from('transaction').update(updates).eq('id', transactionId);
 
     if (existing['transaction_type'] == TransactionType.expense.value &&
         existing['category_id'] != null) {

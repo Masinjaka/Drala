@@ -95,6 +95,7 @@ class Transactions extends _$Transactions {
     TransactionType? transactionType,
     DateTime? date, {
     TransactionModel? originalTransaction,
+    String? title,
   }) async {
     try {
       // Check if this is a savings category transaction and handle goal amount update
@@ -128,6 +129,7 @@ class Transactions extends _$Transactions {
             subcategoryAmounts,
             transactionType,
             date,
+            title: title,
           );
       ref.invalidate(budgetsProvider);
 

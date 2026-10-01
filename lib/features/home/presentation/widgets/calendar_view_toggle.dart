@@ -10,25 +10,37 @@ class CalendarViewToggle extends StatelessWidget {
 
   final bool isExpanded;
   final VoidCallback onPressed;
+  static const double height = 32;
+  static const double collapsedSpacing = 8;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: SizedBox(
-        height: AppControlMetrics.iconButtonSize,
-        child: IconButton(
+    final label = isExpanded ? 'Show week' : 'Show month';
+    final animationDuration = MediaQuery.disableAnimationsOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 260);
+    return Tooltip(
+      message: label,
+      child: Semantics(
+        button: true,
+        label: label,
+        child: GestureDetector(
           key: const Key('calendar-view-toggle'),
-          onPressed: onPressed,
-          padding: EdgeInsets.zero,
-          tooltip: isExpanded ? 'Show week' : 'Show month',
-          icon: AnimatedRotation(
-            turns: isExpanded ? 0.5 : 0,
-            duration: const Duration(milliseconds: 260),
-            curve: Curves.easeInOutCubic,
-            child: const Icon(
-              Icons.keyboard_arrow_down_rounded,
-              size: AppControlMetrics.iconSize,
+          behavior: HitTestBehavior.opaque,
+          onTap: onPressed,
+          child: SizedBox(
+            height: height,
+            width: double.infinity,
+            child: Center(
+              child: AnimatedRotation(
+                turns: isExpanded ? 0.5 : 0,
+                duration: animationDuration,
+                curve: Curves.easeInOutCubic,
+                child: const Icon(
+                  Icons.keyboard_arrow_down_rounded,
+                  size: AppControlMetrics.iconSize,
+                ),
+              ),
             ),
           ),
         ),

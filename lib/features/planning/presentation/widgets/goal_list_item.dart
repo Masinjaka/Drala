@@ -13,6 +13,7 @@ import 'package:budgets/features/planning/domain/providers/goal_provider.dart';
 import 'package:budgets/features/planning/presentation/widgets/add_goal_bottom_sheet.dart';
 import 'package:budgets/features/planning/presentation/widgets/planning_common_widgets.dart';
 import 'package:budgets/features/stats/domain/providers/stats_provider.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/features/transactions/domain/providers/transaction_provider.dart';
 import 'package:budgets/widgets/animated_amount_field.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -72,8 +73,8 @@ class _GoalListItemState extends ConsumerState<GoalListItem>
   Future<bool> _showDeleteDialog(BuildContext context) {
     return showDeleteConfirmationDialog(
       context: context,
-      title: 'Supprimer l\'objectif',
-      message: 'Êtes-vous sûr de vouloir supprimer cet objectif ?',
+      title: context.l10n.deleteGoalQuestion,
+      message: context.l10n.deleteGoalDescription,
     );
   }
 
