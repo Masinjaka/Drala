@@ -6,15 +6,16 @@ class HomeOperationSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const baseColor = Color(0xFFF1F1F1);
+    final theme = Theme.of(context);
+    final baseColor = theme.colorScheme.surfaceBright;
     return Shimmer.fromColors(
       baseColor: baseColor,
-      highlightColor: const Color(0xFFFAFAFA),
+      highlightColor: theme.colorScheme.surfaceContainerHigh,
       child: SizedBox(
         height: 66,
         child: Row(
           children: [
-            const DecoratedBox(
+            DecoratedBox(
               decoration: BoxDecoration(
                 color: baseColor,
                 shape: BoxShape.circle,
@@ -27,25 +28,25 @@ class HomeOperationSkeleton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _bar(64, 13),
+                  _bar(64, 13, baseColor),
                   const SizedBox(height: 9),
-                  _bar(93, 10),
+                  _bar(93, 10, baseColor),
                 ],
               ),
             ),
-            _bar(46, 14),
+            _bar(46, 14, baseColor),
           ],
         ),
       ),
     );
   }
 
-  Widget _bar(double width, double height) {
+  Widget _bar(double width, double height, Color color) {
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: const Color(0xFFF1F1F1),
+        color: color,
         borderRadius: BorderRadius.circular(height / 2),
       ),
     );

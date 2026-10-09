@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart' show CupertinoPicker;
 
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope_category.dart';
@@ -25,6 +26,20 @@ void main() {
     expect(find.byKey(const Key('month-carousel')), findsOneWidget);
     expect(find.byKey(const Key('envelope-month-pages')), findsOneWidget);
     expect(find.byKey(const Key('envelope-skeleton-card')), findsWidgets);
+    expect(find.byKey(const Key('envelope-title-skeleton')), findsNWidgets(4));
+    expect(find.text('Envelope'), findsOneWidget);
+    expect(
+      tester.getSize(find.byKey(const Key('envelope-title-skeleton')).first),
+      const Size(88, 16),
+    );
+    expect(
+      tester.getSize(find.byKey(const Key('envelope-spent-skeleton')).first),
+      const Size(64, 18),
+    );
+    expect(
+      tester.getSize(find.byKey(const Key('envelope-budget-skeleton')).first),
+      const Size(56, 18),
+    );
     expect(find.byType(CircularProgressIndicator), findsNothing);
 
     repository.completeAll();
@@ -40,6 +55,42 @@ void main() {
     final previous = DateTime(selected.year, selected.month - 1);
     expect(find.byKey(Key('envelope-${_key(previous)}')), findsOneWidget);
     expect(find.byKey(const Key('envelope-skeleton-card')), findsNothing);
+  });
+
+  testWidgets('calendar jumps across years and keeps the carousel in sync',
+      (tester) async {
+    final now = DateTime.now();
+    final selected = DateTime(now.year, now.month);
+    final repository = _DeferredEnvelopeRepository();
+    await tester.pumpWidget(MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: EnvelopePage(repository: repository, initialMonth: selected),
+    ));
+    await tester.pump();
+    repository.completeAll();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('envelope-pick-month')));
+    await tester.pumpAndSettle();
+    final wheels = find.byType(CupertinoPicker);
+    expect(wheels, findsNWidgets(2));
+    await tester.drag(wheels.last, const Offset(0, 88));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('app-wheel-picker-done')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    repository.completeAll();
+    await tester.pumpAndSettle();
+
+    final pager =
+        tester.widget<PageView>(find.byKey(const Key('envelope-month-pages')));
+    final page = pager.controller!.page!.round();
+    expect(page, lessThan(1200));
+    expect(page, greaterThanOrEqualTo(1164));
+    final month = DateTime(selected.year, selected.month + page - 1200);
+    expect(find.byKey(Key('envelope-${_key(month)}')), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }
 
@@ -58,6 +109,7 @@ class _DeferredEnvelopeRepository implements EnvelopeRepository {
   void completeAll() {
     for (var index = 0; index < _requests.length; index++) {
       final month = _months[index];
+      if (_requests[index].isCompleted) continue;
       _requests[index].complete([
         Envelope(
           id: _key(month),
@@ -85,7 +137,16 @@ class _DeferredEnvelopeRepository implements EnvelopeRepository {
     required int amount,
     required DateTime month,
     String? walletId,
+    bool repeatsMonthly = false,
   }) async {}
+  @override
+  Future<void> updateEnvelope(
+      {required String id,
+      required String name,
+      required String categoryId,
+      required int amount,
+      required bool repeatsMonthly}) async {}
+
   @override
   Future<void> deleteEnvelope(String id) async {}
 }

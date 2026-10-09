@@ -71,7 +71,16 @@ class _RecordingEnvelopeRepository implements EnvelopeRepository {
     required int amount,
     required DateTime month,
     String? walletId,
+    bool repeatsMonthly = false,
   }) async {}
+  @override
+  Future<void> updateEnvelope(
+      {required String id,
+      required String name,
+      required String categoryId,
+      required int amount,
+      required bool repeatsMonthly}) async {}
+
   @override
   Future<void> deleteEnvelope(String id) async {}
 }

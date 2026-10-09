@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 class DrawerDestinationNavigator {
   const DrawerDestinationNavigator({
     required this.context,
-    required this.selectedDate,
     required this.closeDrawer,
     this.onReturn,
     this.shouldRunOnReturn,
@@ -35,7 +34,6 @@ class DrawerDestinationNavigator {
   });
 
   final BuildContext context;
-  final DateTime selectedDate;
   final VoidCallback closeDrawer;
   final Future<void> Function()? onReturn;
   final bool Function()? shouldRunOnReturn;
@@ -77,7 +75,6 @@ class DrawerDestinationNavigator {
 
   void openEnvelopes() => _push(
         EnvelopePage(
-          initialMonth: selectedDate,
           repository: envelopeRepository,
           displayCurrency: currencyState,
         ),
@@ -92,7 +89,6 @@ class DrawerDestinationNavigator {
 
   void openStats() => _push(
         FinanceStatsPage(
-          initialMonth: selectedDate,
           repository: statsRepository,
           displayCurrency: currencyState,
         ),

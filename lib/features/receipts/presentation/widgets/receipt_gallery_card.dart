@@ -1,4 +1,4 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/features/receipts/presentation/widgets/receipt_page_count.dart';
 import 'package:budgets/features/receipts/domain/models/receipt_scan.dart';
 import 'package:budgets/features/receipts/presentation/widgets/receipt_thumbnail.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class ReceiptGalleryCard extends StatelessWidget {
                     Positioned(
                       top: 8,
                       left: 8,
-                      child: _PageCount(count: scan.pageCount),
+                      child: ReceiptPageCount(count: scan.pageCount),
                     ),
                   Positioned(
                     top: 3,
@@ -79,10 +79,7 @@ class ReceiptGalleryCard extends StatelessWidget {
                 ).format(scan.createdAt),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: AppTypography.supporting,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ],
@@ -90,27 +87,4 @@ class ReceiptGalleryCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class _PageCount extends StatelessWidget {
-  const _PageCount({required this.count});
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-        decoration: const ShapeDecoration(
-          color: Color(0xFFD7EBDD),
-          shape: StadiumBorder(),
-        ),
-        child: Text(
-          context.l10n.pageCount(count),
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: AppTypography.caption,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      );
 }

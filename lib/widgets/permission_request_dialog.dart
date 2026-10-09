@@ -1,5 +1,4 @@
 import 'package:budgets/widgets/custom_button.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 
 class PermissionRequestDialog extends StatelessWidget {
@@ -24,9 +23,10 @@ class PermissionRequestDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 32),
-      backgroundColor: Theme.of(context).cardColor,
+      backgroundColor: theme.colorScheme.surfaceContainerLowest,
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -35,17 +35,12 @@ class PermissionRequestDialog extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
-                  fontSize: AppTypography.title,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).textTheme.bodyLarge?.color),
+              style: theme.textTheme.titleMedium,
             ),
             SizedBox(height: 12),
             Text(
               message,
-              style: TextStyle(
-                  fontSize: AppTypography.body,
-                  color: Theme.of(context).textTheme.bodyLarge?.color),
+              style: theme.textTheme.bodyMedium,
             ),
             SizedBox(height: 24),
             Row(
@@ -54,14 +49,14 @@ class PermissionRequestDialog extends StatelessWidget {
                 CustomButton(
                   text: denyText,
                   onPressed: onDeny,
-                  backgroundColor: Theme.of(context).cardColor,
+                  backgroundColor: theme.colorScheme.surfaceContainerLowest,
+                  foregroundColor: theme.colorScheme.onSurface,
                   width: 120,
                   borderColor: Colors.transparent,
                 ),
                 SizedBox(width: 8),
                 CustomButton(
-                  backgroundColor:
-                      backgroundColor ?? Theme.of(context).primaryColor,
+                  backgroundColor: backgroundColor ?? theme.colorScheme.primary,
                   text: allowText,
                   onPressed: onAllow,
                   width: 120,

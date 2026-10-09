@@ -8,6 +8,7 @@ class TransactionSheetField extends StatelessWidget {
     this.validator,
     this.keyboardType,
     this.textInputAction,
+    this.hint,
   });
 
   final String label;
@@ -15,14 +16,14 @@ class TransactionSheetField extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final String? hint;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+        Text(label, style: Theme.of(context).textTheme.labelMedium),
         const SizedBox(height: 7),
         TextFormField(
           controller: controller,
@@ -30,8 +31,9 @@ class TransactionSheetField extends StatelessWidget {
           validator: validator,
           keyboardType: keyboardType,
           textInputAction: textInputAction,
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+          style: Theme.of(context).textTheme.bodySmall,
           decoration: InputDecoration(
+            hintText: hint,
             filled: true,
             fillColor: Theme.of(context).colorScheme.surfaceContainer,
             isDense: true,

@@ -10,6 +10,7 @@ class Envelope {
     required this.spent,
     required this.currencyCode,
     this.overspentAmount = 0,
+    this.repeatsMonthly = false,
   });
 
   final String id;
@@ -22,6 +23,7 @@ class Envelope {
   final int spent;
   final String currencyCode;
   final int overspentAmount;
+  final bool repeatsMonthly;
 
   int get remaining => amount - spent;
   double get progress => amount == 0 ? 0 : spent / amount;
@@ -38,5 +40,6 @@ class Envelope {
         spent: spent ?? this.spent,
         currencyCode: currencyCode,
         overspentAmount: overspentAmount,
+        repeatsMonthly: repeatsMonthly,
       );
 }

@@ -1,5 +1,7 @@
 import 'package:budgets/core/currency/currency_state.dart';
-import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/ui/privacy_text.dart';
+import 'package:budgets/features/envelopes/presentation/widgets/envelope_amount.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -16,34 +18,24 @@ class EnvelopeOverspendWarning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const warning = Color(0xFFD84A3A);
     final amount = displayCurrency?.convertToSelected(
           envelope.overspentAmount,
           envelope.currencyCode,
         ) ??
         envelope.overspentAmount;
-    return Row(
+    return Container(
       key: const Key('envelope-overspend-warning'),
-      children: [
-        const Icon(Icons.warning_rounded, color: warning, size: 17),
-        const SizedBox(width: 6),
-        Expanded(
-          child: Text(
-            context.l10n.overBudgetBy(
-              formatAmountWithCurrency(
-                amount,
-                displayCurrency?.code ?? envelope.currencyCode,
-                preserveFraction: true,
-              ),
-            ),
-            style: const TextStyle(
-              color: warning,
-              fontSize: 11.5,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
-        ),
-      ],
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppTextTheme.envelopeWarningBackground(context),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: PrivacyText(
+        context.l10n.envelopeOverBy(EnvelopeAmount.compact(amount)),
+        style: AppTextTheme.envelopeWarning(context),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }

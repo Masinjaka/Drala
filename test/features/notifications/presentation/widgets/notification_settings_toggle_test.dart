@@ -59,5 +59,6 @@ void main() {
       find.text('Une erreur est survenue. Veuillez réessayer.'),
       findsOneWidget,
     );
+    await tester.pumpAndSettle();
   });
 }

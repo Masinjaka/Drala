@@ -115,11 +115,11 @@ class AppWheelPicker {
     return result.future;
   }
 
-  static TextStyle _pickerTextStyle(BuildContext context) => TextStyle(
-        color: _foreground(context),
-        fontSize: 18,
-        fontWeight: FontWeight.w500,
-      );
+  static TextStyle _pickerTextStyle(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: _foreground(context),
+            fontSize: 18,
+          );
 
   static Widget _header(
     BuildContext context,
@@ -132,11 +132,9 @@ class AppWheelPicker {
           child: Text(
             title,
             key: const Key('app-wheel-picker-title'),
-            style: TextStyle(
-              color: _foreground(context),
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-            ),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: _foreground(context),
+                ),
           ),
         ),
         IconButton(
@@ -163,7 +161,7 @@ class AppWheelPicker {
   static Color _background(BuildContext context) => Theme.of(context).cardColor;
 
   static Color _foreground(BuildContext context) =>
-      Theme.of(context).colorScheme.inverseSurface;
+      Theme.of(context).colorScheme.onSurface;
 
   static DateTime _clamp(DateTime value, DateTime min, DateTime max) {
     if (value.isBefore(min)) return min;

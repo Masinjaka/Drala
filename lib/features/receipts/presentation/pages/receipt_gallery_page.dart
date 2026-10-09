@@ -1,5 +1,6 @@
+import 'package:budgets/core/ui/detail_list_skeleton.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:budgets/features/receipts/data/repositories/supabase_receipt_repository.dart';
 import 'package:budgets/features/receipts/data/services/receipt_query_service.dart';
 import 'package:budgets/features/receipts/data/services/receipt_ai_service.dart';
@@ -73,7 +74,7 @@ class _ReceiptGalleryPageState extends State<ReceiptGalleryPage> {
 
   Widget _body() {
     if (_viewModel.isLoading) {
-      return const Center(child: CircularProgressIndicator());
+      return const DetailListSkeleton();
     }
     if (_viewModel.scans.isEmpty) {
       return Center(
@@ -82,7 +83,7 @@ class _ReceiptGalleryPageState extends State<ReceiptGalleryPage> {
           child: Text(
             context.l10n.receiptGalleryEmpty,
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: AppTypography.body),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),
       );
@@ -100,7 +101,10 @@ class _ReceiptGalleryPageState extends State<ReceiptGalleryPage> {
             childAspectRatio: 0.72,
           ),
           itemCount: _viewModel.scans.length,
-          itemBuilder: (_, index) => _card(_viewModel.scans[index]),
+          itemBuilder: (_, index) => _card(_viewModel.scans[index])
+              .animate(delay: (50 * index.clamp(0, 6)).ms)
+              .fadeIn(duration: 200.ms)
+              .slideY(begin: .15, duration: 200.ms),
         );
       },
     );

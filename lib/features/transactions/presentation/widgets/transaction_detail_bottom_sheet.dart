@@ -12,7 +12,6 @@ import 'package:budgets/features/transactions/presentation/widgets/transaction_s
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_motion.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class TransactionDetailBottomSheet extends ConsumerStatefulWidget {
   const TransactionDetailBottomSheet({super.key, required this.transaction});
@@ -55,8 +54,8 @@ class _TransactionDetailBottomSheetState
     final currency = ref.read(currencyControllerProvider).value;
     final rate = currency?.rateFor(currency.code) ?? 1;
     final value = convertFromMga(widget.transaction.amount, rate);
-    final locale = Localizations.localeOf(context).toLanguageTag();
-    _amountController.text = NumberFormat('#,##0.##', locale).format(value);
+    _amountController.text =
+        formatAmountForInput(value, preserveFraction: true);
     _amountInitialized = true;
   }
 
@@ -133,12 +132,7 @@ class _TransactionDetailBottomSheetState
   }
 
   double _displayAmount() {
-    var value =
-        _amountController.text.replaceAll(RegExp(r'[\s\u00A0\u202F]'), '');
-    if (value.contains(',') && !value.contains('.')) {
-      value = value.replaceAll(',', '.');
-    }
-    return double.tryParse(value.replaceAll(',', '')) ?? 0;
+    return parseAmountInput(_amountController.text);
   }
 
   Future<void> _save() async {

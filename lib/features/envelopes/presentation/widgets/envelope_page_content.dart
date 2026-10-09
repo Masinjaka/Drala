@@ -1,6 +1,7 @@
+import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/detail_page_header.dart';
-import 'package:budgets/core/ui/month_carousel.dart';
+import 'package:budgets/core/ui/month_picker_header.dart';
 import 'package:budgets/features/envelopes/presentation/view_models/envelope_view_model.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_month_page.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -14,10 +15,12 @@ class EnvelopePageContent extends StatelessWidget {
     required this.initialPage,
     required this.onAdd,
     required this.onMonthChanged,
+    required this.onPickMonth,
     required this.onPageChanged,
     required this.onRefresh,
     this.initialEnvelopeId,
     this.displayCurrency,
+    this.onEdit,
     super.key,
   });
 
@@ -26,11 +29,13 @@ class EnvelopePageContent extends StatelessWidget {
   final DateTime pageOrigin;
   final int initialPage;
   final VoidCallback onAdd;
+  final VoidCallback onPickMonth;
   final ValueChanged<int> onMonthChanged;
   final ValueChanged<int> onPageChanged;
   final Future<void> Function() onRefresh;
   final String? initialEnvelopeId;
   final CurrencyState? displayCurrency;
+  final ValueChanged<Envelope>? onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +46,7 @@ class EnvelopePageContent extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 29),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: DetailPageHeader(
                 title: context.l10n.envelope,
                 onAdd: onAdd,
@@ -49,10 +54,15 @@ class EnvelopePageContent extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            MonthCarousel(
-              month: viewModel.month,
-              onChanged: onMonthChanged,
-              canGoNext: _canGoForward,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 29),
+              child: MonthPickerHeader(
+                month: viewModel.month,
+                onChanged: onMonthChanged,
+                canGoNext: _canGoForward,
+                onPickMonth: onPickMonth,
+                pickerKey: const Key('envelope-pick-month'),
+              ),
             ),
             const SizedBox(height: 48),
             Expanded(
@@ -69,6 +79,7 @@ class EnvelopePageContent extends StatelessWidget {
                     isLoading: viewModel.isMonthLoading(month),
                     onRefresh: onRefresh,
                     onDelete: viewModel.delete,
+                    onEdit: onEdit,
                     displayCurrency: displayCurrency,
                     targetEnvelopeId: _sameMonth(month, pageOrigin)
                         ? initialEnvelopeId

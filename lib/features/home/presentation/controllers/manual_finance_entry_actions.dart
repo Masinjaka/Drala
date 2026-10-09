@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
@@ -10,6 +12,7 @@ import 'package:budgets/features/home/domain/models/wallet_funding_choice.dart';
 import 'package:budgets/features/home/presentation/widgets/manual_entry_sheet.dart';
 import 'package:budgets/features/home/presentation/widgets/finance_entry_detail_sheet_route.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_funding_prompt.dart';
+import 'package:budgets/features/notifications/presentation/services/finance_warning_dispatcher.dart';
 import 'package:budgets/widgets/delete_confirmation_dialog.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +28,15 @@ class ManualFinanceEntryActions {
       final result = await _showSheet(context);
       final input = result?.input;
       if (input == null || !context.mounted) return;
-      await _saveWithFunding(
+      final saved = await _saveWithFunding(
         context,
         input,
         viewModel.addManualEntry,
       );
+      if (!saved) return;
+      if (input.transactionType == 'expense') {
+        unawaited(const FinanceWarningDispatcher().dispatch());
+      }
       if (context.mounted) showSuccessToast(context, 'Entry added.');
     } on InsufficientFundsException {
       if (context.mounted) _showInsufficientFunds(context);
@@ -49,11 +56,15 @@ class ManualFinanceEntryActions {
       }
       final input = result.input;
       if (input == null) return;
-      await _saveWithFunding(
+      final saved = await _saveWithFunding(
         context,
         input,
         (value) => viewModel.updateFinanceEntry(entry.id, value),
       );
+      if (!saved) return;
+      if (input.transactionType == 'expense') {
+        unawaited(const FinanceWarningDispatcher().dispatch());
+      }
       if (context.mounted) showSuccessToast(context, 'Entry updated.');
     } on InsufficientFundsException {
       if (context.mounted) _showInsufficientFunds(context);
@@ -96,21 +107,23 @@ class ManualFinanceEntryActions {
     if (context.mounted) showSuccessToast(context, 'Entry deleted.');
   }
 
-  Future<void> _saveWithFunding<T>(
+  Future<bool> _saveWithFunding<T>(
     BuildContext context,
     ManualEntryInput input,
     Future<T> Function(ManualEntryInput input) save,
   ) async {
     try {
       await save(input);
+      return true;
     } on WalletSelectionRequiredException catch (error) {
-      if (!context.mounted) return;
+      if (!context.mounted) return false;
       final funding = await _chooseFunding(context, error.requiredAmount);
-      if (funding == null) return;
+      if (funding == null) return false;
       await save(input.copyWith(
         sourceWalletId: funding.walletId,
         useAllWallets: funding.useAllWallets,
       ));
+      return true;
     }
   }
 

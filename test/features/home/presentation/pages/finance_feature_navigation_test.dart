@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/month_carousel.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope_category.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
@@ -29,7 +30,16 @@ class _EnvelopeRepository implements EnvelopeRepository {
     required int amount,
     required DateTime month,
     String? walletId,
+    bool repeatsMonthly = false,
   }) async {}
+
+  @override
+  Future<void> updateEnvelope(
+      {required String id,
+      required String name,
+      required String categoryId,
+      required int amount,
+      required bool repeatsMonthly}) async {}
 
   @override
   Future<void> deleteEnvelope(String id) async {}
@@ -70,6 +80,10 @@ void main() {
 
     expect(find.byType(EnvelopePage), findsOneWidget);
     expect(find.text('Envelope'), findsOneWidget);
+    final month =
+        tester.widget<MonthCarousel>(find.byType(MonthCarousel)).month;
+    final now = DateTime.now();
+    expect(month, DateTime(now.year, now.month));
   });
 
   testWidgets('Stats drawer item opens new stats page', (tester) async {
@@ -90,5 +104,9 @@ void main() {
 
     expect(find.byType(FinanceStatsPage), findsOneWidget);
     expect(find.text('Stats'), findsOneWidget);
+    final month =
+        tester.widget<MonthCarousel>(find.byType(MonthCarousel)).month;
+    final now = DateTime.now();
+    expect(month, DateTime(now.year, now.month));
   });
 }

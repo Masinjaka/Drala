@@ -12,7 +12,7 @@ void main() {
             title: 'Cash',
             leading: const Text('👛'),
             subtitleWidget: const Text(
-              '400 000 Ar',
+              '400 000 MGA',
               key: Key('wallet-balance'),
             ),
             onTap: () {},

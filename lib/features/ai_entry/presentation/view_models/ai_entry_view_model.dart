@@ -1,10 +1,13 @@
+import 'package:budgets/features/ai_entry/domain/errors/ai_entry_exception.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_entry_result.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
+import 'package:budgets/features/ai_entry/domain/models/finance_entry_page.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry_edit_changes.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_quota.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_input.dart';
 import 'package:budgets/features/ai_entry/domain/repositories/ai_entry_repository.dart';
+import 'package:budgets/features/ai_entry/domain/repositories/paged_ai_entry_repository.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/receipt_input_result.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
@@ -12,6 +15,7 @@ import 'package:budgets/features/receipts/domain/repositories/receipt_repository
 import 'package:flutter/material.dart';
 
 part 'ai_entry_data_reset.dart';
+part 'ai_entry_loading.dart';
 part 'ai_entry_edit.dart';
 part 'ai_entry_monthly_totals.dart';
 part 'ai_entry_receipt.dart';
@@ -19,13 +23,18 @@ part 'ai_entry_result_application.dart';
 part 'ai_entry_wallets.dart';
 
 class AiEntryViewModel extends ChangeNotifier {
-  AiEntryViewModel(this._repository, DateTime initialDate,
-      {ReceiptRepository? receiptRepository})
-      : _receiptRepository = receiptRepository,
+  AiEntryViewModel(
+    this._repository,
+    DateTime initialDate, {
+    ReceiptRepository? receiptRepository,
+    Duration submissionTimeout = const Duration(seconds: 45),
+  })  : _submissionTimeout = submissionTimeout,
+        _receiptRepository = receiptRepository,
         _selectedDate = DateUtils.dateOnly(initialDate);
 
   final AiEntryRepository _repository;
   final ReceiptRepository? _receiptRepository;
+  final Duration _submissionTimeout;
   DateTime _selectedDate;
   List<FinanceEntry> _entries = const [];
   List<FinanceEntry> _monthlyEntries = const [];
@@ -41,12 +50,19 @@ class AiEntryViewModel extends ChangeNotifier {
   bool _isAddingWallet = false;
   int _totalFunds = 0;
   bool? _hasAnyEntries;
+  bool _hasMoreEntries = false;
+  bool _isLoadingMoreEntries = false;
+  int _transactionOffset = 0;
+  int _transferOffset = 0;
+  int _loadGeneration = 0;
 
   DateTime get selectedDate => _selectedDate;
   List<FinanceEntry> get entries => _entries;
   num get monthlyIncome => _monthlyTotal((entry) => entry.isIncome);
   num get monthlyExpenses => _monthlyTotal((entry) => entry.isExpense);
   bool get isLoading => _isLoading;
+  bool get hasMoreEntries => _hasMoreEntries;
+  bool get isLoadingMoreEntries => _isLoadingMoreEntries;
   bool get isSummaryLoading => _isSummaryLoading;
   bool get isSubmitting => _isSubmitting || _isEditing;
   bool get isAddingEntry => _isSubmitting;
@@ -60,73 +76,20 @@ class AiEntryViewModel extends ChangeNotifier {
   String get walletCurrencyCode =>
       _wallets.isEmpty ? 'MGA' : _wallets.first.currencyCode;
 
-  Future<void> loadDate(DateTime date) async {
-    _selectedDate = DateUtils.dateOnly(date);
-    final targetMonth = DateTime(_selectedDate.year, _selectedDate.month);
-    final shouldLoadMonth = _monthlyEntriesMonth == null ||
-        _monthlyEntriesMonth!.year != targetMonth.year ||
-        _monthlyEntriesMonth!.month != targetMonth.month;
-    _isLoading = true;
-    _isSummaryLoading = shouldLoadMonth;
-    notifyListeners();
-    final quotaFuture = _quota == null
-        ? _repository.aiQuota().then<AiQuota?>((quota) => quota).catchError(
-              (_) => null,
-            )
-        : Future<AiQuota?>.value(_quota);
-    final walletsFuture = _walletsLoaded
-        ? Future<List<WalletSummary>?>.value(_wallets)
-        : _repository
-            .wallets()
-            .then<List<WalletSummary>?>((wallets) => wallets)
-            .catchError((_) => null);
-    final totalFuture = _repository
-        .totalFunds()
-        .then<int?>((value) => value)
-        .catchError((_) => null);
-    final historyFuture = _hasAnyEntries == null
-        ? _repository
-            .hasAnyEntries()
-            .then<bool?>((value) => value)
-            .catchError((_) => null)
-        : Future<bool?>.value(_hasAnyEntries);
-    final monthlyEntriesFuture = !shouldLoadMonth
-        ? Future<List<FinanceEntry>?>.value(null)
-        : _repository
-            .entriesForMonth(targetMonth)
-            .then<List<FinanceEntry>?>((entries) => entries)
-            .catchError((_) => null);
-    try {
-      _entries = await _repository.entriesForDate(_selectedDate);
-      final monthlyEntries = await monthlyEntriesFuture;
-      if (monthlyEntries != null) {
-        _monthlyEntries = List.unmodifiable(monthlyEntries);
-        _monthlyEntriesMonth = targetMonth;
-      }
-      final hasHistory = await historyFuture;
-      _hasAnyEntries = _entries.isNotEmpty || (hasHistory ?? true);
-      _quota = await quotaFuture;
-      final wallets = await walletsFuture;
-      if (wallets != null) {
-        _wallets = List.unmodifiable(wallets);
-        _walletsLoaded = true;
-      }
-      _totalFunds = await totalFuture ?? _walletBalance;
-    } finally {
-      _isLoading = false;
-      _isSummaryLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<AiEntryResult> submit(String message) async {
+  Future<AiEntryResult> submit(
+    String message, {
+    String outputLanguage = 'en',
+  }) async {
     final targetDate = _selectedDate;
     _isSubmitting = true;
     notifyListeners();
     try {
-      final result = await _repository.processMessage(
-        message.trim(),
-        targetDate: targetDate,
+      final result = await _waitForSubmission(
+        _repository.processMessage(
+          message.trim(),
+          targetDate: targetDate,
+          outputLanguage: outputLanguage,
+        ),
       );
       await _applyResult(result, targetDate);
       notifyListeners();
@@ -147,12 +110,14 @@ class AiEntryViewModel extends ChangeNotifier {
     _isSubmitting = true;
     notifyListeners();
     try {
-      final result = await _repository.resumeMessage(
-        requestId: requestId,
-        extraction: extraction,
-        walletId: walletId,
-        useAllWallets: useAllWallets,
-        targetDate: targetDate,
+      final result = await _waitForSubmission(
+        _repository.resumeMessage(
+          requestId: requestId,
+          extraction: extraction,
+          walletId: walletId,
+          useAllWallets: useAllWallets,
+          targetDate: targetDate,
+        ),
       );
       await _applyResult(result, targetDate);
       return result;
@@ -195,4 +160,13 @@ class AiEntryViewModel extends ChangeNotifier {
   void _notifyDataReset() => _notify();
 
   void _notifyReceiptChanged() => _notify();
+
+  Future<T> _waitForSubmission<T>(Future<T> operation) => operation.timeout(
+        _submissionTimeout,
+        onTimeout: () => throw AiEntryException(
+          code: 'request_timeout',
+          message: 'The AI request took too long. Please try again.',
+          status: 504,
+        ),
+      );
 }

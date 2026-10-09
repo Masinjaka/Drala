@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/ai_entry/domain/errors/ai_entry_exception.dart';
@@ -11,6 +13,8 @@ import 'package:budgets/features/home/domain/models/wallet_funding_choice.dart';
 import 'package:budgets/features/home/presentation/controllers/manual_finance_entry_actions.dart';
 import 'package:budgets/features/home/presentation/widgets/ai_entry_result_feedback.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_funding_prompt.dart';
+import 'package:budgets/features/notifications/presentation/services/finance_warning_dispatcher.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
 class HomeEntryActions {
@@ -19,8 +23,13 @@ class HomeEntryActions {
   final AiEntryViewModel viewModel;
   final CurrencyState? currencyState;
 
-  Future<bool> submitMessage(BuildContext context, String message) =>
-      _submit(context, () => viewModel.submit(message));
+  Future<bool> submitMessage(BuildContext context, String message) => _submit(
+        context,
+        () => viewModel.submit(
+          message,
+          outputLanguage: Localizations.localeOf(context).languageCode,
+        ),
+      );
 
   Future<bool> submitReceipt(
     BuildContext context,
@@ -40,6 +49,9 @@ class HomeEntryActions {
   ) async {
     try {
       final result = await action();
+      if (result.entries.any((entry) => entry.isExpense)) {
+        unawaited(const FinanceWarningDispatcher().dispatch());
+      }
       if (!context.mounted) return true;
       AiEntryResultFeedback.show(context, result);
       return true;
@@ -60,7 +72,13 @@ class HomeEntryActions {
       return false;
     } on AiEntryException catch (error) {
       if (context.mounted) {
-        showAppToast(context, error.message, type: AppToastType.error);
+        final message = switch (error.code) {
+          'provider_timeout' ||
+          'request_timeout' =>
+            context.l10n.aiRequestTimedOut,
+          _ => error.message,
+        };
+        showAppToast(context, message, type: AppToastType.error);
       }
       return false;
     } on StateError catch (error) {
@@ -86,6 +104,9 @@ class HomeEntryActions {
         walletId: funding.walletId,
         useAllWallets: funding.useAllWallets,
       );
+      if (result.entries.any((entry) => entry.isExpense)) {
+        unawaited(const FinanceWarningDispatcher().dispatch());
+      }
       if (context.mounted) AiEntryResultFeedback.show(context, result);
       return true;
     } on InsufficientFundsException {

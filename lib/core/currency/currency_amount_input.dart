@@ -17,7 +17,7 @@ class CurrencyAmountInput {
   ) {
     final displayAmount =
         currency?.convertToSelected(amount, sourceCurrencyCode) ?? amount;
-    return formatAmountValue(
+    return formatAmountForInput(
       displayAmount,
       preserveFraction: currency?.code != 'MGA',
     );

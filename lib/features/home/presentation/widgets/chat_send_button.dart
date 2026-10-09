@@ -1,4 +1,5 @@
 import 'package:budgets/features/home/presentation/widgets/chat_loading_dots.dart';
+import 'package:budgets/core/theme.dart';
 import 'package:budgets/features/home/presentation/widgets/home_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -67,6 +68,10 @@ class _ChatSendButtonState extends State<ChatSendButton>
   @override
   Widget build(BuildContext context) {
     final buttonSize = 40 - widget.bottomPadding;
+    final theme = Theme.of(context);
+    final background = theme.brightness == Brightness.dark
+        ? theme.colorScheme.surfaceContainerLowest
+        : HomeColors.banner;
     return SizedBox(
       width: 52,
       height: 40,
@@ -77,11 +82,11 @@ class _ChatSendButtonState extends State<ChatSendButton>
             scale: _scale,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: HomeColors.banner,
+                color: background,
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
-                    color: HomeColors.banner.withValues(alpha: 0.18),
+                    color: theme.shadowColor.withValues(alpha: 0.18),
                     blurRadius: 8,
                     offset: const Offset(0, 3),
                   ),
@@ -95,8 +100,9 @@ class _ChatSendButtonState extends State<ChatSendButton>
                   style: IconButton.styleFrom(
                     minimumSize: Size.square(buttonSize),
                     maximumSize: Size.square(buttonSize),
-                    foregroundColor: Colors.white,
-                    disabledForegroundColor: Colors.white70,
+                    foregroundColor: AppTheme.homeBannerText,
+                    disabledForegroundColor:
+                        AppTheme.homeBannerText.withValues(alpha: .7),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -106,7 +112,7 @@ class _ChatSendButtonState extends State<ChatSendButton>
                     child: widget.isBusy
                         ? const ChatLoadingDots(
                             key: ValueKey('chat-send-loading'),
-                            color: Colors.white,
+                            color: AppTheme.homeBannerText,
                           )
                         : Icon(
                             widget.isManualEntry

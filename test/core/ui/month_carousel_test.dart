@@ -1,37 +1,57 @@
+import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/month_carousel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('uses no ripple and makes the selected month bold',
-      (tester) async {
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: MonthCarousel(
-            month: DateTime(2026, 9),
-            onChanged: (_) {},
-            canGoNext: true,
+  for (final theme in [AppTheme.lightTheme, AppTheme.darkTheme]) {
+    testWidgets('centers a stronger month in ${theme.brightness}',
+        (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: theme,
+          home: Scaffold(
+            body: MonthCarousel(
+              month: DateTime(2026, 9),
+              onChanged: (_) {},
+              canGoNext: true,
+            ),
           ),
         ),
-      ),
-    );
+      );
+      await tester.pumpAndSettle();
 
-    expect(
-      find.descendant(
-        of: find.byKey(const Key('month-carousel')),
-        matching: find.byType(InkWell),
-      ),
-      findsNothing,
-    );
-    final selectedStyle = tester
-        .widgetList<AnimatedDefaultTextStyle>(
-          find.byType(AnimatedDefaultTextStyle),
-        )
-        .singleWhere((widget) => widget.style.fontSize == 16)
-        .style;
-    expect(selectedStyle.fontWeight, FontWeight.w700);
-  });
+      expect(
+        find.descendant(
+          of: find.byKey(const Key('month-carousel')),
+          matching: find.byType(InkWell),
+        ),
+        findsNothing,
+      );
+      final styles = tester
+          .widgetList<AnimatedDefaultTextStyle>(
+            find.descendant(
+              of: find.byKey(const Key('month-carousel')),
+              matching: find.byType(AnimatedDefaultTextStyle),
+            ),
+          )
+          .map((widget) => widget.style)
+          .toList();
+      final active = styles.singleWhere(
+        (style) => style.fontWeight == FontWeight.w700,
+      );
+      final inactive = styles.where((style) => style != active);
+      expect(active.color, theme.colorScheme.onSurface);
+      expect(active.fontFamily, theme.textTheme.bodyMedium?.fontFamily);
+      expect(inactive, isNotEmpty);
+      for (final style in inactive) {
+        expect(style.fontSize, lessThan(active.fontSize!));
+        expect(style.fontWeight, FontWeight.normal);
+        expect(style.color?.a, lessThan(active.color!.a));
+        expect(style.fontFamily, active.fontFamily);
+      }
+    });
+  }
 
   testWidgets('selects months with horizontal swipes', (tester) async {
     final offsets = <int>[];

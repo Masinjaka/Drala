@@ -22,8 +22,6 @@ class HomeNotificationButton extends StatelessWidget {
           OutlinedSquareButton(
             key: const Key('notification-inbox-button'),
             icon: Icons.notifications_none_rounded,
-            visualSize: 34,
-            iconSize: 22,
             onPressed: onPressed,
           ),
           if (viewModel.unreadCount > 0)
@@ -35,17 +33,16 @@ class HomeNotificationButton extends StatelessWidget {
                 width: 16,
                 height: 16,
                 alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFD61F1F),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.error,
                   shape: BoxShape.circle,
                 ),
                 child: Text(
                   '${viewModel.unreadCount.clamp(0, 9)}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 8,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onError,
+                        fontSize: 8,
+                      ),
                 ),
               ),
             ),

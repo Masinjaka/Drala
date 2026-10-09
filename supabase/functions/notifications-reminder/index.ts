@@ -1,10 +1,6 @@
 import { SignJWT, importPKCS8 } from "npm:jose@5.2.2";
-
-type ReminderUser = {
-  user_id: string;
-  tokens: string[];
-  local_date?: string;
-};
+import { reminderMessage } from "./messages.ts";
+import { savedLanguages, type ReminderUser } from "./language_lookup.ts";
 
 type ReminderPayload = {
   users: ReminderUser[];
@@ -80,11 +76,8 @@ async function sendMessage(
 }
 
 Deno.serve(async (req: Request) => {
-  if (CRON_SECRET) {
-    const providedSecret = req.headers.get("x-cron-secret");
-    if (providedSecret !== CRON_SECRET) {
-      return new Response("Unauthorized", { status: 401 });
-    }
+  if (!CRON_SECRET || req.headers.get("x-cron-secret") !== CRON_SECRET) {
+    return new Response("Unauthorized", { status: 401 });
   }
 
   const payload = (await req.json()) as ReminderPayload;
@@ -95,12 +88,14 @@ Deno.serve(async (req: Request) => {
   }
 
   const accessToken = await getAccessToken();
-  const title = "Rappel quotidien";
-  const body = "Pensez à saisir vos dépenses ou revenus aujourd'hui.";
+  const languages = await savedLanguages(payload.users);
 
   let sent = 0;
   for (const user of payload.users) {
     if (!user.tokens?.length) continue;
+    const { title, body } = reminderMessage(
+      languages.get(user.user_id) ?? user.language_code,
+    );
     for (const token of user.tokens) {
       const response = await sendMessage(accessToken, token, title, body, {
         type: "reminder",

@@ -69,7 +69,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Daily account'), findsOneWidget);
-    expect(find.text('750 000 Ar'), findsOneWidget);
+    expect(find.text('750 000 MGA'), findsOneWidget);
 
     await _showWalletEditor(tester, 'bank');
     await tester.ensureVisible(find.byKey(const Key('delete-wallet')));

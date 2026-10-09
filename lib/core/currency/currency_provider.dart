@@ -8,6 +8,20 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'currency_provider.g.dart';
 
+const fallbackCurrencyCodes = <String>{
+  'MGA',
+  'USD',
+  'EUR',
+  'GBP',
+  'CAD',
+  'AUD',
+  'JPY',
+  'CNY',
+  'CHF',
+  'ZAR',
+  'KES',
+};
+
 @riverpod
 Future<ExchangeRates?> exchangeRates(Ref ref) async {
   const datasource = ExchangeRatesDataSource();
@@ -16,20 +30,6 @@ Future<ExchangeRates?> exchangeRates(Ref ref) async {
 
 @Riverpod(keepAlive: true)
 class CurrencyController extends _$CurrencyController {
-  static const _fallbackCurrencyCodes = <String>{
-    'MGA',
-    'USD',
-    'EUR',
-    'GBP',
-    'CAD',
-    'AUD',
-    'JPY',
-    'CNY',
-    'CHF',
-    'ZAR',
-    'KES',
-  };
-
   @override
   Future<CurrencyState> build() async {
     final rates = await ref.watch(exchangeRatesProvider.future);
@@ -46,7 +46,7 @@ class CurrencyController extends _$CurrencyController {
     }
 
     final rateMap = Map<String, double>.from(rates?.rates ?? {});
-    for (final currencyCode in _fallbackCurrencyCodes) {
+    for (final currencyCode in fallbackCurrencyCodes) {
       rateMap.putIfAbsent(currencyCode, () => 1.0);
     }
     rateMap.putIfAbsent(code, () => 1.0);

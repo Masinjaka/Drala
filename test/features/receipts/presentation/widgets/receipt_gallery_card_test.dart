@@ -42,7 +42,7 @@ void main() {
     );
     expect(
       button.style?.foregroundColor?.resolve({}),
-      AppTheme.dangerColor,
+      AppTheme.lightTheme.colorScheme.error,
     );
 
     await tester.tap(find.byKey(const Key('receipt-delete-button')));

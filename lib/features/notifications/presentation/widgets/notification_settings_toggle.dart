@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/value_skeleton.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_choice_tile.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class NotificationSettingsToggle extends StatefulWidget {
     required this.value,
     required this.onChanged,
     this.enabled = true,
+    this.loading = false,
     super.key,
   });
 
@@ -16,6 +18,7 @@ class NotificationSettingsToggle extends StatefulWidget {
   final IconData icon;
   final bool value;
   final bool enabled;
+  final bool loading;
   final Future<bool> Function(bool value) onChanged;
 
   @override
@@ -28,7 +31,7 @@ class _NotificationSettingsToggleState
   late bool _value;
   bool _updating = false;
 
-  bool get _enabled => widget.enabled && !_updating;
+  bool get _enabled => widget.enabled && !_updating && !widget.loading;
 
   @override
   void initState() {
@@ -50,10 +53,12 @@ class _NotificationSettingsToggleState
       title: widget.title,
       leading: Icon(widget.icon, size: 20),
       onTap: _enabled ? () => _change(!_value) : null,
-      trailing: Switch(
-        value: _value,
-        onChanged: _enabled ? _change : null,
-      ),
+      trailing: widget.loading
+          ? const ValueSkeleton(width: 44)
+          : Switch(
+              value: _value,
+              onChanged: _enabled ? _change : null,
+            ),
     );
   }
 

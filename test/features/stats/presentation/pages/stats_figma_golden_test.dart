@@ -4,9 +4,18 @@ import 'package:budgets/features/stats/domain/repositories/monthly_stats_reposit
 import 'package:budgets/features/stats/presentation/pages/finance_stats_page.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../support/load_app_fonts.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUpAll(() async {
+    await loadAppFonts();
+    await (FontLoader('MaterialIcons')
+          ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf')))
+        .load();
+  });
   testWidgets('matches the Figma stats frame', (tester) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = const Size(412, 917);

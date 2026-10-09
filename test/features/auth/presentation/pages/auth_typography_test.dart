@@ -17,28 +17,16 @@ void main() {
       await tester.pumpWidget(_app());
       await tester.pump();
 
-      final signInTextSizes = tester
-          .widgetList<Text>(find.text('Se connecter'))
-          .map((text) => text.style?.fontSize)
-          .whereType<double>()
-          .toSet();
-      expect(
-        signInTextSizes,
-        {AppTypography.title, AppTypography.body},
-      );
-      expect(
-        tester
-            .widget<Text>(
-              find.text('Connectez-vous et gérez votre drala comme un pro'),
-            )
-            .style
-            ?.fontSize,
-        AppTypography.body,
-      );
+      expect(tester.widget<Text>(find.text('Login').first).style?.fontSize,
+          AppTypography.display);
+      expect(tester.widget<Text>(find.text('Login').first).style?.fontWeight,
+          FontWeight.w700);
+      expect(tester.widget<Text>(find.text('Email')).style?.fontSize,
+          AppTypography.supporting);
       for (final field in tester.widgetList<EditableText>(
         find.byType(EditableText),
       )) {
-        expect(field.style.fontSize, AppTypography.body);
+        expect(field.style.fontSize, AppTypography.supporting);
       }
 
       await tester.pumpWidget(const SizedBox.shrink());

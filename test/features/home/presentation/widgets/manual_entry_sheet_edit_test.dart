@@ -23,17 +23,18 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Edit entry'), findsOneWidget);
+    expect(find.text('Edit transaction'), findsOneWidget);
     expect(find.text('Lunch'), findsOneWidget);
-    expect(find.text('12 000'), findsOneWidget);
+    expect(find.text('12,000'), findsOneWidget);
     expect(find.text('With a friend'), findsOneWidget);
-    expect(find.byKey(const Key('delete-manual-entry-button')), findsOneWidget);
+    expect(find.byKey(const Key('delete-transaction')), findsOneWidget);
 
-    await tester.enterText(find.byType(TextFormField).first, 'Team lunch');
+    await tester.enterText(find.byType(TextFormField).at(1), 'Team lunch');
     await tester.ensureVisible(
-      find.byKey(const Key('save-manual-entry-button')),
+      find.byKey(const Key('save-transaction')),
     );
-    await tester.tap(find.byKey(const Key('save-manual-entry-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('save-transaction')));
     await tester.pumpAndSettle();
 
     expect(result?.action, ManualEntrySheetAction.save);
@@ -57,9 +58,10 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
     await tester.ensureVisible(
-      find.byKey(const Key('delete-manual-entry-button')),
+      find.byKey(const Key('delete-transaction')),
     );
-    await tester.tap(find.byKey(const Key('delete-manual-entry-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('delete-transaction')));
     await tester.pumpAndSettle();
 
     expect(result?.action, ManualEntrySheetAction.delete);
@@ -83,11 +85,12 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('2.4'), findsOneWidget);
-    await tester.enterText(find.byType(TextFormField).at(1), '200');
+    await tester.enterText(find.byType(TextFormField).at(0), '200');
     await tester.ensureVisible(
-      find.byKey(const Key('save-manual-entry-button')),
+      find.byKey(const Key('save-transaction')),
     );
-    await tester.tap(find.byKey(const Key('save-manual-entry-button')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('save-transaction')));
     await tester.pumpAndSettle();
 
     expect(result?.input?.amount, 1000000);

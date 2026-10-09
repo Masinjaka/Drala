@@ -33,13 +33,13 @@ void main() {
     final title = tester.widget<Text>(
       find.byKey(const Key('app-wheel-picker-title')),
     );
-    final done = tester.widget<ElevatedButton>(
+    final done = tester.widget<FilledButton>(
       find.descendant(
         of: find.byKey(const Key('app-wheel-picker-done')),
-        matching: find.byType(ElevatedButton),
+        matching: find.byType(FilledButton),
       ),
     );
-    expect(title.style?.color, Colors.black);
+    expect(title.style?.color, AppTheme.lightTheme.colorScheme.onSurface);
     expect(done.style?.backgroundColor?.resolve({}), Colors.black);
 
     await tester.tap(find.byKey(const Key('app-wheel-picker-done')));

@@ -22,14 +22,17 @@ class EnvelopeSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final available = budget - spent;
+    final colors = Theme.of(context).colorScheme;
+    final positive = Theme.of(context).brightness == Brightness.dark
+        ? AppTheme.positiveAmountDark
+        : AppTheme.positiveAmountLight;
     final cards = [
       MetricSurfaceCard(
         key: const Key('envelope-available-card'),
         label: context.l10n.availableAcrossEnvelopes,
         value: _amount(available),
         icon: Icons.savings_outlined,
-        valueColor:
-            available < 0 ? AppTheme.dangerColor : AppTheme.primaryGreen,
+        valueColor: available < 0 ? colors.error : positive,
       ),
       MetricSurfaceCard(
         label: context.l10n.budget,
@@ -40,7 +43,7 @@ class EnvelopeSummaryCard extends StatelessWidget {
         label: context.l10n.spent,
         value: _amount(spent),
         icon: Icons.payments_outlined,
-        valueColor: AppTheme.dangerColor,
+        valueColor: colors.error,
       ),
     ];
     return LayoutBuilder(

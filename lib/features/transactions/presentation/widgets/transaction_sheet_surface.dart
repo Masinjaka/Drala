@@ -37,9 +37,10 @@ class TransactionSheetSurface extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: surfaceColor,
                   borderRadius: BorderRadius.circular(18),
-                  boxShadow: const [
+                  boxShadow: [
                     BoxShadow(
-                      color: Color(0x26000000),
+                      color:
+                          Theme.of(context).shadowColor.withValues(alpha: .15),
                       blurRadius: 28,
                       offset: Offset(0, 8),
                     ),

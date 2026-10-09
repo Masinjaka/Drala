@@ -1,6 +1,5 @@
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/currency/currency_state.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/features/home/domain/errors/wallet_deletion_exception.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_editor_result.dart';
@@ -111,10 +110,7 @@ class DrawerWalletSection extends StatelessWidget {
                 child: Text(
                   '${context.l10n.wallets} (${wallets.length})',
                   key: const Key('drawer-wallet-count'),
-                  style: const TextStyle(
-                    fontSize: AppTypography.body,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
               IconButton(

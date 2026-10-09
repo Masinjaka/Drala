@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/detail_page_shell.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:budgets/core/ui/detail_list_skeleton.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/notifications/domain/models/finance_notification.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
@@ -50,19 +53,14 @@ class _FinanceNotificationsPageState extends State<FinanceNotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          context.l10n.notifications,
-          style: const TextStyle(fontWeight: FontWeight.w800),
-        ),
-      ),
-      body: ListenableBuilder(
+    return DetailPageShell(
+      title: context.l10n.notifications,
+      child: ListenableBuilder(
         listenable: widget.viewModel,
         builder: (context, _) {
           if (widget.viewModel.isLoading &&
               widget.viewModel.notifications.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const DetailListSkeleton();
           }
           if (widget.viewModel.notifications.isEmpty) {
             return const FinanceNotificationsEmptyState();
@@ -70,7 +68,7 @@ class _FinanceNotificationsPageState extends State<FinanceNotificationsPage> {
           return RefreshIndicator(
             onRefresh: _load,
             child: ListView.separated(
-              padding: const EdgeInsets.fromLTRB(22, 12, 22, 32),
+              padding: const EdgeInsets.fromLTRB(29, 12, 29, 32),
               itemCount: widget.viewModel.notifications.length,
               separatorBuilder: (_, __) => const SizedBox(height: 10),
               itemBuilder: (context, index) {
@@ -78,7 +76,10 @@ class _FinanceNotificationsPageState extends State<FinanceNotificationsPage> {
                 return FinanceNotificationListItem(
                   notification: notification,
                   onTap: () => _select(notification),
-                );
+                )
+                    .animate(delay: (50 * index.clamp(0, 6)).ms)
+                    .fadeIn(duration: 200.ms)
+                    .slideY(begin: .15, duration: 200.ms);
               },
             ),
           );

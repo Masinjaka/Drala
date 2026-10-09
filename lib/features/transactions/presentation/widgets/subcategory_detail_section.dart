@@ -1,4 +1,5 @@
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/categories/domain/providers/subcategory_expenses_providers.dart';
 import 'package:budgets/features/transactions/presentation/widgets/subcategory_detail_skeleton.dart';
 import 'package:flutter/material.dart';
@@ -56,13 +57,13 @@ class SubcategoryDetailSection extends ConsumerWidget {
                           formatAmountWithCurrency(
                               convertFromMga(sub.amount, rate), currencyCode,
                               preserveFraction: true),
-                          style: TextStyle(
+                          style: AppTextTheme.amount(TextStyle(
                               color: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
                                   ?.color
                                   ?.withAlpha(179),
-                              fontSize: 14),
+                              fontSize: 14)),
                         ),
                       ],
                     ),

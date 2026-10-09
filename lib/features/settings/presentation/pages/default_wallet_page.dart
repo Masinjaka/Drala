@@ -1,6 +1,6 @@
+import 'package:budgets/core/ui/detail_list_skeleton.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
@@ -65,19 +65,13 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
     return SettingsPageShell(
       title: context.l10n.setDefaultWallet,
       child: _wallets == null
-          ? const Center(child: CircularProgressIndicator())
+          ? const DetailListSkeleton()
           : ListView(
               padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
               children: [
                 Text(
                   context.l10n.defaultWalletDescription,
-                  style: TextStyle(
-                    fontSize: AppTypography.body,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.65),
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: 20),
                 SettingsMenuGroup(
@@ -95,12 +89,10 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
                               displayCurrency?.code ?? wallet.currencyCode,
                               preserveFraction: true,
                             ),
-                            style: const TextStyle(
-                              fontSize: AppTypography.supporting,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          leading:
-                              const Text('👛', style: TextStyle(fontSize: 20)),
+                          leading: Text('👛',
+                              style: Theme.of(context).textTheme.bodySmall),
                           trailing: _trailing(wallet),
                           onTap: () => _select(wallet),
                         ),
@@ -120,7 +112,7 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
       );
     }
     return wallet.isDefault
-        ? const Icon(Icons.check_circle, color: Colors.green)
+        ? Icon(Icons.check_circle, color: Theme.of(context).colorScheme.primary)
         : null;
   }
 }

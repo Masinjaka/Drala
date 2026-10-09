@@ -1,6 +1,6 @@
-import 'package:budgets/core/ui/app_typography.dart';
-import 'package:budgets/widgets/custom_textfield.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_transaction_field.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class DestructiveConfirmationDialog extends StatefulWidget {
@@ -64,63 +64,37 @@ class _DestructiveConfirmationDialogState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.title,
-                style: TextStyle(
-                    color: colors.onSurface,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600)),
+            Text(widget.title, style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 12),
             Text(widget.description,
-                style: TextStyle(
-                    color: colors.onSurface,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    height: 1.25)),
+                style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: 16),
-            CustomTextField(
+            SettingsTransactionField(
               key: const Key('danger-confirmation-field'),
               controller: _controller,
-              title: Text(widget.instruction,
-                  style: const TextStyle(fontWeight: FontWeight.w600)),
+              label: widget.instruction,
               hint: context.l10n.confirmation,
-              fillColor: colors.surfaceContainer,
-              borderRadius: BorderRadius.circular(7),
-              fontSize: AppTypography.body,
             ),
             const SizedBox(height: 20),
             Row(children: [
               Expanded(
-                child: SizedBox(
+                child: CustomButton.outlined(
+                  text: context.l10n.cancel,
+                  onPressed: () => Navigator.pop(context),
                   height: 40,
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: colors.onSurface,
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      side: BorderSide(color: colors.onSurface),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7)),
-                    ),
-                    child: Text(context.l10n.cancel),
-                  ),
+                  borderRadius: BorderRadius.circular(6),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: SizedBox(
+                child: CustomButton(
+                  key: const Key('danger-confirm-button'),
+                  text: context.l10n.delete,
+                  onPressed: _matches ? _confirm : null,
                   height: 40,
-                  child: FilledButton(
-                    key: const Key('danger-confirm-button'),
-                    onPressed: _matches ? _confirm : null,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: colors.error,
-                      foregroundColor: colors.onError,
-                      textStyle: Theme.of(context).textTheme.labelLarge,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7)),
-                    ),
-                    child: Text(context.l10n.delete),
-                  ),
+                  backgroundColor: colors.error,
+                  foregroundColor: colors.onError,
+                  borderRadius: BorderRadius.circular(6),
                 ),
               ),
             ]),

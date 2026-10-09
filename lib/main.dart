@@ -1,6 +1,7 @@
 import 'package:budgets/core/navigation/app_navigation.dart';
 import 'package:budgets/core/monitoring/sentry_bootstrap.dart';
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/localization/fallback_localization_delegates.dart';
 import 'package:budgets/core/ui/amount_visibility_controller.dart';
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
 import 'package:budgets/core/ui/app_responsive_scope.dart';
@@ -11,6 +12,7 @@ import 'package:budgets/features/settings/domain/providers/theme_provider.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,6 +24,7 @@ Future<void> main() async {
 
 Future<void> _startApplication() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting('mg');
   const url = String.fromEnvironment('SUPABASE_URL');
   const anonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
   if (url.isEmpty || anonKey.isEmpty) {
@@ -68,7 +71,11 @@ class _MyAppState extends ConsumerState<MyApp> {
         debugShowCheckedModeBanner: false,
         onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
         locale: locale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: [
+          ...AppLocalizations.localizationsDelegates,
+          const MalagasyMaterialLocalizationsDelegate(),
+          const MalagasyCupertinoLocalizationsDelegate(),
+        ],
         supportedLocales: AppLocalizations.supportedLocales,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,

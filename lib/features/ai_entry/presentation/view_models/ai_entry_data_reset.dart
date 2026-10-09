@@ -2,7 +2,12 @@ part of 'ai_entry_view_model.dart';
 
 extension AiEntryDataReset on AiEntryViewModel {
   Future<void> resetAfterDataDeletion() async {
+    _loadGeneration++;
     _entries = const [];
+    _hasMoreEntries = false;
+    _isLoadingMoreEntries = false;
+    _transactionOffset = 0;
+    _transferOffset = 0;
     _monthlyEntries = const [];
     _monthlyEntriesMonth = DateTime(_selectedDate.year, _selectedDate.month);
     _isSummaryLoading = false;

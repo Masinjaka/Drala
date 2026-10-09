@@ -1,5 +1,6 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
+import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/envelopes/data/repositories/supabase_envelope_repository.dart';
 import 'package:budgets/features/envelopes/data/services/envelope_service.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
@@ -10,6 +11,7 @@ import 'package:budgets/features/home/domain/errors/wallet_selection_required_ex
 import 'package:budgets/features/home/presentation/widgets/wallet_source_sheet.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EnvelopePage extends StatefulWidget {
@@ -20,12 +22,10 @@ class EnvelopePage extends StatefulWidget {
     this.displayCurrency,
     super.key,
   });
-
   final EnvelopeRepository? repository;
   final DateTime? initialMonth;
   final String? initialEnvelopeId;
   final CurrencyState? displayCurrency;
-
   @override
   State<EnvelopePage> createState() => _EnvelopePageState();
 }
@@ -35,7 +35,6 @@ class _EnvelopePageState extends State<EnvelopePage> {
   late final EnvelopeViewModel _viewModel;
   late final PageController _pageController;
   late final DateTime _pageOrigin;
-
   @override
   void initState() {
     super.initState();
@@ -78,6 +77,19 @@ class _EnvelopePageState extends State<EnvelopePage> {
     }
   }
 
+  Future<void> _pickMonth() async {
+    final selected = await AppWheelPicker.monthYear(
+      context,
+      initialDate: _viewModel.month,
+      firstDate: _monthForPage(0),
+      lastDate: DateTime.now(),
+      title: MaterialLocalizations.of(context).datePickerHelpText,
+    );
+    if (selected == null || !mounted) return;
+    // Jump directly so distant selections do not load every intervening month.
+    _pageController.jumpToPage(_pageForMonth(selected));
+  }
+
   Future<void> _selectPage(int page) async {
     try {
       await _viewModel.selectMonth(_monthForPage(page));
@@ -104,34 +116,47 @@ class _EnvelopePageState extends State<EnvelopePage> {
     String name,
     String categoryId,
     int amount,
+    bool repeatsMonthly,
   ) async {
     try {
-      try {
-        await _viewModel.add(
-          name: name,
-          categoryId: categoryId,
-          amount: amount,
-        );
-      } on WalletSelectionRequiredException catch (error) {
-        if (!mounted) rethrow;
-        final walletId = await WalletSourceSheet.show(
-          context,
-          wallets: _viewModel.wallets,
-          requiredAmount: error.requiredAmount,
-        );
-        if (walletId == null) rethrow;
-        await _viewModel.add(
-          name: name,
-          categoryId: categoryId,
-          amount: amount,
-          walletId: walletId,
-        );
-      }
-    } catch (error) {
-      if (mounted) showErrorToast(context, error);
-      rethrow;
+      await _viewModel.add(
+        name: name,
+        categoryId: categoryId,
+        amount: amount,
+        repeatsMonthly: repeatsMonthly,
+      );
+    } on WalletSelectionRequiredException catch (error) {
+      if (!mounted) rethrow;
+      final walletId = await WalletSourceSheet.show(
+        context,
+        wallets: _viewModel.wallets,
+        requiredAmount: error.requiredAmount,
+      );
+      if (walletId == null) rethrow;
+      await _viewModel.add(
+        name: name,
+        categoryId: categoryId,
+        amount: amount,
+        repeatsMonthly: repeatsMonthly,
+        walletId: walletId,
+      );
     }
   }
+
+  Future<void> _editEnvelope(Envelope envelope) => AddEnvelopeSheet.show(
+        context,
+        categories: _viewModel.categoriesForEditing(envelope),
+        month: _viewModel.month,
+        envelope: envelope,
+        currencyState: widget.displayCurrency,
+        onDelete: () => _viewModel.delete(envelope.id),
+        onSave: (name, categoryId, amount, repeatsMonthly) => _viewModel.update(
+            id: envelope.id,
+            name: name,
+            categoryId: categoryId,
+            amount: amount,
+            repeatsMonthly: repeatsMonthly),
+      );
 
   @override
   void dispose() {
@@ -154,7 +179,9 @@ class _EnvelopePageState extends State<EnvelopePage> {
           initialEnvelopeId: widget.initialEnvelopeId,
           displayCurrency: widget.displayCurrency,
           onAdd: _showAddSheet,
+          onEdit: _editEnvelope,
           onMonthChanged: _changeMonth,
+          onPickMonth: _pickMonth,
           onPageChanged: _selectPage,
           onRefresh: _load,
         ),

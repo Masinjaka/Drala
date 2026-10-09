@@ -1,6 +1,7 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
-import 'package:budgets/features/ai_entry/presentation/widgets/finance_entry_item.dart';
+import 'package:budgets/features/ai_entry/presentation/widgets/finance_entry_list_transition.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedFinanceEntryList extends StatefulWidget {
@@ -21,16 +22,45 @@ class AnimatedFinanceEntryList extends StatefulWidget {
 }
 
 class _AnimatedFinanceEntryListState extends State<AnimatedFinanceEntryList> {
-  static const _duration = Duration(milliseconds: 280);
-  final _listKey = GlobalKey<SliverAnimatedListState>();
-  late final List<FinanceEntry> _entries = [...widget.entries];
+  static const _enterDuration = Duration(milliseconds: 220);
+  static const _exitDuration = Duration(milliseconds: 160);
+  GlobalKey<SliverAnimatedListState> _listKey = GlobalKey();
+  late List<FinanceEntry> _entries = [...widget.entries];
+  bool _reduceMotion = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _reduceMotion = MediaQuery.disableAnimationsOf(context) ||
+        WidgetsBinding
+            .instance.platformDispatcher.accessibilityFeatures.reduceMotion;
+  }
 
   @override
   void didUpdateWidget(covariant AnimatedFinanceEntryList oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (_hasReorderedEntries()) {
+      _entries = [...widget.entries];
+      _listKey = GlobalKey();
+      return;
+    }
     _removeMissingEntries();
     _insertNewEntries();
     _updateExistingEntries();
+  }
+
+  bool _hasReorderedEntries() {
+    final oldIds = _entries.map((entry) => entry.id).toSet();
+    final nextIds = widget.entries.map((entry) => entry.id).toSet();
+    final oldCommon = _entries
+        .where((entry) => nextIds.contains(entry.id))
+        .map((entry) => entry.id)
+        .toList();
+    final nextCommon = widget.entries
+        .where((entry) => oldIds.contains(entry.id))
+        .map((entry) => entry.id)
+        .toList();
+    return !listEquals(oldCommon, nextCommon);
   }
 
   void _removeMissingEntries() {
@@ -40,8 +70,8 @@ class _AnimatedFinanceEntryListState extends State<AnimatedFinanceEntryList> {
       final removed = _entries.removeAt(index);
       _listKey.currentState?.removeItem(
         index,
-        (context, animation) => _transition(removed, animation),
-        duration: _duration,
+        (context, animation) => _transition(removed, animation, false),
+        duration: _reduceMotion ? Duration.zero : _exitDuration,
       );
     }
   }
@@ -52,7 +82,10 @@ class _AnimatedFinanceEntryListState extends State<AnimatedFinanceEntryList> {
       final entry = widget.entries[index];
       if (currentIds.add(entry.id)) {
         _entries.insert(index, entry);
-        _listKey.currentState?.insertItem(index, duration: _duration);
+        _listKey.currentState?.insertItem(
+          index,
+          duration: _reduceMotion ? Duration.zero : _enterDuration,
+        );
       }
     }
   }
@@ -70,30 +103,23 @@ class _AnimatedFinanceEntryListState extends State<AnimatedFinanceEntryList> {
       key: _listKey,
       initialItemCount: _entries.length,
       itemBuilder: (context, index, animation) {
-        return _transition(_entries[index], animation);
+        return _transition(_entries[index], animation, true);
       },
     );
   }
 
-  Widget _transition(FinanceEntry entry, Animation<double> animation) {
-    final curved = CurvedAnimation(
-      parent: animation,
-      curve: Curves.easeOutCubic,
-    );
-    return SizeTransition(
-      sizeFactor: curved,
-      axisAlignment: -1,
-      child: FadeTransition(
-        opacity: curved,
-        child: FinanceEntryItem(
-          key: ValueKey('finance-entry-${entry.id}'),
-          entry: entry,
-          currencyState: widget.currencyState,
-          onTap: entry.isTransfer || widget.onEntryTap == null
-              ? null
-              : () => widget.onEntryTap!(entry),
-        ),
-      ),
+  Widget _transition(
+    FinanceEntry entry,
+    Animation<double> animation,
+    bool entering,
+  ) {
+    return FinanceEntryListTransition(
+      entry: entry,
+      animation: animation,
+      entering: entering,
+      reduceMotion: _reduceMotion,
+      currencyState: widget.currencyState,
+      onEntryTap: widget.onEntryTap,
     );
   }
 }

@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:budgets/features/settings/domain/providers/locale_provider.dart';
+import 'package:budgets/core/monitoring/development_log.dart';
 
 import '../../data/datasources/notification_datasource.dart';
 import '../../domain/models/notification_settings.dart';
 import '../services/notification_service.dart';
+import '../services/finance_warning_dispatcher.dart';
 
 final notificationControllerProvider =
     AsyncNotifierProvider<NotificationController, NotificationSettings>(
@@ -45,11 +50,23 @@ class NotificationController extends AsyncNotifier<NotificationSettings> {
   }
 
   Future<void> registerIfEnabled() async {
+    await syncLanguage();
     final current = state.asData?.value ?? await _dataSource.fetchSettings();
     if (!current.anyEnabled) {
       return;
     }
     await _service?.registerDevice();
+    unawaited(const FinanceWarningDispatcher().dispatch());
+  }
+
+  Future<void> syncLanguage() async {
+    try {
+      await future;
+      await ref.read(localeProvider.notifier).ready;
+      await _dataSource.setLanguage(ref.read(localeProvider).languageCode);
+    } catch (error, stackTrace) {
+      DevelopmentLog.error('sync notification language', error, stackTrace);
+    }
   }
 
   Future<bool> _applySettings({
@@ -90,7 +107,11 @@ class NotificationController extends AsyncNotifier<NotificationSettings> {
         reminderHour: next.reminderHour,
         reminderMinute: next.reminderMinute,
         timezoneOffsetMinutes: DateTime.now().timeZoneOffset.inMinutes,
+        languageCode: ref.read(localeProvider).languageCode,
       );
+      if (next.notificationsEnabled && next.warningsEnabled) {
+        unawaited(const FinanceWarningDispatcher().dispatch());
+      }
 
       return true;
     } catch (_) {

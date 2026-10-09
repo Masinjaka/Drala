@@ -10,7 +10,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/core/functions/pick_image_with_permissions.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 
 class UploadProfilePhotoPage extends ConsumerStatefulWidget {
   const UploadProfilePhotoPage({super.key});
@@ -48,28 +47,22 @@ class _UploadProfilePhotoPageState
               children: [
                 Text(
                   'Ajouter un avatar',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: AppTypography.title,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               ],
             ),
             SizedBox(height: 16),
             Text(
               'Pour que vos partenaires de budget puissent vous reconnaitre.',
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: AppTypography.body,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             Expanded(
               child: Center(
                 child: GestureDetector(
                   onTap: _pickImage,
                   child: DottedBorder(
-                    options: const CircularDottedBorderOptions(
-                      color: Colors.grey,
+                    options: CircularDottedBorderOptions(
+                      color: Theme.of(context).colorScheme.outline,
                       strokeWidth: 2,
                       dashPattern: [8, 4],
                     ),
@@ -83,7 +76,9 @@ class _UploadProfilePhotoPageState
                           ? Icon(
                               Icons.person,
                               size: 50,
-                              color: Colors.grey,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
                             )
                           : ClipOval(
                               child: Image.file(

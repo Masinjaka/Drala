@@ -1,4 +1,3 @@
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 
 class SettingsMenuItem extends StatelessWidget {
@@ -30,10 +29,7 @@ class SettingsMenuItem extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: AppTypography.body,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
               trailing ??

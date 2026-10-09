@@ -10,6 +10,18 @@ class EnvelopeViewModel extends ChangeNotifier {
 
   final EnvelopeRepository _repository;
   DateTime _month;
+  bool _disposed = false;
+  @override
+  void notifyListeners() {
+    if (!_disposed) super.notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
   final Map<DateTime, List<Envelope>> _envelopesByMonth = {};
   final Map<DateTime, Future<void>> _pendingMonths = {};
   List<EnvelopeCategory> _categories = const [];
@@ -74,6 +86,7 @@ class EnvelopeViewModel extends ChangeNotifier {
     required String categoryId,
     required int amount,
     String? walletId,
+    bool repeatsMonthly = false,
   }) async {
     _isSaving = true;
     notifyListeners();
@@ -84,12 +97,33 @@ class EnvelopeViewModel extends ChangeNotifier {
         amount: amount,
         month: _month,
         walletId: walletId,
+        repeatsMonthly: repeatsMonthly,
       );
       await _loadMonth(_month, refresh: true);
     } finally {
       _isSaving = false;
       notifyListeners();
     }
+  }
+
+  List<EnvelopeCategory> categoriesForEditing(Envelope envelope) => [
+        ...availableCategories,
+        ..._categories.where((category) => category.id == envelope.categoryId),
+      ];
+
+  Future<void> update(
+      {required String id,
+      required String name,
+      required String categoryId,
+      required int amount,
+      required bool repeatsMonthly}) async {
+    await _repository.updateEnvelope(
+        id: id,
+        name: name,
+        categoryId: categoryId,
+        amount: amount,
+        repeatsMonthly: repeatsMonthly);
+    await _loadMonth(_month, refresh: true);
   }
 
   Future<void> delete(String id) async {

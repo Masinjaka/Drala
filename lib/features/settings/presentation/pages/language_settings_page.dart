@@ -1,4 +1,5 @@
 import 'package:budgets/features/settings/domain/providers/locale_provider.dart';
+import 'package:budgets/features/notifications/presentation/controllers/notification_controller.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_choice_tile.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
@@ -22,6 +23,10 @@ class LanguageSettingsPage extends ConsumerWidget {
             items: [
               _choice(ref, selected, 'en', localizations.english, '🇬🇧'),
               _choice(ref, selected, 'fr', localizations.french, '🇫🇷'),
+              _choice(ref, selected, 'mg', localizations.malagasy, '🇲🇬'),
+              _choice(ref, selected, 'de', localizations.german, '🇩🇪'),
+              _choice(ref, selected, 'es', localizations.spanish, '🇪🇸'),
+              _choice(ref, selected, 'it', localizations.italian, '🇮🇹'),
             ],
           ),
         ],
@@ -38,11 +43,19 @@ class LanguageSettingsPage extends ConsumerWidget {
   ) =>
       SettingsChoiceTile(
         title: label,
-        leading: Text(emoji, style: const TextStyle(fontSize: 20)),
+        leading:
+            Text(emoji, style: Theme.of(ref.context).textTheme.titleMedium),
         trailing: selected == languageCode
-            ? const Icon(Icons.check_circle, color: Colors.green)
+            ? Icon(Icons.check_circle,
+                color: Theme.of(ref.context).colorScheme.primary)
             : null,
-        onTap: () =>
-            ref.read(localeProvider.notifier).setLocale(Locale(languageCode)),
+        onTap: () async {
+          await ref
+              .read(localeProvider.notifier)
+              .setLocale(Locale(languageCode));
+          await ref
+              .read(notificationControllerProvider.notifier)
+              .syncLanguage();
+        },
       );
 }

@@ -146,6 +146,7 @@ Deno.serve(async (request: Request) => {
         new Date().toISOString(),
         body.timezone,
         body.targetDate,
+        body.outputLanguage,
       );
     const media = receiptId
       ? (await loadReceiptMedia(admin, userId, receiptId)).media

@@ -44,6 +44,7 @@ abstract interface class AiEntryRepository {
   Future<AiEntryResult> processMessage(
     String message, {
     required DateTime targetDate,
+    String outputLanguage = 'en',
   });
 
   Future<AiEntryResult> resumeMessage({

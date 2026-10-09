@@ -1,9 +1,10 @@
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/features/auth/presentation/widgets/auth_header.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:budgets/widgets/custom_button.dart';
-import 'package:budgets/widgets/custom_textfield.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -31,7 +32,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: _buildForm(context)),
+      body: Center(
+          child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 560),
+              child: _buildForm(context))),
       bottomNavigationBar: _buildBottomPart(),
     );
   }
@@ -47,83 +51,58 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
+              padding: const EdgeInsets.fromLTRB(29, 48, 29, 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 40),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Se connecter',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: AppTypography.title,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => context.pop(),
-                        icon: Icon(
-                          Icons.close,
-                          size: 20,
-                        ),
-                      ),
-                    ],
+                  AuthHeader(
+                    title: Localizations.localeOf(context).languageCode == 'en'
+                        ? 'Login'
+                        : context.l10n.authSignIn,
+                    onBack: () => context.canPop()
+                        ? context.pop()
+                        : context.go('/getting-started'),
                   ),
-                  SizedBox(height: 16),
-                  Text(
-                    'Connectez-vous et gérez votre drala comme un pro',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: AppTypography.body,
-                    ),
-                  ),
-                  SizedBox(height: 64),
-                  CustomTextField(
+                  const SizedBox(height: 10),
+                  AuthTextField(
                     title: Text(
-                      'Email',
+                      context.l10n.authEmail,
                       textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: AppTypography.body,
-                      ),
+                      style: AppTextTheme.authBody(context),
                     ),
-                    hint: 'example@email.com',
+                    hint: 'example@mail.com',
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
+                    validator: {
+                      'type': 'email',
+                      'error': context.l10n.authEmail
+                    },
                   ),
-                  SizedBox(height: 16),
-                  CustomTextField(
+                  const SizedBox(height: 28),
+                  AuthTextField(
                     title: Text(
-                      'Mot de passe',
+                      context.l10n.authPassword,
                       textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: AppTypography.body,
-                      ),
+                      style: AppTextTheme.authBody(context),
                     ),
-                    hint: 'votre mot de passe',
+                    hint: 'xxxxxxxx',
                     controller: _passwordController,
                     keyboardType: TextInputType.visiblePassword,
                     isPassword: true,
+                    validator: {
+                      'type': 'required',
+                      'error': context.l10n.enterPassword
+                    },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text.rich(
-                      TextSpan(
-                        text: 'Mot de passe oublié?',
-                        style: const TextStyle(
-                          fontSize: AppTypography.body,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            if (!mounted) return;
-                            context.push('/reset-password');
-                          },
-                      ),
+                    child: CustomButton.text(
+                      text: context.l10n.authForgotPassword,
+                      width: 165,
+                      height: 40,
+                      textStyle: AppTextTheme.authBody(context),
+                      onPressed: () => context.push('/reset-password'),
                     ),
                   ),
                 ],
@@ -136,41 +115,44 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Widget _buildBottomPart() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 32),
-          child: CustomButton(
-            text: 'Se connecter',
-            onPressed: () async {
-              if (!_formKey.currentState!.validate()) return;
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(29, 0, 29, 30),
+        child: CustomButton(
+          text: Localizations.localeOf(context).languageCode == 'en'
+              ? 'Login'
+              : context.l10n.authSignIn,
+          height: 44,
+          borderRadius: BorderRadius.circular(9),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          onPressed: () async {
+            if (!_formKey.currentState!.validate()) return;
 
-              setState(() => _isLoading = true);
-              try {
-                debugPrint('[LoginPage] Submit pressed - signIn started');
-                await ref.read(authControllerProvider.notifier).signIn(
-                      email: _emailController.text.trim(),
-                      password: _passwordController.text,
-                    );
-                debugPrint(
-                    '[LoginPage] signIn completed - navigating to /home');
-                if (!mounted) return;
-                context.go('/home');
-              } catch (e, st) {
-                debugPrint('[LoginPage] signIn submission error: $e');
-                debugPrint('[LoginPage] signIn submission stackTrace: $st');
-                if (mounted) showErrorToast(context, e);
-              } finally {
-                if (mounted) {
-                  setState(() => _isLoading = false);
-                }
+            setState(() => _isLoading = true);
+            try {
+              debugPrint('[LoginPage] Submit pressed - signIn started');
+              await ref.read(authControllerProvider.notifier).signIn(
+                    email: _emailController.text.trim(),
+                    password: _passwordController.text,
+                  );
+              debugPrint('[LoginPage] signIn completed - navigating to /home');
+              if (!mounted) return;
+              context.go('/home');
+            } catch (e, st) {
+              debugPrint('[LoginPage] signIn submission error: $e');
+              debugPrint('[LoginPage] signIn submission stackTrace: $st');
+              if (mounted) showErrorToast(context, e);
+            } finally {
+              if (mounted) {
+                setState(() => _isLoading = false);
               }
-            },
-            isLoading: _isLoading,
-          ),
+            }
+          },
+          isLoading: _isLoading,
         ),
-      ],
+      ),
     );
   }
 }

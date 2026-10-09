@@ -23,8 +23,10 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(CustomTextField), findsOneWidget);
 
-    final confirmButton = tester
-        .widget<FilledButton>(find.byKey(const Key('danger-confirm-button')));
+    final confirmButton = tester.widget<FilledButton>(find.descendant(
+      of: find.byKey(const Key('danger-confirm-button')),
+      matching: find.byType(FilledButton),
+    ));
     expect(confirmButton.onPressed, isNull);
 
     await tester.enterText(

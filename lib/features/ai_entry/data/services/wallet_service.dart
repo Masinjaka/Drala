@@ -1,14 +1,23 @@
+import 'package:budgets/features/envelopes/data/services/monthly_envelope_renewal.dart';
 import 'package:budgets/features/home/domain/errors/wallet_deletion_exception.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class WalletService {
-  const WalletService(this._client);
+  WalletService(this._client);
 
   final SupabaseClient _client;
+  Future<void>? _renewal;
+
+  Future<void> _renewEnvelopes() {
+    _requireUserId();
+    return _renewal ??=
+        MonthlyEnvelopeRenewal.run(_client).whenComplete(() => _renewal = null);
+  }
 
   Future<List<WalletSummary>> wallets() async {
+    await _renewEnvelopes();
     final rows = await _client
         .from('wallets')
         .select(_selection)
@@ -34,7 +43,7 @@ class WalletService {
     String walletId,
     AddWalletInput input,
   ) async {
-    final row = await _client
+    await _client
         .from('wallets')
         .update({
           'name': input.name,
@@ -42,8 +51,13 @@ class WalletService {
           'updated_at': DateTime.now().toUtc().toIso8601String(),
         })
         .eq('id', walletId)
-        .eq('user_id', _requireUserId())
+        .eq('user_id', _requireUserId());
+    await _renewEnvelopes();
+    final row = await _client
+        .from('wallets')
         .select(_selection)
+        .eq('id', walletId)
+        .eq('user_id', _requireUserId())
         .single();
     return _wallet(row);
   }

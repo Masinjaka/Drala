@@ -24,17 +24,11 @@ class ChatTextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final inputStyle = theme.textTheme.bodyMedium?.copyWith(
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          height: 1.35,
-        ) ??
-        const TextStyle(
-          fontFamily: 'Alexandria',
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          height: 1.35,
-        );
+    final inputStyle = theme.textTheme.bodyMedium!.copyWith(
+      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      height: 1.35,
+    );
     final hintStyle = inputStyle.copyWith(
       color: hintColor.withValues(alpha: 0.78),
       fontWeight: FontWeight.w400,

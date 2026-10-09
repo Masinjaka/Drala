@@ -1,4 +1,5 @@
 import 'package:budgets/features/home/domain/models/home_expense.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
 class ExpenseListItem extends StatelessWidget {
@@ -60,7 +61,12 @@ class ExpenseListItem extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: Text(expense.amount, style: const TextStyle(fontSize: 12.5)),
+            child: Text(
+              expense.amount,
+              style: AppTextTheme.amount(
+                const TextStyle(fontSize: 12.5),
+              ),
+            ),
           ),
         ],
       ),

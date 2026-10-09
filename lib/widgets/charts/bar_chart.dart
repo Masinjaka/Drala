@@ -1,6 +1,7 @@
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
 import 'package:budgets/core/functions/chart_data.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -85,7 +86,9 @@ Widget dailyBarChart(List<TransactionModel> transactions,
                 getTitlesWidget: (value, meta) {
                   return Text(
                     formatAmountValue(value),
-                    style: const TextStyle(fontSize: 10),
+                    style: AppTextTheme.amount(
+                      const TextStyle(fontSize: 10),
+                    ),
                   );
                 },
                 reservedSize: 32,
@@ -109,10 +112,10 @@ Widget dailyBarChart(List<TransactionModel> transactions,
                 String type = rodIndex == 0 ? 'Dépenses' : 'Revenus';
                 return BarTooltipItem(
                   '$type\n${formatAmountValue(rod.toY)}',
-                  const TextStyle(
+                  AppTextTheme.amount(const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                  ),
+                  )),
                 );
               },
             ),
@@ -197,8 +200,10 @@ Widget dailyExpensesBarChart(List<TransactionModel> expenses,
             showTitles: true,
             getTitlesWidget: (value, meta) {
               // Display dollar amounts on the left Y-axis.
-              return Text(formatAmountValue(value),
-                  style: const TextStyle(fontSize: 10));
+              return Text(
+                formatAmountValue(value),
+                style: AppTextTheme.amount(const TextStyle(fontSize: 10)),
+              );
             },
             reservedSize: 32,
           ),

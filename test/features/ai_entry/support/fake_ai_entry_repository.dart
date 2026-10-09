@@ -16,6 +16,7 @@ class FakeAiEntryRepository implements AiEntryRepository {
   DateTime? requestedDate;
   DateTime? requestedMonth;
   String? submittedMessage;
+  String? submittedOutputLanguage;
   DateTime? submittedDate;
   int remaining = 20;
   int dateLoadCount = 0;
@@ -175,8 +176,10 @@ class FakeAiEntryRepository implements AiEntryRepository {
   Future<AiEntryResult> processMessage(
     String message, {
     required DateTime targetDate,
+    String outputLanguage = 'en',
   }) async {
     submittedMessage = message;
+    submittedOutputLanguage = outputLanguage;
     submittedDate = targetDate;
     if (resultCompleter case final completer?) return completer.future;
     return result ??

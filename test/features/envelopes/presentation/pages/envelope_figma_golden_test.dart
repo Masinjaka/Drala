@@ -6,10 +6,19 @@ import 'package:budgets/features/envelopes/presentation/pages/envelope_page.dart
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import '../../../../support/load_app_fonts.dart';
 
 void main() {
-  testWidgets('matches the Figma envelope frame', (tester) async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUpAll(() async {
+    await loadAppFonts();
+    await (FontLoader('MaterialIcons')
+          ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf')))
+        .load();
+  });
+  testWidgets('matches the redesigned envelope frame', (tester) async {
     _setFigmaViewport(tester);
     await tester.pumpWidget(
       MaterialApp(
@@ -74,7 +83,16 @@ class _EnvelopeRepository implements EnvelopeRepository {
     required int amount,
     required DateTime month,
     String? walletId,
+    bool repeatsMonthly = false,
   }) async {}
+  @override
+  Future<void> updateEnvelope(
+      {required String id,
+      required String name,
+      required String categoryId,
+      required int amount,
+      required bool repeatsMonthly}) async {}
+
   @override
   Future<void> deleteEnvelope(String id) async {}
 }

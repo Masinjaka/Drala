@@ -15,21 +15,33 @@ void main() {
         ),
       );
 
-      expect(result.text, '1234');
-      expect(result.selection.extentOffset, 4);
+      expect(result.text, '1,234');
+      expect(result.selection.extentOffset, 5);
     });
 
-    test('allows one decimal separator and normalizes commas', () {
+    test('adds thousands commas while retaining a decimal point', () {
       final result = formatter.formatEditUpdate(
         TextEditingValue.empty,
         const TextEditingValue(
-          text: '12,3.4',
-          selection: TextSelection.collapsed(offset: 6),
+          text: '1234.56',
+          selection: TextSelection.collapsed(offset: 7),
         ),
       );
 
-      expect(result.text, '12.34');
-      expect(result.selection.extentOffset, 5);
+      expect(result.text, '1,234.56');
+      expect(result.selection.extentOffset, 8);
+    });
+
+    test('keeps the caret beside the digit edited in the middle', () {
+      final result = formatter.formatEditUpdate(
+        const TextEditingValue(text: '1,234'),
+        const TextEditingValue(
+          text: '1,2934',
+          selection: TextSelection.collapsed(offset: 4),
+        ),
+      );
+      expect(result.text, '12,934');
+      expect(result.selection.extentOffset, 4);
     });
 
     test('allows the amount to be cleared', () {

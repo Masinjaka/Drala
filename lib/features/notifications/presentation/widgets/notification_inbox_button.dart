@@ -26,13 +26,13 @@ class NotificationInboxButton extends StatelessWidget {
             children: [
               const Icon(Icons.notifications_none_rounded, size: 28),
               if (viewModel.unreadCount > 0)
-                const Positioned(
+                Positioned(
                   right: -5,
                   top: -5,
                   child: Icon(
                     Icons.warning_rounded,
                     key: Key('notification-warning-badge'),
-                    color: Color(0xFFD84A3A),
+                    color: Theme.of(context).colorScheme.error,
                     size: 16,
                   ),
                 ),

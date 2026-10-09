@@ -7,6 +7,7 @@ class FinanceNotification {
     required this.periodMonth,
     required this.isRead,
     required this.createdAt,
+    this.notificationType = 'envelope_overspent',
   });
 
   final String id;
@@ -16,6 +17,7 @@ class FinanceNotification {
   final DateTime periodMonth;
   final bool isRead;
   final DateTime createdAt;
+  final String notificationType;
 
   FinanceNotification copyWith({bool? isRead}) => FinanceNotification(
         id: id,
@@ -25,6 +27,7 @@ class FinanceNotification {
         periodMonth: periodMonth,
         isRead: isRead ?? this.isRead,
         createdAt: createdAt,
+        notificationType: notificationType,
       );
 
   factory FinanceNotification.fromJson(Map<String, dynamic> json) {
@@ -36,6 +39,8 @@ class FinanceNotification {
       periodMonth: DateTime.parse(json['period_month'] as String),
       isRead: json['is_read'] as bool? ?? false,
       createdAt: DateTime.parse(json['created_at'] as String),
+      notificationType:
+          json['notification_type'] as String? ?? 'envelope_overspent',
     );
   }
 }

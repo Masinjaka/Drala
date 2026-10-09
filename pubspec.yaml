@@ -83,6 +83,7 @@ dependencies:
   url_launcher: ^6.3.2
   animated_digit: ^3.3.3
   animated_text_kit: ^4.3.0
+  google_mobile_ads: ^8.0.0
   
 
 dev_dependencies:
@@ -137,6 +138,10 @@ flutter:
           weight: 700
         - asset: assets/fonts/Alexandria-ExtraBold.ttf
           weight: 800
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf
+          weight: 400
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -11,7 +11,7 @@ class PlanComparisonTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(bottom: 10),
           child: Row(
             children: [
@@ -19,7 +19,7 @@ class PlanComparisonTable extends StatelessWidget {
                 flex: 4,
                 child: Text(
                   'Feature',
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
               Expanded(
@@ -27,7 +27,7 @@ class PlanComparisonTable extends StatelessWidget {
                 child: Text(
                   'Free',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
               Expanded(
@@ -35,7 +35,7 @@ class PlanComparisonTable extends StatelessWidget {
                 child: Text(
                   'Drala Plus',
                   textAlign: TextAlign.end,
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               ),
             ],

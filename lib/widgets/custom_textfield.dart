@@ -20,8 +20,11 @@ class CustomTextField extends ConsumerStatefulWidget {
     this.onTap,
     this.width,
     this.height,
+    this.labelSpacing,
     this.textAlign,
     this.fontSize,
+    this.textStyle,
+    this.hintTextStyle,
     this.borderRadius,
     this.contentPadding,
     this.maxLines = 1,
@@ -43,8 +46,11 @@ class CustomTextField extends ConsumerStatefulWidget {
   final void Function()? onTap;
   final double? width;
   final double? height;
+  final double? labelSpacing;
   final TextAlign? textAlign;
   final double? fontSize;
+  final TextStyle? textStyle;
+  final TextStyle? hintTextStyle;
   final BorderRadius? borderRadius;
   final EdgeInsetsGeometry? contentPadding;
   final int? maxLines;
@@ -79,9 +85,12 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
         );
     final radius =
         widget.borderRadius ?? BorderRadius.circular(fieldHeight / 2);
-    final hintStyle = TextStyle(
-      color: Theme.of(context).textTheme.bodyMedium?.color?.withAlpha(100),
-      fontSize: fontSize,
+    final hintStyle = (widget.hintTextStyle ??
+            widget.textStyle ??
+            Theme.of(context).textTheme.bodySmall!)
+        .copyWith(
+      color: Theme.of(context).colorScheme.onSurfaceVariant,
+      fontSize: widget.hintTextStyle?.fontSize ?? fontSize,
     );
 
     return Column(
@@ -89,7 +98,7 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         widget.title,
-        const SizedBox(height: AppControlMetrics.contentGap),
+        SizedBox(height: widget.labelSpacing ?? AppControlMetrics.contentGap),
         SizedBox(
           width: widget.width,
           child: TextFormField(
@@ -102,8 +111,8 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
             textAlign: widget.textAlign ?? TextAlign.start,
             maxLines: widget.maxLines,
             minLines: widget.minLines,
-            style: TextStyle(
-              color: Theme.of(context).textTheme.bodyLarge?.color,
+            style: (widget.textStyle ?? Theme.of(context).textTheme.bodySmall)
+                ?.copyWith(
               fontSize: fontSize,
               height: 1.2,
             ),
@@ -154,6 +163,9 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
                         width: fieldHeight,
                         height: fieldHeight,
                       ),
+                      style: IconButton.styleFrom(
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
                       padding: EdgeInsets.zero,
                       onPressed: () {
                         setState(() {
@@ -173,7 +185,7 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
                           style: hintStyle,
                         )
                       : widget.suffixIcon,
-              suffixIconConstraints: !isPassword && widget.suffixText != null
+              suffixIconConstraints: isPassword || widget.suffixText != null
                   ? BoxConstraints(minHeight: fieldHeight)
                   : null,
               hintStyle: hintStyle,

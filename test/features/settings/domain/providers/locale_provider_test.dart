@@ -29,4 +29,20 @@ void main() {
 
     expect(container.read(localeProvider), const Locale('fr'));
   });
+
+  for (final languageCode in ['mg', 'de', 'es', 'it']) {
+    test('persists $languageCode as a supported locale', () async {
+      SharedPreferences.setMockInitialValues({});
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      await container
+          .read(localeProvider.notifier)
+          .setLocale(Locale(languageCode));
+
+      expect(container.read(localeProvider), Locale(languageCode));
+      final preferences = await SharedPreferences.getInstance();
+      expect(preferences.getString('selected_locale'), languageCode);
+    });
+  }
 }

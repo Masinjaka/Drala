@@ -29,6 +29,7 @@ class SupabaseEnvelopeRepository implements EnvelopeRepository {
             overspent,
         currencyCode: (row['currency_code'] as String?) ?? 'MGA',
         overspentAmount: overspent,
+        repeatsMonthly: row['repeats_monthly'] == true,
       );
     }).toList(growable: false);
   }
@@ -52,6 +53,7 @@ class SupabaseEnvelopeRepository implements EnvelopeRepository {
     required int amount,
     required DateTime month,
     String? walletId,
+    bool repeatsMonthly = false,
   }) =>
       _service.addEnvelope(
         name: name,
@@ -59,7 +61,22 @@ class SupabaseEnvelopeRepository implements EnvelopeRepository {
         amount: amount,
         month: month,
         walletId: walletId,
+        repeatsMonthly: repeatsMonthly,
       );
+
+  @override
+  Future<void> updateEnvelope(
+          {required String id,
+          required String name,
+          required String categoryId,
+          required int amount,
+          required bool repeatsMonthly}) =>
+      _service.updateEnvelope(
+          id: id,
+          name: name,
+          categoryId: categoryId,
+          amount: amount,
+          repeatsMonthly: repeatsMonthly);
 
   @override
   Future<void> deleteEnvelope(String id) => _service.deleteEnvelope(id);

@@ -2,7 +2,7 @@ import 'package:budgets/core/navigation/auth_router_refresh.dart';
 import 'package:budgets/features/auth/presentation/pages/login_page.dart';
 import 'package:budgets/features/auth/presentation/pages/reset_password_page.dart';
 import 'package:budgets/features/auth/presentation/pages/sign_up_page.dart';
-import 'package:budgets/features/auth/presentation/pages/upload_profile_photo_page.dart';
+import 'package:budgets/features/onboarding/presentation/pages/account_setup_page.dart';
 import 'package:budgets/features/auth/presentation/pages/verify_reset_code_page.dart';
 import 'package:budgets/features/home/presentation/pages/currency_home_page.dart';
 import 'package:budgets/features/onboarding/presentation/pages/getting_started_page.dart';
@@ -15,7 +15,9 @@ class AppNavigation {
   AppNavigation({
     required bool Function() isSignedIn,
     required Stream<Object?> authChanges,
+    bool Function()? needsOnboarding,
   })  : _isSignedIn = isSignedIn,
+        _needsOnboarding = needsOnboarding ?? (() => false),
         _refresh = AuthRouterRefresh(authChanges) {
     router = GoRouter(
       initialLocation: _isSignedIn() ? '/home' : '/getting-started',
@@ -43,7 +45,11 @@ class AppNavigation {
         ),
         GoRoute(
           path: '/upload-profile-photo',
-          builder: (_, __) => const UploadProfilePhotoPage(),
+          redirect: (_, __) => '/onboarding',
+        ),
+        GoRoute(
+          path: '/onboarding',
+          builder: (_, __) => const AccountSetupPage(),
         ),
         GoRoute(
           path: '/home',
@@ -56,9 +62,13 @@ class AppNavigation {
   factory AppNavigation.supabase(SupabaseClient client) => AppNavigation(
         isSignedIn: () => client.auth.currentSession != null,
         authChanges: client.auth.onAuthStateChange,
+        needsOnboarding: () =>
+            client.auth.currentUser?.userMetadata?['onboarding_required'] ==
+            true,
       );
 
   final bool Function() _isSignedIn;
+  final bool Function() _needsOnboarding;
   final AuthRouterRefresh _refresh;
   late final GoRouter router;
 
@@ -74,6 +84,11 @@ class AppNavigation {
     final isSignedIn = _isSignedIn();
     final isPublic = _publicPaths.contains(state.matchedLocation);
     if (!isSignedIn && !isPublic) return '/getting-started';
+    if (isSignedIn &&
+        _needsOnboarding() &&
+        state.matchedLocation != '/onboarding') {
+      return '/onboarding';
+    }
     if (isSignedIn && isPublic) return '/home';
     return null;
   }

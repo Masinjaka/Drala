@@ -1,3 +1,4 @@
+import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/home/presentation/widgets/animated_compact_amount.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,7 @@ class HomeBalancePrimaryAmount extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Text(
-          currencyCode == 'MGA' ? 'Ariary' : currencyCode,
+          currencySymbolForCode(currencyCode),
           key: const Key('home-balance-currency'),
           maxLines: 1,
           style: currencyStyle,

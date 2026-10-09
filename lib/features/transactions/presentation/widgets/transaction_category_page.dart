@@ -2,6 +2,7 @@ import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_category_chip.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/widgets/custom_button.dart';
 
 class TransactionCategoryPage extends StatefulWidget {
   const TransactionCategoryPage({
@@ -10,12 +11,14 @@ class TransactionCategoryPage extends StatefulWidget {
     required this.selected,
     required this.onSelected,
     required this.onBack,
+    this.isLoading = false,
   });
 
   final List<Category> categories;
   final Category? selected;
   final ValueChanged<Category> onSelected;
   final VoidCallback onBack;
+  final bool isLoading;
 
   @override
   State<TransactionCategoryPage> createState() =>
@@ -51,8 +54,7 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
           ),
           const SizedBox(width: 4),
           Text(context.l10n.categories,
-              style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+              style: Theme.of(context).textTheme.titleMedium),
         ]),
         const SizedBox(height: 19),
         TextField(
@@ -60,7 +62,7 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
           controller: _searchController,
           cursorColor: Theme.of(context).colorScheme.onSurface,
           onChanged: (_) => setState(() {}),
-          style: const TextStyle(fontSize: 12),
+          style: Theme.of(context).textTheme.bodySmall,
           decoration: InputDecoration(
             hintText: context.l10n.searchCategories,
             prefixIcon: const Icon(Icons.search, size: 18),
@@ -76,38 +78,32 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
           ),
         ),
         const SizedBox(height: 20),
-        Wrap(
-          spacing: 8,
-          runSpacing: 9,
-          children: filtered.map((category) {
-            final selected = category.id != null
-                ? category.id == widget.selected?.id
-                : category.name == widget.selected?.name;
-            return TransactionCategoryChip(
-              category: category,
-              selected: selected,
-              onTap: () => widget.onSelected(category),
-            );
-          }).toList(growable: false),
-        ),
-        const Spacer(),
-        SizedBox(
-          width: double.infinity,
+        Expanded(
+            child: widget.isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : SingleChildScrollView(
+                    child: Wrap(
+                    spacing: 8,
+                    runSpacing: 9,
+                    children: filtered.map((category) {
+                      final selected = category.id != null
+                          ? category.id == widget.selected?.id
+                          : category.name == widget.selected?.name;
+                      return TransactionCategoryChip(
+                        category: category,
+                        selected: selected,
+                        onTap: () => widget.onSelected(category),
+                      );
+                    }).toList(growable: false),
+                  ))),
+        const SizedBox(height: 12),
+        CustomButton.outlined(
+          key: const ValueKey('category-done'),
+          text: context.l10n.done,
+          onPressed: widget.onBack,
           height: 40,
-          child: OutlinedButton(
-            key: const ValueKey('category-done'),
-            onPressed: widget.onBack,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: Theme.of(context).colorScheme.onSurface,
-              side: BorderSide(
-                  color: Theme.of(context).colorScheme.outlineVariant),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6)),
-            ),
-            child: Text(context.l10n.done,
-                style:
-                    const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
-          ),
+          borderColor: Theme.of(context).colorScheme.outlineVariant,
+          borderRadius: BorderRadius.circular(6),
         ),
       ]),
     );

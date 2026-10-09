@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/detail_page_shell.dart';
 import 'package:budgets/features/receipts/domain/models/receipt_scan.dart';
 import 'package:budgets/features/receipts/presentation/widgets/receipt_thumbnail.dart';
 import 'package:flutter/material.dart';
@@ -10,18 +11,12 @@ class ReceiptPreviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.black,
-        title: Text(
-          scan.pageCount == 1
-              ? context.l10n.receipt
-              : context.l10n.receiptPages(scan.pageCount),
-        ),
-      ),
-      body: PageView.builder(
+    return DetailPageShell(
+      maxWidth: double.infinity,
+      title: scan.pageCount == 1
+          ? context.l10n.receipt
+          : context.l10n.receiptPages(scan.pageCount),
+      child: PageView.builder(
         itemCount: scan.pageCount,
         itemBuilder: (context, index) => InteractiveViewer(
           minScale: 0.8,

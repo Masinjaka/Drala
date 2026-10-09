@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyText extends StatelessWidget {
@@ -6,6 +7,8 @@ class PrivacyText extends StatelessWidget {
     this.text, {
     this.hiddenText = '***',
     this.style,
+    this.suffix,
+    this.suffixStyle,
     this.maxLines,
     this.overflow,
     this.textAlign,
@@ -16,6 +19,8 @@ class PrivacyText extends StatelessWidget {
   final String text;
   final String hiddenText;
   final TextStyle? style;
+  final String? suffix;
+  final TextStyle? suffixStyle;
   final int? maxLines;
   final TextOverflow? overflow;
   final TextAlign? textAlign;
@@ -24,6 +29,9 @@ class PrivacyText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isVisible = AmountVisibilityScope.isVisibleOf(context);
+    final amountStyle = AppTextTheme.amount(
+      style ?? DefaultTextStyle.of(context).style,
+    );
     final duration = Duration(milliseconds: isVisible ? 180 : 300);
     return AnimatedSize(
       duration: duration,
@@ -43,14 +51,26 @@ class PrivacyText extends StatelessWidget {
         },
         child: KeyedSubtree(
           key: ValueKey(isVisible),
-          child: Text(
-            isVisible ? text : hiddenText,
-            key: textKey,
-            style: style,
-            maxLines: maxLines,
-            overflow: overflow,
-            textAlign: textAlign,
-          ),
+          child: isVisible && suffix != null
+              ? Text.rich(
+                  TextSpan(children: [
+                    TextSpan(text: text),
+                    TextSpan(text: suffix, style: suffixStyle),
+                  ]),
+                  key: textKey,
+                  style: amountStyle,
+                  maxLines: maxLines,
+                  overflow: overflow,
+                  textAlign: textAlign,
+                )
+              : Text(
+                  isVisible ? text : hiddenText,
+                  key: textKey,
+                  style: amountStyle,
+                  maxLines: maxLines,
+                  overflow: overflow,
+                  textAlign: textAlign,
+                ),
         ),
       ),
     );

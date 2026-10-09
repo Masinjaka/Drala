@@ -1,4 +1,3 @@
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -32,10 +31,7 @@ class SettingsProfileHeader extends ConsumerWidget {
             value?.name?.trim().isNotEmpty == true
                 ? value!.name!.trim()
                 : context.l10n.user,
-            style: const TextStyle(
-              fontSize: AppTypography.body,
-              fontWeight: FontWeight.w700,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           loading: () => textSkeleton(context, 72, 14),
           error: (_, __) => Text(context.l10n.user),

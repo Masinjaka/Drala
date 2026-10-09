@@ -1,5 +1,6 @@
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -111,9 +112,19 @@ Widget categoryPieChart(
                       ),
                     ],
                   ),
-                  Text(
-                    '${formatAmountWithCurrency(entry.value * currencyRate, currencyCode)} '
-                    '(${percentage.toStringAsFixed(1)}%)',
+                  Text.rich(
+                    TextSpan(children: [
+                      TextSpan(
+                        text: formatAmountWithCurrency(
+                          entry.value * currencyRate,
+                          currencyCode,
+                        ),
+                        style: AppTextTheme.amount(const TextStyle()),
+                      ),
+                      TextSpan(
+                        text: ' (${percentage.toStringAsFixed(1)}%)',
+                      ),
+                    ]),
                     style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.bold,
@@ -129,7 +140,7 @@ Widget categoryPieChart(
                 child: LinearProgressIndicator(
                   value: percentage / 100,
                   minHeight: 12,
-                  backgroundColor: color.withOpacity(0.2),
+                  backgroundColor: color.withValues(alpha: 0.2),
                   valueColor: AlwaysStoppedAnimation<Color>(color),
                 ),
               ),

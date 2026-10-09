@@ -45,6 +45,11 @@ String formatAmountValue(num? value, {bool preserveFraction = false}) {
       .replaceAll(',', '.');
 }
 
+/// Groups digits for editable amounts while keeping a dot as decimal separator.
+String formatAmountForInput(num value, {bool preserveFraction = false}) =>
+    formatAmountValue(value, preserveFraction: preserveFraction)
+        .replaceAll(' ', ',');
+
 String formatAmountWithCurrency(
   num? value,
   String currencyCode, {
@@ -61,7 +66,7 @@ String formatAmountWithCurrency(
 
 String currencySymbolForCode(String currencyCode) {
   final normalized = currencyCode.toUpperCase();
-  if (normalized == 'MGA') return 'Ar';
+  if (normalized == 'MGA') return 'MGA';
   try {
     final symbol = NumberFormat.simpleCurrency(name: normalized).currencySymbol;
     if (symbol.trim().isEmpty) return normalized;

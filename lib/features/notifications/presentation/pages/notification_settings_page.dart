@@ -31,18 +31,20 @@ class NotificationSettingsPage extends ConsumerWidget {
           SettingsMenuGroup(
             items: [
               NotificationSettingsToggle(
+                loading: state.isLoading,
                 title: context.l10n.allowNotifications,
                 icon: Icons.notifications_outlined,
                 value: settings.notificationsEnabled,
-                enabled: pending == null,
+                enabled: pending == null && !state.isLoading,
                 onChanged: (value) => _setMaster(context, ref, value),
               ),
               if (settings.notificationsEnabled)
                 NotificationSettingsToggle(
+                  loading: state.isLoading,
                   title: context.l10n.dailyReminders,
                   icon: Icons.alarm_outlined,
                   value: settings.remindersEnabled,
-                  enabled: pending == null,
+                  enabled: pending == null && !state.isLoading,
                   onChanged: (value) => _setReminder(context, ref, value),
                 ),
               if (settings.notificationsEnabled && settings.remindersEnabled)
@@ -51,15 +53,16 @@ class NotificationSettingsPage extends ConsumerWidget {
                     hour: settings.reminderHour,
                     minute: settings.reminderMinute,
                   ),
-                  enabled: pending == null,
+                  enabled: pending == null && !state.isLoading,
                   onTap: () => _selectReminderTime(context, ref, settings),
                 ),
               if (settings.notificationsEnabled)
                 NotificationSettingsToggle(
+                  loading: state.isLoading,
                   title: context.l10n.budgetAlerts,
                   icon: Icons.warning_amber_outlined,
                   value: settings.warningsEnabled,
-                  enabled: pending == null,
+                  enabled: pending == null && !state.isLoading,
                   onChanged: (value) => _setWarning(context, ref, value),
                 ),
             ],

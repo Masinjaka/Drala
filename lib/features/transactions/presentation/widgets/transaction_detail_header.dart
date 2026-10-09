@@ -1,4 +1,5 @@
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -111,11 +112,11 @@ class TransactionDetailHeader extends StatelessWidget {
             currencyCode,
             preserveFraction: true,
           ),
-          style: TextStyle(
+          style: AppTextTheme.amount(TextStyle(
             color: Theme.of(context).textTheme.bodyLarge?.color?.withAlpha(128),
             fontWeight: FontWeight.bold,
             fontSize: 16,
-          ),
+          )),
         ),
       ],
     );

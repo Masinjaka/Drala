@@ -14,19 +14,20 @@ class FinanceEntryAmountBadge extends StatelessWidget {
     super.key,
   });
 
-  static const incomeBackground = Color(0xFFB9E5C7);
-  static const expenseBackground = Color(0xFFF3C1C1);
-  static const transferBackground = Color(0xFFB9D5F5);
+  static const incomeBackground = AppTheme.incomeBadgeLight;
+  static const expenseBackground = AppTheme.expenseBadgeLight;
+  static const transferBackground = AppTheme.transferBadgeLight;
 
   final FinanceEntry entry;
   final CurrencyState? currencyState;
 
   @override
   Widget build(BuildContext context) {
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return DecoratedBox(
       key: Key('finance-entry-amount-badge-${entry.id}'),
       decoration: BoxDecoration(
-        color: _backgroundColor,
+        color: _backgroundColor(dark),
         borderRadius: BorderRadius.circular(14),
       ),
       child: Padding(
@@ -35,21 +36,20 @@ class FinanceEntryAmountBadge extends StatelessWidget {
           _amountLabel,
           textKey: Key('finance-entry-amount-${entry.id}'),
           maxLines: 1,
-          style: const TextStyle(
-            color: AppTheme.interactiveTextColor,
-            fontSize: AppTypography.caption,
-            fontWeight: FontWeight.w600,
-          ),
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: dark ? AppTheme.textDark : AppTheme.interactiveTextColor,
+                fontSize: AppTypography.caption,
+              ),
         ),
       ),
     );
   }
 
-  Color get _backgroundColor => entry.isTransfer
-      ? transferBackground
+  Color _backgroundColor(bool dark) => entry.isTransfer
+      ? (dark ? AppTheme.transferBadgeDark : transferBackground)
       : entry.isExpense
-          ? expenseBackground
-          : incomeBackground;
+          ? (dark ? AppTheme.expenseBadgeDark : expenseBackground)
+          : (dark ? AppTheme.incomeBadgeDark : incomeBackground);
 
   String get _amountLabel {
     final currency = currencyState;
@@ -73,7 +73,7 @@ class FinanceEntryAmountBadge extends StatelessWidget {
         .replaceAll(',', ' ');
     final sign = entry.isExpense || entry.isTransfer ? '-' : '+';
     return switch (entry.currencyCode) {
-      'MGA' => '$sign$amount Ar',
+      'MGA' => '$sign$amount MGA',
       'USD' => '$sign\$ $amount',
       'EUR' => '$sign€ $amount',
       _ => '$sign$amount ${entry.currencyCode}',

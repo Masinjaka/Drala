@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('uses the shared large action-button dimensions', (tester) async {
+  testWidgets('uses compact visuals with accessible action-button dimensions',
+      (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
@@ -22,7 +23,7 @@ void main() {
     );
     expect(
       tester.widget<Icon>(find.byIcon(Icons.menu_rounded)).size,
-      AppControlMetrics.iconSize,
+      22,
     );
   });
 }

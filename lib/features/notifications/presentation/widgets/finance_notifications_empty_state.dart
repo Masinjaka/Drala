@@ -21,16 +21,15 @@ class FinanceNotificationsEmptyState extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               context.l10n.noNotifications,
-              style: const TextStyle(fontWeight: FontWeight.w800),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 5),
             Text(
               context.l10n.noNotificationsDescription,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: colors.onSurfaceVariant,
-                fontSize: 12.5,
-              ),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: colors.onSurfaceVariant,
+                  ),
             ),
           ],
         ),

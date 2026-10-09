@@ -1,56 +1,70 @@
-import 'package:budgets/core/ui/privacy_text.dart';
+import 'package:budgets/core/ui/value_skeleton.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/features/home/presentation/widgets/animated_compact_amount.dart';
 import 'package:flutter/material.dart';
 
 class StatsMetricCard extends StatelessWidget {
-  const StatsMetricCard({
-    required this.label,
-    required this.value,
-    required this.emoji,
-    this.valueColor,
-    this.maskValue = true,
-    super.key,
-  });
-
+  const StatsMetricCard(
+      {required this.label,
+      required this.value,
+      required this.emoji,
+      this.valueColor,
+      this.loading = false,
+      this.currencyCode,
+      this.maskValue = true,
+      super.key});
   final String label;
-  final String value;
+  final num value;
   final String emoji;
   final Color? valueColor;
+  final bool loading;
   final bool maskValue;
-
+  final String? currencyCode;
   @override
   Widget build(BuildContext context) {
-    final valueStyle = TextStyle(
-      color: valueColor,
-      fontSize: 24,
-      fontWeight: FontWeight.w600,
-    );
+    final theme = Theme.of(context);
     return Container(
-      height: 160,
-      padding: const EdgeInsets.fromLTRB(17, 19, 17, 20),
-      decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).colorScheme.onSurface),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(label,
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.w600)),
-              ),
-              Text(emoji, style: const TextStyle(fontSize: 20)),
-            ],
-          ),
+        height: 160,
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainer,
+            borderRadius: BorderRadius.circular(20)),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            Expanded(child: Text(label, style: theme.textTheme.bodySmall)),
+            Text(emoji, style: theme.textTheme.titleMedium)
+          ]),
           const Spacer(),
-          if (maskValue)
-            PrivacyText(value, style: valueStyle)
+          if (loading)
+            const ValueSkeleton(key: Key('stats-value-skeleton'))
           else
-            Text(value, style: valueStyle),
-        ],
-      ),
-    );
+            FittedBox(
+              alignment: Alignment.centerLeft,
+              fit: BoxFit.scaleDown,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  AnimatedCompactAmount(
+                    value: value,
+                    respectAmountVisibility: maskValue,
+                    amountTypography: currencyCode != null,
+                    style: theme.textTheme.headlineMedium!
+                        .copyWith(color: valueColor),
+                  ),
+                  if (currencyCode != null) ...[
+                    const SizedBox(width: 6),
+                    Text(
+                      currencySymbolForCode(currencyCode!),
+                      style: AppTextTheme.currencyLabel(context).copyWith(
+                        color: valueColor ?? theme.textTheme.labelMedium?.color,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+        ]));
   }
 }

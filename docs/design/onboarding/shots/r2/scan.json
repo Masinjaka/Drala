@@ -1,0 +1,201 @@
+[
+  {
+    "name": "signup",
+    "fails": [],
+    "warns": [
+      "Only 3 text sizes across 14 text elements. Hierarchy is flat.",
+      "Text inside the system's safe areas: \"••••••••••••\" (home indicator)"
+    ],
+    "facts": {
+      "fonts": {
+        "Alexandria": 14
+      },
+      "sizes": [
+        36,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 1,
+      "accentHues": [],
+      "cards": 0
+    }
+  },
+  {
+    "name": "language",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Alexandria": 17
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [
+        168
+      ],
+      "cards": 1
+    }
+  },
+  {
+    "name": "currency",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Alexandria": 13
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [
+        168
+      ],
+      "cards": 1
+    }
+  },
+  {
+    "name": "categories",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Alexandria": 15
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [
+        168
+      ],
+      "cards": 1
+    }
+  },
+  {
+    "name": "wallets",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Alexandria": 13
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [
+        168
+      ],
+      "cards": 1
+    }
+  },
+  {
+    "name": "language-dark",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Alexandria": 17
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [
+        168
+      ],
+      "cards": 1
+    }
+  },
+  {
+    "name": "login",
+    "fails": [],
+    "warns": [
+      "Only 3 text sizes across 10 text elements. Hierarchy is flat."
+    ],
+    "facts": {
+      "fonts": {
+        "Alexandria": 10
+      },
+      "sizes": [
+        36,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 1,
+      "accentHues": [],
+      "cards": 0
+    }
+  },
+  {
+    "name": "selection-feedback",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Alexandria": 15
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [
+        168
+      ],
+      "cards": 2
+    }
+  }
+]

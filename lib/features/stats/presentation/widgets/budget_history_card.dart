@@ -3,6 +3,7 @@ import 'package:budgets/features/planning/domain/models/budget_history_model.dar
 import 'package:budgets/features/planning/domain/providers/budget_history_provider.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
@@ -238,10 +239,10 @@ class BudgetHistoryCard extends ConsumerWidget {
               ),
               Text(
                 '${formatAmountWithCurrency(spent, currencyCode, preserveFraction: true)} / ${formatAmountWithCurrency(amount, currencyCode, preserveFraction: true)}',
-                style: TextStyle(
+                style: AppTextTheme.amount(TextStyle(
                   fontSize: 14,
                   color: Theme.of(context).textTheme.bodyMedium?.color,
-                ),
+                )),
               ),
             ],
           ),

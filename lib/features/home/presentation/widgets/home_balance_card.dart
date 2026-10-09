@@ -1,4 +1,6 @@
 import 'package:budgets/features/home/presentation/widgets/home_balance_eye_painter.dart';
+import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/home/presentation/widgets/home_balance_primary_amount.dart';
 import 'package:budgets/features/home/presentation/widgets/home_colors.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -22,11 +24,18 @@ class HomeBalanceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final bannerColor = theme.brightness == Brightness.dark
+        ? theme.colorScheme.surfaceContainerLowest
+        : HomeColors.banner;
+    final labelStyle = theme.textTheme.labelSmall!.copyWith(
+      color: AppTheme.homeBannerText,
+    );
     return Container(
       key: const Key('home-balance-card'),
       height: 109,
       decoration: BoxDecoration(
-        color: HomeColors.banner,
+        color: bannerColor,
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.fromLTRB(24, 20, 22, 16),
@@ -42,7 +51,7 @@ class HomeBalanceCard extends StatelessWidget {
                   key: const Key('home-balance-label'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: _labelStyle,
+                  style: labelStyle,
                 ),
               ),
               const SizedBox(
@@ -60,8 +69,12 @@ class HomeBalanceCard extends StatelessWidget {
               balance: balance,
               currencyCode: currencyCode,
               isLoading: isLoading,
-              amountStyle: _balanceStyle,
-              currencyStyle: _labelStyle,
+              amountStyle: theme.textTheme.displaySmall!.copyWith(
+                color: AppTheme.homeBannerText,
+              ),
+              currencyStyle: AppTextTheme.currencyLabel(context).copyWith(
+                color: AppTheme.homeBannerText,
+              ),
               onCompleted: _onAmountCompleted,
             ),
           ),
@@ -71,17 +84,4 @@ class HomeBalanceCard extends StatelessWidget {
   }
 
   static void _onAmountCompleted() {}
-
-  static const _labelStyle = TextStyle(
-    color: Color(0xFFF4F4F4),
-    fontSize: 12,
-    fontWeight: FontWeight.w600,
-    height: 17 / 12,
-  );
-  static const _balanceStyle = TextStyle(
-    color: Color(0xFFF4F4F4),
-    fontSize: 36,
-    fontWeight: FontWeight.w600,
-    height: 38 / 36,
-  );
 }

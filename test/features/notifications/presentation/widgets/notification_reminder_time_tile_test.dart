@@ -28,7 +28,9 @@ void main() {
       find.byKey(const Key('notification-reminder-time-value')),
     );
     expect(time.data, '07:05');
-    expect(time.style?.color, Colors.black);
+    expect(time.style?.fontWeight,
+        AppTheme.lightTheme.textTheme.bodySmall?.fontWeight);
+    expect(time.style?.color, AppTheme.lightTheme.colorScheme.onSurface);
 
     await tester.tap(find.text('Preferred reminder time'));
     expect(tapped, isTrue);

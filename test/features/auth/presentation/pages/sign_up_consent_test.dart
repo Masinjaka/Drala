@@ -17,10 +17,10 @@ void main() {
     );
 
     expect(_submitButton(tester).onPressed, isNull);
-    expect(find.text('Confirmer le mot de passe'), findsNothing);
+    expect(find.text('Confirm password'), findsNothing);
     expect(
       tester.getTopLeft(find.byType(LegalConsentCheckbox)).dy,
-      greaterThan(tester.getTopLeft(find.text('Mot de passe')).dy),
+      greaterThan(tester.getTopLeft(find.text('Password').first).dy),
     );
 
     await tester.ensureVisible(find.byKey(const Key('legal-consent-checkbox')));
@@ -31,8 +31,11 @@ void main() {
   });
 }
 
-ElevatedButton _submitButton(WidgetTester tester) {
-  return tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+FilledButton _submitButton(WidgetTester tester) {
+  return tester.widget<FilledButton>(find.descendant(
+    of: find.byKey(const Key('sign-up-submit')),
+    matching: find.byType(FilledButton),
+  ));
 }
 
 class _NoopLegalDocumentLauncher implements LegalDocumentLauncher {

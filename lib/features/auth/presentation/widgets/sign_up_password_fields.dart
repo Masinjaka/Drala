@@ -1,9 +1,9 @@
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/features/auth/domain/models/password_validation.dart';
 import 'package:budgets/features/auth/presentation/widgets/password_animated_section.dart';
 import 'package:budgets/features/auth/presentation/widgets/password_requirements_list.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
-import 'package:budgets/widgets/custom_textfield.dart';
+import 'package:budgets/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPasswordFields extends StatefulWidget {
@@ -59,16 +59,13 @@ class SignUpPasswordFieldsState extends State<SignUpPasswordFields> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        CustomTextField(
-          title: const Text(
-            'Mot de passe',
+        AuthTextField(
+          title: Text(
+            context.l10n.authPassword,
             textAlign: TextAlign.left,
-            style: TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: AppTypography.body,
-            ),
+            style: AppTextTheme.authBody(context),
           ),
-          hint: 'votre mot de passe',
+          hint: 'xxxxxxxx',
           controller: widget.passwordController,
           focusNode: _passwordFocusNode,
           onChanged: _refresh,
@@ -82,17 +79,14 @@ class SignUpPasswordFieldsState extends State<SignUpPasswordFields> {
         PasswordAnimatedSection(
           isVisible: _validation.isSatisfied,
           padding: const EdgeInsets.only(top: 16),
-          child: CustomTextField(
+          child: AuthTextField(
             key: const Key('confirm-password-field'),
-            title: const Text(
-              'Confirmer le mot de passe',
+            title: Text(
+              context.l10n.authConfirmPassword,
               textAlign: TextAlign.left,
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                fontSize: AppTypography.body,
-              ),
+              style: AppTextTheme.authBody(context),
             ),
-            hint: 'votre mot de passe',
+            hint: context.l10n.authPassword,
             controller: widget.confirmPasswordController,
             keyboardType: TextInputType.visiblePassword,
             isPassword: true,

@@ -8,6 +8,7 @@ import 'package:budgets/features/home/presentation/widgets/home_balance_card.dar
 import 'package:budgets/features/home/presentation/widgets/home_operations_list.dart';
 import 'package:budgets/features/home/presentation/widgets/home_week_panel.dart';
 import 'package:budgets/features/home/presentation/widgets/home_scroll_layout.dart';
+import 'package:budgets/features/ads/presentation/widgets/home_native_ad.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -52,6 +53,7 @@ class HomeDashboard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(top: 15),
             child: HomeScrollLayout(
+              onNearTransactionsEnd: viewModel.loadMoreEntries,
               header: HomeDashboardHeader(
                 drawerProgress: drawerProgress,
                 onMenuPressed: onMenuPressed,
@@ -69,6 +71,7 @@ class HomeDashboard extends StatelessWidget {
                       currencyState?.code ?? viewModel.walletCurrencyCode,
                 ),
               ),
+              ad: const HomeNativeAd(),
               calendarBuilder: (compact, onVisibilityChanged) => HomeWeekPanel(
                 onControlsVisibilityChanged: onVisibilityChanged,
                 compact: compact,
@@ -81,6 +84,7 @@ class HomeDashboard extends StatelessWidget {
                 asSliver: true,
                 entries: viewModel.entries,
                 isLoading: viewModel.isLoading,
+                isLoadingMore: viewModel.isLoadingMoreEntries,
                 isAdding: viewModel.isAddingEntry,
                 pendingEdits: viewModel.pendingEdits,
                 currencyState: currencyState,

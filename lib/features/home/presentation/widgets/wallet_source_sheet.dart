@@ -1,4 +1,3 @@
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:flutter/material.dart';
@@ -50,20 +49,16 @@ class WalletSourceSheet extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: AppTypography.title,
-              fontWeight: FontWeight.w700,
-            ),
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 6),
           PrivacyText(
             message ??
                 'The transaction needs ${formatter.format(requiredAmount)}.',
             hiddenText: message ?? 'The transaction needs ***.',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontSize: AppTypography.body,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
           ),
           const SizedBox(height: 14),
           ...wallets.map((wallet) {
@@ -84,12 +79,11 @@ class WalletSourceSheet extends StatelessWidget {
               subtitle: wallet.isDefault ? const Text('Default wallet') : null,
               trailing: PrivacyText(
                 '${formatter.format(wallet.balance)} ${wallet.currencyCode}',
-                style: TextStyle(
-                  color: enabled
-                      ? Theme.of(context).colorScheme.onSurface
-                      : Colors.grey,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: enabled
+                          ? Theme.of(context).colorScheme.onSurface
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
               ),
               onTap: enabled ? () => Navigator.pop(context, wallet.id) : null,
             );

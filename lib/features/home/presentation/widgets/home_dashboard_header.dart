@@ -32,8 +32,6 @@ class HomeDashboardHeader extends StatelessWidget {
               child: OutlinedSquareButton(
                 key: const Key('home-menu-button'),
                 icon: Icons.menu_rounded,
-                visualSize: 34,
-                iconSize: 22,
                 tooltip: context.l10n.menu,
                 onPressed: onMenuPressed,
               ),

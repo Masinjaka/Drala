@@ -55,6 +55,7 @@ class NotificationDataSource {
     int? reminderMinute,
     int? timezoneOffsetMinutes,
     double? warningThreshold,
+    String? languageCode,
   }) async {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) return;
@@ -70,8 +71,18 @@ class NotificationDataSource {
       if (timezoneOffsetMinutes != null)
         'timezone_offset_minutes': timezoneOffsetMinutes,
       if (warningThreshold != null) 'warning_threshold': warningThreshold,
+      if (languageCode != null) 'language_code': languageCode,
       'updated_at': DateTime.now().toUtc().toIso8601String(),
     }, onConflict: 'user_id');
+  }
+
+  Future<void> setLanguage(String languageCode) async {
+    final userId = _client.auth.currentUser?.id;
+    if (userId == null) return;
+    await _client.from('notification_settings').update({
+      'language_code': languageCode,
+      'updated_at': DateTime.now().toUtc().toIso8601String(),
+    }).eq('user_id', userId);
   }
 
   Future<void> upsertDeviceToken({

@@ -10,13 +10,17 @@ class EnvelopeListPanel extends StatefulWidget {
     required this.envelopes,
     required this.onDelete,
     this.displayCurrency,
+    this.onEdit,
+    this.loading = false,
     this.targetEnvelopeId,
     super.key,
   });
 
   final List<Envelope> envelopes;
+  final bool loading;
   final ValueChanged<String> onDelete;
   final CurrencyState? displayCurrency;
+  final ValueChanged<Envelope>? onEdit;
   final String? targetEnvelopeId;
 
   @override
@@ -49,6 +53,8 @@ class _EnvelopeListPanelState extends State<EnvelopeListPanel> {
                   ? _targetKey
                   : null,
               envelope: widget.envelopes[index],
+              loading: widget.loading,
+              onTap: () => widget.onEdit?.call(widget.envelopes[index]),
               onDelete: () => widget.onDelete(widget.envelopes[index].id),
               displayCurrency: widget.displayCurrency,
             ),

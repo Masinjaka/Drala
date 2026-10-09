@@ -18,13 +18,15 @@ class EnvelopeEmptyState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             context.l10n.noEnvelopesYet,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           const SizedBox(height: 5),
           Text(
             context.l10n.envelopeEmptyDescription,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Color(0xFF747474), fontSize: 12),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
           ),
         ],
       ),

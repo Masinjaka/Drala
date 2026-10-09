@@ -1,5 +1,6 @@
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
+import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -67,16 +68,16 @@ class MultiWalletConsentSheet extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: OutlinedButton(
+                child: CustomButton.outlined(
+                  text: 'Cancel',
                   onPressed: () => Navigator.pop(context, false),
-                  child: const Text('Cancel'),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: FilledButton(
+                child: CustomButton(
+                  text: 'Use all wallets',
                   onPressed: () => Navigator.pop(context, true),
-                  child: const Text('Use all wallets'),
                 ),
               ),
             ],

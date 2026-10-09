@@ -164,9 +164,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
               ),
               margin: const EdgeInsets.symmetric(horizontal: 29),
               decoration: BoxDecoration(
-                color: theme.brightness == Brightness.light
-                    ? const Color(0xFFF4F4F4)
-                    : theme.colorScheme.surfaceContainer,
+                color: theme.colorScheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: ChatInputComposerLayout(

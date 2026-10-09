@@ -1,5 +1,6 @@
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -114,7 +115,6 @@ class _CurrencyAmountInputFormatter extends TextInputFormatter {
       );
     }
 
-    final hasDot = cleaned.contains('.');
     final parts = cleaned.split('.');
     var testIntPart = parts.first;
     testIntPart = testIntPart.replaceFirst(RegExp(r'^0+(?=\d)'), '');
@@ -413,11 +413,11 @@ class _AnimatedAmountFieldState extends ConsumerState<AnimatedAmountField>
       fontWeight: FontWeight.w500,
       color: currencyColor,
     );
-    final amountHintStyle = TextStyle(
+    final amountHintStyle = AppTextTheme.amount(TextStyle(
       fontSize: fontSize,
       fontWeight: FontWeight.w500,
       color: hintColor,
-    );
+    ));
 
     if (widget.controller is AmountTextEditingController) {
       (widget.controller as AmountTextEditingController)
@@ -451,11 +451,11 @@ class _AnimatedAmountFieldState extends ConsumerState<AnimatedAmountField>
         cursorColor: cursorColor,
         cursorWidth: 1.2,
         cursorHeight: fontSize * 1.3,
-        style: TextStyle(
+        style: AppTextTheme.amount(TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.w500,
           color: Theme.of(context).textTheme.bodyLarge?.color,
-        ),
+        )),
         inputFormatters: [_formatter!, _suffixCursorGuardFormatter()],
         decoration: InputDecoration(
           hint: _buildStyledAmountHint(
@@ -665,11 +665,11 @@ class _AnimatedSubcategoryAmountFieldState
       fontWeight: FontWeight.w500,
       color: currencyColor,
     );
-    final amountHintStyle = TextStyle(
+    final amountHintStyle = AppTextTheme.amount(TextStyle(
       fontSize: fontSize,
       fontWeight: FontWeight.w500,
       color: hintColor,
-    );
+    ));
 
     if (widget.controller is AmountTextEditingController) {
       (widget.controller as AmountTextEditingController)
@@ -693,11 +693,11 @@ class _AnimatedSubcategoryAmountFieldState
         cursorColor: cursorColor,
         cursorWidth: 1.2,
         cursorHeight: fontSize * 1.25,
-        style: TextStyle(
+        style: AppTextTheme.amount(TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.w500,
           color: Theme.of(context).textTheme.bodyLarge?.color,
-        ),
+        )),
         inputFormatters: [_formatter!, _suffixCursorGuardFormatter()],
         decoration: InputDecoration(
           hint: _buildStyledAmountHint(

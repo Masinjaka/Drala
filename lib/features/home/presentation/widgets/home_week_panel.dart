@@ -136,9 +136,7 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
       key: const Key('home-week-panel'),
       padding: const EdgeInsets.symmetric(horizontal: 7),
       decoration: BoxDecoration(
-        color: Theme.of(context).brightness == Brightness.light
-            ? const Color(0xFFF4F4F4)
-            : Theme.of(context).colorScheme.surfaceContainer,
+        color: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(mainAxisSize: MainAxisSize.min, children: [

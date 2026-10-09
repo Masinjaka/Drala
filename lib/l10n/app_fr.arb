@@ -1,4 +1,12 @@
 {
+  "envelopeOverBy": "Dépassé de {amount}",
+  "@envelopeOverBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "@@locale": "fr",
   "appTitle": "Drala",
   "settings": "Paramètres",
@@ -18,11 +26,24 @@
   "termsOfService": "Conditions d’utilisation",
   "termsAndConditions": "Conditions générales",
   "privacyPolicy": "Politique de confidentialité",
+  "adPrivacyOptions": "Choix de confidentialité des annonces",
   "legalConsentPrefix": "J’accepte les ",
   "legalConsentConnector": " et la ",
   "logOut": "Se déconnecter",
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
   "english": "Anglais",
   "french": "Français",
+  "malagasy": "Malgache",
+  "german": "Allemand",
+  "spanish": "Espagnol",
+  "italian": "Italien",
   "menu": "Menu",
   "collapseMenu": "Réduire le menu",
   "expandMenu": "Développer le menu",
@@ -57,7 +78,23 @@
   "notifications": "Notifications",
   "noNotifications": "Aucune notification",
   "noNotificationsDescription": "Les alertes de budget et les informations financières importantes apparaîtront ici.",
-  "envelopeBudgetExceeded": "Vous avez dépassé le budget de l’enveloppe {name}.",
+  "envelopeBudgetExceeded": "Vous avez dépassé le budget de l'enveloppe {name}.",
+  "envelopeBudgetAlmostReached": "Le budget de l'enveloppe {name} est presque épuisé.",
+  "@envelopeBudgetAlmostReached": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "envelopeBudgetReached": "Le budget de l'enveloppe {name} est atteint.",
+  "@envelopeBudgetReached": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "@envelopeBudgetExceeded": {
     "placeholders": {
       "name": {
@@ -72,7 +109,7 @@
   "emptyStateIncomePrompt": "Une rentrée d’argent ? Dites-m’en plus pour qu’on puisse célébrer… et l’enregistrer.",
   "emptyStateExpensePrompt": "Une dépense plaisir (ou nécessaire) ? Dites-moi combien et pour quoi… je tiens les comptes.",
   "emptyStateTransferPrompt": "Un transfert d’argent ? Indiquez-moi le compte de départ → d’arrivée et je m’en occupe.",
-  "firstEntryIncomePrompt": "Commencez par m’indiquer vos revenus ! Écrivez simplement « J’ai reçu xxx » ou « Salaire xxx » et je m’occupe du reste.",
+  "firstEntryIncomePrompt": "Commencez par un revenu ou une dépense. Écrivez « J’ai reçu xxx » ou « J’ai dépensé xxx en nourriture » et je l’enregistrerai.",
   "entryCount": "{count, plural, =0{0 entrée} =1{1 entrée} other{{count} entrées}}",
   "expenseCount": "{count, plural, =0{0 dépense} =1{1 dépense} other{{count} dépenses}}",
   "incomeCount": "{count, plural, =0{0 revenu} =1{1 revenu} other{{count} revenus}}",
@@ -235,5 +272,44 @@
   "title": "Titre",
   "description": "Description",
   "searchCategories": "Rechercher une catégorie",
-  "done": "Terminé"
+  "done": "Terminé",
+  "repeatEnvelopeMonthly": "Renouveler chaque mois",
+  "repeatEnvelopeMonthlyHelp": "Financer un nouveau budget depuis le même portefeuille chaque mois, dès que les fonds sont disponibles.",
+  "editEnvelope": "Modifier l’enveloppe",
+  "aiRequestTimedOut": "La requête IA a pris trop de temps. Veuillez réessayer.",
+  "setupLanguageTitle": "Votre langue",
+  "setupLanguageBody": "Choisissez la langue de Drala.",
+  "setupCurrencyTitle": "Votre devise",
+  "setupCurrencyBody": "Choisissez la devise d’affichage des montants.",
+  "setupCategoriesTitle": "Vos catégories",
+  "setupCategoriesBody": "Gardez celles qui vous sont utiles. Vous pourrez en ajouter plus tard.",
+  "setupWalletsTitle": "Vos portefeuilles",
+  "setupWalletsBody": "Séparez votre argent selon son usage. Le portefeuille principal est toujours inclus.",
+  "setupContinue": "Continuer",
+  "setupFinish": "Commencer",
+  "setupCompleteTitle": "Tout est prêt !",
+  "setupCompleteBody": "Bonne gestion",
+  "setupDone": "Super",
+  "setupRetry": "Réessayer",
+  "setupMainWallet": "Portefeuille principal",
+  "setupCash": "Espèces",
+  "setupBank": "Compte bancaire",
+  "setupMobile": "Mobile money",
+  "authSignUp": "Créer un compte",
+  "authSignIn": "Se connecter",
+  "authSignUpBody": "Quelques détails, puis un Drala à votre image.",
+  "authSignInBody": "Retrouvez vos comptes et vos dépenses.",
+  "authEmail": "Email",
+  "authPassword": "Mot de passe",
+  "authConfirmPassword": "Confirmer le mot de passe",
+  "authForgotPassword": "Mot de passe oublié ?",
+  "authConfirmEmail": "Confirmez votre compte depuis votre email, puis connectez-vous pour terminer la configuration.",
+  "setupLoadError": "Impossible de charger les choix. Réessayez.",
+  "authResetInstruction": "Saisissez votre e-mail pour recevoir un code de vérification.",
+  "authResetCodeSent": "Code de vérification envoyé",
+  "authCodeSentTo": "Un code a été envoyé à",
+  "authVerificationCode": "Code de vérification",
+  "authEnterSixDigitCode": "Saisissez le code à 6 chiffres",
+  "authResetButton": "Réinitialiser le mot de passe",
+  "authResetSuccess": "Mot de passe réinitialisé"
 }

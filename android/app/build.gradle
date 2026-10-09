@@ -1,5 +1,6 @@
 import java.util.Properties
 import java.io.FileInputStream
+import java.util.Base64
 
 plugins {
     id "com.android.application"
@@ -36,6 +37,16 @@ def hasReleaseSigning = [
 def isReleaseBuild = gradle.startParameter.taskNames.any { taskName ->
     taskName.toLowerCase().contains('release')
 }
+def dartDefines = [:]
+(project.findProperty('dart-defines') ?: '').split(',').findAll { it }.each { encoded ->
+    def entry = new String(Base64.decoder.decode(encoded), 'UTF-8')
+    def separator = entry.indexOf('=')
+    if (separator > 0) dartDefines[entry.substring(0, separator)] = entry.substring(separator + 1)
+}
+def admobAppId = dartDefines['ADMOB_ANDROID_APP_ID'] ?: 'ca-app-pub-3940256099942544~3347511713'
+if (!(admobAppId ==~ /ca-app-pub-[0-9]{16}~[0-9]{10}/)) {
+    throw new GradleException('ADMOB_ANDROID_APP_ID is not a valid AdMob app ID.')
+}
 
 if (isReleaseBuild && !hasReleaseSigning) {
     throw new GradleException(
@@ -68,6 +79,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        manifestPlaceholders['admobApplicationId'] = admobAppId
     }
 
     signingConfigs {

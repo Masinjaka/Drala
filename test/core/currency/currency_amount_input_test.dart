@@ -15,6 +15,7 @@ void main() {
 
   test('formats an MGA storage amount in the selected currency', () {
     expect(CurrencyAmountInput.fromStored(1000000, 'MGA', usd), '200');
+    expect(CurrencyAmountInput.fromStored(1000000, 'MGA', null), '1,000,000');
   });
 
   test('separates the numeric hint from the selected currency symbol', () {

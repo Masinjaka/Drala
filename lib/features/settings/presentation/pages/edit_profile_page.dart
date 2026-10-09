@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:budgets/core/functions/pick_image_with_permissions.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/features/settings/data/repositories/supabase_account_data_repository.dart';
 import 'package:budgets/features/settings/data/repositories/unavailable_account_data_repository.dart';
 import 'package:budgets/features/settings/data/services/account_data_service.dart';
@@ -12,10 +11,12 @@ import 'package:budgets/features/settings/presentation/view_models/danger_zone_v
 import 'package:budgets/features/settings/presentation/widgets/danger_zone.dart';
 import 'package:budgets/features/settings/presentation/widgets/editable_profile_avatar.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_editor_sheet.dart';
+import 'package:budgets/widgets/custom_button.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_transaction_field.dart';
+import 'package:budgets/features/transactions/presentation/widgets/transaction_form_sheet_route.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/features/user/presentation/controllers/username_controller.dart';
-import 'package:budgets/widgets/custom_button.dart';
-import 'package:budgets/widgets/custom_textfield.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,9 +24,18 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
-  const EditProfilePage({this.onDataDeleted, super.key});
+  const EditProfilePage({this.onDataDeleted, this.asSheet = false, super.key});
 
   final VoidCallback? onDataDeleted;
+  final bool asSheet;
+
+  static Future<void> show(BuildContext context,
+          {VoidCallback? onDataDeleted}) =>
+      showTransactionFormSheet<void>(context,
+          builder: (_) => EditProfilePage(
+                onDataDeleted: onDataDeleted,
+                asSheet: true,
+              ));
 
   @override
   ConsumerState<EditProfilePage> createState() => _EditProfilePageState();
@@ -69,50 +79,46 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     ref.listen(usernameControllerProvider, (_, next) {
       next.whenOrNull(error: (error, _) => showErrorToast(context, error));
     });
+    final form = Form(
+      key: _formKey,
+      child: ListView(
+        padding: const EdgeInsets.fromLTRB(28, 24, 28, 32),
+        children: [
+          EditableProfileAvatar(
+            selectedImage: _selectedImage,
+            photoUrl: _profilePhotoUrl,
+            isLoading: _loadingPhoto,
+            onTap: _pickImage,
+          ),
+          const SizedBox(height: 30),
+          SettingsTransactionField(
+            label: context.l10n.username,
+            hint: context.l10n.enterUsername,
+            controller: _usernameController,
+          ),
+          const SizedBox(height: 24),
+          CustomButton(
+            text: context.l10n.save,
+            height: 40,
+            borderRadius: BorderRadius.circular(6),
+            isLoading: _updating,
+            onPressed: _updating ? null : _save,
+          ),
+          const SizedBox(height: 42),
+          DangerZone(
+            viewModel: _dangerViewModel,
+            accountEmail: _accountEmail(),
+            onDataDeleted: _dataDeleted,
+            onAccountDeleted: () => context.go('/getting-started'),
+          ),
+        ],
+      ),
+    );
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: SettingsPageShell(
-        title: context.l10n.editProfile,
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(28, 24, 28, 32),
-            children: [
-              EditableProfileAvatar(
-                selectedImage: _selectedImage,
-                photoUrl: _profilePhotoUrl,
-                isLoading: _loadingPhoto,
-                onTap: _pickImage,
-              ),
-              const SizedBox(height: 30),
-              CustomTextField(
-                title: Text(
-                  context.l10n.username,
-                  style: const TextStyle(
-                    fontSize: AppTypography.body,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                hint: context.l10n.enterUsername,
-                controller: _usernameController,
-              ),
-              const SizedBox(height: 24),
-              CustomButton(
-                text: context.l10n.save,
-                isLoading: _updating,
-                onPressed: _updating ? null : _save,
-              ),
-              const SizedBox(height: 42),
-              DangerZone(
-                viewModel: _dangerViewModel,
-                accountEmail: _accountEmail(),
-                onDataDeleted: _dataDeleted,
-                onAccountDeleted: () => context.go('/getting-started'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      child: widget.asSheet
+          ? SettingsEditorSheet(title: context.l10n.editProfile, child: form)
+          : SettingsPageShell(title: context.l10n.editProfile, child: form),
     );
   }
 

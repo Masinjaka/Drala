@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:budgets/core/ui/detail_enter_transition.dart';
 
 class SettingsMenuGroup extends StatelessWidget {
   const SettingsMenuGroup({required this.items, super.key});
@@ -8,14 +9,14 @@ class SettingsMenuGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.surface,
-      borderRadius: BorderRadius.circular(20),
+      color: Theme.of(context).colorScheme.surfaceContainer,
+      borderRadius: BorderRadius.circular(6),
       clipBehavior: Clip.antiAlias,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           for (var index = 0; index < items.length; index++) ...[
-            items[index],
+            DetailEnterTransition(child: items[index]),
             if (index != items.length - 1)
               Divider(
                 height: 1,

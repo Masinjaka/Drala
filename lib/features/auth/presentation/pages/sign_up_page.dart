@@ -1,12 +1,15 @@
+import 'package:budgets/features/auth/domain/providers/auth_providers.dart';
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/core/legal/legal_document_launcher.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/features/auth/presentation/widgets/auth_header.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/features/auth/domain/models/password_validation.dart';
 import 'package:budgets/features/auth/presentation/widgets/legal_consent_checkbox.dart';
 import 'package:budgets/features/auth/presentation/widgets/sign_up_password_fields.dart';
 import 'package:budgets/features/auth/presentation/widgets/sign_up_submit_bar.dart';
-import 'package:budgets/widgets/custom_textfield.dart';
+import 'package:budgets/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +49,10 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: _buildForm(context)),
+      body: Center(
+          child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 560),
+              child: _buildForm(context))),
       bottomNavigationBar: SignUpSubmitBar(
         isLoading: _isLoading,
         isEnabled: _hasAcceptedLegalTerms,
@@ -66,73 +72,54 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
+              padding: const EdgeInsets.fromLTRB(29, 48, 29, 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 40),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Créer un compte',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: AppTypography.title,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => context.pop(),
-                        icon: Icon(
-                          Icons.close,
-                          size: 20,
-                        ),
-                      ),
-                    ],
+                  AuthHeader(
+                    title: Localizations.localeOf(context).languageCode == 'en'
+                        ? 'Sign up'
+                        : context.l10n.authSignUp,
+                    onBack: () => context.canPop()
+                        ? context.pop()
+                        : context.go('/getting-started'),
                   ),
-                  SizedBox(height: 16),
-                  Text(
-                    'Commençons d’abord par vous créer un compte',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: AppTypography.body,
-                    ),
-                  ),
-                  SizedBox(height: 64),
-                  CustomTextField(
+                  AuthTextField(
                     title: Text(
-                      "Nom d'utilisateur",
+                      context.l10n.username,
                       textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: AppTypography.body,
-                      ),
+                      style: AppTextTheme.authBody(context),
                     ),
-                    hint: 'username',
+                    hint: 'John',
                     controller: _usernameController,
                     keyboardType: TextInputType.text,
+                    validator: {
+                      'type': 'required',
+                      'error': context.l10n.username
+                    },
                   ),
-                  SizedBox(height: 16),
-                  CustomTextField(
+                  const SizedBox(height: 28),
+                  AuthTextField(
                     title: Text(
-                      'Email',
+                      context.l10n.authEmail,
                       textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: AppTypography.body,
-                      ),
+                      style: AppTextTheme.authBody(context),
                     ),
-                    hint: 'example@email.com',
+                    hint: 'example@mail.com',
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
+                    validator: {
+                      'type': 'email',
+                      'error': context.l10n.authEmail
+                    },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 28),
                   SignUpPasswordFields(
                     key: _passwordFieldsKey,
                     passwordController: _passwordController,
                     confirmPasswordController: _confirmPasswordController,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 28),
                   LegalConsentCheckbox(
                     value: _hasAcceptedLegalTerms,
                     launcher: widget.legalLauncher,
@@ -157,7 +144,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     }
     if (!_formKey.currentState!.validate()) return;
     if (_passwordController.text != _confirmPasswordController.text) {
-      showInfoToast(context, 'Vérifiez la correspondance du mot de passe');
+      showInfoToast(context, context.l10n.passwordsDoNotMatch);
       return;
     }
     setState(() => _isLoading = true);
@@ -167,7 +154,15 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
             password: _passwordController.text,
             username: _usernameController.text.trim(),
           );
-      if (mounted) context.push('/upload-profile-photo');
+      if (!mounted) return;
+      final hasSession = await ref.read(authRepositoryProvider).hasSession();
+      if (!mounted) return;
+      if (hasSession) {
+        context.go('/onboarding');
+      } else {
+        showInfoToast(context, context.l10n.authConfirmEmail);
+        context.go('/login');
+      }
     } catch (error, stackTrace) {
       debugPrint('[SignUpPage] signUp submission error: $error');
       debugPrint('[SignUpPage] signUp submission stackTrace: $stackTrace');

@@ -1,5 +1,6 @@
+import 'package:budgets/core/ui/value_skeleton.dart';
 import 'package:budgets/core/currency/currency_state.dart';
-import 'package:budgets/core/ui/privacy_text.dart';
+import 'package:budgets/features/envelopes/presentation/widgets/envelope_amount.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_overspend_warning.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_progress.dart';
@@ -10,67 +11,101 @@ class EnvelopeCard extends StatelessWidget {
     required this.envelope,
     required this.onDelete,
     this.displayCurrency,
+    this.onTap,
+    this.loading = false,
     super.key,
   });
 
   final Envelope envelope;
+  final VoidCallback? onTap;
+  final bool loading;
   final VoidCallback onDelete;
   final CurrencyState? displayCurrency;
 
   @override
   Widget build(BuildContext context) {
-    final foreground = Theme.of(context).colorScheme.onSurface;
+    final theme = Theme.of(context);
+    final foreground = theme.colorScheme.onSurface;
     return Column(
       children: [
         GestureDetector(
-          onLongPress: onDelete,
+          onTap: loading ? null : onTap,
+          onLongPress: loading ? null : (onTap ?? onDelete),
           child: Container(
             key: const Key('envelope-card-surface'),
-            height: 110,
-            padding: const EdgeInsets.fromLTRB(19, 13, 13, 10),
+            padding: const EdgeInsets.fromLTRB(22, 16, 14, 26),
             decoration: BoxDecoration(
-              border:
-                  Border.all(color: Theme.of(context).colorScheme.onSurface),
-              borderRadius: BorderRadius.circular(20),
+              color: theme.colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${envelope.emoji} ${envelope.categoryName}',
-                    style: TextStyle(
-                        color: foreground,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600)),
-                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    PrivacyText(_compact(_convert(envelope.spent)),
-                        style: TextStyle(
-                            color: foreground,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600)),
-                    PrivacyText(_compact(_convert(envelope.amount), gap: false),
-                        style: TextStyle(
-                            color: foreground,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600)),
+                    Flexible(
+                        child: Text('${envelope.emoji} ${envelope.name}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodyMedium)),
+                    if (envelope.isExceeded && !loading) ...[
+                      const SizedBox(width: 8),
+                      Flexible(
+                          child: EnvelopeOverspendWarning(
+                              envelope: envelope,
+                              displayCurrency: displayCurrency)),
+                    ],
                   ],
                 ),
-                const SizedBox(height: 15),
-                EnvelopeProgress(
-                  value: envelope.progress.clamp(0, 1),
-                  foregroundColor: foreground,
+                const SizedBox(height: 18),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (loading)
+                      const ValueSkeleton(
+                        key: Key('envelope-spent-skeleton'),
+                        width: 64,
+                        height: 18,
+                      )
+                    else
+                      Flexible(
+                          child: FittedBox(
+                              child: EnvelopeAmount(
+                        value: _convert(envelope.spent),
+                        currencyCode:
+                            displayCurrency?.code ?? envelope.currencyCode,
+                      ))),
+                    const SizedBox(width: 12),
+                    if (loading)
+                      const ValueSkeleton(
+                        key: Key('envelope-budget-skeleton'),
+                        width: 56,
+                        height: 18,
+                      )
+                    else
+                      Flexible(
+                          child: FittedBox(
+                              child: EnvelopeAmount(
+                        value: _convert(envelope.amount),
+                        gap: false,
+                        currencyCode:
+                            displayCurrency?.code ?? envelope.currencyCode,
+                      ))),
+                  ],
                 ),
+                const SizedBox(height: 10),
+                if (loading)
+                  const ValueSkeleton(width: double.infinity, height: 12)
+                else
+                  EnvelopeProgress(
+                    value: envelope.progress.clamp(0, 1),
+                    foregroundColor: foreground,
+                  ),
               ],
             ),
           ),
         ),
-        if (envelope.isExceeded) ...[
-          const SizedBox(height: 6),
-          EnvelopeOverspendWarning(
-              envelope: envelope, displayCurrency: displayCurrency),
-        ],
       ],
     );
   }
@@ -81,15 +116,4 @@ class EnvelopeCard extends StatelessWidget {
         envelope.currencyCode,
       ) ??
       amount;
-
-  String _compact(num value, {bool gap = true}) {
-    final separator = gap ? ' ' : '';
-    if (value.abs() >= 1000000) {
-      return '${_trim(value / 1000000)}${separator}M';
-    }
-    if (value.abs() >= 1000) return '${_trim(value / 1000)}${separator}k';
-    return _trim(value);
-  }
-
-  String _trim(num value) => value.toStringAsFixed(value % 1 == 0 ? 0 : 1);
 }

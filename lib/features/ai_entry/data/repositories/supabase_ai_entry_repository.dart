@@ -3,14 +3,17 @@ import 'package:budgets/features/ai_entry/data/services/manual_entry_service.dar
 import 'package:budgets/features/ai_entry/data/services/wallet_service.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_entry_result.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
+import 'package:budgets/features/ai_entry/domain/models/finance_entry_page.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_quota.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_input.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:budgets/features/ai_entry/domain/repositories/ai_entry_repository.dart';
+import 'package:budgets/features/ai_entry/domain/repositories/paged_ai_entry_repository.dart';
 
-class SupabaseAiEntryRepository implements AiEntryRepository {
+class SupabaseAiEntryRepository
+    implements AiEntryRepository, PagedAiEntryRepository {
   const SupabaseAiEntryRepository(
     this._service,
     this._manualEntryService,
@@ -24,6 +27,20 @@ class SupabaseAiEntryRepository implements AiEntryRepository {
   @override
   Future<List<FinanceEntry>> entriesForDate(DateTime date) =>
       _service.entriesForDate(date);
+
+  @override
+  Future<FinanceEntryPage> entriesForDatePage(
+    DateTime date, {
+    required int limit,
+    required int transactionOffset,
+    required int transferOffset,
+  }) =>
+      _service.entriesForDatePage(
+        date,
+        limit: limit,
+        transactionOffset: transactionOffset,
+        transferOffset: transferOffset,
+      );
 
   @override
   Future<List<FinanceEntry>> entriesForMonth(DateTime month) =>
@@ -82,8 +99,13 @@ class SupabaseAiEntryRepository implements AiEntryRepository {
   Future<AiEntryResult> processMessage(
     String message, {
     required DateTime targetDate,
+    String outputLanguage = 'en',
   }) =>
-      _service.processMessage(message, targetDate: targetDate);
+      _service.processMessage(
+        message,
+        targetDate: targetDate,
+        outputLanguage: outputLanguage,
+      );
 
   @override
   Future<AiEntryResult> resumeMessage({

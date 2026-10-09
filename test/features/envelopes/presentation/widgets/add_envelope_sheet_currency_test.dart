@@ -9,6 +9,7 @@ void main() {
   testWidgets('stores a selected-currency envelope amount as MGA',
       (tester) async {
     int? savedAmount;
+    bool? repeats;
     await tester.pumpWidget(
       MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -21,7 +22,10 @@ void main() {
                 categories: const [_food],
                 month: DateTime(2026, 7),
                 currencyState: _usd,
-                onSave: (_, __, amount) async => savedAmount = amount,
+                onSave: (_, __, amount, monthly) async {
+                  savedAmount = amount;
+                  repeats = monthly;
+                },
               ),
               child: const Text('Open'),
             ),
@@ -32,16 +36,28 @@ void main() {
 
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text(r'$'), findsOneWidget);
-    await tester.enterText(find.byType(TextFormField).at(0), 'Food budget');
-    await tester.enterText(find.byType(TextFormField).at(1), '200');
-    await tester.tap(find.byKey(const Key('manual-category-food')));
+    expect(find.text('USD'), findsOneWidget);
+    await tester.enterText(find.byType(TextFormField).at(1), 'Food budget');
+    await tester.enterText(find.byType(TextFormField).at(0), '200');
+    await tester
+        .ensureVisible(find.byKey(const Key('transaction-category-field')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('transaction-category-field')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('category-food')));
+    await tester.tap(find.byKey(const Key('category-done')));
+    await tester.pumpAndSettle();
+    await tester
+        .ensureVisible(find.byKey(const Key('envelope-repeat-monthly')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('envelope-repeat-monthly')));
+    await tester.ensureVisible(find.byKey(const Key('save-envelope-button')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('save-envelope-button')));
     await tester.pumpAndSettle();
 
     expect(savedAmount, 1000000);
+    expect(repeats, isTrue);
   });
 }
 

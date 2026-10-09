@@ -1,5 +1,4 @@
 import 'package:budgets/core/currency/currency_state.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
@@ -34,9 +33,9 @@ class DrawerWalletCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerLowest,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Color(0x12000000),
+                color: Theme.of(context).shadowColor.withValues(alpha: .07),
                 blurRadius: 16,
                 offset: Offset(0, 6),
               ),
@@ -64,10 +63,7 @@ class DrawerWalletCard extends StatelessWidget {
                         wallet.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: AppTypography.body,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
                   ],
@@ -96,11 +92,9 @@ class DrawerWalletCard extends StatelessWidget {
                     _balanceLabel(wallet),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: AppTypography.title,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                   ),
                 ),
               ),

@@ -35,6 +35,6 @@ void main() {
     );
 
     expect(find.text('-€1'), findsOneWidget);
-    expect(find.text('-5 000 Ar'), findsNothing);
+    expect(find.text('-5 000 MGA'), findsNothing);
   });
 }

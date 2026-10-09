@@ -9,7 +9,7 @@ class FinanceNotificationService {
     final rows = await _client
         .from('finance_notifications')
         .select(
-          'id,envelope_id,envelope_name,amount,period_month,is_read,created_at',
+          'id,notification_type,envelope_id,envelope_name,amount,period_month,is_read,created_at',
         )
         .order('created_at', ascending: false);
     return rows.map(Map<String, dynamic>.from).toList(growable: false);

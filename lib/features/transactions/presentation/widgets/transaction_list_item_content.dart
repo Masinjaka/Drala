@@ -1,4 +1,5 @@
 import 'package:budgets/core/currency/currency_state.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
 import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
@@ -80,10 +81,12 @@ class TransactionListItemContent extends StatelessWidget {
                   currency!.code,
                   preserveFraction: true,
                 ),
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.tertiary,
-                      fontSize: 14,
-                    ),
+                style: AppTextTheme.amount(
+                  Theme.of(context).textTheme.labelMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        fontSize: 14,
+                      ),
+                ),
               ),
           ]),
         ),

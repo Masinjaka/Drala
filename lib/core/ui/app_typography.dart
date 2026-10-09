@@ -1,5 +1,8 @@
 abstract final class AppTypography {
-  static const double caption = 12;
+  static const String regularFontFamily = 'Alexandria';
+  static const String amountFontFamily = 'Inter';
+
+  static const double caption = 11;
   static const double supporting = 14;
   static const double body = 15.5;
   static const double title = 18;

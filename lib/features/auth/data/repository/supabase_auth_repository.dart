@@ -35,6 +35,7 @@ class SupabaseAuthRepository implements AuthRepository {
       final response =
           await _client.auth.signUp(email: email, password: password, data: {
         'username': username,
+        'onboarding_required': true,
       });
       debugPrint(
           '[SupabaseAuthRepository][signUpWithPassword] Success userId=${response.user?.id}, hasSession=${response.session != null}');

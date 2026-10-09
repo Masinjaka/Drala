@@ -41,7 +41,7 @@ class _FinanceEntryDetailRoute extends PopupRoute<ManualEntrySheetResult> {
   @override
   Duration get transitionDuration => const Duration(milliseconds: 500);
   @override
-  Duration get reverseTransitionDuration => const Duration(milliseconds: 360);
+  Duration get reverseTransitionDuration => const Duration(milliseconds: 180);
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,

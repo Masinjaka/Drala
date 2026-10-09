@@ -1,18 +1,17 @@
-// ignore_for_file: use_build_context_synchronously
-
-import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:budgets/features/auth/presentation/widgets/auth_header.dart';
+import 'package:budgets/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:budgets/features/auth/presentation/widgets/reset_code_otp_row.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
-import 'package:budgets/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class VerifyResetCodePage extends ConsumerStatefulWidget {
   const VerifyResetCodePage({super.key, required this.email});
-
   final String email;
 
   @override
@@ -21,168 +20,135 @@ class VerifyResetCodePage extends ConsumerStatefulWidget {
 }
 
 class _VerifyResetCodePageState extends ConsumerState<VerifyResetCodePage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
-  final List<TextEditingController> _otpControllers =
-      List.generate(6, (_) => TextEditingController());
-  final List<FocusNode> _otpFocusNodes = List.generate(6, (_) => FocusNode());
+  final _formKey = GlobalKey<FormState>();
+  final _newPasswordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final _otpControllers = List.generate(6, (_) => TextEditingController());
+  final _otpFocusNodes = List.generate(6, (_) => FocusNode());
   bool _isLoading = false;
+
+  String get _otpCode =>
+      _otpControllers.map((controller) => controller.text).join();
 
   @override
   void dispose() {
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
-    for (final c in _otpControllers) {
-      c.dispose();
+    for (final controller in _otpControllers) {
+      controller.dispose();
     }
-    for (final n in _otpFocusNodes) {
-      n.dispose();
+    for (final node in _otpFocusNodes) {
+      node.dispose();
     }
     super.dispose();
   }
 
-  String get _otpCode => _otpControllers.map((c) => c.text).join();
-
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Nouveau mot de passe',
-            style: TextStyle(fontSize: AppTypography.title),
-          ),
-        ),
-        body: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Un code a été envoyé à',
-                      style: const TextStyle(
-                        fontSize: AppTypography.body,
-                        fontWeight: FontWeight.w600,
+  Widget build(BuildContext context) => Scaffold(
+        body: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
+            child: GestureDetector(
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: SizedBox.expand(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(29, 48, 29, 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AuthHeader(
+                            title: context.l10n.newPassword,
+                            onBack: () => context.canPop()
+                                ? context.pop()
+                                : context.go('/reset-password'),
+                          ),
+                          Text(context.l10n.authCodeSentTo,
+                              style: AppTextTheme.authBody(context)),
+                          const SizedBox(height: 4),
+                          Text(widget.email,
+                              style: AppTextTheme.authBody(context)),
+                          const SizedBox(height: 28),
+                          Text(context.l10n.authVerificationCode,
+                              style: AppTextTheme.authBody(context)),
+                          const SizedBox(height: 6),
+                          ResetCodeOtpRow(
+                            controllers: _otpControllers,
+                            focusNodes: _otpFocusNodes,
+                          ),
+                          const SizedBox(height: 28),
+                          AuthTextField(
+                            title: Text(context.l10n.newPassword,
+                                style: AppTextTheme.authBody(context)),
+                            hint: 'xxxxxxxx',
+                            controller: _newPasswordController,
+                            keyboardType: TextInputType.visiblePassword,
+                            isPassword: true,
+                            validator: const {'type': 'password'},
+                          ),
+                          const SizedBox(height: 28),
+                          AuthTextField(
+                            title: Text(context.l10n.confirmPassword,
+                                style: AppTextTheme.authBody(context)),
+                            hint: 'xxxxxxxx',
+                            controller: _confirmPasswordController,
+                            keyboardType: TextInputType.visiblePassword,
+                            isPassword: true,
+                            validator: const {'type': 'password'},
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 4),
-                    Text(
-                      widget.email,
-                      style: const TextStyle(
-                        fontSize: AppTypography.body,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    SizedBox(height: 32),
-                    Text(
-                      'Code de vérification',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: AppTypography.body,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    ResetCodeOtpRow(
-                      controllers: _otpControllers,
-                      focusNodes: _otpFocusNodes,
-                    ),
-                    SizedBox(height: 24),
-                    CustomTextField(
-                      title: Text(
-                        'Nouveau mot de passe',
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: AppTypography.body,
-                        ),
-                      ),
-                      hint: 'Votre nouveau mot de passe',
-                      controller: _newPasswordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      isPassword: true,
-                      validator: const <String, String>{"type": "password"},
-                    ),
-                    SizedBox(height: 16),
-                    CustomTextField(
-                      title: Text(
-                        'Confirmer le mot de passe',
-                        textAlign: TextAlign.left,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: AppTypography.body,
-                        ),
-                      ),
-                      hint: 'Confirmer votre nouveau mot de passe',
-                      controller: _confirmPasswordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      isPassword: true,
-                      validator: const <String, String>{"type": "password"},
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
           ),
         ),
-        bottomNavigationBar: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 32),
-          child: CustomButton(
-            text: 'Réinitialiser',
-            isLoading: _isLoading,
-            onPressed: () async {
-              if (!_formKey.currentState!.validate()) return;
-
-              if (_otpCode.length != 6) {
-                showInfoToast(
-                  context,
-                  'Veuillez entrer le code à 6 chiffres',
-                );
-                return;
-              }
-
-              if (_newPasswordController.text !=
-                  _confirmPasswordController.text) {
-                showInfoToast(
-                  context,
-                  'Les mots de passe ne correspondent pas',
-                );
-                return;
-              }
-
-              setState(() => _isLoading = true);
-              try {
-                await ref
-                    .read(authControllerProvider.notifier)
-                    .verifyOtpAndResetPassword(
-                      email: widget.email,
-                      otp: _otpCode,
-                      newPassword: _newPasswordController.text,
-                    );
-
-                if (!mounted) return;
-                showSuccessToast(
-                  context,
-                  'Mot de passe réinitialisé avec succès',
-                );
-                context.go('/login');
-              } catch (e) {
-                if (mounted) showErrorToast(context, e);
-              }
-              if (mounted) setState(() => _isLoading = false);
-            },
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(29, 0, 29, 30),
+            child: CustomButton(
+              text: context.l10n.authResetButton,
+              height: 44,
+              borderRadius: BorderRadius.circular(9),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              isLoading: _isLoading,
+              onPressed: _submit,
+            ),
           ),
         ),
-      ),
-    );
+      );
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+    if (_otpCode.length != 6) {
+      showInfoToast(context, context.l10n.authEnterSixDigitCode);
+      return;
+    }
+    if (_newPasswordController.text != _confirmPasswordController.text) {
+      showInfoToast(context, context.l10n.passwordsDoNotMatch);
+      return;
+    }
+    setState(() => _isLoading = true);
+    try {
+      await ref.read(authControllerProvider.notifier).verifyOtpAndResetPassword(
+            email: widget.email,
+            otp: _otpCode,
+            newPassword: _newPasswordController.text,
+          );
+      if (!mounted) return;
+      showSuccessToast(context, context.l10n.authResetSuccess);
+      context.go('/login');
+    } catch (error) {
+      if (mounted) showErrorToast(context, error);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 }

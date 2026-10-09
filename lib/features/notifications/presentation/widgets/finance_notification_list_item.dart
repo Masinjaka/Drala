@@ -20,19 +20,19 @@ class FinanceNotificationListItem extends StatelessWidget {
     return Material(
       color:
           notification.isRead ? colors.surface : colors.surfaceContainerHighest,
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(10),
       child: InkWell(
         key: Key('finance-notification-${notification.id}'),
         onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(10),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
+              Icon(
                 Icons.warning_rounded,
-                color: Color(0xFFD84A3A),
+                color: colors.error,
                 size: 25,
               ),
               const SizedBox(width: 13),
@@ -41,24 +41,23 @@ class FinanceNotificationListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.l10n.envelopeBudgetExceeded(
-                        notification.envelopeName,
-                      ),
-                      style: TextStyle(
-                        fontWeight: notification.isRead
-                            ? FontWeight.w600
-                            : FontWeight.w800,
-                      ),
+                      switch (notification.notificationType) {
+                        'envelope_near_limit' => context.l10n
+                            .envelopeBudgetAlmostReached(
+                                notification.envelopeName),
+                        'envelope_limit_reached' => context.l10n
+                            .envelopeBudgetReached(notification.envelopeName),
+                        _ => context.l10n
+                            .envelopeBudgetExceeded(notification.envelopeName),
+                      },
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     const SizedBox(height: 5),
                     Text(
                       DateFormat.yMMMd(locale).add_Hm().format(
                             notification.createdAt.toLocal(),
                           ),
-                      style: TextStyle(
-                        color: colors.onSurfaceVariant,
-                        fontSize: 11.5,
-                      ),
+                      style: Theme.of(context).textTheme.labelSmall,
                     ),
                   ],
                 ),

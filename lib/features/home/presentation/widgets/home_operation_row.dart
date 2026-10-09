@@ -1,4 +1,5 @@
 import 'package:budgets/core/currency/currency_state.dart';
+import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
@@ -22,6 +23,8 @@ class HomeOperationRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final dark = theme.brightness == Brightness.dark;
     return InkWell(
       onTap: entry.isTransfer || pendingEdit != null ? null : onTap,
       child: SizedBox(
@@ -36,11 +39,12 @@ class HomeOperationRow extends StatelessWidget {
                 width: 40,
                 height: 40,
                 alignment: Alignment.center,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF4F4F4),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceContainer,
                   shape: BoxShape.circle,
                 ),
-                child: Text(entry.emoji, style: const TextStyle(fontSize: 22)),
+                child: Text(entry.emoji,
+                    style: theme.textTheme.titleMedium?.copyWith(fontSize: 22)),
               ),
             ),
             const SizedBox(width: 13),
@@ -56,12 +60,7 @@ class HomeOperationRow extends StatelessWidget {
                       entry.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF111111),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        height: 17 / 12,
-                      ),
+                      style: theme.textTheme.labelMedium,
                     ),
                   ),
                   const SizedBox(height: 2),
@@ -72,11 +71,8 @@ class HomeOperationRow extends StatelessWidget {
                       entry.categoryName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Color(0xFF555555),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        height: 14 / 10,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ),
@@ -91,7 +87,7 @@ class HomeOperationRow extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(horizontal: 7),
                 decoration: BoxDecoration(
-                  color: _badgeColor,
+                  color: _badgeColor(dark),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: PrivacyText(
@@ -101,10 +97,11 @@ class HomeOperationRow extends StatelessWidget {
                     preserveFraction: true,
                   )}',
                   maxLines: 1,
-                  style: const TextStyle(
-                    color: Color(0xFF343434),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: dark
+                        ? AppTheme.textDark
+                        : AppTheme.interactiveTextColor,
+                    fontWeight: FontWeight.w200,
                     height: 1,
                   ),
                 ),
@@ -116,10 +113,14 @@ class HomeOperationRow extends StatelessWidget {
     );
   }
 
-  Color get _badgeColor {
-    if (entry.isExpense) return const Color(0xFFF4F4F4);
-    if (entry.isIncome) return const Color(0xFF8DE99D);
-    return const Color(0xFFCEF3FC);
+  Color _badgeColor(bool dark) {
+    if (entry.isExpense) {
+      return dark ? AppTheme.expenseBadgeDark : AppTheme.expenseBadgeLight;
+    }
+    if (entry.isIncome) {
+      return dark ? AppTheme.incomeBadgeDark : AppTheme.incomeBadgeLight;
+    }
+    return dark ? AppTheme.transferBadgeDark : AppTheme.transferBadgeLight;
   }
 
   String get _sign => entry.isExpense ? '-' : (entry.isIncome ? '+' : '');

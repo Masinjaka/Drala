@@ -15,7 +15,15 @@ abstract interface class EnvelopeRepository {
     required int amount,
     required DateTime month,
     String? walletId,
+    bool repeatsMonthly = false,
   });
+
+  Future<void> updateEnvelope(
+      {required String id,
+      required String name,
+      required String categoryId,
+      required int amount,
+      required bool repeatsMonthly});
 
   Future<void> deleteEnvelope(String id);
 }

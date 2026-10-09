@@ -1,6 +1,7 @@
 import 'package:budgets/core/ui/amount_visibility_button.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
+import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:budgets/features/notifications/presentation/widgets/notification_inbox_button.dart';
 import 'package:flutter/foundation.dart';
@@ -93,7 +94,7 @@ class HomeHeader extends StatelessWidget {
   String get _balanceLabel {
     final amount =
         NumberFormat('#,##0.##', 'en_US').format(balance).replaceAll(',', ' ');
-    return currencyCode == 'MGA' ? '$amount Ar' : '$amount $currencyCode';
+    return '$amount ${currencySymbolForCode(currencyCode)}';
   }
 
   Widget _overallBalanceLabel(BuildContext context) {

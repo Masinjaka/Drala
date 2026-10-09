@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:budgets/core/theme.dart';
 
 class HomeBalanceEyePainter extends CustomPainter {
   const HomeBalanceEyePainter();
@@ -6,7 +7,7 @@ class HomeBalanceEyePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFFF4F4F4)
+      ..color = AppTheme.homeBannerText
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round

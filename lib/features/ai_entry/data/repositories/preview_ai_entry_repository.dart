@@ -144,6 +144,7 @@ class PreviewAiEntryRepository implements AiEntryRepository {
   Future<AiEntryResult> processMessage(
     String message, {
     required DateTime targetDate,
+    String outputLanguage = 'en',
   }) {
     throw StateError('Supabase is not initialized.');
   }

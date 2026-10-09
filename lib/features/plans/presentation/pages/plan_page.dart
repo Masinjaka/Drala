@@ -1,4 +1,3 @@
-import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/plans/domain/models/plan_tier.dart';
 import 'package:budgets/features/plans/domain/plan_feature_catalog.dart';
@@ -48,9 +47,9 @@ class _PlanPageState extends State<PlanPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         surfaceTintColor: Colors.transparent,
-        title: const Text(
+        title: Text(
           'Plans',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
       body: SafeArea(
@@ -63,23 +62,17 @@ class _PlanPageState extends State<PlanPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       'Choose what works for you',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w800,
-                      ),
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 6),
                     Text(
                       'Stay on Free or unlock more ways to manage your money.',
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withValues(alpha: .64),
-                        fontSize: 13,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                     ),
                     const SizedBox(height: 22),
                     Row(
@@ -120,7 +113,7 @@ class _PlanPageState extends State<PlanPage> {
                     : 'Subscribe to Drala Plus',
                 onPressed: _continue,
                 isLoading: _isSubmitting,
-                backgroundColor: AppTheme.primaryGreen,
+                backgroundColor: Theme.of(context).colorScheme.primary,
               ),
             ),
           ],

@@ -1,0 +1,74 @@
+[
+  {
+    "name": "pocket-organizer",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "Alexandria": 17
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [],
+      "cards": 1
+    }
+  },
+  {
+    "name": "reading-room",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "New York": 17
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [],
+      "cards": 1
+    }
+  },
+  {
+    "name": "wayfinding",
+    "fails": [],
+    "warns": [],
+    "facts": {
+      "fonts": {
+        "SF Pro Rounded": 17
+      },
+      "sizes": [
+        36,
+        22,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 2,
+      "accentHues": [
+        192,
+        216
+      ],
+      "cards": 1
+    }
+  }
+]

@@ -5,6 +5,7 @@ import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/features/categories/data/datasource/category_api.dart'
     as category_api;
@@ -415,11 +416,11 @@ class _GoalListItemState extends ConsumerState<GoalListItem>
                       currencyCode,
                       preserveFraction: true,
                     ),
-                    style: TextStyle(
+                    style: AppTextTheme.amount(TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
-                    ),
+                    )),
                   ),
                 ],
               ),
@@ -440,11 +441,11 @@ class _GoalListItemState extends ConsumerState<GoalListItem>
                       currencyCode,
                       preserveFraction: true,
                     ),
-                    style: TextStyle(
+                    style: AppTextTheme.amount(TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).textTheme.bodyLarge?.color,
-                    ),
+                    )),
                   ),
                 ],
               ),
@@ -465,11 +466,11 @@ class _GoalListItemState extends ConsumerState<GoalListItem>
                       currencyCode,
                       preserveFraction: true,
                     ),
-                    style: TextStyle(
+                    style: AppTextTheme.amount(TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).hintColor,
-                    ),
+                    )),
                   ),
                 ],
               ),
@@ -627,11 +628,11 @@ class _GoalListItemState extends ConsumerState<GoalListItem>
             currencyCode,
             preserveFraction: true,
           ),
-          style: TextStyle(
+          style: AppTextTheme.amount(TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Colors.black,
-          ),
+          )),
         ),
         Text(
           formatAmountWithCurrency(
@@ -639,10 +640,10 @@ class _GoalListItemState extends ConsumerState<GoalListItem>
             currencyCode,
             preserveFraction: true,
           ),
-          style: TextStyle(
+          style: AppTextTheme.amount(TextStyle(
             fontSize: 14,
             color: Theme.of(context).textTheme.bodyMedium?.color,
-          ),
+          )),
         ),
       ],
     );

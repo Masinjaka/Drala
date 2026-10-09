@@ -26,6 +26,7 @@ class ReceiptInputBottomSheet extends StatelessWidget {
 
     return Align(
       alignment: Alignment.bottomCenter,
+      heightFactor: 1,
       child: Container(
         width: sheetWidth,
         height: 222,
@@ -33,9 +34,9 @@ class ReceiptInputBottomSheet extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).bottomSheetTheme.backgroundColor,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(19)),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color(0x1A000000),
+              color: Theme.of(context).shadowColor.withValues(alpha: .1),
               blurRadius: 10,
               offset: Offset(0, -3),
             ),

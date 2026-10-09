@@ -45,7 +45,7 @@ void main() {
       ),
     );
 
-    expect(find.text('1 000 000 Ar'), findsOneWidget);
+    expect(find.text('1 000 000 MGA'), findsOneWidget);
     expect(find.text('Wallet balance left'), findsOneWidget);
     final overallBalance = tester.widget<Text>(
       find.text('Wallet balance left'),
@@ -71,16 +71,16 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('1 000 000 Ar'), findsOneWidget);
+    expect(find.text('1 000 000 MGA'), findsOneWidget);
     expect(find.text('***'), findsOneWidget);
     await tester.pumpAndSettle();
 
-    expect(find.text('1 000 000 Ar'), findsNothing);
+    expect(find.text('1 000 000 MGA'), findsNothing);
     expect(find.text('***'), findsOneWidget);
     expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('balance-visibility-toggle')));
     await tester.pumpAndSettle();
-    expect(find.text('1 000 000 Ar'), findsOneWidget);
+    expect(find.text('1 000 000 MGA'), findsOneWidget);
   });
 }

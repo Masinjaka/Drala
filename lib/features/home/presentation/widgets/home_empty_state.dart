@@ -30,7 +30,7 @@ class HomeEmptyState extends StatelessWidget {
                 HomeEmptyPromptCard(
                   key: const Key('first-entry-prompt'),
                   height: 124,
-                  emoji: '💰',
+                  emoji: '💬',
                   message: context.l10n.firstEntryIncomePrompt,
                 )
               else

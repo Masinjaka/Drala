@@ -15,6 +15,34 @@ void main() {
       repository = SupabaseEnvelopeRepository(service);
     });
 
+    test('forwards the monthly schedule and selected funding wallet', () async {
+      final month = DateTime(2026, 10);
+      when(() => service.addEnvelope(
+            name: 'Food',
+            categoryId: 'food',
+            amount: 100,
+            month: month,
+            walletId: 'cash',
+            repeatsMonthly: true,
+          )).thenAnswer((_) async {});
+      await repository.addEnvelope(
+        name: 'Food',
+        categoryId: 'food',
+        amount: 100,
+        month: month,
+        walletId: 'cash',
+        repeatsMonthly: true,
+      );
+      verify(() => service.addEnvelope(
+            name: 'Food',
+            categoryId: 'food',
+            amount: 100,
+            month: month,
+            walletId: 'cash',
+            repeatsMonthly: true,
+          )).called(1);
+    });
+
     test('reads the funded envelope remaining balance', () async {
       when(() => service.envelopes(any())).thenAnswer(
         (_) async => [

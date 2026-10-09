@@ -1,10 +1,15 @@
 import { ApiError } from "./errors.ts";
 
+const languageNames: Record<string, string> = {
+  en: "English", fr: "French", mg: "Malagasy",
+  de: "German", es: "Spanish", it: "Italian",
+};
+
 export type FinanceRequest = {
   kind: "new";
   message: string;
   receiptId?: string;
-  outputLanguage: "English" | "French";
+  outputLanguage: string;
   timezone: string;
   targetDate: string;
   timezoneOffsetMinutes: number;
@@ -47,7 +52,8 @@ export async function parseFinanceRequest(
   const receiptId = typeof value.receipt_id === "string"
     ? value.receipt_id
     : undefined;
-  const outputLanguage = value.output_language === "fr" ? "French" : "English";
+  const outputLanguage = languageNames[String(value.output_language)] ??
+    "English";
   const timezone = typeof value.timezone === "string"
     ? value.timezone.trim()
     : "UTC";

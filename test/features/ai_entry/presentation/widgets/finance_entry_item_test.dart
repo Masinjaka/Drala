@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/amount_visibility_controller.dart';
+import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
@@ -12,6 +13,7 @@ void main() {
       (tester) async {
     await tester.pumpWidget(
       MaterialApp(
+        theme: AppTheme.lightTheme,
         home: Scaffold(
           body: Column(
             children: [
@@ -45,7 +47,25 @@ void main() {
     expect(expense.data, startsWith('-'));
     expect(income.data, startsWith('+'));
     final title = tester.widget<Text>(find.text('expense'));
-    expect(title.style?.fontWeight, FontWeight.w700);
+    expect(title.style?.fontWeight,
+        AppTheme.lightTheme.textTheme.bodyMedium?.fontWeight);
+  });
+
+  testWidgets('uses dark status surfaces and readable text', (tester) async {
+    await tester.pumpWidget(MaterialApp(
+      theme: AppTheme.darkTheme,
+      home: Scaffold(
+        body: FinanceEntryItem(entry: _entry('expense', 'expense')),
+      ),
+    ));
+
+    expect(_badgeColor(tester, 'expense'), AppTheme.expenseBadgeDark);
+    final amount = tester.widget<Text>(
+      find.byKey(const Key('finance-entry-amount-expense')),
+    );
+    expect(amount.style?.color, AppTheme.textDark);
+    expect(tester.widget<Text>(find.text('expense')).style?.color,
+        AppTheme.darkTheme.textTheme.bodyMedium?.color);
   });
 
   testWidgets('shows transfers in a blue amount pill', (tester) async {
@@ -69,7 +89,7 @@ void main() {
     final amount = tester.widget<Text>(
       find.byKey(const Key('finance-entry-amount-transfer')),
     );
-    expect(amount.data, '-5 000 Ar');
+    expect(amount.data, '-5 000 MGA');
     expect(
       _badgeColor(tester, 'transfer'),
       FinanceEntryAmountBadge.transferBackground,
@@ -80,7 +100,7 @@ void main() {
     visibilityController.toggle();
     await tester.pumpAndSettle();
     expect(find.text('***'), findsOneWidget);
-    expect(find.text('-5 000 Ar'), findsNothing);
+    expect(find.text('-5 000 MGA'), findsNothing);
   });
 
   testWidgets('renders the category emoji instead of a Material icon',

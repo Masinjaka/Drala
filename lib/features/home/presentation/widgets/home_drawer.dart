@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/ui/outlined_square_button.dart';
 import 'package:budgets/features/home/presentation/widgets/drawer_menu_section.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -66,8 +67,7 @@ class HomeDrawer extends StatelessWidget {
                               child: Icon(Icons.settings_outlined, size: 22)),
                           const SizedBox(width: 11),
                           Text(context.l10n.settings,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500)),
+                              style: AppTextTheme.drawerMenu(context)),
                         ],
                       ),
                     ),

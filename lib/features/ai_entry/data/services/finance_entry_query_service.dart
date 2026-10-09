@@ -1,5 +1,8 @@
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
+import 'package:budgets/features/ai_entry/domain/models/finance_entry_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+part 'finance_entry_page_query.dart';
 
 class FinanceEntryQueryService {
   const FinanceEntryQueryService(this._client);
@@ -83,11 +86,9 @@ class FinanceEntryQueryService {
   }
 
   Future<List<FinanceEntry>> _transactionRows(
-    String userId,
-    DateTime start,
-    DateTime end,
-  ) async {
-    final rows = await _client
+      String userId, DateTime start, DateTime end,
+      {int? offset, int? limit}) async {
+    final query = _client
         .from('transaction')
         .select(
           'id,title,description,amount,date,transaction_type,currency_code,'
@@ -98,17 +99,21 @@ class FinanceEntryQueryService {
         .eq('user_id', userId)
         .gte('date', start.toUtc().toIso8601String())
         .lt('date', end.toUtc().toIso8601String());
+    final rows = offset == null
+        ? await query
+        : await query
+            .order('date', ascending: false)
+            .order('id', ascending: false)
+            .range(offset, offset + limit! - 1);
     return rows
         .map((row) => FinanceEntry.fromJson(Map<String, dynamic>.from(row)))
         .toList(growable: false);
   }
 
   Future<List<FinanceEntry>> _transferRows(
-    String userId,
-    DateTime start,
-    DateTime end,
-  ) async {
-    final rows = await _client
+      String userId, DateTime start, DateTime end,
+      {int? offset, int? limit}) async {
+    final query = _client
         .from('wallet_transfers')
         .select(
           'id,amount,currency_code,description,occurred_at,'
@@ -118,6 +123,12 @@ class FinanceEntryQueryService {
         .eq('user_id', userId)
         .gte('occurred_at', start.toUtc().toIso8601String())
         .lt('occurred_at', end.toUtc().toIso8601String());
+    final rows = offset == null
+        ? await query
+        : await query
+            .order('occurred_at', ascending: false)
+            .order('id', ascending: false)
+            .range(offset, offset + limit! - 1);
     return rows.map((row) {
       final value = Map<String, dynamic>.from(row);
       final from = _record(value['from_wallet'])['name'] ?? 'wallet';

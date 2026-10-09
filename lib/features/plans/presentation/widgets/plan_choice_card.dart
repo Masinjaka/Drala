@@ -1,4 +1,3 @@
-import 'package:budgets/core/theme.dart';
 import 'package:flutter/material.dart';
 
 class PlanChoiceCard extends StatelessWidget {
@@ -19,9 +18,9 @@ class PlanChoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = isSelected
-        ? AppTheme.interactiveTextColor
-        : Theme.of(context).colorScheme.onSurface;
+    final theme = Theme.of(context);
+    final foreground =
+        isSelected ? theme.colorScheme.onPrimary : theme.colorScheme.onSurface;
     return Expanded(
       child: InkWell(
         onTap: onTap,
@@ -31,17 +30,17 @@ class PlanChoiceCard extends StatelessWidget {
           padding: const EdgeInsets.all(15),
           decoration: BoxDecoration(
             color: isSelected
-                ? AppTheme.primaryGreen
-                : Theme.of(context).colorScheme.surfaceContainerLowest,
+                ? theme.colorScheme.primary
+                : theme.colorScheme.surfaceContainerLowest,
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
               color: isSelected
-                  ? AppTheme.primaryGreen
-                  : Theme.of(context).dividerColor,
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.outline,
             ),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Color(0x0E000000),
+                color: theme.shadowColor.withValues(alpha: .055),
                 blurRadius: 14,
                 offset: Offset(0, 5),
               ),
@@ -57,19 +56,16 @@ class PlanChoiceCard extends StatelessWidget {
                 title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: foreground,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: theme.textTheme.bodyMedium?.copyWith(color: foreground),
               ),
               Text(
                 subtitle,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: foreground.withValues(alpha: 0.68),
-                  fontSize: 11.5,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: isSelected
+                      ? foreground
+                      : theme.colorScheme.onSurfaceVariant,
                 ),
               ),
             ],

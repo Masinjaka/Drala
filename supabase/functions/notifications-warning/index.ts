@@ -1,9 +1,12 @@
 import { SignJWT, importPKCS8 } from "npm:jose@5.2.2";
+import {
+  alertMessage, authenticatedUser, deviceTokens, markAlertSent, pendingAlerts,
+} from "./dispatch.ts";
 
 type WarningPayload = {
   user_id: string;
   tokens: string[];
-  level: "warning" | "exceeded";
+  level: "warning" | "reached" | "exceeded";
   category?: string | null;
   amount?: string | null;
   amount_spent?: string | null;
@@ -79,11 +82,35 @@ async function sendMessage(
 }
 
 Deno.serve(async (req: Request) => {
-  if (CRON_SECRET) {
-    const providedSecret = req.headers.get("x-cron-secret");
-    if (providedSecret !== CRON_SECRET) {
-      return new Response("Unauthorized", { status: 401 });
+  if (req.headers.has("authorization") &&
+      !(CRON_SECRET && req.headers.get("x-cron-secret") === CRON_SECRET)) {
+    const userId = await authenticatedUser(req);
+    if (!userId) return new Response("Unauthorized", { status: 401 });
+    const { alerts, languageCode } = await pendingAlerts(userId);
+    if (!alerts.length) return Response.json({ sent: 0 });
+    const tokens = await deviceTokens(userId);
+    if (!tokens.length) return Response.json({ sent: 0 });
+    const accessToken = await getAccessToken();
+    let sent = 0;
+    for (const alert of alerts) {
+      const message = alertMessage(alert, languageCode);
+      let delivered = false;
+      for (const token of tokens) {
+        const response = await sendMessage(
+          accessToken, token, message.title, message.body,
+          { type: "warning", level: message.level, envelope_id: alert.envelope_id },
+        );
+        if (response.ok) {
+          sent += 1;
+          delivered = true;
+        }
+      }
+      if (delivered) await markAlertSent(alert.id);
     }
+    return Response.json({ sent });
+  }
+  if (!CRON_SECRET || req.headers.get("x-cron-secret") !== CRON_SECRET) {
+    return new Response("Unauthorized", { status: 401 });
   }
 
   const payload = (await req.json()) as WarningPayload;
@@ -98,10 +125,14 @@ Deno.serve(async (req: Request) => {
   const title =
     payload.level === "exceeded"
       ? "Budget dépassé"
+      : payload.level === "reached"
+      ? "Budget atteint"
       : "Budget bientôt épuisé";
   const body =
     payload.level === "exceeded"
       ? `Vous avez dépassé ${category}.`
+      : payload.level === "reached"
+      ? `Le budget ${category} est épuisé.`
       : `Vous êtes proche de dépasser ${category}.`;
 
   let sent = 0;

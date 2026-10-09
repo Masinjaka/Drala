@@ -26,11 +26,11 @@ void main() {
     await tester.tap(find.byKey(const Key('legal-consent-checkbox')));
     expect(accepted, isTrue);
 
-    await tester.tap(find.byKey(const Key('terms-and-conditions-link')));
+    await tester.tapOnText(find.textRange.ofSubstring('Terms and Conditions'));
     await tester.pump();
     expect(launcher.termsOpenCount, 1);
 
-    await tester.tap(find.byKey(const Key('privacy-policy-link')));
+    await tester.tapOnText(find.textRange.ofSubstring('Privacy policy'));
     await tester.pump();
     expect(launcher.privacyOpenCount, 1);
   });

@@ -1,4 +1,4 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
 class PasswordRequirementItem extends StatelessWidget {
@@ -52,11 +52,7 @@ class PasswordRequirementItem extends StatelessWidget {
             Expanded(
               child: AnimatedDefaultTextStyle(
                 duration: const Duration(milliseconds: 180),
-                style: TextStyle(
-                  color: color,
-                  fontSize: AppTypography.caption,
-                  fontWeight: isSatisfied ? FontWeight.w700 : FontWeight.w600,
-                ),
+                style: AppTextTheme.authLabel(context),
                 child: Text(label),
               ),
             ),

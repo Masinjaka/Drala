@@ -16,7 +16,6 @@ void main() {
               key: const Key('open-settings'),
               onPressed: () => DrawerDestinationNavigator(
                 context: context,
-                selectedDate: DateTime(2026, 7, 22),
                 closeDrawer: () {},
                 onReturn: () async => refreshCount++,
                 shouldRunOnReturn: () => signedIn,

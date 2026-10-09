@@ -1,3 +1,4 @@
+import 'package:budgets/core/theme.dart';
 import 'package:budgets/features/plans/presentation/pages/plan_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -36,5 +37,23 @@ void main() {
     await tester.pump();
 
     expect(subscriptionStarted, isTrue);
+  });
+
+  testWidgets('plan choices and comparison use dark theme colors',
+      (tester) async {
+    await tester.pumpWidget(MaterialApp(
+      theme: AppTheme.darkTheme,
+      home: const PlanPage(),
+    ));
+
+    final colors = AppTheme.darkTheme.colorScheme;
+    expect(tester.widget<Text>(find.text('Free').first).style?.color,
+        colors.onPrimary);
+    expect(tester.widget<Text>(find.text('20/day')).style?.color,
+        colors.onSurfaceVariant);
+    await tester.tap(find.text('Drala Plus').first);
+    await tester.pump();
+    expect(tester.widget<Text>(find.text('Drala Plus').first).style?.color,
+        colors.onPrimary);
   });
 }

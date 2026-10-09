@@ -23,7 +23,7 @@ class FinanceEntryIcon extends StatelessWidget {
       child: Text(
         _resolvedEmoji,
         key: const Key('finance-entry-emoji'),
-        style: const TextStyle(fontSize: 22),
+        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 22),
       ),
     );
   }

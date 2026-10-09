@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:animated_digit/animated_digit.dart';
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedCompactAmount extends StatefulWidget {
@@ -12,6 +13,8 @@ class AnimatedCompactAmount extends StatefulWidget {
     this.duration = const Duration(milliseconds: 800),
     this.onCompleted,
     this.beginNearTarget = false,
+    this.respectAmountVisibility = true,
+    this.amountTypography = true,
     super.key,
   });
 
@@ -21,6 +24,8 @@ class AnimatedCompactAmount extends StatefulWidget {
   final Duration duration;
   final VoidCallback? onCompleted;
   final bool beginNearTarget;
+  final bool respectAmountVisibility;
+  final bool amountTypography;
 
   @override
   State<AnimatedCompactAmount> createState() => _AnimatedCompactAmountState();
@@ -49,7 +54,8 @@ class _AnimatedCompactAmountState extends State<AnimatedCompactAmount> {
     if (oldWidget.value == widget.value) {
       if (oldWidget.prefix != widget.prefix ||
           oldWidget.style != widget.style ||
-          oldWidget.duration != widget.duration) {
+          oldWidget.duration != widget.duration ||
+          oldWidget.amountTypography != widget.amountTypography) {
         _counter = _buildCounter();
       }
       return;
@@ -112,18 +118,22 @@ class _AnimatedCompactAmountState extends State<AnimatedCompactAmount> {
 
   @override
   Widget build(BuildContext context) {
-    if (!AmountVisibilityScope.isVisibleOf(context)) {
+    if (widget.respectAmountVisibility &&
+        !AmountVisibilityScope.isVisibleOf(context)) {
       return Text('***', maxLines: 1, style: widget.style);
     }
     return _counter;
   }
 
   Widget _buildCounter() {
+    final amountStyle = widget.amountTypography
+        ? AppTextTheme.amount(widget.style)
+        : widget.style;
     return SingleDigitProvider(
       data: SingleDigitData(useTextSize: true),
       child: AnimatedDigitWidget(
         controller: _controller,
-        textStyle: widget.style,
+        textStyle: amountStyle,
         prefix: widget.prefix,
         suffix: _display.suffix,
         duration: widget.duration,

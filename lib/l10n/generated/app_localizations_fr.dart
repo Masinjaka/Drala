@@ -9,6 +9,11 @@ class AppLocalizationsFr extends AppLocalizations {
   AppLocalizationsFr([String locale = 'fr']) : super(locale);
 
   @override
+  String envelopeOverBy(String amount) {
+    return 'Dépassé de $amount';
+  }
+
+  @override
   String get appTitle => 'Drala';
 
   @override
@@ -63,6 +68,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get privacyPolicy => 'Politique de confidentialité';
 
   @override
+  String get adPrivacyOptions => 'Choix de confidentialité des annonces';
+
+  @override
   String get legalConsentPrefix => 'J’accepte les ';
 
   @override
@@ -72,10 +80,27 @@ class AppLocalizationsFr extends AppLocalizations {
   String get logOut => 'Se déconnecter';
 
   @override
+  String appVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
   String get english => 'Anglais';
 
   @override
   String get french => 'Français';
+
+  @override
+  String get malagasy => 'Malgache';
+
+  @override
+  String get german => 'Allemand';
+
+  @override
+  String get spanish => 'Espagnol';
+
+  @override
+  String get italian => 'Italien';
 
   @override
   String get menu => 'Menu';
@@ -165,7 +190,17 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String envelopeBudgetExceeded(String name) {
-    return 'Vous avez dépassé le budget de l’enveloppe $name.';
+    return 'Vous avez dépassé le budget de l\'enveloppe $name.';
+  }
+
+  @override
+  String envelopeBudgetAlmostReached(String name) {
+    return 'Le budget de l\'enveloppe $name est presque épuisé.';
+  }
+
+  @override
+  String envelopeBudgetReached(String name) {
+    return 'Le budget de l\'enveloppe $name est atteint.';
   }
 
   @override
@@ -196,7 +231,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get firstEntryIncomePrompt =>
-      'Commencez par m’indiquer vos revenus ! Écrivez simplement « J’ai reçu xxx » ou « Salaire xxx » et je m’occupe du reste.';
+      'Commencez par un revenu ou une dépense. Écrivez « J’ai reçu xxx » ou « J’ai dépensé xxx en nourriture » et je l’enregistrerai.';
 
   @override
   String entryCount(num count) {
@@ -767,4 +802,128 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get done => 'Terminé';
+
+  @override
+  String get repeatEnvelopeMonthly => 'Renouveler chaque mois';
+
+  @override
+  String get repeatEnvelopeMonthlyHelp =>
+      'Financer un nouveau budget depuis le même portefeuille chaque mois, dès que les fonds sont disponibles.';
+
+  @override
+  String get editEnvelope => 'Modifier l’enveloppe';
+
+  @override
+  String get aiRequestTimedOut =>
+      'La requête IA a pris trop de temps. Veuillez réessayer.';
+
+  @override
+  String get setupLanguageTitle => 'Votre langue';
+
+  @override
+  String get setupLanguageBody => 'Choisissez la langue de Drala.';
+
+  @override
+  String get setupCurrencyTitle => 'Votre devise';
+
+  @override
+  String get setupCurrencyBody =>
+      'Choisissez la devise d’affichage des montants.';
+
+  @override
+  String get setupCategoriesTitle => 'Vos catégories';
+
+  @override
+  String get setupCategoriesBody =>
+      'Gardez celles qui vous sont utiles. Vous pourrez en ajouter plus tard.';
+
+  @override
+  String get setupWalletsTitle => 'Vos portefeuilles';
+
+  @override
+  String get setupWalletsBody =>
+      'Séparez votre argent selon son usage. Le portefeuille principal est toujours inclus.';
+
+  @override
+  String get setupContinue => 'Continuer';
+
+  @override
+  String get setupFinish => 'Commencer';
+
+  @override
+  String get setupCompleteTitle => 'Tout est prêt !';
+
+  @override
+  String get setupCompleteBody => 'Bonne gestion';
+
+  @override
+  String get setupDone => 'Super';
+
+  @override
+  String get setupRetry => 'Réessayer';
+
+  @override
+  String get setupMainWallet => 'Portefeuille principal';
+
+  @override
+  String get setupCash => 'Espèces';
+
+  @override
+  String get setupBank => 'Compte bancaire';
+
+  @override
+  String get setupMobile => 'Mobile money';
+
+  @override
+  String get authSignUp => 'Créer un compte';
+
+  @override
+  String get authSignIn => 'Se connecter';
+
+  @override
+  String get authSignUpBody => 'Quelques détails, puis un Drala à votre image.';
+
+  @override
+  String get authSignInBody => 'Retrouvez vos comptes et vos dépenses.';
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authPassword => 'Mot de passe';
+
+  @override
+  String get authConfirmPassword => 'Confirmer le mot de passe';
+
+  @override
+  String get authForgotPassword => 'Mot de passe oublié ?';
+
+  @override
+  String get authConfirmEmail =>
+      'Confirmez votre compte depuis votre email, puis connectez-vous pour terminer la configuration.';
+
+  @override
+  String get setupLoadError => 'Impossible de charger les choix. Réessayez.';
+
+  @override
+  String get authResetInstruction =>
+      'Saisissez votre e-mail pour recevoir un code de vérification.';
+
+  @override
+  String get authResetCodeSent => 'Code de vérification envoyé';
+
+  @override
+  String get authCodeSentTo => 'Un code a été envoyé à';
+
+  @override
+  String get authVerificationCode => 'Code de vérification';
+
+  @override
+  String get authEnterSixDigitCode => 'Saisissez le code à 6 chiffres';
+
+  @override
+  String get authResetButton => 'Réinitialiser le mot de passe';
+
+  @override
+  String get authResetSuccess => 'Mot de passe réinitialisé';
 }

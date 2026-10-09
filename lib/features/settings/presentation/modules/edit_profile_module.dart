@@ -28,7 +28,7 @@ class EditProfileModule {
         title: context.l10n.deleteAccountQuestion,
         allowText: context.l10n.delete,
         denyText: context.l10n.cancel,
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Theme.of(context).colorScheme.error,
         message: context.l10n.deleteAccountDetails,
         onAllow: () {
           Navigator.of(ctx).pop(true);
@@ -132,7 +132,7 @@ class EditProfileModule {
       return;
     }
     if (usernameUpdated || photoUpdated) {
-      context.pop();
+      Navigator.of(context).pop();
     }
   }
 }

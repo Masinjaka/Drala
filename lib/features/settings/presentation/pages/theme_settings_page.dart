@@ -44,7 +44,8 @@ class ThemeSettingsPage extends ConsumerWidget {
       title: label,
       leading: Icon(icon, size: 20),
       trailing: current == mode
-          ? const Icon(Icons.check_circle, color: Colors.green)
+          ? Icon(Icons.check_circle,
+              color: Theme.of(ref.context).colorScheme.primary)
           : null,
       onTap: () => ref.read(themeProvider.notifier).setTheme(option),
     );

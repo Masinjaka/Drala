@@ -1,4 +1,5 @@
 import 'package:budgets/core/currency/currency_provider.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/stats/domain/providers/stats_provider.dart';
 import 'package:budgets/features/stats/presentation/modules/authentication_utils.dart';
@@ -132,11 +133,11 @@ class _JumbotronState extends ConsumerState<Jumbotron> {
                         : Text(
                             '${isNegative ? '-' : ''}${formatAmountWithCurrency(displayAmount, currencyCode, preserveFraction: true)}',
                             key: const ValueKey('visible'),
-                            style: TextStyle(
+                            style: AppTextTheme.amount(TextStyle(
                               fontSize: 22,
                               color: isNegative ? Colors.red : textColor,
                               fontWeight: FontWeight.w600,
-                            ),
+                            )),
                           ),
                   );
                 },

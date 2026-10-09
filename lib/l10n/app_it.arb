@@ -1,0 +1,343 @@
+{
+  "envelopeOverBy": "Superato di {amount}",
+  "@envelopeOverBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@@locale": "it",
+  "appTitle": "Drala",
+  "settings": "Impostazioni",
+  "editProfile": "Modifica profilo",
+  "changePassword": "Cambia password",
+  "preferences": "Preferenze",
+  "notification": "Notifica",
+  "currency": "Valuta",
+  "setDefaultWallet": "Imposta portafoglio predefinito",
+  "theme": "Tema",
+  "light": "Chiaro",
+  "dark": "Scuro",
+  "system": "Sistema",
+  "language": "Lingua",
+  "scannedReceipts": "Ricevute scansionate",
+  "legal": "Informazioni legali",
+  "termsOfService": "Termini di servizio",
+  "termsAndConditions": "Termini e condizioni",
+  "privacyPolicy": "Informativa sulla privacy",
+  "adPrivacyOptions": "Scelte sulla privacy degli annunci",
+  "legalConsentPrefix": "Accetto i ",
+  "legalConsentConnector": " e l'",
+  "logOut": "Esci",
+  "appVersion": "Versione {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "english": "Inglese",
+  "french": "Francese",
+  "malagasy": "Malgascio",
+  "german": "Tedesco",
+  "spanish": "Spagnolo",
+  "italian": "Italiano",
+  "menu": "Menu",
+  "collapseMenu": "Comprimi menu",
+  "expandMenu": "Espandi menu",
+  "envelope": "Busta",
+  "stats": "Statistiche",
+  "feedback": "Feedback",
+  "resumeFromDate": "Riprendi da una data specifica",
+  "wallets": "Portafogli",
+  "addWallet": "Aggiungi portafoglio",
+  "walletNameLabel": "Nome del portafoglio",
+  "walletNameHint": "ad es. Risparmi",
+  "currentBalanceLabel": "Saldo attuale",
+  "editWallet": "Modifica portafoglio",
+  "deleteWallet": "Elimina portafoglio",
+  "deleteWalletQuestion": "Eliminare questo portafoglio?",
+  "deleteWalletDescription": "Questo portafoglio verrà rimosso definitivamente. La cronologia delle transazioni rimarrà invariata.",
+  "walletUpdated": "Portafoglio aggiornato.",
+  "walletDeleted": "Portafoglio eliminato.",
+  "walletInUseCannotBeDeleted": "Questo portafoglio contiene transazioni e non può essere eliminato.",
+  "allTime": "Tutto il periodo",
+  "showBalance": "Mostra saldo",
+  "hideBalance": "Nascondi saldo",
+  "overallBalance": "Saldo residuo nei portafogli",
+  "takenFromEnvelope": "Prelevato dalla busta {name}",
+  "@takenFromEnvelope": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifications": "Notifiche",
+  "noNotifications": "Nessuna notifica",
+  "noNotificationsDescription": "Qui appariranno gli avvisi sul budget e gli aggiornamenti finanziari importanti.",
+  "envelopeBudgetExceeded": "Hai superato il budget della busta {name}.",
+  "envelopeBudgetAlmostReached": "Il budget della busta {name} è quasi esaurito.",
+  "@envelopeBudgetAlmostReached": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "envelopeBudgetReached": "Il budget della busta {name} è stato raggiunto.",
+  "@envelopeBudgetReached": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@envelopeBudgetExceeded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "todayWithDate": "Oggi, {date}",
+  "noEntriesForDate": "Nessuna voce per questa data",
+  "emptyStateWelcomeBack": "Bentornato!",
+  "emptyStateWelcomeTo": "Benvenuto su",
+  "emptyStateIncomePrompt": "Hai ricevuto denaro? Raccontamelo così possiamo festeggiare… e registrarlo.",
+  "emptyStateExpensePrompt": "Hai fatto una spesa? Dimmi quanto e per cosa… terrò io i conti.",
+  "emptyStateTransferPrompt": "Vuoi spostare denaro? Dimmi da dove a dove e lo farò.",
+  "firstEntryIncomePrompt": "Inizia con un'entrata o una spesa. Scrivi «Ho ricevuto xxx» o «Ho speso xxx per il cibo» e la registrerò.",
+  "entryCount": "{count, plural, =1{1 voce} other{{count} voci}}",
+  "expenseCount": "{count, plural, =1{1 spesa} other{{count} spese}}",
+  "incomeCount": "{count, plural, =1{1 entrata} other{{count} entrate}}",
+  "transferCount": "{count, plural, =1{1 trasferimento} other{{count} trasferimenti}}",
+  "unlimitedAiRequests": "Richieste IA illimitate con Drala Plus",
+  "aiRequestsRemaining": "Oggi ti restano {count} richieste IA",
+  "chatHint": "Le tue spese…",
+  "startTyping": "Inizia a scrivere…",
+  "chatIncomeHint": "Le tue entrate…",
+  "chatTransferHint": "Trasferisci tra portafogli…",
+  "expenseSuggestion": "Ho speso {amount} per degli hamburger",
+  "incomeSuggestion": "Ho ricevuto {amount} di stipendio",
+  "transferSuggestion": "Trasferisci {amount} da Contanti a Risparmi",
+  "addReceipt": "Aggiungi ricevuta",
+  "manualEntry": "Inserimento manuale",
+  "send": "Invia",
+  "enterManually": "Inserisci manualmente",
+  "importFile": "Importa file",
+  "scanReceipt": "Scansiona ricevuta",
+  "receiptGalleryEmpty": "Le ricevute scansionate e importate appariranno qui.",
+  "deleteReceiptQuestion": "Eliminare la ricevuta?",
+  "deleteReceiptDescription": "Questo rimuoverà tutte le pagine della ricevuta.",
+  "cancel": "Annulla",
+  "delete": "Elimina",
+  "receiptDeleted": "Ricevuta eliminata.",
+  "receipt": "Ricevuta",
+  "receiptPages": "{count, plural, =1{1 pagina della ricevuta} other{{count} pagine della ricevuta}}",
+  "pageCount": "{count, plural, =1{1 pagina} other{{count} pagine}}",
+  "deleteReceipt": "Elimina ricevuta",
+  "save": "Salva",
+  "username": "Nome utente",
+  "enterUsername": "Inserisci il nome utente",
+  "user": "Utente",
+  "currentPassword": "Password attuale",
+  "enterCurrentPassword": "Inserisci la password attuale",
+  "newPassword": "Nuova password",
+  "enterNewPassword": "Inserisci la nuova password",
+  "confirmPassword": "Conferma password",
+  "confirmNewPassword": "Conferma la nuova password",
+  "passwordsDoNotMatch": "Le nuove password non corrispondono.",
+  "passwordMustDiffer": "Scegli una password diversa da quella attuale.",
+  "passwordUpdated": "Password aggiornata.",
+  "searchCurrency": "Cerca una valuta",
+  "errorWithMessage": "Errore: {message}",
+  "defaultWalletDescription": "Le spese e le nuove buste usano questo portafoglio per impostazione predefinita.",
+  "defaultWalletUpdated": "Portafoglio predefinito aggiornato.",
+  "termsIntro": "Questi termini spiegano le regole per usare Drala.",
+  "termsDetails": "Usa Drala solo per gestire legalmente le tue finanze personali. Sei responsabile di verificare le voci create dall'IA prima di farvi affidamento. La disponibilità del servizio può cambiare con l'evoluzione dell'app.",
+  "privacyIntro": "Le tue informazioni finanziarie ti appartengono.",
+  "privacyDetails": "Drala memorizza i dati dell'account e delle transazioni per fornire l'app. Le ricevute scansionate sono conservate in uno spazio privato per ciascun utente e inviate al provider IA configurato tramite il backend per l'estrazione. Puoi eliminare singole ricevute da Ricevute scansionate, oppure eliminare tutti i dati memorizzati o l'intero account da Modifica profilo.",
+  "legalLastUpdated": "Ultimo aggiornamento: 21 luglio 2026",
+  "allowNotifications": "Consenti notifiche",
+  "dailyReminders": "Promemoria quotidiani",
+  "budgetAlerts": "Avvisi sul budget",
+  "selectReminderTime": "Seleziona l'ora del promemoria",
+  "preferredReminderTime": "Ora preferita del promemoria",
+  "reminderDeliveryTime": "Ora di invio del promemoria quotidiano",
+  "enableNotifications": "Attiva notifiche",
+  "notificationPermissionMessage": "Consenti le notifiche per ricevere promemoria quotidiani e avvisi sul budget.",
+  "allow": "Consenti",
+  "deny": "Nega",
+  "notificationsBlocked": "Notifiche bloccate",
+  "notificationsBlockedMessage": "Consenti le notifiche nelle impostazioni del dispositivo per ricevere promemoria e avvisi.",
+  "openSettings": "Apri impostazioni",
+  "dangerZone": "Zona pericolosa",
+  "deleteAllData": "Elimina tutti i miei dati",
+  "deleteAllDataSummary": "Elimina definitivamente tutti i contenuti dell'app.",
+  "deleteAccount": "Elimina il mio account",
+  "deleteAccountSummary": "Elimina i tuoi dati e disattiva l'accesso.",
+  "deleteAllDataQuestion": "Eliminare tutti i dati?",
+  "deleteAllDataDetails": "Saranno eliminati transazioni, portafogli, buste, budget, obiettivi, cronologia IA, preferenze e file. Il tuo account e il tuo piano saranno mantenuti.",
+  "deleteKeyword": "DELETE",
+  "typeDeleteToConfirm": "Digita DELETE per confermare.",
+  "allDataDeleted": "Tutti i tuoi dati sono stati eliminati.",
+  "deleteAccountQuestion": "Eliminare definitivamente l'account?",
+  "deleteAccountDetails": "Questo elimina il tuo account, il piano, i file e tutti i tuoi dati. L'azione non può essere annullata.",
+  "typeValueToConfirm": "Digita {value} per confermare.",
+  "accountDeleted": "Il tuo account è stato eliminato.",
+  "confirmation": "Conferma",
+  "chooseSource": "Scegli una fonte",
+  "fromGallery": "Dalla galleria",
+  "takePhoto": "Scatta una foto",
+  "mediaPermissionMessage": "Per continuare abbiamo bisogno dell'accesso alla fotocamera e ai file.",
+  "cameraDenied": "Accesso alla fotocamera negato.",
+  "mediaDenied": "Accesso ai file negato.",
+  "imageSelectionFailed": "Impossibile selezionare l'immagine.",
+  "usernameUpdateFailed": "Impossibile aggiornare il nome utente.",
+  "profilePhotoUploadFailed": "Impossibile caricare la foto del profilo.",
+  "back": "Indietro",
+  "enterEmail": "Inserisci un indirizzo email",
+  "invalidEmail": "Inserisci un indirizzo email valido",
+  "enterPassword": "Inserisci una password",
+  "passwordMinLength": "La password deve contenere almeno 8 caratteri.",
+  "passwordNeedsUppercase": "La password deve contenere almeno una lettera maiuscola.",
+  "passwordNeedsLowercase": "La password deve contenere almeno una lettera minuscola.",
+  "passwordNeedsNumber": "La password deve contenere almeno un numero.",
+  "passwordNeedsSpecialCharacter": "La password deve contenere almeno un carattere speciale.",
+  "passwordRuleMinLength": "Almeno 8 caratteri",
+  "passwordRuleUppercase": "Almeno una lettera maiuscola",
+  "passwordRuleLowercase": "Almeno una lettera minuscola",
+  "passwordRuleNumber": "Almeno un numero",
+  "passwordRuleSpecialCharacter": "Almeno un carattere speciale",
+  "netThisMonth": "Netto di questo mese",
+  "transactions": "Transazioni",
+  "homeWelcome": "Benvenuto",
+  "averagePerDay": "Media giornaliera",
+  "expenses": "Spese",
+  "income": "Entrate",
+  "largestExpense": "Spesa maggiore",
+  "dailySpending": "Spese giornaliere",
+  "topSpending": "Spese principali",
+  "noExpensesThisMonth": "Nessuna spesa questo mese",
+  "moreThanLastMonth": "{percentage}% in più rispetto al mese scorso",
+  "lessThanLastMonth": "{percentage}% in meno rispetto al mese scorso",
+  "@moreThanLastMonth": {
+    "placeholders": {
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "@lessThanLastMonth": {
+    "placeholders": {
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "addEnvelope": "Aggiungi busta",
+  "createExpenseCategoryFirst": "Crea una categoria di spesa prima di aggiungere un'altra busta.",
+  "monthlyEnvelopes": "Buste mensili",
+  "availableAcrossEnvelopes": "Disponibile nelle buste",
+  "budget": "Budget",
+  "spent": "Speso",
+  "newEnvelope": "Nuova busta",
+  "name": "Nome",
+  "envelopeNameHint": "ad es. Spesa alimentare",
+  "monthlyAmount": "Importo mensile",
+  "expenseCategory": "Categoria di spesa",
+  "saving": "Salvataggio…",
+  "create": "Crea",
+  "noEnvelopesYet": "Nessuna busta",
+  "envelopeEmptyDescription": "Imposta un importo mensile per una categoria di spesa. Le spese inserite in chat lo aggiorneranno automaticamente.",
+  "deleteEnvelope": "Elimina busta",
+  "overBudgetBy": "Budget superato di {amount}",
+  "@overBudgetBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "amountSpent": "{amount} spesi",
+  "ofAmount": "di {amount}",
+  "@amountSpent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@ofAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackPrompt": "Dicci cosa ne pensi",
+  "feedbackHint": "Descrivi un problema o condividi un'idea",
+  "feedbackRequired": "Inserisci il tuo feedback",
+  "sendFeedback": "Invia feedback",
+  "feedbackSent": "Feedback inviato. Grazie!",
+  "availableBalance": "Saldo disponibile",
+  "thisMonth": "Questo mese",
+  "operations": "Operazioni",
+  "categories": "Categorie",
+  "deleteTransactionQuestion": "Eliminare la transazione?",
+  "deleteTransactionDescription": "Vuoi davvero eliminare questa transazione? L'azione non può essere annullata.",
+  "deleteBudgetQuestion": "Eliminare il budget?",
+  "deleteBudgetDescription": "Vuoi davvero eliminare questo budget? L'azione non può essere annullata.",
+  "deleteGoalQuestion": "Eliminare l'obiettivo?",
+  "deleteGoalDescription": "Vuoi davvero eliminare questo obiettivo? L'azione non può essere annullata.",
+  "deleteCategoryQuestion": "Eliminare la categoria?",
+  "deleteCategoryDescription": "Vuoi davvero eliminare questa categoria? L'azione non può essere annullata.",
+  "editTransaction": "Modifica transazione",
+  "expense": "Spesa",
+  "title": "Titolo",
+  "description": "Descrizione",
+  "searchCategories": "Cerca una categoria",
+  "done": "Fatto",
+  "repeatEnvelopeMonthly": "Ripeti ogni mese",
+  "repeatEnvelopeMonthlyHelp": "Finanzia un nuovo budget dallo stesso portafoglio ogni mese, quando sono disponibili fondi.",
+  "editEnvelope": "Modifica busta",
+  "aiRequestTimedOut": "La richiesta IA ha impiegato troppo tempo. Riprova.",
+  "setupLanguageTitle": "La tua lingua",
+  "setupLanguageBody": "Scegli la lingua di Drala.",
+  "setupCurrencyTitle": "La tua valuta",
+  "setupCurrencyBody": "Scegli come visualizzare gli importi.",
+  "setupCategoriesTitle": "Le tue categorie",
+  "setupCategoriesBody": "Scegli le categorie utili. Potrai aggiungerne altre in seguito.",
+  "setupWalletsTitle": "I tuoi portafogli",
+  "setupWalletsBody": "Separa il denaro in base all’uso. Il portafoglio principale è sempre incluso.",
+  "setupContinue": "Continua",
+  "setupFinish": "Inizia",
+  "setupCompleteTitle": "È tutto pronto!",
+  "setupCompleteBody": "Buona gestione",
+  "setupDone": "Ottimo",
+  "setupRetry": "Riprova",
+  "setupMainWallet": "Portafoglio principale",
+  "setupCash": "Contanti",
+  "setupBank": "Conto bancario",
+  "setupMobile": "Denaro mobile",
+  "authSignUp": "Crea un account",
+  "authSignIn": "Accedi",
+  "authSignUpBody": "Qualche dettaglio, poi personalizza Drala.",
+  "authSignInBody": "Ritrova i tuoi conti e le tue spese.",
+  "authEmail": "Email",
+  "authPassword": "Password",
+  "authConfirmPassword": "Conferma password",
+  "authForgotPassword": "Password dimenticata?",
+  "authConfirmEmail": "Conferma il tuo account via email, poi accedi per completare la configurazione.",
+  "setupLoadError": "Impossibile caricare le opzioni. Riprova.",
+  "authResetInstruction": "Inserisci la tua email per ricevere un codice di verifica.",
+  "authResetCodeSent": "Codice di verifica inviato",
+  "authCodeSentTo": "Un codice è stato inviato a",
+  "authVerificationCode": "Codice di verifica",
+  "authEnterSixDigitCode": "Inserisci il codice a 6 cifre",
+  "authResetButton": "Reimposta password",
+  "authResetSuccess": "Password reimpostata"
+}

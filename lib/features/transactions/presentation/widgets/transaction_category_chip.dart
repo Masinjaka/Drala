@@ -74,13 +74,11 @@ class _TransactionCategoryChipState extends State<TransactionCategoryChip>
             padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
             child: Text(
               '${widget.category.emoji ?? '❓'} ${widget.category.name ?? ''}',
-              style: TextStyle(
-                color: widget.selected
-                    ? colors.onInverseSurface
-                    : colors.onSurface,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: widget.selected
+                        ? colors.onInverseSurface
+                        : colors.onSurface,
+                  ),
             ),
           ),
         ),

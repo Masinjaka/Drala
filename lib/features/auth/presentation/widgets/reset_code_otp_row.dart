@@ -1,4 +1,4 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,44 +14,42 @@ class ResetCodeOtpRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List.generate(controllers.length, (index) {
-        return SizedBox(
-          width: 48,
-          child: TextFormField(
-            controller: controllers[index],
-            focusNode: focusNodes[index],
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.center,
-            maxLength: 1,
-            style: TextStyle(
-              fontSize: AppTypography.title,
-              fontWeight: FontWeight.w800,
-              color: Theme.of(context).textTheme.bodyLarge?.color,
+        return Expanded(
+          child: Padding(
+            padding:
+                EdgeInsets.only(right: index == controllers.length - 1 ? 0 : 8),
+            child: TextFormField(
+              controller: controllers[index],
+              focusNode: focusNodes[index],
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              maxLength: 1,
+              style: AppTextTheme.authBody(context),
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              decoration: InputDecoration(
+                counterText: '',
+                isDense: true,
+                filled: true,
+                fillColor: colors.surfaceContainer,
+                contentPadding: const EdgeInsets.symmetric(vertical: 11.5),
+                enabledBorder: _border(colors.surfaceContainer),
+                focusedBorder: _border(colors.primary),
+              ),
+              onChanged: (value) => _moveFocus(value, index),
             ),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: InputDecoration(
-              counterText: '',
-              filled: true,
-              fillColor: Theme.of(context).cardColor,
-              contentPadding: EdgeInsets.symmetric(vertical: 12),
-              enabledBorder: _border(Colors.transparent),
-              focusedBorder: _border(Theme.of(context).primaryColor),
-            ),
-            onChanged: (value) => _moveFocus(value, index),
           ),
         );
       }),
     );
   }
 
-  OutlineInputBorder _border(Color color) {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(color: color, width: 1.8),
-    );
-  }
+  OutlineInputBorder _border(Color color) => OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: color),
+      );
 
   void _moveFocus(String value, int index) {
     if (value.isNotEmpty && index < focusNodes.length - 1) {

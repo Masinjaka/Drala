@@ -12,7 +12,7 @@ void main() {
     await _pumpControls(tester, AppTheme.lightTheme);
 
     expect(
-      tester.getSize(find.byType(ElevatedButton)).height,
+      tester.getSize(find.byType(FilledButton)).height,
       AppControlMetrics.height,
     );
     expect(
@@ -67,9 +67,9 @@ void _expectButtonColors(
   Color background,
   Color foreground,
 ) {
-  final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
+  final button = tester.widget<FilledButton>(find.byType(FilledButton));
   expect(button.style?.backgroundColor?.resolve({}), background);
   expect(button.style?.foregroundColor?.resolve({}), foreground);
   final label = tester.widget<Text>(find.text('Continue'));
-  expect(label.style?.fontWeight, FontWeight.w800);
+  expect(label.style?.fontWeight, FontWeight.normal);
 }

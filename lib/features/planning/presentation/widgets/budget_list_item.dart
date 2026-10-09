@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/planning/domain/models/budget_model.dart';
 import 'package:budgets/features/planning/domain/providers/budget_provider.dart';
 import 'package:budgets/features/planning/presentation/widgets/add_budget_bottom_sheet.dart';
@@ -281,13 +282,13 @@ class _BudgetListItemState extends ConsumerState<BudgetListItem>
                           children: [
                             Text(
                               '${formatAmountWithCurrency(spent, currencyCode, preserveFraction: true)} / ${formatAmountWithCurrency(amount, currencyCode, preserveFraction: true)}',
-                              style: TextStyle(
+                              style: AppTextTheme.amount(TextStyle(
                                 fontSize: 14,
                                 color: Theme.of(context)
                                     .textTheme
                                     .bodyMedium
                                     ?.color,
-                              ),
+                              )),
                             ),
                             SizedBox(height: 3.2),
                             Text(

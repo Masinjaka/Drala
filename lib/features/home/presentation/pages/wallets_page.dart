@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/detail_enter_transition.dart';
+import 'package:budgets/core/ui/scroll_edge_fade.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/detail_page_header.dart';
@@ -48,7 +50,7 @@ class WalletsPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 19),
-              Expanded(child: _walletList()),
+              Expanded(child: ScrollEdgeFade(child: _walletList())),
             ],
           ),
         ),
@@ -69,12 +71,13 @@ class WalletsPage extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(29, 0, 29, 32),
       itemCount: currentWallets.length,
       separatorBuilder: (_, __) => const SizedBox(height: 10),
-      itemBuilder: (context, index) => WalletOverviewCard(
+      itemBuilder: (context, index) => DetailEnterTransition(
+          child: WalletOverviewCard(
         wallet: currentWallets[index],
         index: index,
         currencyState: currencyState,
         onPressed: () => _edit(context, currentWallets[index]),
-      ),
+      )),
     );
   }
 

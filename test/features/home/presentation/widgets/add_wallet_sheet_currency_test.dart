@@ -1,7 +1,8 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/presentation/widgets/add_wallet_sheet.dart';
-import 'package:budgets/features/home/presentation/widgets/bottom_sheet_drag_handle.dart';
+import 'package:budgets/features/transactions/presentation/widgets/transaction_amount_field.dart';
+import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_surface.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,12 +34,11 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
     expect(find.byType(AlertDialog), findsNothing);
-    expect(find.byType(BottomSheet), findsOneWidget);
-    expect(find.byType(BottomSheetDragHandle), findsOneWidget);
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text(r'$'), findsOneWidget);
-    await tester.enterText(find.byType(TextFormField).at(0), 'Savings');
-    await tester.enterText(find.byType(TextFormField).at(1), '200');
+    expect(find.byType(TransactionSheetSurface), findsOneWidget);
+    expect(find.byType(TransactionAmountField), findsOneWidget);
+    expect(find.text('USD'), findsOneWidget);
+    await tester.enterText(find.byType(TextFormField).at(1), 'Savings');
+    await tester.enterText(find.byType(TextFormField).at(0), '200');
     await tester.ensureVisible(find.byKey(const Key('confirm-add-wallet')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('confirm-add-wallet')));
@@ -67,10 +67,10 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Ajouter un portefeuille'), findsNWidgets(2));
+    expect(find.text('Ajouter un portefeuille'), findsOneWidget);
     expect(find.text('Nom du portefeuille'), findsOneWidget);
     expect(find.text('ex. Épargne'), findsOneWidget);
-    expect(find.text('Solde actuel'), findsOneWidget);
+    expect(find.text('MGA'), findsOneWidget);
     expect(find.text('Wallet name'), findsNothing);
     expect(find.text('Current balance'), findsNothing);
   });

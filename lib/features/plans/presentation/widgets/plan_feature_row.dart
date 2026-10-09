@@ -8,6 +8,7 @@ class PlanFeatureRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       constraints: const BoxConstraints(minHeight: 70),
       padding: const EdgeInsets.symmetric(vertical: 15),
@@ -22,7 +23,7 @@ class PlanFeatureRow extends StatelessWidget {
             flex: 4,
             child: Text(
               feature.name,
-              style: const TextStyle(fontSize: 12.5),
+              style: theme.textTheme.bodySmall,
             ),
           ),
           Expanded(
@@ -30,12 +31,8 @@ class PlanFeatureRow extends StatelessWidget {
             child: Text(
               feature.freeBenefit,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context)
-                    .colorScheme
-                    .onSurface
-                    .withValues(alpha: .64),
-                fontSize: 11.5,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
           ),
@@ -44,10 +41,7 @@ class PlanFeatureRow extends StatelessWidget {
             child: Text(
               feature.plusBenefit,
               textAlign: TextAlign.end,
-              style: const TextStyle(
-                fontSize: 11.5,
-                fontWeight: FontWeight.w600,
-              ),
+              style: theme.textTheme.bodySmall,
             ),
           ),
         ],

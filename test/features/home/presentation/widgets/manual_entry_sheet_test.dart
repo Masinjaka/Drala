@@ -4,7 +4,6 @@ import 'package:budgets/core/theme.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
 import 'package:budgets/features/home/domain/models/manual_entry_sheet_result.dart';
 import 'package:budgets/features/home/presentation/widgets/manual_entry_sheet.dart';
-import 'package:budgets/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -31,9 +30,16 @@ void main() {
     );
 
     await tester.tap(find.text('Open'));
-    await tester.pump(const Duration(milliseconds: 400));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 600));
 
-    expect(find.text('Add an entry'), findsOneWidget);
+    expect(find.text('Enter manually'), findsOneWidget);
+    await tester.ensureVisible(
+        find.byKey(const ValueKey('transaction-category-field')));
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('transaction-category-field')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
     categories.complete(const []);
@@ -68,29 +74,19 @@ void main() {
 
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
-    expect(find.byType(CustomTextField), findsNWidgets(3));
-    expect(find.text('Coffee'), findsOneWidget);
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('Ar'), findsOneWidget);
-    expect(find.text('Add a short note'), findsOneWidget);
-    final addButton = tester.widget<ElevatedButton>(
-      find.descendant(
-        of: find.byKey(const Key('save-manual-entry-button')),
-        matching: find.byType(ElevatedButton),
-      ),
-    );
-    expect(addButton.style?.backgroundColor?.resolve({}), Colors.black);
-    expect(addButton.style?.foregroundColor?.resolve({}), Colors.white);
-    await tester.tap(find.byKey(const Key('manual-income-option')));
+    expect(find.byType(TextFormField), findsNWidgets(3));
+    expect(find.text('MGA'), findsOneWidget);
+    expect(find.byKey(const ValueKey('delete-transaction')), findsNothing);
+    await tester.tap(find.byKey(const Key('transaction-type-income')));
     await tester.pumpAndSettle();
-    expect(find.text('Salary'), findsOneWidget);
-    await tester.enterText(find.byType(TextFormField).at(0), 'Salary');
-    await tester.enterText(find.byType(TextFormField).at(1), '500000');
+    await tester.enterText(find.byType(TextFormField).at(1), 'Salary');
+    await tester.enterText(find.byType(TextFormField).at(0), '500000');
+    expect(find.text('500,000'), findsOneWidget);
     await tester.ensureVisible(
-      find.byKey(const Key('save-manual-entry-button')),
+      find.byKey(const Key('save-transaction')),
     );
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('save-manual-entry-button')));
+    await tester.tap(find.byKey(const Key('save-transaction')));
     await tester.pumpAndSettle();
 
     final input = result?.input;

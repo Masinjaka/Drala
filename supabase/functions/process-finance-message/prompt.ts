@@ -6,6 +6,7 @@ export function buildPrompts(
   now: string,
   timeZone: string,
   targetDate: string,
+  outputLanguage = "English",
 ): { system: string; user: string } {
   const system = `
 You convert natural-language personal finance messages into strict JSON.
@@ -17,12 +18,16 @@ wallet, transfer to the same wallet, or treat a transfer as income or expense.
 The selected_date is authoritative. Every extracted transaction and transfer
 must occur on selected_date, even when the message uses relative dates. Preserve
 an explicit or inferred time of day, but never change the selected calendar date.
-Use an existing category name exactly when it matches the supplied categories or
-presets. Only add categories_to_create when the user explicitly requests a new
+Consider user_categories, including categories the user added manually, before
+category_presets. Prefer a fitting user category and use its name exactly.
+If none fits, use a fitting preset name exactly. Only add categories_to_create
+when the user explicitly requests a new
 category or no supplied category fits. Custom categories use a concise emoji and
 an 8-character ARGB hex color. Do not invent transactions.
 If no transaction, transfer, or category request is present, return empty arrays
 and explain briefly in message. Return JSON only and follow the supplied schema.
+Write transaction titles, descriptions, and the response message in ${outputLanguage}.
+Keep the exact names of supplied categories and wallets when selecting them.
 `.trim();
 
   const user = JSON.stringify({
@@ -44,7 +49,7 @@ export function buildReceiptPrompts(
   now: string,
   timeZone: string,
   targetDate: string,
-  outputLanguage: "English" | "French",
+  outputLanguage: string,
 ): { system: string; user: string } {
   const base = buildPrompts(
     "Extract every purchase or refund shown on the attached receipt.",
@@ -52,6 +57,7 @@ export function buildReceiptPrompts(
     now,
     timeZone,
     targetDate,
+    outputLanguage,
   );
   return {
     system: `${base.system}\nRead the attached receipt pages as one document. ` +

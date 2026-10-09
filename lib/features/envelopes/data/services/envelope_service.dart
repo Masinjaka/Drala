@@ -1,3 +1,4 @@
+import 'package:budgets/features/envelopes/data/services/monthly_envelope_renewal.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:budgets/features/home/domain/errors/wallet_selection_required_exception.dart';
 
@@ -7,11 +8,15 @@ class EnvelopeService {
   final SupabaseClient _client;
 
   Future<List<Map<String, dynamic>>> envelopes(DateTime month) async {
+    final now = DateTime.now();
+    if (month.year == now.year && month.month == now.month) {
+      await MonthlyEnvelopeRenewal.run(_client, month: month);
+    }
     final rows = await _client
         .from('envelopes')
         .select(
           'id,name,category_id,amount,remaining_amount,overspent_amount,'
-          'currency_code,'
+          'currency_code,repeats_monthly,'
           'categories(name,emoji,color)',
         )
         .eq('period_month', _monthKey(month))
@@ -45,15 +50,18 @@ class EnvelopeService {
     required int amount,
     required DateTime month,
     String? walletId,
+    bool repeatsMonthly = false,
   }) async {
     try {
-      await _client.rpc('fund_envelope', params: {
-        'p_name': name,
-        'p_category_id': categoryId,
-        'p_amount': amount,
-        'p_period_month': _monthKey(month),
-        'p_wallet_id': walletId,
-      });
+      await _client.rpc(
+          repeatsMonthly ? 'fund_monthly_envelope' : 'fund_envelope',
+          params: {
+            'p_name': name,
+            'p_category_id': categoryId,
+            'p_amount': amount,
+            'p_period_month': _monthKey(month),
+            'p_wallet_id': walletId,
+          });
     } on PostgrestException catch (error) {
       const marker = 'wallet_selection_required:';
       if (error.message.contains(marker)) {
@@ -65,6 +73,20 @@ class EnvelopeService {
       rethrow;
     }
   }
+
+  Future<void> updateEnvelope(
+          {required String id,
+          required String name,
+          required String categoryId,
+          required int amount,
+          required bool repeatsMonthly}) =>
+      _client.rpc('update_funded_envelope', params: {
+        'p_envelope_id': id,
+        'p_name': name,
+        'p_category_id': categoryId,
+        'p_amount': amount,
+        'p_repeats_monthly': repeatsMonthly,
+      });
 
   Future<void> deleteEnvelope(String id) =>
       _client.rpc('delete_funded_envelope', params: {'p_envelope_id': id});

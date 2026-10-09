@@ -28,6 +28,7 @@ void main() {
             onPrivacy: () => taps.add('privacy'),
             onLogout: () => taps.add('logout'),
             isLoggingOut: false,
+            appVersion: '2.0.2',
           ),
         ),
       ),
@@ -36,6 +37,8 @@ void main() {
     expect(find.text('Preferences'), findsOneWidget);
     expect(find.text('Legal'), findsOneWidget);
     expect(find.text('Zone de danger'), findsNothing);
+    expect(find.text('Version 2.0.2'), findsOneWidget);
+    expect(find.byType(FilledButton), findsOneWidget);
     final leadingIcons = tester
         .widgetList<Icon>(
           find.descendant(

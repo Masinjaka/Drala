@@ -12,6 +12,7 @@ class HomeOperationsList extends StatelessWidget {
     required this.entries,
     required this.isLoading,
     required this.isAdding,
+    this.isLoadingMore = false,
     required this.onEntryTap,
     this.currencyState,
     this.asSliver = false,
@@ -22,6 +23,7 @@ class HomeOperationsList extends StatelessWidget {
   final List<FinanceEntry> entries;
   final bool isLoading;
   final bool isAdding;
+  final bool isLoadingMore;
   final ValueChanged<FinanceEntry> onEntryTap;
   final CurrencyState? currencyState;
   final bool asSliver;
@@ -45,31 +47,36 @@ class HomeOperationsList extends StatelessWidget {
           delegate: SliverChildBuilderDelegate(
             (context, index) {
               if (isLoading) {
-                return _animateItem(
-                    HomeOperationSkeleton(
-                        key: ValueKey('loading-operation-$index')),
-                    index);
+                return HomeOperationSkeleton(
+                    key: ValueKey('loading-operation-$index'));
               }
               if (isAdding && index == 0) {
-                return _animateItem(
-                    const HomeOperationSkeleton(
-                        key: Key('pending-operation-skeleton')),
-                    0);
+                return const HomeOperationSkeleton(
+                    key: Key('pending-operation-skeleton'));
               }
               final entryIndex = index - (isAdding ? 1 : 0);
+              if (entryIndex >= entries.length) {
+                return HomeOperationSkeleton(
+                    key: ValueKey('loading-more-operation-$entryIndex'));
+              }
               final entry = entries[entryIndex];
-              return _animateItem(
-                HomeOperationRow(
-                  key: ValueKey('operation-${entry.id}'),
-                  entry: entry,
-                  pendingEdit: pendingEdits[entry.id],
-                  currencyState: currencyState,
-                  onTap: () => onEntryTap(entry),
+              return KeyedSubtree(
+                key: ValueKey('ready-operation-${entry.id}'),
+                child: _animateItem(
+                  HomeOperationRow(
+                    key: ValueKey('operation-${entry.id}'),
+                    entry: entry,
+                    pendingEdit: pendingEdits[entry.id],
+                    currencyState: currencyState,
+                    onTap: () => onEntryTap(entry),
+                  ),
+                  entryIndex,
                 ),
-                entryIndex,
               );
             },
-            childCount: isLoading ? 3 : entries.length + (isAdding ? 1 : 0),
+            childCount: isLoading
+                ? 3
+                : entries.length + (isAdding ? 1 : 0) + (isLoadingMore ? 3 : 0),
           ),
         ),
       ),
@@ -83,7 +90,7 @@ class HomeOperationsList extends StatelessWidget {
   }
 
   Widget _animateItem(Widget child, int index) => child
-      .animate(delay: (50 * index).ms)
-      .fadeIn(duration: 200.ms)
-      .slideY(begin: 0.5, duration: 200.ms, curve: Curves.easeOut);
+      .animate(delay: (index < 3 ? 25 * index : 0).ms)
+      .fadeIn(duration: 180.ms)
+      .slideY(begin: 0.15, duration: 180.ms, curve: Curves.easeOutCubic);
 }

@@ -5,8 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_it.dart';
+import 'app_localizations_mg.dart';
 
 // ignore_for_file: type=lint
 
@@ -94,9 +98,19 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('de'),
     Locale('en'),
-    Locale('fr')
+    Locale('es'),
+    Locale('fr'),
+    Locale('it'),
+    Locale('mg')
   ];
+
+  /// No description provided for @envelopeOverBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Over by {amount}'**
+  String envelopeOverBy(String amount);
 
   /// No description provided for @appTitle.
   ///
@@ -206,6 +220,12 @@ abstract class AppLocalizations {
   /// **'Privacy policy'**
   String get privacyPolicy;
 
+  /// No description provided for @adPrivacyOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad privacy choices'**
+  String get adPrivacyOptions;
+
   /// No description provided for @legalConsentPrefix.
   ///
   /// In en, this message translates to:
@@ -224,6 +244,12 @@ abstract class AppLocalizations {
   /// **'Log out'**
   String get logOut;
 
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String appVersion(String version);
+
   /// No description provided for @english.
   ///
   /// In en, this message translates to:
@@ -235,6 +261,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'French'**
   String get french;
+
+  /// No description provided for @malagasy.
+  ///
+  /// In en, this message translates to:
+  /// **'Malagasy'**
+  String get malagasy;
+
+  /// No description provided for @german.
+  ///
+  /// In en, this message translates to:
+  /// **'German'**
+  String get german;
+
+  /// No description provided for @spanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get spanish;
+
+  /// No description provided for @italian.
+  ///
+  /// In en, this message translates to:
+  /// **'Italian'**
+  String get italian;
 
   /// No description provided for @menu.
   ///
@@ -404,6 +454,18 @@ abstract class AppLocalizations {
   /// **'You went over your budget for the {name} envelope.'**
   String envelopeBudgetExceeded(String name);
 
+  /// No description provided for @envelopeBudgetAlmostReached.
+  ///
+  /// In en, this message translates to:
+  /// **'The {name} envelope is almost spent.'**
+  String envelopeBudgetAlmostReached(String name);
+
+  /// No description provided for @envelopeBudgetReached.
+  ///
+  /// In en, this message translates to:
+  /// **'The {name} envelope budget has been reached.'**
+  String envelopeBudgetReached(String name);
+
   /// No description provided for @todayWithDate.
   ///
   /// In en, this message translates to:
@@ -449,7 +511,7 @@ abstract class AppLocalizations {
   /// No description provided for @firstEntryIncomePrompt.
   ///
   /// In en, this message translates to:
-  /// **'Start by telling me any income you have! Just type something like “I got paid xxx” or “Salary xxx” and I’ll take care of the rest.'**
+  /// **'Start with an income or an expense. Try “I got paid xxx” or “I spent xxx on food” and I’ll record it.'**
   String get firstEntryIncomePrompt;
 
   /// No description provided for @entryCount.
@@ -707,7 +769,7 @@ abstract class AppLocalizations {
   /// No description provided for @searchCurrency.
   ///
   /// In en, this message translates to:
-  /// **'Search a currency'**
+  /// **'Search currency'**
   String get searchCurrency;
 
   /// No description provided for @errorWithMessage.
@@ -1387,6 +1449,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get done;
+
+  /// No description provided for @repeatEnvelopeMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat monthly'**
+  String get repeatEnvelopeMonthly;
+
+  /// No description provided for @repeatEnvelopeMonthlyHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Fund a fresh budget from the same wallet each month when funds are available.'**
+  String get repeatEnvelopeMonthlyHelp;
+
+  /// No description provided for @editEnvelope.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit envelope'**
+  String get editEnvelope;
+
+  /// No description provided for @aiRequestTimedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI request took too long. Please try again.'**
+  String get aiRequestTimedOut;
+
+  /// No description provided for @setupLanguageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your language'**
+  String get setupLanguageTitle;
+
+  /// No description provided for @setupLanguageBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your prefered language. You can always change it later in the settings.'**
+  String get setupLanguageBody;
+
+  /// No description provided for @setupCurrencyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your currency'**
+  String get setupCurrencyTitle;
+
+  /// No description provided for @setupCurrencyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your currency. You can also change this later in the settings.'**
+  String get setupCurrencyBody;
+
+  /// No description provided for @setupCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your categories'**
+  String get setupCategoriesTitle;
+
+  /// No description provided for @setupCategoriesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'These are a few of the usual categories. Select those you need. You can add custom ones in the settings as well.'**
+  String get setupCategoriesBody;
+
+  /// No description provided for @setupWalletsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your wallets'**
+  String get setupWalletsTitle;
+
+  /// No description provided for @setupWalletsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'These are the places where you keep your money and where your expenses will be taken from. You can choose one of them to be your default wallet in the app. There is always a default one if you choose none. You can add more in the settings.'**
+  String get setupWalletsBody;
+
+  /// No description provided for @setupContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get setupContinue;
+
+  /// No description provided for @setupFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Start using Drala'**
+  String get setupFinish;
+
+  /// No description provided for @setupCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re all set !'**
+  String get setupCompleteTitle;
+
+  /// No description provided for @setupCompleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Happy managing'**
+  String get setupCompleteBody;
+
+  /// No description provided for @setupDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nice'**
+  String get setupDone;
+
+  /// No description provided for @setupRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get setupRetry;
+
+  /// No description provided for @setupMainWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Main wallet'**
+  String get setupMainWallet;
+
+  /// No description provided for @setupCash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get setupCash;
+
+  /// No description provided for @setupBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get setupBank;
+
+  /// No description provided for @setupMobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile Money'**
+  String get setupMobile;
+
+  /// No description provided for @authSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account'**
+  String get authSignUp;
+
+  /// No description provided for @authSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get authSignIn;
+
+  /// No description provided for @authSignUpBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A few details, then make Drala yours.'**
+  String get authSignUpBody;
+
+  /// No description provided for @authSignInBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Find your accounts and expenses.'**
+  String get authSignInBody;
+
+  /// No description provided for @authEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmail;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// No description provided for @authConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm password'**
+  String get authConfirmPassword;
+
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPassword;
+
+  /// No description provided for @authConfirmEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email to confirm your account, then sign in to finish setup.'**
+  String get authConfirmEmail;
+
+  /// No description provided for @setupLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the choices. Try again.'**
+  String get setupLoadError;
+
+  /// No description provided for @authResetInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we’ll send you a verification code.'**
+  String get authResetInstruction;
+
+  /// No description provided for @authResetCodeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code sent'**
+  String get authResetCodeSent;
+
+  /// No description provided for @authCodeSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'A code was sent to'**
+  String get authCodeSentTo;
+
+  /// No description provided for @authVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get authVerificationCode;
+
+  /// No description provided for @authEnterSixDigitCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code'**
+  String get authEnterSixDigitCode;
+
+  /// No description provided for @authResetButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get authResetButton;
+
+  /// No description provided for @authResetSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset successfully'**
+  String get authResetSuccess;
 }
 
 class _AppLocalizationsDelegate
@@ -1399,8 +1695,14 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+        'de',
+        'en',
+        'es',
+        'fr',
+        'it',
+        'mg'
+      ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1409,10 +1711,18 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'de':
+      return AppLocalizationsDe();
     case 'en':
       return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
     case 'fr':
       return AppLocalizationsFr();
+    case 'it':
+      return AppLocalizationsIt();
+    case 'mg':
+      return AppLocalizationsMg();
   }
 
   throw FlutterError(

@@ -1,0 +1,343 @@
+{
+  "envelopeOverBy": "Nihoatra {amount}",
+  "@envelopeOverBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@@locale": "mg",
+  "appTitle": "Drala",
+  "settings": "Fikirana",
+  "editProfile": "Hanova ny mombamomba",
+  "changePassword": "Hanova tenimiafina",
+  "preferences": "Safidy",
+  "notification": "Fampandrenesana",
+  "currency": "Vola",
+  "setDefaultWallet": "Hametraka poketra ampiasaina voalohany",
+  "theme": "Endrika",
+  "light": "Mazava",
+  "dark": "Maizina",
+  "system": "Araka ny rafitra",
+  "language": "Fiteny",
+  "scannedReceipts": "Rosia noskenina",
+  "legal": "Lalàna",
+  "termsOfService": "Fepetra fampiasana",
+  "termsAndConditions": "Fepetra sy fitsipika",
+  "privacyPolicy": "Politika momba ny fiainana manokana",
+  "adPrivacyOptions": "Safidy momba ny tsiambaratelon'ny doka",
+  "legalConsentPrefix": "Manaiky ny ",
+  "legalConsentConnector": " sy ny ",
+  "logOut": "Hivoaka",
+  "appVersion": "Dika {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "english": "Anglisy",
+  "french": "Frantsay",
+  "malagasy": "Malagasy",
+  "german": "Alemà",
+  "spanish": "Espaniola",
+  "italian": "Italiana",
+  "menu": "Menu",
+  "collapseMenu": "Afeno ny menu",
+  "expandMenu": "Asehoy ny menu",
+  "envelope": "Valopy",
+  "stats": "Antontan'isa",
+  "feedback": "Hevitra",
+  "resumeFromDate": "Hanohy manomboka amin'ny daty voafaritra",
+  "wallets": "Poketra",
+  "addWallet": "Hanampy poketra",
+  "walletNameLabel": "Anaran'ny poketra",
+  "walletNameHint": "ohatra: Tahiry",
+  "currentBalanceLabel": "Vola sisa ankehitriny",
+  "editWallet": "Hanova poketra",
+  "deleteWallet": "Hamafa poketra",
+  "deleteWalletQuestion": "Hofafana ve ity poketra ity?",
+  "deleteWalletDescription": "Hesorina tanteraka ity poketra ity. Hijanona ny tantaran'ny fifanakalozana.",
+  "walletUpdated": "Nohavaozina ny poketra.",
+  "walletDeleted": "Voafafa ny poketra.",
+  "walletInUseCannotBeDeleted": "Misy tantaran'ny fifanakalozana ity poketra ity ka tsy azo fafana.",
+  "allTime": "Fotoana rehetra",
+  "showBalance": "Asehoy ny vola sisa",
+  "hideBalance": "Afeno ny vola sisa",
+  "overallBalance": "Vola sisa ao amin'ny poketra",
+  "takenFromEnvelope": "Nalaina tao amin'ny valopy {name}",
+  "@takenFromEnvelope": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notifications": "Fampandrenesana",
+  "noNotifications": "Tsy misy fampandrenesana",
+  "noNotificationsDescription": "Hiseho eto ny fampitandremana momba ny tetibola sy ny vaovao ara-bola manan-danja.",
+  "envelopeBudgetExceeded": "Nihoatra ny tetibola ho an'ny valopy {name} ianao.",
+  "envelopeBudgetAlmostReached": "Efa ho lany ny vola ao amin'ny valopy {name}.",
+  "@envelopeBudgetAlmostReached": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "envelopeBudgetReached": "Lany ny tetibola ao amin'ny valopy {name}.",
+  "@envelopeBudgetReached": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@envelopeBudgetExceeded": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "todayWithDate": "Androany, {date}",
+  "noEntriesForDate": "Tsy misy firaketana amin'ity daty ity",
+  "emptyStateWelcomeBack": "Tongasoa indray!",
+  "emptyStateWelcomeTo": "Tongasoa eto amin'ny",
+  "emptyStateIncomePrompt": "Nahazo vola ve ianao? Lazao ahy mba hahafahantsika mifaly… sy mirakitra izany.",
+  "emptyStateExpensePrompt": "Nandany vola ve ianao? Lazao hoe ohatrinona sy tamin'inona… izaho no hitahiry ny kaonty.",
+  "emptyStateTransferPrompt": "Hamindra vola ve ianao? Lazao ny fiaviany sy ny halehany dia hataoko.",
+  "firstEntryIncomePrompt": "Atombohy amin'ny vola miditra na fandaniana. Soraty hoe “Nahazo xxx aho” na “Nandany xxx tamin'ny sakafo aho” dia horaketiko izany.",
+  "entryCount": "{count, plural, =1{1 firaketana} other{{count} firaketana}}",
+  "expenseCount": "{count, plural, =1{1 fandaniana} other{{count} fandaniana}}",
+  "incomeCount": "{count, plural, =1{1 vola miditra} other{{count} vola miditra}}",
+  "transferCount": "{count, plural, =1{1 famindrana} other{{count} famindrana}}",
+  "unlimitedAiRequests": "Fangatahana AI tsy voafetra amin'ny Drala Plus",
+  "aiRequestsRemaining": "Mbola manana fangatahana AI {count} ianao androany",
+  "chatHint": "Ny fandanianao…",
+  "startTyping": "Atombohy manoratra…",
+  "chatIncomeHint": "Ny vola miditra aminao…",
+  "chatTransferHint": "Famindrana eo amin'ny poketra…",
+  "expenseSuggestion": "Nandany {amount} tamin'ny burger aho",
+  "incomeSuggestion": "Nahazo {amount} tamin'ny karamako aho",
+  "transferSuggestion": "Mamindra {amount} avy amin'ny Vola mivantana ho any amin'ny Tahiry",
+  "addReceipt": "Hanampy rosia",
+  "manualEntry": "Firaketana an-tanana",
+  "send": "Alefa",
+  "enterManually": "Ampidiro an-tanana",
+  "importFile": "Hampiditra rakitra",
+  "scanReceipt": "Skeno ny rosia",
+  "receiptGalleryEmpty": "Hiseho eto ny rosia noskeninao sy nampidirinao.",
+  "deleteReceiptQuestion": "Hofafana ve ny rosia?",
+  "deleteReceiptDescription": "Hanala ny pejy rehetra amin'ity rosia ity izany.",
+  "cancel": "Aoka ihany",
+  "delete": "Fafao",
+  "receiptDeleted": "Voafafa ny rosia.",
+  "receipt": "Rosia",
+  "receiptPages": "{count, plural, =1{1 pejin'ny rosia} other{{count} pejin'ny rosia}}",
+  "pageCount": "{count, plural, =1{1 pejy} other{{count} pejy}}",
+  "deleteReceipt": "Hamafa rosia",
+  "save": "Tehirizo",
+  "username": "Anaran'ny mpampiasa",
+  "enterUsername": "Ampidiro ny anaran'ny mpampiasa",
+  "user": "Mpampiasa",
+  "currentPassword": "Tenimiafina ankehitriny",
+  "enterCurrentPassword": "Ampidiro ny tenimiafina ankehitriny",
+  "newPassword": "Tenimiafina vaovao",
+  "enterNewPassword": "Ampidiro ny tenimiafina vaovao",
+  "confirmPassword": "Hamafiso ny tenimiafina",
+  "confirmNewPassword": "Hamafiso ny tenimiafina vaovao",
+  "passwordsDoNotMatch": "Tsy mitovy ny tenimiafina vaovao.",
+  "passwordMustDiffer": "Misafidiana tenimiafina hafa noho ny ankehitriny.",
+  "passwordUpdated": "Nohavaozina ny tenimiafina.",
+  "searchCurrency": "Mitady vola",
+  "errorWithMessage": "Hadisoana: {message}",
+  "defaultWalletDescription": "Ity poketra ity no ampiasaina voalohany amin'ny fandaniana sy valopy vaovao.",
+  "defaultWalletUpdated": "Nohavaozina ny poketra ampiasaina voalohany.",
+  "termsIntro": "Manazava ny fitsipika fampiasana an'i Drala ireo fepetra ireo.",
+  "termsDetails": "Ampiasao amin'ny fitantanana ara-dalàna ny volanao manokana ihany i Drala. Anjaranao ny manamarina ireo firaketana noforonin'ny AI alohan'ny hianteherana aminy. Mety hiova ny fisian'ny tolotra rehefa mivoatra ny fampiharana.",
+  "privacyIntro": "Anao ny mombamomba ny volanao.",
+  "privacyDetails": "Mitahiry angona momba ny kaonty sy ny fifanakalozana i Drala mba hampandeha ny fampiharana. Ny rosia noskenina dia tehirizina amin'ny toerana manokana ho an'ny mpampiasa tsirairay ary alefa amin'ny mpamatsy AI voafantina amin'ny alalan'ny lohamilina mba hakana ny angona. Afaka mamafa rosia tsirairay ao amin'ny Rosia noskenina ianao, na mamafa ny angona rehetra na ny kaontinao manontolo ao amin'ny Hanova ny mombamomba.",
+  "legalLastUpdated": "Nohavaozina farany: 21 Jolay 2026",
+  "allowNotifications": "Avelao ny fampandrenesana",
+  "dailyReminders": "Fampahatsiahivana isan'andro",
+  "budgetAlerts": "Fampitandremana momba ny tetibola",
+  "selectReminderTime": "Safidio ny ora fampahatsiahivana",
+  "preferredReminderTime": "Ora fampahatsiahivana tiana",
+  "reminderDeliveryTime": "Ora handefasana ny fampahatsiahivana isan'andro",
+  "enableNotifications": "Ampandehano ny fampandrenesana",
+  "notificationPermissionMessage": "Avelao ny fampandrenesana hahazoana fampahatsiahivana isan'andro sy fampitandremana momba ny tetibola.",
+  "allow": "Avelao",
+  "deny": "Aza avela",
+  "notificationsBlocked": "Voasakana ny fampandrenesana",
+  "notificationsBlockedMessage": "Avelao ny fampandrenesana ao amin'ny fikirana amin'ny findainao mba hahazoana fampahatsiahivana sy fampitandremana.",
+  "openSettings": "Sokafy ny fikirana",
+  "dangerZone": "Faritra mampidi-doza",
+  "deleteAllData": "Hamafa ny angonako rehetra",
+  "deleteAllDataSummary": "Mamafa tanteraka ny votoatin'ny fampiharana rehetra.",
+  "deleteAccount": "Hamafa ny kaontiko",
+  "deleteAccountSummary": "Mamafa ny angonao ary manakana ny fidiranao.",
+  "deleteAllDataQuestion": "Hofafana ve ny angona rehetra?",
+  "deleteAllDataDetails": "Hofafana ny fifanakalozana, poketra, valopy, tetibola, tanjona, tantaran'ny AI, safidy ary rakitra. Hijanona ny kaontinao sy ny drafitrao.",
+  "deleteKeyword": "DELETE",
+  "typeDeleteToConfirm": "Soraty DELETE hanamafisana.",
+  "allDataDeleted": "Voafafa ny angonao rehetra.",
+  "deleteAccountQuestion": "Hofafana tanteraka ve ny kaonty?",
+  "deleteAccountDetails": "Mamafa ny kaontinao, ny drafitrao, ny rakitrao ary ny angonao rehetra izany. Tsy azo averina intsony.",
+  "typeValueToConfirm": "Soraty {value} hanamafisana.",
+  "accountDeleted": "Voafafa ny kaontinao.",
+  "confirmation": "Fanamafisana",
+  "chooseSource": "Safidio ny loharano",
+  "fromGallery": "Avy amin'ny tahirin-tsary",
+  "takePhoto": "Maka sary",
+  "mediaPermissionMessage": "Mila alalana hampiasa ny fakantsary sy ny rakitra izahay mba hanohy.",
+  "cameraDenied": "Tsy nahazo alalana hampiasa ny fakantsary.",
+  "mediaDenied": "Tsy nahazo alalana hampiasa ny rakitra.",
+  "imageSelectionFailed": "Tsy voafidy ny sary.",
+  "usernameUpdateFailed": "Tsy nohavaozina ny anaran'ny mpampiasa.",
+  "profilePhotoUploadFailed": "Tsy tafakatra ny sarin'ny mombamomba.",
+  "back": "Miverina",
+  "enterEmail": "Ampidiro ny adiresy mailaka",
+  "invalidEmail": "Ampidiro ny adiresy mailaka manan-kery",
+  "enterPassword": "Ampidiro ny tenimiafina",
+  "passwordMinLength": "Tsy maintsy misy tarehintsoratra 8 farafahakeliny ny tenimiafina.",
+  "passwordNeedsUppercase": "Tsy maintsy misy sora-baventy iray farafahakeliny ny tenimiafina.",
+  "passwordNeedsLowercase": "Tsy maintsy misy sora-madinika iray farafahakeliny ny tenimiafina.",
+  "passwordNeedsNumber": "Tsy maintsy misy isa iray farafahakeliny ny tenimiafina.",
+  "passwordNeedsSpecialCharacter": "Tsy maintsy misy marika manokana iray farafahakeliny ny tenimiafina.",
+  "passwordRuleMinLength": "Tarehintsoratra 8 na mihoatra",
+  "passwordRuleUppercase": "Sora-baventy iray farafahakeliny",
+  "passwordRuleLowercase": "Sora-madinika iray farafahakeliny",
+  "passwordRuleNumber": "Isa iray farafahakeliny",
+  "passwordRuleSpecialCharacter": "Marika manokana iray farafahakeliny",
+  "netThisMonth": "Vola madio amin'ity volana ity",
+  "transactions": "Fifanakalozana",
+  "homeWelcome": "Tongasoa",
+  "averagePerDay": "Salan'isa isan'andro",
+  "expenses": "Fandaniana",
+  "income": "Vola miditra",
+  "largestExpense": "Fandaniana lehibe indrindra",
+  "dailySpending": "Fandaniana isan'andro",
+  "topSpending": "Fandaniana ambony indrindra",
+  "noExpensesThisMonth": "Tsy misy fandaniana amin'ity volana ity",
+  "moreThanLastMonth": "{percentage}% mihoatra ny volana lasa",
+  "lessThanLastMonth": "{percentage}% latsaka ny volana lasa",
+  "@moreThanLastMonth": {
+    "placeholders": {
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "@lessThanLastMonth": {
+    "placeholders": {
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "addEnvelope": "Hanampy valopy",
+  "createExpenseCategoryFirst": "Mamoròna sokajin'ny fandaniana alohan'ny hanampiana valopy hafa.",
+  "monthlyEnvelopes": "Valopy isam-bolana",
+  "availableAcrossEnvelopes": "Vola azo ampiasaina amin'ny valopy",
+  "budget": "Tetibola",
+  "spent": "Lany",
+  "newEnvelope": "Valopy vaovao",
+  "name": "Anarana",
+  "envelopeNameHint": "ohatra: Sakafo",
+  "monthlyAmount": "Vola isam-bolana",
+  "expenseCategory": "Sokajin'ny fandaniana",
+  "saving": "Tehirizina…",
+  "create": "Mamorona",
+  "noEnvelopesYet": "Tsy mbola misy valopy",
+  "envelopeEmptyDescription": "Mametraha vola isam-bolana ho an'ny sokajin'ny fandaniana. Hanavao azy ho azy ny fandaniana avy amin'ny resaka.",
+  "deleteEnvelope": "Hamafa valopy",
+  "overBudgetBy": "Nihoatra ny tetibola {amount}",
+  "@overBudgetBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "amountSpent": "{amount} no lany",
+  "ofAmount": "amin'ny {amount}",
+  "@amountSpent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@ofAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "feedbackPrompt": "Lazao anay ny hevitrao",
+  "feedbackHint": "Farito ny olana na zarao ny hevitrao",
+  "feedbackRequired": "Ampidiro azafady ny hevitrao",
+  "sendFeedback": "Alefa ny hevitra",
+  "feedbackSent": "Nalefa ny hevitra. Misaotra!",
+  "availableBalance": "Vola azo ampiasaina",
+  "thisMonth": "Ity volana ity",
+  "operations": "Hetsika",
+  "categories": "Sokajy",
+  "deleteTransactionQuestion": "Hofafana ve ny fifanakalozana?",
+  "deleteTransactionDescription": "Tena tianao hofafana ve ity fifanakalozana ity? Tsy azo averina intsony izany.",
+  "deleteBudgetQuestion": "Hofafana ve ny tetibola?",
+  "deleteBudgetDescription": "Tena tianao hofafana ve ity tetibola ity? Tsy azo averina intsony izany.",
+  "deleteGoalQuestion": "Hofafana ve ny tanjona?",
+  "deleteGoalDescription": "Tena tianao hofafana ve ity tanjona ity? Tsy azo averina intsony izany.",
+  "deleteCategoryQuestion": "Hofafana ve ny sokajy?",
+  "deleteCategoryDescription": "Tena tianao hofafana ve ity sokajy ity? Tsy azo averina intsony izany.",
+  "editTransaction": "Hanova fifanakalozana",
+  "expense": "Fandaniana",
+  "title": "Lohateny",
+  "description": "Fanazavana",
+  "searchCategories": "Mitady sokajy",
+  "done": "Vita",
+  "repeatEnvelopeMonthly": "Averina isam-bolana",
+  "repeatEnvelopeMonthlyHelp": "Mamatsy tetibola vaovao avy amin'ilay poketra ihany isam-bolana raha misy vola ampy.",
+  "editEnvelope": "Hanova valopy",
+  "aiRequestTimedOut": "Ela loatra ny fangatahana tamin'ny AI. Andramo indray azafady.",
+  "setupLanguageTitle": "Ny fiteninao",
+  "setupLanguageBody": "Safidio ny fiteny ampiasaina ao amin’i Drala.",
+  "setupCurrencyTitle": "Ny vola ampiasainao",
+  "setupCurrencyBody": "Safidio ny vola hanehoana ny sandany.",
+  "setupCategoriesTitle": "Ny sokajinao",
+  "setupCategoriesBody": "Safidio ireo sokajy ilainao. Afaka manampy hafa ianao any aoriana.",
+  "setupWalletsTitle": "Ny kitapom-bolanao",
+  "setupWalletsBody": "Zarao araka ny fampiasana azy ny volanao. Tafiditra foana ny kitapom-bola fototra.",
+  "setupContinue": "Hanohy",
+  "setupFinish": "Hanomboka",
+  "setupCompleteTitle": "Vita soa!",
+  "setupCompleteBody": "Mirary fitantanana mahafinaritra",
+  "setupDone": "Tsara",
+  "setupRetry": "Hanandrana indray",
+  "setupMainWallet": "Kitapom-bola fototra",
+  "setupCash": "Vola mivantana",
+  "setupBank": "Kaonty banky",
+  "setupMobile": "Mobile money",
+  "authSignUp": "Hamorona kaonty",
+  "authSignIn": "Hiditra",
+  "authSignUpBody": "Fenoy ny mombamomba anao dia amboary Drala.",
+  "authSignInBody": "Jereo ny kaontinao sy ny fandanianao.",
+  "authEmail": "Email",
+  "authPassword": "Teny miafina",
+  "authConfirmPassword": "Hamafiso ny teny miafina",
+  "authForgotPassword": "Hadinonao ny teny miafina?",
+  "authConfirmEmail": "Hamafiso amin’ny email ny kaontinao, dia midira hamita ny fikirakirana.",
+  "setupLoadError": "Tsy azo nampidirina ny safidy. Andramo indray.",
+  "authResetInstruction": "Ampidiro ny mailakao handraisana kaody fanamarinana.",
+  "authResetCodeSent": "Nalefa ny kaody fanamarinana",
+  "authCodeSentTo": "Nisy kaody nalefa tany amin’ny",
+  "authVerificationCode": "Kaody fanamarinana",
+  "authEnterSixDigitCode": "Ampidiro ny kaody 6 isa",
+  "authResetButton": "Avereno ny teny miafina",
+  "authResetSuccess": "Vita ny famerenana ny teny miafina"
+}

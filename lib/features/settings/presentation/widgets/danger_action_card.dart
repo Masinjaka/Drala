@@ -1,5 +1,3 @@
-import 'package:budgets/core/theme.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 
 class DangerActionCard extends StatelessWidget {
@@ -29,7 +27,7 @@ class DangerActionCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 13),
         child: Row(
           children: [
-            Icon(icon, color: AppTheme.dangerColor, size: 21),
+            Icon(icon, color: Theme.of(context).colorScheme.error, size: 21),
             const SizedBox(width: 13),
             Expanded(
               child: Column(
@@ -37,21 +35,12 @@ class DangerActionCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(
-                      fontSize: AppTypography.body,
-                      fontWeight: FontWeight.w800,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 3),
                   Text(
                     description,
-                    style: TextStyle(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withValues(alpha: 0.62),
-                      fontSize: AppTypography.supporting,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
               ),

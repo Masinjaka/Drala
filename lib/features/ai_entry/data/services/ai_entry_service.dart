@@ -3,6 +3,7 @@ import 'package:budgets/core/monitoring/development_log.dart';
 import 'package:budgets/features/ai_entry/domain/errors/ai_entry_exception.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_entry_result.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
+import 'package:budgets/features/ai_entry/domain/models/finance_entry_page.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_quota.dart';
 import 'package:budgets/features/ai_entry/data/services/finance_entry_query_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -32,6 +33,7 @@ class AiEntryService {
   Future<AiEntryResult> processMessage(
     String message, {
     required DateTime targetDate,
+    String outputLanguage = 'en',
   }) async {
     if (_client.auth.currentSession == null) {
       throw const AiEntryException(
@@ -45,6 +47,7 @@ class AiEntryService {
         'process-finance-message',
         body: {
           'message': message,
+          'output_language': outputLanguage,
           'timezone': DateTime.now().timeZoneName,
           'target_date': _dateKey(targetDate),
           'timezone_offset_minutes': targetDate.timeZoneOffset.inMinutes,
@@ -105,6 +108,20 @@ class AiEntryService {
     }
     return FinanceEntryQueryService(_client).entriesForDate(userId, date);
   }
+
+  Future<FinanceEntryPage> entriesForDatePage(
+    DateTime date, {
+    required int limit,
+    required int transactionOffset,
+    required int transferOffset,
+  }) =>
+      FinanceEntryQueryService(_client).entriesForDatePage(
+        _requireUserId(),
+        date,
+        limit: limit,
+        transactionOffset: transactionOffset,
+        transferOffset: transferOffset,
+      );
 
   Future<List<FinanceEntry>> entriesForMonth(DateTime month) {
     return FinanceEntryQueryService(

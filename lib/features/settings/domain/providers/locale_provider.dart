@@ -4,7 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const _localeKey = 'selected_locale';
-const supportedAppLocales = [Locale('en'), Locale('fr')];
+const supportedAppLocales = [
+  Locale('en'),
+  Locale('fr'),
+  Locale('mg'),
+  Locale('de'),
+  Locale('es'),
+  Locale('it'),
+];
 
 final localeProvider = NotifierProvider<LocaleNotifier, Locale>(
   LocaleNotifier.new,
@@ -12,10 +19,13 @@ final localeProvider = NotifierProvider<LocaleNotifier, Locale>(
 
 class LocaleNotifier extends Notifier<Locale> {
   var _changedByUser = false;
+  late Future<void> _initialLoad;
+
+  Future<void> get ready => _initialLoad;
 
   @override
   Locale build() {
-    _load();
+    _initialLoad = _load();
     return _supported(PlatformDispatcher.instance.locale);
   }
 
@@ -34,6 +44,10 @@ class LocaleNotifier extends Notifier<Locale> {
     await preferences.setString(_localeKey, state.languageCode);
   }
 
-  Locale _supported(Locale locale) =>
-      locale.languageCode == 'fr' ? const Locale('fr') : const Locale('en');
+  Locale _supported(Locale locale) {
+    for (final supported in supportedAppLocales) {
+      if (supported.languageCode == locale.languageCode) return supported;
+    }
+    return const Locale('en');
+  }
 }

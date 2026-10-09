@@ -1,5 +1,6 @@
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -243,11 +244,11 @@ class _StatsChartState extends ConsumerState<StatsChart> {
                         final isExpense = spot.barIndex == 0;
                         return LineTooltipItem(
                           formatAmountWithCurrency(spot.y, currencyCode),
-                          TextStyle(
+                          AppTextTheme.amount(TextStyle(
                             color: isExpense ? expenseColor : incomeColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 12,
-                          ),
+                          )),
                         );
                       }).toList();
                     },

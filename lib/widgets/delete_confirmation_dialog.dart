@@ -1,5 +1,6 @@
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 Future<bool> showDeleteConfirmationDialog({
@@ -78,46 +79,24 @@ class DeleteConfirmationDialog extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: SizedBox(
+                  child: CustomButton.outlined(
+                    key: const ValueKey('cancel-delete'),
+                    text: cancelText,
+                    onPressed: onCancel,
                     height: 40,
-                    child: OutlinedButton(
-                      key: const ValueKey('cancel-delete'),
-                      onPressed: onCancel,
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: colors.onSurface,
-                        textStyle: Theme.of(context).textTheme.labelLarge,
-                        side: BorderSide(color: colors.onSurface),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                      ),
-                      child: Text(
-                        cancelText,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
+                    borderRadius: BorderRadius.circular(7),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: SizedBox(
+                  child: CustomButton(
+                    key: const ValueKey('confirm-delete'),
+                    text: confirmText,
+                    onPressed: onConfirm,
                     height: 40,
-                    child: FilledButton(
-                      key: const ValueKey('confirm-delete'),
-                      onPressed: onConfirm,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: colors.error,
-                        foregroundColor: colors.onError,
-                        textStyle: Theme.of(context).textTheme.labelLarge,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                      ),
-                      child: Text(
-                        confirmText,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
+                    backgroundColor: colors.error,
+                    foregroundColor: colors.onError,
+                    borderRadius: BorderRadius.circular(7),
                   ),
                 ),
               ],

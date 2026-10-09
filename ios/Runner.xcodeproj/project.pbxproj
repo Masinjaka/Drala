@@ -202,6 +202,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				B1D2E4BAC3528BB12E37F343 /* [CP] Embed Pods Frameworks */,
 				DF9A238D2A19AAC5C76463EA /* [CP] Copy Pods Resources */,
+				A7B0C1D2E3F4010203040506 /* Configure AdMob App ID */,
 			);
 			buildRules = (
 			);
@@ -279,6 +280,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		A7B0C1D2E3F4010203040506 /* Configure AdMob App ID */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}",
+			);
+			name = "Configure AdMob App ID";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "/bin/bash \"${PROJECT_DIR}/scripts/configure_admob_app_id.sh\"";
+		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;

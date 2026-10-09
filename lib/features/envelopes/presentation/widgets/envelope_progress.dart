@@ -12,26 +12,33 @@ class EnvelopeProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 20,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: value,
-              minHeight: 9,
+    final progress = value.clamp(0.0, 1.0);
+    return LayoutBuilder(builder: (context, constraints) {
+      final gap = progress > 0 && progress < 1 ? 6.0 : 0.0;
+      final available =
+          (constraints.maxWidth - gap).clamp(0.0, double.infinity);
+      return Row(children: [
+        if (progress > 0)
+          Container(
+            width: available * progress,
+            height: 9,
+            decoration: BoxDecoration(
               color: foregroundColor,
-              backgroundColor: foregroundColor.withValues(alpha: .22),
+              borderRadius: BorderRadius.circular(6),
             ),
           ),
-          Align(
-            alignment: Alignment((value * 2 - 1).clamp(-.96, .96), 0),
-            child: Container(width: 5, height: 20, color: foregroundColor),
+        if (gap > 0) SizedBox(width: gap),
+        if (progress < 1)
+          Expanded(
+            child: Container(
+              height: 9,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.outline,
+                borderRadius: BorderRadius.circular(6),
+              ),
+            ),
           ),
-        ],
-      ),
-    );
+      ]);
+    });
   }
 }

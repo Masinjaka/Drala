@@ -26,11 +26,7 @@ class NotificationReminderTimeTile extends StatelessWidget {
           time,
           alwaysUse24HourFormat: MediaQuery.alwaysUse24HourFormatOf(context),
         ),
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.inverseSurface,
-          fontSize: 13,
-          fontWeight: FontWeight.w700,
-        ),
+        style: Theme.of(context).textTheme.bodySmall,
       ),
       onTap: enabled ? onTap : null,
     );

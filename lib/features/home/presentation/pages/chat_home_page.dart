@@ -142,7 +142,6 @@ class _ChatHomePageState extends State<ChatHomePage>
   Widget build(BuildContext context) {
     final destinations = DrawerDestinationNavigator(
       context: context,
-      selectedDate: _selectedDate,
       closeDrawer: _drawer.close,
       onReturn: _aiEntryViewModel.refreshBalances,
       shouldRunOnReturn: widget.isSignedIn,

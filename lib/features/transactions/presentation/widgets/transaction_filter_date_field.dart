@@ -14,6 +14,7 @@ class TransactionFilterDateField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return TextFormField(
       readOnly: true,
       onTap: onTap,
@@ -31,23 +32,20 @@ class TransactionFilterDateField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.black, width: 1.8),
+          borderSide: BorderSide(color: colors.onSurface, width: 1.8),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
-            color: Color.fromARGB(255, 252, 154, 147),
-            width: 1.8,
-          ),
+          borderSide: BorderSide(color: colors.error, width: 1.8),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: Colors.black, width: 1.8),
+          borderSide: BorderSide(color: colors.error, width: 1.8),
         ),
         hintText: hint,
         suffixIcon: Icon(
           Icons.calendar_month_outlined,
-          color: Theme.of(context).textTheme.bodyLarge?.color,
+          color: colors.onSurface,
         ),
       ),
     );

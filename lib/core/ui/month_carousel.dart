@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -41,11 +43,7 @@ class _MonthCarouselState extends State<MonthCarousel> {
     _selectedPage += _monthDifference(expected, widget.month);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted && _controller.hasClients) {
-        _controller.animateToPage(
-          _selectedPage,
-          duration: const Duration(milliseconds: 260),
-          curve: Curves.easeOutCubic,
-        );
+        _controller.jumpToPage(_selectedPage);
       }
     });
   }
@@ -63,11 +61,11 @@ class _MonthCarouselState extends State<MonthCarousel> {
       child: Container(
         key: const Key('month-carousel'),
         width: 294,
-        height: 50,
+        height: 40,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFFDDDDDD)),
-          borderRadius: BorderRadius.circular(25),
+          border: Border.all(color: Theme.of(context).colorScheme.outline),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: PageView.builder(
           controller: _controller,
@@ -85,15 +83,10 @@ class _MonthCarouselState extends State<MonthCarousel> {
               child: Center(
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 180),
-                  style: TextStyle(
-                    color: selected
-                        ? const Color(0xFF343434)
-                        : const Color(0xFFA0A0A0),
-                    fontSize: selected ? 16 : 14,
-                    fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
-                  ),
+                  style:
+                      AppTextTheme.monthCarousel(context, selected: selected),
                   child: Text(
-                    DateFormat.MMMM(locale).format(_monthAt(index)),
+                    DateFormat.MMMM(locale).format(_monthAt(index)).capitalize,
                     maxLines: 1,
                     overflow: TextOverflow.fade,
                     softWrap: false,

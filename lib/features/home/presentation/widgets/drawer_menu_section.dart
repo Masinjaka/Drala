@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:flutter/material.dart';
 
 class DrawerMenuSection extends StatelessWidget {
   const DrawerMenuSection({
@@ -48,9 +49,7 @@ class DrawerMenuSection extends StatelessWidget {
             children: [
               SizedBox(width: 22, child: Icon(icon, size: 22)),
               const SizedBox(width: 11),
-              Text(label,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.w500)),
+              Text(label, style: AppTextTheme.drawerMenu(context)),
             ],
           ),
         ),

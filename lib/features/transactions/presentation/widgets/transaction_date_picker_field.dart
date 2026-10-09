@@ -16,6 +16,7 @@ class TransactionDatePickerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return GestureDetector(
       onTap: isReadOnly
           ? null
@@ -42,11 +43,7 @@ class TransactionDatePickerField extends StatelessWidget {
           children: [
             Text(
               'Date',
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
+              style: theme.textTheme.bodyMedium,
             ),
             Row(
               children: [
@@ -54,15 +51,14 @@ class TransactionDatePickerField extends StatelessWidget {
                   selectedDate != null
                       ? DateFormat.yMMMd('fr_FR').format(selectedDate!)
                       : 'Sélectionner une date',
-                  style: TextStyle(
-                    color: Theme.of(context).hintColor,
-                    fontSize: 14,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
                 SizedBox(width: 8),
                 Icon(
                   Icons.calendar_today,
-                  color: Colors.black,
+                  color: theme.colorScheme.onSurface,
                   size: 18,
                 ),
               ],

@@ -9,6 +9,11 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String envelopeOverBy(String amount) {
+    return 'Over by $amount';
+  }
+
+  @override
   String get appTitle => 'Drala';
 
   @override
@@ -63,6 +68,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get privacyPolicy => 'Privacy policy';
 
   @override
+  String get adPrivacyOptions => 'Ad privacy choices';
+
+  @override
   String get legalConsentPrefix => 'I agree to the ';
 
   @override
@@ -72,10 +80,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logOut => 'Log out';
 
   @override
+  String appVersion(String version) {
+    return 'Version $version';
+  }
+
+  @override
   String get english => 'English';
 
   @override
   String get french => 'French';
+
+  @override
+  String get malagasy => 'Malagasy';
+
+  @override
+  String get german => 'German';
+
+  @override
+  String get spanish => 'Spanish';
+
+  @override
+  String get italian => 'Italian';
 
   @override
   String get menu => 'Menu';
@@ -169,6 +194,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String envelopeBudgetAlmostReached(String name) {
+    return 'The $name envelope is almost spent.';
+  }
+
+  @override
+  String envelopeBudgetReached(String name) {
+    return 'The $name envelope budget has been reached.';
+  }
+
+  @override
   String todayWithDate(Object date) {
     return 'Today, $date';
   }
@@ -196,7 +231,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get firstEntryIncomePrompt =>
-      'Start by telling me any income you have! Just type something like “I got paid xxx” or “Salary xxx” and I’ll take care of the rest.';
+      'Start with an income or an expense. Try “I got paid xxx” or “I spent xxx on food” and I’ll record it.';
 
   @override
   String entryCount(num count) {
@@ -384,7 +419,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordUpdated => 'Password updated.';
 
   @override
-  String get searchCurrency => 'Search a currency';
+  String get searchCurrency => 'Search currency';
 
   @override
   String errorWithMessage(Object message) {
@@ -758,4 +793,129 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get done => 'Done';
+
+  @override
+  String get repeatEnvelopeMonthly => 'Repeat monthly';
+
+  @override
+  String get repeatEnvelopeMonthlyHelp =>
+      'Fund a fresh budget from the same wallet each month when funds are available.';
+
+  @override
+  String get editEnvelope => 'Edit envelope';
+
+  @override
+  String get aiRequestTimedOut =>
+      'The AI request took too long. Please try again.';
+
+  @override
+  String get setupLanguageTitle => 'Your language';
+
+  @override
+  String get setupLanguageBody =>
+      'Select your prefered language. You can always change it later in the settings.';
+
+  @override
+  String get setupCurrencyTitle => 'Your currency';
+
+  @override
+  String get setupCurrencyBody =>
+      'Select your currency. You can also change this later in the settings.';
+
+  @override
+  String get setupCategoriesTitle => 'Your categories';
+
+  @override
+  String get setupCategoriesBody =>
+      'These are a few of the usual categories. Select those you need. You can add custom ones in the settings as well.';
+
+  @override
+  String get setupWalletsTitle => 'Your wallets';
+
+  @override
+  String get setupWalletsBody =>
+      'These are the places where you keep your money and where your expenses will be taken from. You can choose one of them to be your default wallet in the app. There is always a default one if you choose none. You can add more in the settings.';
+
+  @override
+  String get setupContinue => 'Continue';
+
+  @override
+  String get setupFinish => 'Start using Drala';
+
+  @override
+  String get setupCompleteTitle => 'You’re all set !';
+
+  @override
+  String get setupCompleteBody => 'Happy managing';
+
+  @override
+  String get setupDone => 'Nice';
+
+  @override
+  String get setupRetry => 'Try again';
+
+  @override
+  String get setupMainWallet => 'Main wallet';
+
+  @override
+  String get setupCash => 'Cash';
+
+  @override
+  String get setupBank => 'Bank';
+
+  @override
+  String get setupMobile => 'Mobile Money';
+
+  @override
+  String get authSignUp => 'Create an account';
+
+  @override
+  String get authSignIn => 'Sign in';
+
+  @override
+  String get authSignUpBody => 'A few details, then make Drala yours.';
+
+  @override
+  String get authSignInBody => 'Find your accounts and expenses.';
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authConfirmPassword => 'Confirm password';
+
+  @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authConfirmEmail =>
+      'Check your email to confirm your account, then sign in to finish setup.';
+
+  @override
+  String get setupLoadError => 'Could not load the choices. Try again.';
+
+  @override
+  String get authResetInstruction =>
+      'Enter your email and we’ll send you a verification code.';
+
+  @override
+  String get authResetCodeSent => 'Verification code sent';
+
+  @override
+  String get authCodeSentTo => 'A code was sent to';
+
+  @override
+  String get authVerificationCode => 'Verification code';
+
+  @override
+  String get authEnterSixDigitCode => 'Enter the 6-digit code';
+
+  @override
+  String get authResetButton => 'Reset password';
+
+  @override
+  String get authResetSuccess => 'Password reset successfully';
 }

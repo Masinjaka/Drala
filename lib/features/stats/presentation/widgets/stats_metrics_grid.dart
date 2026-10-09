@@ -6,36 +6,47 @@ import 'package:flutter/material.dart';
 
 class StatsMetricsGrid extends StatelessWidget {
   const StatsMetricsGrid(
-      {required this.stats, this.displayCurrency, super.key});
+      {required this.stats,
+      this.displayCurrency,
+      this.loading = false,
+      super.key});
 
   final MonthlyStats stats;
+  final bool loading;
   final CurrencyState? displayCurrency;
 
   @override
   Widget build(BuildContext context) {
     final cards = [
       StatsMetricCard(
+        loading: loading,
         label: context.l10n.income,
-        value: _compact(stats.income),
+        value: _convert(stats.income),
+        currencyCode: _displayCurrencyCode,
         emoji: '🙂',
       ),
       StatsMetricCard(
+        loading: loading,
         label: context.l10n.expenses,
-        value: _compact(stats.expenses),
+        value: _convert(stats.expenses),
+        currencyCode: _displayCurrencyCode,
         emoji: '😟',
-        valueColor: const Color(0xFFD61F1F),
+        valueColor: Theme.of(context).colorScheme.error,
       ),
       StatsMetricCard(
         key: const Key('stats-transactions-card'),
-        label: context.l10n.transactions,
-        value: '${stats.transactionCount}',
-        emoji: '🔁',
         maskValue: false,
+        loading: loading,
+        label: context.l10n.transactions,
+        value: stats.transactionCount,
+        emoji: '🔁',
       ),
       StatsMetricCard(
         key: const Key('stats-net-card'),
+        loading: loading,
         label: context.l10n.netThisMonth,
-        value: _compact(stats.balance),
+        value: _convert(stats.balance),
+        currencyCode: _displayCurrencyCode,
         emoji: '🌑',
       ),
     ];
@@ -56,16 +67,9 @@ class StatsMetricsGrid extends StatelessWidget {
     );
   }
 
-  String _compact(int amount) {
-    final converted = displayCurrency?.convertToSelected(
-          amount,
-          stats.currencyCode,
-        ) ??
-        amount;
-    if (converted.abs() >= 1000000) return '${_trim(converted / 1000000)} M';
-    if (converted.abs() >= 1000) return '${_trim(converted / 1000)} k';
-    return _trim(converted);
-  }
+  num _convert(int amount) =>
+      displayCurrency?.convertToSelected(amount, stats.currencyCode) ?? amount;
 
-  String _trim(num value) => value.toStringAsFixed(value % 1 == 0 ? 0 : 1);
+  String get _displayCurrencyCode =>
+      displayCurrency?.code ?? stats.currencyCode;
 }

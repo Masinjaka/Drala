@@ -1,5 +1,6 @@
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -121,13 +122,15 @@ class _TransactionTileState extends ConsumerState<TransactionTile> {
                     currency.code,
                     preserveFraction: true,
                   ),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                        color: widget.transactionType == 'expense'
-                            ? const Color.fromARGB(255, 215, 120, 113)
-                            : const Color.fromARGB(255, 82, 149, 84),
-                      ),
+                  style: AppTextTheme.amount(
+                    Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: widget.transactionType == 'expense'
+                              ? const Color.fromARGB(255, 215, 120, 113)
+                              : const Color.fromARGB(255, 82, 149, 84),
+                        ),
+                  ),
                 ),
             ],
           );

@@ -3,8 +3,12 @@ import 'package:intl/intl.dart';
 class CalendarLabelFormatter {
   const CalendarLabelFormatter._();
 
-  static String monthYear(DateTime date, String locale) =>
-      _capitalize(DateFormat.yMMMM(locale).format(date), locale);
+  static String monthYear(DateTime date, String locale) {
+    return _capitalize(
+      DateFormat.yMMMM(locale).format(date),
+      locale,
+    );
+  }
 
   static String weekday(DateTime date, String? locale) {
     final effectiveLocale = locale ?? Intl.getCurrentLocale();

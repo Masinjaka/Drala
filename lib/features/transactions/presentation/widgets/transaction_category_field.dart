@@ -19,8 +19,7 @@ class TransactionCategoryField extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(label,
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+      Text(label, style: Theme.of(context).textTheme.labelMedium),
       const SizedBox(height: 7),
       Material(
         key: const ValueKey('transaction-category-field'),
@@ -43,8 +42,7 @@ class TransactionCategoryField extends StatelessWidget {
                   ),
                   child: Text(
                     '${category?.emoji ?? '❓'} ${category?.name ?? ''}',
-                    style: const TextStyle(
-                        fontSize: 11, fontWeight: FontWeight.w400),
+                    style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ),
               const Spacer(),

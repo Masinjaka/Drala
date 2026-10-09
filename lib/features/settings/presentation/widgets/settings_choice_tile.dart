@@ -1,4 +1,3 @@
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 
 class SettingsChoiceTile extends StatelessWidget {
@@ -23,10 +22,7 @@ class SettingsChoiceTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final titleText = Text(
       title,
-      style: const TextStyle(
-        fontSize: AppTypography.body,
-        fontWeight: FontWeight.w700,
-      ),
+      style: Theme.of(context).textTheme.bodySmall,
     );
     final customSubtitle = subtitleWidget;
     return ListTile(
@@ -49,7 +45,7 @@ class SettingsChoiceTile extends StatelessWidget {
           ? null
           : Text(
               subtitle!,
-              style: const TextStyle(fontSize: AppTypography.supporting),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
       trailing: trailing,
     );

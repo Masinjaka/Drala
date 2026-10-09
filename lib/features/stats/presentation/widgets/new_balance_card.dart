@@ -1,4 +1,5 @@
 import 'package:budgets/core/currency/currency_provider.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,11 +55,11 @@ class NewBalanceCard extends ConsumerWidget {
           SizedBox(height: 16),
           Text(
             formattedAmount,
-            style: TextStyle(
+            style: AppTextTheme.amount(TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: textColor,
-            ),
+            )),
             overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: 8),

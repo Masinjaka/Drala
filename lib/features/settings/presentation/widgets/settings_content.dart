@@ -18,8 +18,11 @@ class SettingsContent extends StatelessWidget {
     required this.onScannedReceipts,
     required this.onTerms,
     required this.onPrivacy,
+    this.showAdPrivacyOptions = false,
+    this.onAdPrivacyOptions,
     required this.onLogout,
     required this.isLoggingOut,
+    this.appVersion,
     super.key,
   });
 
@@ -34,8 +37,11 @@ class SettingsContent extends StatelessWidget {
   final VoidCallback onScannedReceipts;
   final VoidCallback onTerms;
   final VoidCallback onPrivacy;
+  final bool showAdPrivacyOptions;
+  final VoidCallback? onAdPrivacyOptions;
   final VoidCallback onLogout;
   final bool isLoggingOut;
+  final String? appVersion;
 
   @override
   Widget build(BuildContext context) {
@@ -111,11 +117,30 @@ class SettingsContent extends StatelessWidget {
               icon: Icons.shield_outlined,
               onTap: onPrivacy,
             ),
+            if (showAdPrivacyOptions && onAdPrivacyOptions != null)
+              SettingsMenuItem(
+                title: localizations.adPrivacyOptions,
+                icon: Icons.ads_click_outlined,
+                onTap: onAdPrivacyOptions!,
+              ),
           ],
         ),
         const SizedBox(height: 38),
-        CustomButton.outlined(
+        if (appVersion != null) ...[
+          Center(
+            child: Text(
+              localizations.appVersion(appVersion!),
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
+        CustomButton(
           text: localizations.logOut,
+          height: 40,
+          borderRadius: BorderRadius.circular(6),
           isLoading: isLoggingOut,
           onPressed: isLoggingOut ? null : onLogout,
         ),

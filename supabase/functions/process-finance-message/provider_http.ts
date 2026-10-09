@@ -3,13 +3,29 @@ import { ApiError } from "./errors.ts";
 export async function fetchWithRetry(
   url: string,
   init: RequestInit,
+  timeoutMs = 25_000,
 ): Promise<Response> {
-  let response = await fetch(url, init);
-  if (response.status >= 500) {
-    await new Promise((resolve) => setTimeout(resolve, 250));
-    response = await fetch(url, init);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    let response = await fetch(url, { ...init, signal: controller.signal });
+    if (response.status >= 500) {
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      response = await fetch(url, { ...init, signal: controller.signal });
+    }
+    return response;
+  } catch (error) {
+    if (controller.signal.aborted) {
+      throw new ApiError(
+        "provider_timeout",
+        "The AI provider took too long to respond. Please try again.",
+        504,
+      );
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeout);
   }
-  return response;
 }
 
 export async function readJson(

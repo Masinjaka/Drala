@@ -1,0 +1,50 @@
+[
+  {
+    "name": "before",
+    "fails": [],
+    "warns": [
+      "Only 3 text sizes across 12 text elements. Hierarchy is flat."
+    ],
+    "facts": {
+      "fonts": {
+        "Alexandria": 12
+      },
+      "sizes": [
+        36,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 1,
+      "accentHues": [],
+      "cards": 0
+    }
+  },
+  {
+    "name": "after",
+    "fails": [],
+    "warns": [
+      "Only 3 text sizes across 12 text elements. Hierarchy is flat."
+    ],
+    "facts": {
+      "fonts": {
+        "Alexandria": 12
+      },
+      "sizes": [
+        36,
+        15,
+        13
+      ],
+      "weights": [
+        "400",
+        "600"
+      ],
+      "leftEdges": 1,
+      "accentHues": [],
+      "cards": 0
+    }
+  }
+]

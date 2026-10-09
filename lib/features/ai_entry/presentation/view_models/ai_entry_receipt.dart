@@ -13,10 +13,12 @@ extension AiEntryReceipt on AiEntryViewModel {
     _isSubmitting = true;
     _notifyReceiptChanged();
     try {
-      final result = await repository.process(
-        input,
-        targetDate: targetDate,
-        outputLanguage: outputLanguage,
+      final result = await _waitForSubmission(
+        repository.process(
+          input,
+          targetDate: targetDate,
+          outputLanguage: outputLanguage,
+        ),
       );
       await _applyResult(result, targetDate);
       _notifyReceiptChanged();

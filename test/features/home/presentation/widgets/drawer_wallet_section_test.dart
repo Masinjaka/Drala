@@ -74,9 +74,9 @@ void main() {
 
     expect(find.text('Wallets (2)'), findsOneWidget);
     expect(find.text('Cash'), findsOneWidget);
-    expect(find.text('400 000 Ar'), findsOneWidget);
+    expect(find.text('400 000 MGA'), findsOneWidget);
     expect(find.text('Bank account'), findsOneWidget);
-    expect(find.text('600 000 Ar'), findsWidgets);
+    expect(find.text('600 000 MGA'), findsWidgets);
     expect(
       tester.getSize(find.byType(DrawerWalletCard).first),
       DrawerWalletCard.size,
@@ -108,7 +108,7 @@ void main() {
     visibilityController.toggle();
     await tester.pumpAndSettle();
     expect(find.text('***'), findsNWidgets(2));
-    expect(find.text('400 000 Ar'), findsNothing);
+    expect(find.text('400 000 MGA'), findsNothing);
     visibilityController.toggle();
     await tester.pumpAndSettle();
 
@@ -146,7 +146,7 @@ void main() {
       ),
     );
     expect(find.text('Savings'), findsOneWidget);
-    expect(find.text('250 000 Ar'), findsOneWidget);
+    expect(find.text('250 000 MGA'), findsOneWidget);
     expect(find.text('Wallets (3)'), findsOneWidget);
   });
 }

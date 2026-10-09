@@ -168,6 +168,14 @@ They expect backend environment variables such as:
 - `FIREBASE_CLIENT_EMAIL`
 - `FIREBASE_PRIVATE_KEY`
 - `CRON_SECRET`
+- `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`
+
+Apply the `20261005090000` through `20261005090300` migrations before
+deploying the updated notification functions, `process-finance-message`, and app.
+The warning function
+delivers pending envelope alerts after expense creation or device registration;
+the reminder function reads each user's saved language preference, and
+`process-finance-message` returns AI entry text in that language.
 
 ### Sentry
 

@@ -1,4 +1,12 @@
 {
+  "envelopeOverBy": "Over by {amount}",
+  "@envelopeOverBy": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "@@locale": "en",
   "appTitle": "Drala",
   "settings": "Settings",
@@ -18,11 +26,24 @@
   "termsOfService": "Terms of service",
   "termsAndConditions": "Terms and Conditions",
   "privacyPolicy": "Privacy policy",
+  "adPrivacyOptions": "Ad privacy choices",
   "legalConsentPrefix": "I agree to the ",
   "legalConsentConnector": " and the ",
   "logOut": "Log out",
+  "appVersion": "Version {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
   "english": "English",
   "french": "French",
+  "malagasy": "Malagasy",
+  "german": "German",
+  "spanish": "Spanish",
+  "italian": "Italian",
   "menu": "Menu",
   "collapseMenu": "Collapse menu",
   "expandMenu": "Expand menu",
@@ -58,6 +79,22 @@
   "noNotifications": "No notifications",
   "noNotificationsDescription": "Budget warnings and important finance updates will appear here.",
   "envelopeBudgetExceeded": "You went over your budget for the {name} envelope.",
+  "envelopeBudgetAlmostReached": "The {name} envelope is almost spent.",
+  "@envelopeBudgetAlmostReached": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "envelopeBudgetReached": "The {name} envelope budget has been reached.",
+  "@envelopeBudgetReached": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "@envelopeBudgetExceeded": {
     "placeholders": {
       "name": {
@@ -72,7 +109,7 @@
   "emptyStateIncomePrompt": "Money just landed? Tell me about it so we can celebrate… and log it.",
   "emptyStateExpensePrompt": "Spent something fun (or necessary)? Spill how much and on what… I’m keeping the books.",
   "emptyStateTransferPrompt": "Moving money around? Tell me the from → to and I’ll make it happen.",
-  "firstEntryIncomePrompt": "Start by telling me any income you have! Just type something like “I got paid xxx” or “Salary xxx” and I’ll take care of the rest.",
+  "firstEntryIncomePrompt": "Start with an income or an expense. Try “I got paid xxx” or “I spent xxx on food” and I’ll record it.",
   "entryCount": "{count, plural, =1{1 entry} other{{count} entries}}",
   "expenseCount": "{count, plural, =1{1 expense} other{{count} expenses}}",
   "incomeCount": "{count, plural, =1{1 income} other{{count} incomes}}",
@@ -115,7 +152,7 @@
   "passwordsDoNotMatch": "The new passwords do not match.",
   "passwordMustDiffer": "Choose a password different from the current one.",
   "passwordUpdated": "Password updated.",
-  "searchCurrency": "Search a currency",
+  "searchCurrency": "Search currency",
   "errorWithMessage": "Error: {message}",
   "defaultWalletDescription": "Expenses and new envelopes use this wallet by default.",
   "defaultWalletUpdated": "Default wallet updated.",
@@ -263,5 +300,44 @@
   "title": "Title",
   "description": "Description",
   "searchCategories": "Search a category",
-  "done": "Done"
+  "done": "Done",
+  "repeatEnvelopeMonthly": "Repeat monthly",
+  "repeatEnvelopeMonthlyHelp": "Fund a fresh budget from the same wallet each month when funds are available.",
+  "editEnvelope": "Edit envelope",
+  "aiRequestTimedOut": "The AI request took too long. Please try again.",
+  "setupLanguageTitle": "Your language",
+  "setupLanguageBody": "Select your prefered language. You can always change it later in the settings.",
+  "setupCurrencyTitle": "Your currency",
+  "setupCurrencyBody": "Select your currency. You can also change this later in the settings.",
+  "setupCategoriesTitle": "Your categories",
+  "setupCategoriesBody": "These are a few of the usual categories. Select those you need. You can add custom ones in the settings as well.",
+  "setupWalletsTitle": "Your wallets",
+  "setupWalletsBody": "These are the places where you keep your money and where your expenses will be taken from. You can choose one of them to be your default wallet in the app. There is always a default one if you choose none. You can add more in the settings.",
+  "setupContinue": "Continue",
+  "setupFinish": "Start using Drala",
+  "setupCompleteTitle": "You’re all set !",
+  "setupCompleteBody": "Happy managing",
+  "setupDone": "Nice",
+  "setupRetry": "Try again",
+  "setupMainWallet": "Main wallet",
+  "setupCash": "Cash",
+  "setupBank": "Bank",
+  "setupMobile": "Mobile Money",
+  "authSignUp": "Create an account",
+  "authSignIn": "Sign in",
+  "authSignUpBody": "A few details, then make Drala yours.",
+  "authSignInBody": "Find your accounts and expenses.",
+  "authEmail": "Email",
+  "authPassword": "Password",
+  "authConfirmPassword": "Confirm password",
+  "authForgotPassword": "Forgot password?",
+  "authConfirmEmail": "Check your email to confirm your account, then sign in to finish setup.",
+  "setupLoadError": "Could not load the choices. Try again.",
+  "authResetInstruction": "Enter your email and we’ll send you a verification code.",
+  "authResetCodeSent": "Verification code sent",
+  "authCodeSentTo": "A code was sent to",
+  "authVerificationCode": "Verification code",
+  "authEnterSixDigitCode": "Enter the 6-digit code",
+  "authResetButton": "Reset password",
+  "authResetSuccess": "Password reset successfully"
 }
