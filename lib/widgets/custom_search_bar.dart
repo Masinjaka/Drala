@@ -67,7 +67,7 @@ class _ReusableSearchBarState extends State<ReusableSearchBar> {
       ),
       child: TextFormField(
         controller: widget.controller,
-        cursorColor: Theme.of(context).textTheme.bodyLarge?.color,
+        cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
         style: Theme.of(context).textTheme.bodyLarge,
         onTap: widget.onSearchFocused,
         textAlign: TextAlign.start,

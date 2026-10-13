@@ -1,13 +1,18 @@
+import 'package:budgets/core/ui/app_settings_theme.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_logout_button.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_item.dart';
-import 'package:budgets/features/settings/presentation/widgets/settings_section_title.dart';
-import 'package:budgets/widgets/custom_button.dart';
-import 'package:flutter/material.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_summary_cards.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:flutter/material.dart';
 
 class SettingsContent extends StatelessWidget {
   const SettingsContent({
     required this.profileHeader,
+    required this.categoryCount,
+    required this.walletCount,
+    required this.onCategories,
+    required this.onWallets,
     required this.onEditProfile,
     required this.onChangePassword,
     required this.onNotifications,
@@ -27,6 +32,10 @@ class SettingsContent extends StatelessWidget {
   });
 
   final Widget profileHeader;
+  final int categoryCount;
+  final int walletCount;
+  final VoidCallback onCategories;
+  final VoidCallback onWallets;
   final VoidCallback onEditProfile;
   final VoidCallback onChangePassword;
   final VoidCallback onNotifications;
@@ -45,106 +54,134 @@ class SettingsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = context.l10n;
+    final l = context.l10n;
     return ListView(
-      padding: const EdgeInsets.fromLTRB(28, 36, 28, 28),
+      key: const Key('settings-content'),
+      padding: const EdgeInsets.fromLTRB(28, 0, 28, 28),
       children: [
-        profileHeader,
-        const SizedBox(height: 39),
+        Align(alignment: Alignment.center, child: profileHeader),
+        const SizedBox(height: 37),
+        SettingsSummaryCards(
+          categoriesLabel: l.categories,
+          walletsLabel: l.wallets,
+          categoryCount: categoryCount,
+          walletCount: walletCount,
+          onCategories: onCategories,
+          onWallets: onWallets,
+        ),
+        const SizedBox(height: 43),
         SettingsMenuGroup(
+          flat: true,
           items: [
             SettingsMenuItem(
-              title: localizations.editProfile,
-              icon: Icons.manage_accounts_outlined,
+              title: l.editProfile,
+              iconAsset: 'assets/settings/profile.svg',
+              height: 50,
               onTap: onEditProfile,
             ),
             SettingsMenuItem(
-              title: localizations.changePassword,
-              icon: Icons.lock_reset_rounded,
+              title: l.changePassword,
+              iconAsset: 'assets/settings/password.svg',
+              height: 50,
               onTap: onChangePassword,
             ),
           ],
         ),
-        const SizedBox(height: 32),
-        SettingsSectionTitle(localizations.preferences),
-        const SizedBox(height: 12),
+        _divider(context, top: 6, bottom: 20),
         SettingsMenuGroup(
+          flat: true,
           items: [
             SettingsMenuItem(
-              title: localizations.notification,
-              icon: Icons.notifications_none_rounded,
+              title: l.notification,
+              iconAsset: 'assets/settings/notification.svg',
               onTap: onNotifications,
             ),
             SettingsMenuItem(
-              title: localizations.currency,
-              icon: Icons.currency_exchange_rounded,
+              title: l.currency,
+              iconAsset: 'assets/settings/currency.svg',
               onTap: onCurrency,
             ),
             SettingsMenuItem(
-              title: localizations.setDefaultWallet,
-              icon: Icons.account_balance_wallet_outlined,
+              title: l.setDefaultWallet,
+              iconAsset: 'assets/settings/privacy.svg',
               onTap: onDefaultWallet,
             ),
             SettingsMenuItem(
-              title: localizations.theme,
-              icon: Icons.contrast_rounded,
+              title: l.theme,
+              iconAsset: 'assets/settings/wallet.svg',
               onTap: onTheme,
-            ),
-            SettingsMenuItem(
-              title: localizations.language,
-              icon: Icons.language_rounded,
-              onTap: onLanguage,
-            ),
-            SettingsMenuItem(
-              title: localizations.scannedReceipts,
-              icon: Icons.document_scanner_outlined,
-              onTap: onScannedReceipts,
             ),
           ],
         ),
-        const SizedBox(height: 25),
-        SettingsSectionTitle(localizations.legal),
-        const SizedBox(height: 12),
+        _divider(context, top: 7, bottom: 19),
         SettingsMenuGroup(
+          flat: true,
           items: [
             SettingsMenuItem(
-              title: localizations.termsOfService,
-              icon: Icons.description_outlined,
+              title: l.termsOfService,
+              iconAsset: 'assets/settings/terms.svg',
               onTap: onTerms,
             ),
             SettingsMenuItem(
-              title: localizations.privacyPolicy,
-              icon: Icons.shield_outlined,
+              title: l.privacyPolicy,
+              iconAsset: 'assets/settings/theme.svg',
               onTap: onPrivacy,
+            ),
+          ],
+        ),
+        _divider(context, top: 7, bottom: 19),
+        SettingsMenuGroup(
+          flat: true,
+          items: [
+            SettingsMenuItem(
+              title: l.language,
+              iconAsset: 'assets/settings/language.svg',
+              onTap: onLanguage,
+            ),
+            SettingsMenuItem(
+              title: l.scannedReceipts,
+              iconAsset: 'assets/settings/scanned_receipts.svg',
+              onTap: onScannedReceipts,
             ),
             if (showAdPrivacyOptions && onAdPrivacyOptions != null)
               SettingsMenuItem(
-                title: localizations.adPrivacyOptions,
+                title: l.adPrivacyOptions,
                 icon: Icons.ads_click_outlined,
                 onTap: onAdPrivacyOptions!,
               ),
           ],
         ),
-        const SizedBox(height: 38),
+        const SizedBox(height: 41),
+        SettingsLogoutButton(
+          label: l.logOut,
+          isLoading: isLoggingOut,
+          onPressed: onLogout,
+        ),
+        const SizedBox(height: 24),
         if (appVersion != null) ...[
+          const SizedBox(height: 12),
           Center(
             child: Text(
-              localizations.appVersion(appVersion!),
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+              l.appVersion(appVersion!),
+              style: AppSettingsTheme.menuLabel(context),
             ),
           ),
-          const SizedBox(height: 12),
         ],
-        CustomButton(
-          text: localizations.logOut,
-          height: 40,
-          borderRadius: BorderRadius.circular(6),
-          isLoading: isLoggingOut,
-          onPressed: isLoggingOut ? null : onLogout,
-        ),
       ],
     );
   }
+
+  Widget _divider(
+    BuildContext context, {
+    required double top,
+    required double bottom,
+  }) =>
+      Padding(
+        padding: EdgeInsets.only(top: top, bottom: bottom),
+        child: Divider(
+          height: 1,
+          thickness: 1,
+          color: AppSettingsTheme.divider(context),
+        ),
+      );
 }

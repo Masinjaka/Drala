@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_sheet_header.dart';
 import 'package:flutter/material.dart';
 
 class TransactionFormHeader extends StatelessWidget {
@@ -6,24 +7,9 @@ class TransactionFormHeader extends StatelessWidget {
   final String title;
   final VoidCallback onClose;
   @override
-  Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(
-        child: Text(
-          title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ),
-      IconButton(
-        key: const ValueKey('close-transaction-sheet'),
-        onPressed: onClose,
-        visualDensity: VisualDensity.compact,
-        padding: EdgeInsets.zero,
-        constraints: const BoxConstraints.tightFor(width: 32, height: 32),
-        icon: const Icon(Icons.close, size: 20),
-      ),
-    ]);
-  }
+  Widget build(BuildContext context) => AppSheetHeader(
+        title: title,
+        onClose: onClose,
+        closeKey: const ValueKey('close-transaction-sheet'),
+      );
 }

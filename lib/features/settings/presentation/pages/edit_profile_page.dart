@@ -11,10 +11,8 @@ import 'package:budgets/features/settings/presentation/view_models/danger_zone_v
 import 'package:budgets/features/settings/presentation/widgets/danger_zone.dart';
 import 'package:budgets/features/settings/presentation/widgets/editable_profile_avatar.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
-import 'package:budgets/features/settings/presentation/widgets/settings_editor_sheet.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_transaction_field.dart';
-import 'package:budgets/features/transactions/presentation/widgets/transaction_form_sheet_route.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/features/user/presentation/controllers/username_controller.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -24,18 +22,15 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
-  const EditProfilePage({this.onDataDeleted, this.asSheet = false, super.key});
+  const EditProfilePage({this.onDataDeleted, super.key});
 
   final VoidCallback? onDataDeleted;
-  final bool asSheet;
 
   static Future<void> show(BuildContext context,
           {VoidCallback? onDataDeleted}) =>
-      showTransactionFormSheet<void>(context,
-          builder: (_) => EditProfilePage(
-                onDataDeleted: onDataDeleted,
-                asSheet: true,
-              ));
+      Navigator.of(context).push<void>(MaterialPageRoute(
+        builder: (_) => EditProfilePage(onDataDeleted: onDataDeleted),
+      ));
 
   @override
   ConsumerState<EditProfilePage> createState() => _EditProfilePageState();
@@ -116,9 +111,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     );
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: widget.asSheet
-          ? SettingsEditorSheet(title: context.l10n.editProfile, child: form)
-          : SettingsPageShell(title: context.l10n.editProfile, child: form),
+      child: SettingsPageShell(title: context.l10n.editProfile, child: form),
     );
   }
 

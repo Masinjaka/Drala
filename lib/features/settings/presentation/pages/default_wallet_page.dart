@@ -48,16 +48,38 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
     setState(() => _pendingId = wallet.id);
     try {
       await _service.setDefault(wallet.id);
-      await _load();
-      if (mounted) {
-        showSuccessToast(context, context.l10n.defaultWalletUpdated);
-      }
+      if (!mounted) return;
+      setState(() {
+        _wallets = _wallets
+            ?.map((item) => _withDefaultState(
+                  item,
+                  isDefault: item.id == wallet.id,
+                ))
+            .toList(growable: false);
+        _pendingId = null;
+      });
+      showSuccessToast(context, context.l10n.defaultWalletUpdated);
     } catch (error) {
       if (mounted) showErrorToast(context, error);
     } finally {
-      if (mounted) setState(() => _pendingId = null);
+      if (mounted && _pendingId != null) {
+        setState(() => _pendingId = null);
+      }
     }
   }
+
+  WalletSummary _withDefaultState(
+    WalletSummary wallet, {
+    required bool isDefault,
+  }) =>
+      WalletSummary(
+        id: wallet.id,
+        name: wallet.name,
+        balance: wallet.balance,
+        currencyCode: wallet.currencyCode,
+        iconKey: wallet.iconKey,
+        isDefault: isDefault,
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +97,7 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
                 ),
                 const SizedBox(height: 20),
                 SettingsMenuGroup(
+                  flat: true,
                   items: _wallets!
                       .map(
                         (wallet) => SettingsChoiceTile(
@@ -91,9 +114,10 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
                             ),
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          leading: Text('👛',
-                              style: Theme.of(context).textTheme.bodySmall),
-                          trailing: _trailing(wallet),
+                          leading: const Text('👛'),
+                          selected: wallet.isDefault,
+                          loading: _pendingId == wallet.id,
+                          showSelectionIndicator: true,
                           onTap: () => _select(wallet),
                         ),
                       )
@@ -102,17 +126,5 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
               ],
             ),
     );
-  }
-
-  Widget? _trailing(WalletSummary wallet) {
-    if (_pendingId == wallet.id) {
-      return const SizedBox.square(
-        dimension: 18,
-        child: CircularProgressIndicator(strokeWidth: 2),
-      );
-    }
-    return wallet.isDefault
-        ? Icon(Icons.check_circle, color: Theme.of(context).colorScheme.primary)
-        : null;
   }
 }

@@ -160,6 +160,12 @@ abstract class AppLocalizations {
   /// **'Set default wallet'**
   String get setDefaultWallet;
 
+  /// No description provided for @defaultWalletLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultWalletLabel;
+
   /// No description provided for @theme.
   ///
   /// In en, this message translates to:
@@ -303,6 +309,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expand menu'**
   String get expandMenu;
+
+  /// No description provided for @activities.
+  ///
+  /// In en, this message translates to:
+  /// **'Activities'**
+  String get activities;
+
+  /// No description provided for @reports.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get reports;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
 
   /// No description provided for @envelope.
   ///
@@ -913,7 +937,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAllDataSummary.
   ///
   /// In en, this message translates to:
-  /// **'Permanently deletes all app content.'**
+  /// **'Deletes app data and files, but keeps your sign-in account.'**
   String get deleteAllDataSummary;
 
   /// No description provided for @deleteAccount.
@@ -925,7 +949,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccountSummary.
   ///
   /// In en, this message translates to:
-  /// **'Deletes your data and disables your sign-in.'**
+  /// **'Deletes your sign-in account, app data, and files.'**
   String get deleteAccountSummary;
 
   /// No description provided for @deleteAllDataQuestion.
@@ -937,7 +961,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAllDataDetails.
   ///
   /// In en, this message translates to:
-  /// **'Transactions, wallets, envelopes, budgets, goals, AI history, preferences, and files will be deleted. Your account and plan will be retained.'**
+  /// **'Deletes transactions and wallet activity, non-default wallets, categories, envelopes, budgets and history, AI history, receipt scans, notification settings, profile details, and stored files. Your sign-in account remains. A zero-balance default wallet is kept or created. Your name is reset from your email, your photo is removed, and your currency resets to MGA.'**
   String get deleteAllDataDetails;
 
   /// No description provided for @deleteKeyword.
@@ -967,7 +991,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteAccountDetails.
   ///
   /// In en, this message translates to:
-  /// **'This deletes your account, plan, files, and all your data. It cannot be undone.'**
+  /// **'Deletes your sign-in account, profile, transactions, wallets and wallet activity, categories, envelopes, budgets and history, AI history, receipt scans, notification settings, and stored files. You will be signed out. This cannot be undone.'**
   String get deleteAccountDetails;
 
   /// No description provided for @typeValueToConfirm.

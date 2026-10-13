@@ -17,7 +17,7 @@ class MonthlySpendingChart extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 27, 13, 2),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

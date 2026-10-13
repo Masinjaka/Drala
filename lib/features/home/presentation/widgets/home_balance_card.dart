@@ -1,7 +1,7 @@
-import 'package:budgets/features/home/presentation/widgets/home_balance_eye_painter.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/home/presentation/widgets/home_balance_primary_amount.dart';
+import 'package:budgets/features/home/presentation/widgets/home_balance_visibility_button.dart';
 import 'package:budgets/features/home/presentation/widgets/home_colors.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -39,13 +39,15 @@ class HomeBalanceCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.fromLTRB(24, 20, 22, 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
+              Padding(
+                padding: const EdgeInsets.only(right: 48),
                 child: Text(
                   context.l10n.availableBalance,
                   key: const Key('home-balance-label'),
@@ -54,29 +56,28 @@ class HomeBalanceCard extends StatelessWidget {
                   style: labelStyle,
                 ),
               ),
-              const SizedBox(
-                key: Key('home-balance-eye'),
-                width: 23,
-                height: 16,
-                child: CustomPaint(painter: HomeBalanceEyePainter()),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.bottomLeft,
+                child: HomeBalancePrimaryAmount(
+                  balance: balance,
+                  currencyCode: currencyCode,
+                  isLoading: isLoading,
+                  amountStyle: theme.textTheme.displaySmall!.copyWith(
+                    color: AppTheme.homeBannerText,
+                  ),
+                  currencyStyle: AppTextTheme.currencyLabel(context).copyWith(
+                    color: AppTheme.homeBannerText,
+                  ),
+                  onCompleted: _onAmountCompleted,
+                ),
               ),
             ],
           ),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.bottomLeft,
-            child: HomeBalancePrimaryAmount(
-              balance: balance,
-              currencyCode: currencyCode,
-              isLoading: isLoading,
-              amountStyle: theme.textTheme.displaySmall!.copyWith(
-                color: AppTheme.homeBannerText,
-              ),
-              currencyStyle: AppTextTheme.currencyLabel(context).copyWith(
-                color: AppTheme.homeBannerText,
-              ),
-              onCompleted: _onAmountCompleted,
-            ),
+          const Positioned(
+            top: -14,
+            right: 0,
+            child: HomeBalanceVisibilityButton(),
           ),
         ],
       ),

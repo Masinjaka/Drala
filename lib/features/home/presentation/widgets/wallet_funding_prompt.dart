@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/app_toast.dart';
+import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/home/domain/models/wallet_funding_choice.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:budgets/features/home/presentation/widgets/multi_wallet_consent_sheet.dart';
@@ -12,6 +13,7 @@ class WalletFundingPrompt {
     BuildContext context, {
     required List<WalletSummary> wallets,
     required int requiredAmount,
+    CurrencyState? currencyState,
   }) async {
     final eligible = wallets
         .where((wallet) => wallet.balance >= requiredAmount)
@@ -21,6 +23,7 @@ class WalletFundingPrompt {
         context,
         wallets: wallets,
         requiredAmount: requiredAmount,
+        currencyState: currencyState,
       );
       return walletId == null ? null : WalletFundingChoice.single(walletId);
     }

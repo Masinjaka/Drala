@@ -38,6 +38,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get setDefaultWallet => 'Establecer cartera predeterminada';
 
   @override
+  String get defaultWalletLabel => 'Predeterminada';
+
+  @override
   String get theme => 'Tema';
 
   @override
@@ -110,6 +113,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get expandMenu => 'Expandir menú';
+
+  @override
+  String get activities => 'Actividad';
+
+  @override
+  String get reports => 'Informes';
+
+  @override
+  String get profile => 'Perfil';
 
   @override
   String get envelope => 'Sobre';
@@ -501,21 +513,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deleteAllDataSummary =>
-      'Elimina permanentemente todo el contenido de la aplicación.';
+      'Elimina los datos y archivos de la aplicación, pero conserva tu cuenta de acceso.';
 
   @override
   String get deleteAccount => 'Eliminar mi cuenta';
 
   @override
   String get deleteAccountSummary =>
-      'Elimina tus datos e inhabilita el inicio de sesión.';
+      'Elimina tu cuenta de acceso, datos y archivos.';
 
   @override
   String get deleteAllDataQuestion => '¿Eliminar todos los datos?';
 
   @override
   String get deleteAllDataDetails =>
-      'Se eliminarán transacciones, carteras, sobres, presupuestos, objetivos, historial de IA, preferencias y archivos. Tu cuenta y tu plan se conservarán.';
+      'Elimina transacciones y actividad de las carteras, las carteras no predeterminadas, categorías, sobres, presupuestos e historial, historial de IA, recibos escaneados, ajustes de notificaciones, datos del perfil y archivos almacenados. Tu cuenta de acceso se conserva. Se mantiene o crea una cartera predeterminada con saldo cero. Tu nombre se restablece a partir de tu correo, se elimina tu foto y la moneda vuelve a MGA.';
 
   @override
   String get deleteKeyword => 'DELETE';
@@ -531,7 +543,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deleteAccountDetails =>
-      'Esto elimina tu cuenta, plan, archivos y todos tus datos. No se puede deshacer.';
+      'Elimina tu cuenta de acceso, perfil, transacciones, carteras y su actividad, categorías, sobres, presupuestos e historial, historial de IA, recibos escaneados, ajustes de notificaciones y archivos almacenados. Se cerrará tu sesión. Esta acción no se puede deshacer.';
 
   @override
   String typeValueToConfirm(Object value) {

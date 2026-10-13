@@ -21,7 +21,7 @@ class TransactionMutationService {
     required TransactionType type,
   }) async {
     final userId = _requireUserId();
-    final categoryId = await _categoryId(categoryName, userId);
+    final categoryId = await _categoryId(categoryName, userId, type);
     final transactionId = const Uuid().v4();
     final numericAmount = _parseAmount(amount);
     final now = DateTime.now().toUtc().toIso8601String();
@@ -85,7 +85,7 @@ class TransactionMutationService {
     DateTime? date,
   }) async {
     final userId = _requireUserId();
-    final categoryId = await _categoryId(categoryName, userId);
+    final categoryId = await _categoryId(categoryName, userId, type);
     final existing = await _client
         .from('transaction')
         .select('category_id, amount, transaction_type, date')
@@ -132,13 +132,20 @@ class TransactionMutationService {
     return userId;
   }
 
-  Future<String> _categoryId(String name, String userId) async {
-    final row = await _client
+  Future<String> _categoryId(
+    String name,
+    String userId,
+    TransactionType type,
+  ) async {
+    var query = _client
         .from('categories')
         .select('id')
         .eq('name', name)
-        .eq('user_id', userId)
-        .maybeSingle();
+        .eq('user_id', userId);
+    query = type == TransactionType.expense
+        ? query.or('transaction_type.eq.expense,transaction_type.is.null')
+        : query.eq('transaction_type', type.value);
+    final row = await query.maybeSingle();
     if (row == null) throw StateError('Category $name not found');
     return row['id'] as String;
   }

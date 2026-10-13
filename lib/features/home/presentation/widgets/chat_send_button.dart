@@ -25,6 +25,7 @@ class ChatSendButton extends StatefulWidget {
 
 class _ChatSendButtonState extends State<ChatSendButton>
     with SingleTickerProviderStateMixin {
+  static const _buttonSize = 36.0;
   late final AnimationController _pressController;
   late final Animation<double> _scale;
 
@@ -67,7 +68,6 @@ class _ChatSendButtonState extends State<ChatSendButton>
 
   @override
   Widget build(BuildContext context) {
-    final buttonSize = 40 - widget.bottomPadding;
     final theme = Theme.of(context);
     final background = theme.brightness == Brightness.dark
         ? theme.colorScheme.surfaceContainerLowest
@@ -78,55 +78,58 @@ class _ChatSendButtonState extends State<ChatSendButton>
       child: Center(
         child: Padding(
           padding: EdgeInsets.only(bottom: widget.bottomPadding),
-          child: ScaleTransition(
-            scale: _scale,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: background,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.shadowColor.withValues(alpha: 0.18),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: SizedBox.square(
-                dimension: buttonSize,
-                child: IconButton(
-                  onPressed: widget.onPressed == null ? null : _handlePressed,
-                  padding: EdgeInsets.zero,
-                  style: IconButton.styleFrom(
-                    minimumSize: Size.square(buttonSize),
-                    maximumSize: Size.square(buttonSize),
-                    foregroundColor: AppTheme.homeBannerText,
-                    disabledForegroundColor:
-                        AppTheme.homeBannerText.withValues(alpha: .7),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+          child: Transform.translate(
+            offset: Offset(0, widget.bottomPadding / 2),
+            child: ScaleTransition(
+              scale: _scale,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: background,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.shadowColor.withValues(alpha: 0.18),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
                     ),
-                  ),
-                  icon: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 160),
-                    child: widget.isBusy
-                        ? const ChatLoadingDots(
-                            key: ValueKey('chat-send-loading'),
-                            color: AppTheme.homeBannerText,
-                          )
-                        : Icon(
-                            widget.isManualEntry
-                                ? Icons.edit_note_rounded
-                                : Icons.arrow_upward_rounded,
-                            key: ValueKey(
+                  ],
+                ),
+                child: SizedBox.square(
+                  dimension: _buttonSize,
+                  child: IconButton(
+                    onPressed: widget.onPressed == null ? null : _handlePressed,
+                    padding: EdgeInsets.zero,
+                    style: IconButton.styleFrom(
+                      minimumSize: const Size.square(_buttonSize),
+                      maximumSize: const Size.square(_buttonSize),
+                      foregroundColor: AppTheme.homeBannerText,
+                      disabledForegroundColor:
+                          AppTheme.homeBannerText.withValues(alpha: .7),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    icon: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 160),
+                      child: widget.isBusy
+                          ? const ChatLoadingDots(
+                              key: ValueKey('chat-send-loading'),
+                              color: AppTheme.homeBannerText,
+                            )
+                          : Icon(
                               widget.isManualEntry
-                                  ? 'chat-send-manual'
-                                  : 'chat-send-arrow',
+                                  ? Icons.edit_note_rounded
+                                  : Icons.arrow_upward_rounded,
+                              key: ValueKey(
+                                widget.isManualEntry
+                                    ? 'chat-send-manual'
+                                    : 'chat-send-arrow',
+                              ),
+                              size: 22,
                             ),
-                            size: 22,
-                          ),
+                    ),
+                    tooltip: widget.tooltip,
                   ),
-                  tooltip: widget.tooltip,
                 ),
               ),
             ),

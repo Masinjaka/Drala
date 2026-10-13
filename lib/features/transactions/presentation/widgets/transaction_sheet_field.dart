@@ -27,7 +27,7 @@ class TransactionSheetField extends StatelessWidget {
         const SizedBox(height: 7),
         TextFormField(
           controller: controller,
-          cursorColor: Theme.of(context).colorScheme.onSurface,
+          cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
           validator: validator,
           keyboardType: keyboardType,
           textInputAction: textInputAction,

@@ -6,6 +6,7 @@ class DetailPageHeader extends StatelessWidget {
   const DetailPageHeader({
     required this.title,
     this.onAdd,
+    this.showBackButton = true,
     this.addTooltip,
     this.buttonVisualSize = AppControlMetrics.squareButtonVisualSize,
     this.buttonIconSize = 22,
@@ -13,6 +14,7 @@ class DetailPageHeader extends StatelessWidget {
   });
 
   final String title;
+  final bool showBackButton;
   final VoidCallback? onAdd;
   final String? addTooltip;
   final double buttonVisualSize;
@@ -22,14 +24,17 @@ class DetailPageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        OutlinedSquareButton(
-          icon: Icons.arrow_back_rounded,
-          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          visualSize: buttonVisualSize,
-          iconSize: buttonIconSize,
-          onPressed: () => Navigator.maybePop(context),
-        ),
-        const SizedBox(width: 15),
+        if (showBackButton)
+          OutlinedSquareButton(
+            icon: Icons.arrow_back_rounded,
+            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+            visualSize: buttonVisualSize,
+            iconSize: buttonIconSize,
+            onPressed: () => Navigator.maybePop(context),
+          ),
+        if (!showBackButton)
+          const SizedBox.square(dimension: AppControlMetrics.iconButtonSize),
+        if (showBackButton) const SizedBox(width: 15),
         Expanded(
           child: Align(
             alignment: Alignment.center,

@@ -1,6 +1,8 @@
-import 'dart:async';
-
 import 'package:bottom_picker/bottom_picker.dart';
+import 'package:budgets/core/ui/app_sheet_header.dart';
+import 'package:budgets/core/ui/app_sheet_route.dart';
+import 'package:budgets/core/ui/app_sheet_surface.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/cupertino.dart' show DatePickerDateOrder;
 import 'package:flutter/material.dart';
@@ -15,31 +17,27 @@ class AppWheelPicker {
     required DateTime lastDate,
     String title = 'Select a date',
   }) {
-    final result = Completer<DateTime?>();
-    late final BottomPicker<DateTime> picker;
-    picker = BottomPicker<DateTime>.date(
-      initialDateTime: _clamp(initialDate, firstDate, lastDate),
-      minDateTime: firstDate,
-      maxDateTime: lastDate,
-      dateOrder: DatePickerDateOrder.dmy,
-      dismissable: true,
-      useSafeArea: true,
+    return _showDateTime(
+      context,
       height: 360,
-      itemExtent: 44,
-      backgroundColor: _background(context),
-      pickerTextStyle: _pickerTextStyle(context),
-      headerBuilder: (_) => _header(context, title, () {
-        _complete(result, null);
-        picker.dismiss();
-      }),
-      buttonBuilder: (instance, _) => _doneButton(() {
-        _complete(result, instance.currentValue as DateTime?);
-        instance.dismiss();
-      }),
-      onDismiss: (_) => _complete(result, null),
+      pickerBuilder: (sheetContext) {
+        return BottomPicker<DateTime>.date(
+          initialDateTime: _clamp(initialDate, firstDate, lastDate),
+          minDateTime: firstDate,
+          maxDateTime: lastDate,
+          dateOrder: DatePickerDateOrder.dmy,
+          height: 360,
+          itemExtent: 44,
+          backgroundColor: _background(sheetContext),
+          pickerTextStyle: _pickerTextStyle(sheetContext),
+          headerBuilder: (_) => _header(sheetContext, title),
+          buttonBuilder: (instance, _) => _doneButton(
+            sheetContext,
+            () => Navigator.pop(sheetContext, instance.currentValue),
+          ),
+        );
+      },
     );
-    picker.show(context);
-    return result.future;
   }
 
   static Future<DateTime?> monthYear(
@@ -49,30 +47,26 @@ class AppWheelPicker {
     required DateTime lastDate,
     String title = 'Select a month',
   }) {
-    final result = Completer<DateTime?>();
-    late final BottomPicker<DateTime> picker;
-    picker = BottomPicker<DateTime>.monthYear(
-      initialDateTime: _clamp(initialDate, firstDate, lastDate),
-      minDateTime: firstDate,
-      maxDateTime: lastDate,
-      dismissable: true,
-      useSafeArea: true,
+    return _showDateTime(
+      context,
       height: 340,
-      itemExtent: 44,
-      backgroundColor: _background(context),
-      pickerTextStyle: _pickerTextStyle(context),
-      headerBuilder: (_) => _header(context, title, () {
-        _complete(result, null);
-        picker.dismiss();
-      }),
-      buttonBuilder: (instance, _) => _doneButton(() {
-        _complete(result, instance.currentValue as DateTime?);
-        instance.dismiss();
-      }),
-      onDismiss: (_) => _complete(result, null),
+      pickerBuilder: (sheetContext) {
+        return BottomPicker<DateTime>.monthYear(
+          initialDateTime: _clamp(initialDate, firstDate, lastDate),
+          minDateTime: firstDate,
+          maxDateTime: lastDate,
+          height: 340,
+          itemExtent: 44,
+          backgroundColor: _background(sheetContext),
+          pickerTextStyle: _pickerTextStyle(sheetContext),
+          headerBuilder: (_) => _header(sheetContext, title),
+          buttonBuilder: (instance, _) => _doneButton(
+            sheetContext,
+            () => Navigator.pop(sheetContext, instance.currentValue),
+          ),
+        );
+      },
     );
-    picker.show(context);
-    return result.future;
   }
 
   static Future<TimeOfDay?> time(
@@ -80,96 +74,81 @@ class AppWheelPicker {
     required TimeOfDay initialTime,
     String title = 'Select a time',
   }) {
-    final result = Completer<TimeOfDay?>();
-    late final BottomPicker<DateTime> picker;
-    picker = BottomPicker<DateTime>.time(
-      initialTime: Time(
-        hours: initialTime.hour,
-        minutes: initialTime.minute,
-      ),
-      minTime: Time(),
-      maxTime: Time(hours: 23, minutes: 59),
-      use24hFormat: MediaQuery.alwaysUse24HourFormatOf(context),
-      showTimeSeparator: true,
-      dismissable: true,
-      useSafeArea: true,
-      height: 340,
-      itemExtent: 44,
-      backgroundColor: _background(context),
-      pickerTextStyle: _pickerTextStyle(context),
-      headerBuilder: (_) => _header(context, title, () {
-        _complete(result, null);
-        picker.dismiss();
-      }),
-      buttonBuilder: (instance, _) => _doneButton(() {
-        final value = instance.currentValue as DateTime?;
-        _complete(
-          result,
-          value == null ? null : TimeOfDay.fromDateTime(value),
+    return showAppSheet<TimeOfDay>(
+      context,
+      builder: (sheetContext) {
+        final picker = BottomPicker<DateTime>.time(
+          initialTime: Time(
+            hours: initialTime.hour,
+            minutes: initialTime.minute,
+          ),
+          minTime: Time(),
+          maxTime: Time(hours: 23, minutes: 59),
+          use24hFormat: MediaQuery.alwaysUse24HourFormatOf(sheetContext),
+          showTimeSeparator: true,
+          height: 340,
+          itemExtent: 44,
+          backgroundColor: _background(sheetContext),
+          pickerTextStyle: _pickerTextStyle(sheetContext),
+          headerBuilder: (_) => _header(sheetContext, title),
+          buttonBuilder: (instance, _) => _doneButton(sheetContext, () {
+            final value = instance.currentValue;
+            Navigator.pop(
+              sheetContext,
+              value == null ? null : TimeOfDay.fromDateTime(value),
+            );
+          }),
         );
-        instance.dismiss();
-      }),
-      onDismiss: (_) => _complete(result, null),
+        return AppSheetSurface(height: 340, child: picker);
+      },
     );
-    picker.show(context);
-    return result.future;
+  }
+
+  static Future<DateTime?> _showDateTime(
+    BuildContext context, {
+    required double height,
+    required WidgetBuilder pickerBuilder,
+  }) {
+    return showAppSheet<DateTime>(
+      context,
+      builder: (sheetContext) => AppSheetSurface(
+        height: height,
+        child: pickerBuilder(sheetContext),
+      ),
+    );
   }
 
   static TextStyle _pickerTextStyle(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: _foreground(context),
-            fontSize: 18,
-          );
+      Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 18);
 
-  static Widget _header(
-    BuildContext context,
-    String title,
-    VoidCallback onClose,
-  ) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            title,
-            key: const Key('app-wheel-picker-title'),
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: _foreground(context),
-                ),
-          ),
-        ),
-        IconButton(
-          key: const Key('app-wheel-picker-close'),
-          onPressed: onClose,
-          color: _foreground(context),
-          icon: const Icon(Icons.close_rounded),
-        ),
-      ],
+  static Widget _header(BuildContext context, String title) {
+    return AppSheetHeader(
+      title: title,
+      titleKey: const Key('app-wheel-picker-title'),
+      closeKey: const Key('app-wheel-picker-close'),
+      onClose: () => Navigator.pop(context),
     );
   }
 
-  static Widget _doneButton(VoidCallback onPressed) {
+  static Widget _doneButton(BuildContext context, VoidCallback onPressed) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
       child: CustomButton(
         key: const Key('app-wheel-picker-done'),
-        text: 'Done',
+        text: context.l10n.done,
+        height: 40,
+        borderRadius: BorderRadius.circular(6),
         onPressed: onPressed,
       ),
     );
   }
 
-  static Color _background(BuildContext context) => Theme.of(context).cardColor;
-
-  static Color _foreground(BuildContext context) =>
-      Theme.of(context).colorScheme.onSurface;
+  static Color _background(BuildContext context) =>
+      Theme.of(context).colorScheme.surfaceContainerLowest;
 
   static DateTime _clamp(DateTime value, DateTime min, DateTime max) {
     if (value.isBefore(min)) return min;
     if (value.isAfter(max)) return max;
     return value;
-  }
-
-  static void _complete<T>(Completer<T> completer, T value) {
-    if (!completer.isCompleted) completer.complete(value);
   }
 }

@@ -45,13 +45,14 @@ class _HomeWeekTransitionState extends State<HomeWeekTransition> {
     super.didUpdateWidget(oldWidget);
     if (widget.pageController != null) return;
     final target = HomeWeekPager.pageFor(widget.focusedDate);
+    final previous = HomeWeekPager.pageFor(oldWidget.focusedDate);
+    if (target == previous) return;
     if (_reportedPage == target) {
       _reportedPage = null;
       return;
     }
     if (!_controller.hasClients || _controller.page?.round() == target) return;
     _controllerTarget = target;
-    final previous = HomeWeekPager.pageFor(oldWidget.focusedDate);
     if ((target - previous).abs() == 1) {
       _controller.animateToPage(
         target,

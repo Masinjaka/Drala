@@ -15,6 +15,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class FinanceStatsPage extends StatefulWidget {
   const FinanceStatsPage({
     this.repository,
+    this.showBackButton = true,
     this.initialMonth,
     this.displayCurrency,
     super.key,
@@ -22,6 +23,7 @@ class FinanceStatsPage extends StatefulWidget {
 
   final MonthlyStatsRepository? repository;
   final DateTime? initialMonth;
+  final bool showBackButton;
   final CurrencyState? displayCurrency;
 
   @override
@@ -110,7 +112,9 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
                 child: Column(children: [
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 29),
-                      child: DetailPageHeader(title: context.l10n.stats)),
+                      child: DetailPageHeader(
+                          title: context.l10n.stats,
+                          showBackButton: widget.showBackButton)),
                   const SizedBox(height: 32),
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 29),

@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_navigation_theme.dart';
 import 'package:budgets/features/home/presentation/widgets/home_calendar_sliver_delegate.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/core/ui/scroll_edge_fade.dart';
@@ -113,9 +114,21 @@ class _HomeScrollLayoutState extends State<HomeScrollLayout> {
             ConstrainedBox(
               constraints: BoxConstraints(maxHeight: height * 0.4),
               child: SingleChildScrollView(
-                  primary: false, reverse: true, child: widget.composer),
+                  primary: false,
+                  reverse: true,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: AppNavigationTheme.background(context),
+                      // border: Border(
+                      //     top: BorderSide(
+                      //         color: AppNavigationTheme.divider(context))),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 17, bottom: 10),
+                      child: widget.composer,
+                    ),
+                  )),
             ),
-            SizedBox(height: (height * 0.05).clamp(0.0, compact ? 8.0 : 35.0)),
           ]);
         },
       );

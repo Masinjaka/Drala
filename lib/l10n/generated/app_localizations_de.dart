@@ -38,6 +38,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get setDefaultWallet => 'Standard-Wallet festlegen';
 
   @override
+  String get defaultWalletLabel => 'Standard';
+
+  @override
   String get theme => 'Darstellung';
 
   @override
@@ -110,6 +113,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get expandMenu => 'Menü ausklappen';
+
+  @override
+  String get activities => 'Aktivitäten';
+
+  @override
+  String get reports => 'Berichte';
+
+  @override
+  String get profile => 'Profil';
 
   @override
   String get envelope => 'Umschlag';
@@ -500,21 +512,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get deleteAllData => 'Alle meine Daten löschen';
 
   @override
-  String get deleteAllDataSummary => 'Löscht alle App-Inhalte dauerhaft.';
+  String get deleteAllDataSummary =>
+      'Löscht App-Daten und Dateien, behält aber dein Anmeldekonto.';
 
   @override
   String get deleteAccount => 'Mein Konto löschen';
 
   @override
   String get deleteAccountSummary =>
-      'Löscht deine Daten und deaktiviert die Anmeldung.';
+      'Löscht dein Anmeldekonto, App-Daten und Dateien.';
 
   @override
   String get deleteAllDataQuestion => 'Alle Daten löschen?';
 
   @override
   String get deleteAllDataDetails =>
-      'Transaktionen, Wallets, Umschläge, Budgets, Ziele, KI-Verlauf, Einstellungen und Dateien werden gelöscht. Dein Konto und dein Tarif bleiben erhalten.';
+      'Löscht Transaktionen und Wallet-Aktivitäten, alle nicht als Standard festgelegten Wallets, Kategorien, Umschläge, Budgets und Verläufe, KI-Verlauf, gescannte Belege, Benachrichtigungseinstellungen, Profildaten und gespeicherte Dateien. Dein Anmeldekonto bleibt bestehen. Ein Standard-Wallet mit einem Kontostand von null bleibt bestehen oder wird erstellt. Dein Name wird aus deiner E-Mail zurückgesetzt, dein Foto entfernt und deine Währung auf MGA gesetzt.';
 
   @override
   String get deleteKeyword => 'DELETE';
@@ -530,7 +543,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get deleteAccountDetails =>
-      'Dadurch werden dein Konto, dein Tarif, deine Dateien und alle deine Daten gelöscht. Dies kann nicht rückgängig gemacht werden.';
+      'Löscht dein Anmeldekonto, Profil, Transaktionen, Wallets und Wallet-Aktivitäten, Kategorien, Umschläge, Budgets und Verläufe, KI-Verlauf, gescannte Belege, Benachrichtigungseinstellungen und gespeicherte Dateien. Du wirst abgemeldet. Dies kann nicht rückgängig gemacht werden.';
 
   @override
   String typeValueToConfirm(Object value) {

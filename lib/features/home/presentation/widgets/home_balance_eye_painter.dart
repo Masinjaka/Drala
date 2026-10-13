@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:budgets/core/theme.dart';
 
 class HomeBalanceEyePainter extends CustomPainter {
-  const HomeBalanceEyePainter();
+  const HomeBalanceEyePainter({required this.isVisible, required this.color});
+
+  final bool isVisible;
+  final Color color;
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppTheme.homeBannerText
+      ..color = color
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round
@@ -26,8 +28,16 @@ class HomeBalanceEyePainter extends CustomPainter {
     canvas
       ..drawPath(eye, paint)
       ..drawCircle(center, 4, paint);
+    if (!isVisible) {
+      canvas.drawLine(
+        const Offset(2, 1),
+        Offset(size.width - 2, size.height - 1),
+        paint,
+      );
+    }
   }
 
   @override
-  bool shouldRepaint(HomeBalanceEyePainter oldDelegate) => false;
+  bool shouldRepaint(HomeBalanceEyePainter oldDelegate) =>
+      oldDelegate.isVisible != isVisible || oldDelegate.color != color;
 }

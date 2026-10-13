@@ -9,13 +9,12 @@ class TransactionAmountField extends StatelessWidget {
   final String currencyCode;
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
       IntrinsicWidth(
         child: TextFormField(
           key: const ValueKey('transaction-amount'),
           controller: controller,
-          cursorColor: colors.onSurface,
+          cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: const [CurrencyAmountInputFormatter()],
           validator: (value) =>

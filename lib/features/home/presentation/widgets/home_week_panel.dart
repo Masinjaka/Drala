@@ -6,12 +6,12 @@ import 'package:budgets/features/home/presentation/widgets/home_calendar_header.
 import 'package:budgets/features/home/presentation/widgets/home_calendar_top_gap.dart';
 import 'package:budgets/features/home/presentation/widgets/home_month_calendar.dart';
 import 'package:budgets/features/home/presentation/widgets/home_week_strip.dart';
-import 'package:budgets/features/home/presentation/widgets/home_week_pager.dart';
 import 'package:budgets/features/home/presentation/widgets/home_week_transition.dart';
 import 'package:budgets/features/home/presentation/widgets/home_scroll_reveal.dart';
 import 'package:budgets/features/home/presentation/widgets/home_animated_calendar_sliver.dart';
 import 'package:budgets/features/home/presentation/widgets/home_calendar_transition.dart';
 import 'package:flutter/material.dart';
+
 class HomeWeekPanel extends StatefulWidget {
   const HomeWeekPanel(
       {required this.today,
@@ -30,9 +30,9 @@ class HomeWeekPanel extends StatefulWidget {
   @override
   State<HomeWeekPanel> createState() => _HomeWeekPanelState();
 }
+
 class _HomeWeekPanelState extends State<HomeWeekPanel> {
   late DateTime _focusedDay;
-  late final PageController _weekController;
   bool _expanded = false;
   DateTime get _today => DateUtils.dateOnly(widget.today);
   DateTime get _start => DateTime(_focusedDay.year, _focusedDay.month,
@@ -41,16 +41,9 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
   void initState() {
     super.initState();
     _focusedDay = DateUtils.dateOnly(widget.selectedDate);
-    _weekController = PageController(
-      initialPage: HomeWeekPager.pageFor(_focusedDay),
-    );
     _loadActivity();
   }
-  @override
-  void dispose() {
-    _weekController.dispose();
-    super.dispose();
-  }
+
   @override
   void didUpdateWidget(covariant HomeWeekPanel oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -63,6 +56,7 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
       _loadActivity();
     }
   }
+
   void _loadActivity() {
     final model = widget.activityViewModel;
     if (model == null) return;
@@ -73,6 +67,7 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
       if (end.month != _focusedDay.month) unawaited(model.loadMonth(end));
     }
   }
+
   void _focus(DateTime date) {
     final bounded = date.isBefore(DateTime(2000))
         ? DateTime(2000)
@@ -80,9 +75,9 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
             ? _today
             : date;
     setState(() => _focusedDay = bounded);
-    HomeWeekPager.show(_weekController, bounded);
     _loadActivity();
   }
+
   DateTime _adjacent(int direction) => _expanded
       ? DateTime(_focusedDay.year, _focusedDay.month + direction)
       : DateTime(
@@ -95,10 +90,12 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
         title: MaterialLocalizations.of(context).datePickerHelpText);
     if (date != null && mounted) _focus(DateTime(date.year, date.month));
   }
+
   void _selectDay(DateTime date) {
     _focus(date);
     widget.onDateSelected(date);
   }
+
   @override
   Widget build(BuildContext context) {
     final model = widget.activityViewModel;
@@ -107,6 +104,7 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
         : ListenableBuilder(
             listenable: model, builder: (context, _) => _sliver(context));
   }
+
   Widget _sliver(BuildContext context) {
     final calendarHeight = _expanded && !widget.compact
         ? HomeMonthCalendar.heightFor(_focusedDay)
@@ -166,7 +164,6 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
                   onDaySelected: _selectDay,
                   onPageChanged: _focus)
               : HomeWeekTransition(
-                  pageController: _weekController,
                   focusedDate: _focusedDay,
                   selectedDate: widget.selectedDate,
                   today: _today,

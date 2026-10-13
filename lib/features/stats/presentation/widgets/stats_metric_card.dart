@@ -2,6 +2,7 @@ import 'package:budgets/core/ui/value_skeleton.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/home/presentation/widgets/animated_compact_amount.dart';
+import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 import 'package:flutter/material.dart';
 
 class StatsMetricCard extends StatelessWidget {
@@ -29,11 +30,23 @@ class StatsMetricCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
             color: theme.colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.circular(20)),
+            borderRadius: BorderRadius.circular(10)),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
-            Expanded(child: Text(label, style: theme.textTheme.bodySmall)),
-            Text(emoji, style: theme.textTheme.titleMedium)
+            Container(
+              width: 40,
+              height: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceDim,
+                shape: BoxShape.circle,
+              ),
+              child: Text(emoji,
+                  style: theme.textTheme.titleMedium!.copyWith(fontSize: 22),
+                  textAlign: TextAlign.center),
+            ),
+            SizedBox(width: 10),
+            Flexible(child: Text(label, style: theme.textTheme.bodySmall)),
           ]),
           const Spacer(),
           if (loading)

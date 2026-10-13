@@ -92,6 +92,7 @@ class TransactionDetailEditPage extends StatelessWidget {
               textInputAction: TextInputAction.done,
             ),
             const Spacer(),
+            const SizedBox(height: 12),
             TransactionFormActions(
                 saving: saving, onDelete: onDelete, onSave: onSave),
           ]),

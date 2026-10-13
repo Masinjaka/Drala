@@ -1,129 +1,86 @@
-import 'package:budgets/core/layout/app_breakpoints.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/presentation/view_models/ai_entry_view_model.dart';
 import 'package:budgets/features/home/presentation/view_models/activity_calendar_view_model.dart';
-import 'package:budgets/features/home/presentation/widgets/collapsed_home_sidebar.dart';
+import 'package:budgets/features/home/presentation/widgets/home_bottom_navigation_bar.dart';
 import 'package:budgets/features/home/presentation/widgets/home_dashboard.dart';
-import 'package:budgets/features/home/presentation/widgets/home_drawer.dart';
-import 'package:budgets/features/home/presentation/widgets/persistent_sidebar_layout.dart';
-import 'package:budgets/features/home/presentation/widgets/sliding_drawer_layout.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:flutter/material.dart';
 
-class ChatHomeLayout extends StatelessWidget {
+class ChatHomeLayout extends StatefulWidget {
   const ChatHomeLayout({
     required this.today,
-    required this.selectedDate,
-    required this.drawerController,
     required this.viewModel,
     required this.activityCalendarViewModel,
-    this.currencyState,
-    this.isCurrencyLoading = false,
-    required this.onOpenDrawer,
-    required this.onCloseDrawer,
-    required this.onDateSelected,
-    required this.onEnvelopePressed,
-    required this.onStatsPressed,
-    required this.onWalletsPressed,
-    required this.onCategoriesPressed,
-    required this.onPlanPressed,
-    required this.onFeedbackPressed,
-    required this.onSettingsPressed,
     required this.notificationViewModel,
     required this.onNotificationsPressed,
     required this.onFinanceChanged,
-    required this.onDragUpdate,
-    required this.onDragEnd,
-    required this.onDragCancel,
+    required this.onDateSelected,
+    required this.destinations,
+    required this.onActivitiesSelected,
+    this.currencyState,
+    this.isCurrencyLoading = false,
     super.key,
   });
 
   final DateTime today;
-  final DateTime selectedDate;
-  final AnimationController drawerController;
   final AiEntryViewModel viewModel;
   final ActivityCalendarViewModel activityCalendarViewModel;
-  final CurrencyState? currencyState;
-  final bool isCurrencyLoading;
-  final VoidCallback onOpenDrawer;
-  final VoidCallback onCloseDrawer;
-  final ValueChanged<DateTime> onDateSelected;
-  final VoidCallback onEnvelopePressed;
-  final VoidCallback onStatsPressed;
-  final VoidCallback onWalletsPressed;
-  final VoidCallback onCategoriesPressed;
-  final VoidCallback onPlanPressed;
-  final VoidCallback onFeedbackPressed;
-  final Future<void> Function() onSettingsPressed;
   final FinanceNotificationViewModel notificationViewModel;
   final VoidCallback onNotificationsPressed;
   final Future<void> Function() onFinanceChanged;
-  final void Function(DragUpdateDetails, double) onDragUpdate;
-  final ValueChanged<DragEndDetails> onDragEnd;
-  final VoidCallback onDragCancel;
+  final ValueChanged<DateTime> onDateSelected;
+  final List<Widget> destinations;
+  final VoidCallback onActivitiesSelected;
+  final CurrencyState? currencyState;
+  final bool isCurrencyLoading;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final width = constraints.maxWidth;
-          final persistent = AppBreakpoints.usesPersistentNavigation(width);
-          final drawerWidth = persistent
-              ? AppBreakpoints.sidebarWidth(width)
-              : AppBreakpoints.mobileDrawerWidth(width);
-          final home = HomeDashboard(
-            activityCalendarViewModel: activityCalendarViewModel,
-            today: today,
-            drawerProgress: drawerController,
-            onMenuPressed: onOpenDrawer,
-            viewModel: viewModel,
-            notificationViewModel: notificationViewModel,
-            onNotificationsPressed: onNotificationsPressed,
-            onFinanceChanged: onFinanceChanged,
-            onDateSelected: onDateSelected,
-            currencyState: currencyState,
-            isCurrencyLoading: isCurrencyLoading,
-          );
-          final drawer = HomeDrawer(
-            width: drawerWidth,
-            onEnvelopePressed: onEnvelopePressed,
-            onStatsPressed: onStatsPressed,
-            onWalletsPressed: onWalletsPressed,
-            onCategoriesPressed: onCategoriesPressed,
-            onSettingsPressed: onSettingsPressed,
-            onCollapsePressed: onCloseDrawer,
-          );
-          if (persistent) {
-            return PersistentSidebarLayout(
-              controller: drawerController,
-              expandedWidth: drawerWidth,
-              collapsedWidth: AppBreakpoints.collapsedSidebarWidth,
-              expandedSidebar: drawer,
-              collapsedSidebar: CollapsedHomeSidebar(
-                onExpand: onOpenDrawer,
-                onEnvelopePressed: onEnvelopePressed,
-                onStatsPressed: onStatsPressed,
-                onPlanPressed: onPlanPressed,
-                onFeedbackPressed: onFeedbackPressed,
-                onSettingsPressed: onSettingsPressed,
-              ),
-              home: home,
-            );
-          }
-          return SlidingDrawerLayout(
-            controller: drawerController,
-            drawerWidth: drawerWidth,
-            maximumDimming: 0.59,
-            onDragUpdate: (details) => onDragUpdate(details, drawerWidth),
-            onDragEnd: onDragEnd,
-            onDragCancel: onDragCancel,
-            drawer: drawer,
-            home: home,
-          );
-        },
-      ),
-    );
+  State<ChatHomeLayout> createState() => _ChatHomeLayoutState();
+}
+
+class _ChatHomeLayoutState extends State<ChatHomeLayout> {
+  int _selectedIndex = 0;
+
+  void _select(int index) {
+    if (index == _selectedIndex) return;
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() => _selectedIndex = index);
+    if (index == 0) widget.onActivitiesSelected();
   }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: Stack(fit: StackFit.expand, children: [
+          Offstage(
+            offstage: _selectedIndex != 0,
+            child: TickerMode(
+              enabled: _selectedIndex == 0,
+              child: ExcludeFocus(
+                excluding: _selectedIndex != 0,
+                child: HomeDashboard(
+                  today: widget.today,
+                  viewModel: widget.viewModel,
+                  activityCalendarViewModel: widget.activityCalendarViewModel,
+                  notificationViewModel: widget.notificationViewModel,
+                  onNotificationsPressed: widget.onNotificationsPressed,
+                  onFinanceChanged: widget.onFinanceChanged,
+                  onDateSelected: widget.onDateSelected,
+                  currencyState: widget.currencyState,
+                  isCurrencyLoading: widget.isCurrencyLoading,
+                ),
+              ),
+            ),
+          ),
+          if (_selectedIndex != 0)
+            KeyedSubtree(
+              key: ValueKey(_selectedIndex),
+              child: widget.destinations[_selectedIndex - 1],
+            ),
+        ]),
+        bottomNavigationBar: HomeBottomNavigationBar(
+          selectedIndex: _selectedIndex,
+          onSelected: _select,
+        ),
+      );
 }

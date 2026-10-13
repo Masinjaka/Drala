@@ -9,8 +9,10 @@ class DetailPageShell extends StatelessWidget {
       this.bottomNavigationBar,
       this.maxWidth = 520,
       this.onAdd,
+      this.showBackButton = true,
       super.key});
   final String title;
+  final bool showBackButton;
   final Widget child;
   final Widget? bottomNavigationBar;
   final double maxWidth;
@@ -25,7 +27,10 @@ class DetailPageShell extends StatelessWidget {
                   child: Column(children: [
                     Padding(
                         padding: const EdgeInsets.fromLTRB(29, 15, 29, 16),
-                        child: DetailPageHeader(title: title, onAdd: onAdd)),
+                        child: DetailPageHeader(
+                            title: title,
+                            onAdd: onAdd,
+                            showBackButton: showBackButton)),
                     Expanded(child: DetailEnterTransition(child: child)),
                   ])))),
       bottomNavigationBar: bottomNavigationBar);

@@ -13,6 +13,10 @@ void main() {
         home: Scaffold(
           body: SettingsContent(
             profileHeader: const Text('John Doe'),
+            categoryCount: 12,
+            walletCount: 3,
+            onCategories: () {},
+            onWallets: () {},
             onEditProfile: () {},
             onChangePassword: () {},
             onNotifications: () {},
@@ -30,8 +34,10 @@ void main() {
       ),
     );
 
-    expect(find.text('Préférences'), findsOneWidget);
+    expect(find.text('Catégories'), findsOneWidget);
+    expect(find.text('Portefeuilles'), findsOneWidget);
     expect(find.text('Modifier le profil'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Langue'), 200);
     expect(find.text('Langue'), findsOneWidget);
   });
 }

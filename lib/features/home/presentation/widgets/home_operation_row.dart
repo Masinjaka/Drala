@@ -1,10 +1,10 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/theme.dart';
-import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry_edit_changes.dart';
 import 'package:budgets/features/home/presentation/widgets/home_operation_loading_field.dart';
+import 'package:budgets/features/home/presentation/widgets/home_operation_privacy_amount.dart';
 import 'package:flutter/material.dart';
 
 class HomeOperationRow extends StatelessWidget {
@@ -83,6 +83,7 @@ class HomeOperationRow extends StatelessWidget {
               key: ValueKey('operation-amount-${entry.id}'),
               isLoading: pendingEdit?.amount ?? false,
               child: Container(
+                key: ValueKey('operation-amount-badge-${entry.id}'),
                 height: 18,
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(horizontal: 7),
@@ -90,13 +91,13 @@ class HomeOperationRow extends StatelessWidget {
                   color: _badgeColor(dark),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: PrivacyText(
-                  '$_sign${formatAmountWithCurrency(
+                child: HomeOperationPrivacyAmount(
+                  id: entry.id,
+                  text: '$_sign${formatAmountWithCurrency(
                     _amount,
                     _currencyCode,
                     preserveFraction: true,
                   )}',
-                  maxLines: 1,
                   style: theme.textTheme.labelSmall?.copyWith(
                     color: dark
                         ? AppTheme.textDark

@@ -17,6 +17,7 @@ abstract final class AppTextTheme {
 
   static TextStyle amount(TextStyle base) => base.copyWith(
         fontFamily: AppTypography.amountFontFamily,
+        fontWeight: FontWeight.bold,
         fontFamilyFallback: const [AppTypography.regularFontFamily],
       );
 

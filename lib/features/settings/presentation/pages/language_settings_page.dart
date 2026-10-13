@@ -20,6 +20,7 @@ class LanguageSettingsPage extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
         children: [
           SettingsMenuGroup(
+            flat: true,
             items: [
               _choice(ref, selected, 'en', localizations.english, '🇬🇧'),
               _choice(ref, selected, 'fr', localizations.french, '🇫🇷'),
@@ -43,12 +44,9 @@ class LanguageSettingsPage extends ConsumerWidget {
   ) =>
       SettingsChoiceTile(
         title: label,
-        leading:
-            Text(emoji, style: Theme.of(ref.context).textTheme.titleMedium),
-        trailing: selected == languageCode
-            ? Icon(Icons.check_circle,
-                color: Theme.of(ref.context).colorScheme.primary)
-            : null,
+        leading: Text(emoji),
+        selected: selected == languageCode,
+        showSelectionIndicator: true,
         onTap: () async {
           await ref
               .read(localeProvider.notifier)

@@ -64,10 +64,24 @@ class _DestructiveConfirmationDialogState
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.title, style: Theme.of(context).textTheme.titleSmall),
-            const SizedBox(height: 12),
-            Text(widget.description,
-                style: Theme.of(context).textTheme.bodySmall),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: widget.title,
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  TextSpan(
+                    text: '\n\n${widget.description}',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w100,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 16),
             SettingsTransactionField(
               key: const Key('danger-confirmation-field'),

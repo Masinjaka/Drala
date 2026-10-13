@@ -1,22 +1,19 @@
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
-import 'package:budgets/features/settings/presentation/widgets/settings_editor_sheet.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_transaction_field.dart';
-import 'package:budgets/features/transactions/presentation/widgets/transaction_form_sheet_route.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EditPasswordPage extends ConsumerStatefulWidget {
-  const EditPasswordPage({this.asSheet = false, super.key});
-
-  final bool asSheet;
+  const EditPasswordPage({super.key});
 
   static Future<void> show(BuildContext context) =>
-      showTransactionFormSheet<void>(context,
-          builder: (_) => const EditPasswordPage(asSheet: true));
+      Navigator.of(context).push<void>(MaterialPageRoute(
+        builder: (_) => const EditPasswordPage(),
+      ));
 
   @override
   ConsumerState<EditPasswordPage> createState() => _EditPasswordPageState();
@@ -77,9 +74,7 @@ class _EditPasswordPageState extends ConsumerState<EditPasswordPage> {
     );
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: widget.asSheet
-          ? SettingsEditorSheet(title: context.l10n.changePassword, child: form)
-          : SettingsPageShell(title: context.l10n.changePassword, child: form),
+      child: SettingsPageShell(title: context.l10n.changePassword, child: form),
     );
   }
 

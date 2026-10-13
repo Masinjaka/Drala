@@ -2,6 +2,7 @@ import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_default_badge.dart';
 import 'package:flutter/material.dart';
 
 class WalletOverviewCard extends StatelessWidget {
@@ -41,8 +42,22 @@ class WalletOverviewCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(wallet.name,
-                          style: Theme.of(context).textTheme.bodyMedium),
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              wallet.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                          if (wallet.isDefault) ...[
+                            const SizedBox(width: 8),
+                            const Flexible(child: WalletDefaultBadge()),
+                          ],
+                        ],
+                      ),
                     ),
                     Icon(Icons.more_vert_rounded, color: foreground, size: 19),
                   ],

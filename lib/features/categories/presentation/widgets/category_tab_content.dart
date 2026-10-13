@@ -93,7 +93,7 @@ class CategoryTabContent extends ConsumerWidget {
 
         return Material(
                 color: Theme.of(context).colorScheme.surfaceContainer,
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 clipBehavior: Clip.antiAlias,
                 child: InkWell(
                   onTap: () async {
@@ -117,7 +117,7 @@ class CategoryTabContent extends ConsumerWidget {
                   child: Ink(
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surfaceContainer,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Stack(
                       fit: StackFit.expand,
@@ -157,9 +157,9 @@ class CategoryTabContent extends ConsumerWidget {
                           ),
                         ),
                         Positioned.fill(
-                          left: 20,
+                          left: 0,
                           child: Align(
-                            alignment: Alignment.centerLeft,
+                            alignment: Alignment.center,
                             child: Text(
                               '${category.name}',
                               style: Theme.of(context).textTheme.bodyMedium,

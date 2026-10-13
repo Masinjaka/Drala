@@ -38,6 +38,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get setDefaultWallet => 'Portefeuille par défaut';
 
   @override
+  String get defaultWalletLabel => 'Par défaut';
+
+  @override
   String get theme => 'Thème';
 
   @override
@@ -110,6 +113,15 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get expandMenu => 'Développer le menu';
+
+  @override
+  String get activities => 'Activités';
+
+  @override
+  String get reports => 'Rapports';
+
+  @override
+  String get profile => 'Profil';
 
   @override
   String get envelope => 'Enveloppes';
@@ -505,21 +517,21 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get deleteAllDataSummary =>
-      'Efface définitivement tout le contenu de l’application.';
+      'Supprime les données et fichiers de l’application, mais conserve votre compte de connexion.';
 
   @override
   String get deleteAccount => 'Supprimer mon compte';
 
   @override
   String get deleteAccountSummary =>
-      'Efface vos données et désactive votre connexion.';
+      'Supprime votre compte de connexion, vos données et fichiers.';
 
   @override
   String get deleteAllDataQuestion => 'Supprimer toutes les données ?';
 
   @override
   String get deleteAllDataDetails =>
-      'Les transactions, portefeuilles, enveloppes, budgets, objectifs, l’historique IA, les préférences et les fichiers seront supprimés. Votre compte et votre formule seront conservés.';
+      'Supprime les transactions et mouvements de portefeuille, les portefeuilles non définis par défaut, les catégories, enveloppes, budgets et historiques, historiques IA, reçus numérisés, paramètres de notification, données du profil et fichiers stockés. Votre compte de connexion est conservé. Un portefeuille par défaut avec un solde nul est conservé ou créé. Votre nom est réinitialisé à partir de votre e-mail, votre photo est supprimée et votre devise redevient MGA.';
 
   @override
   String get deleteKeyword => 'SUPPRIMER';
@@ -535,7 +547,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get deleteAccountDetails =>
-      'Cette action supprime votre compte, votre formule, vos fichiers et toutes vos données. Elle est irréversible.';
+      'Supprime votre compte de connexion, profil, transactions, portefeuilles et mouvements, catégories, enveloppes, budgets et historiques, historiques IA, reçus numérisés, paramètres de notification et fichiers stockés. Vous serez déconnecté. Cette action est irréversible.';
 
   @override
   String typeValueToConfirm(Object value) {

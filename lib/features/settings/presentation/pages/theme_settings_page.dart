@@ -18,6 +18,7 @@ class ThemeSettingsPage extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
         children: [
           SettingsMenuGroup(
+            flat: true,
             items: [
               _choice(ref, current, ThemeMode.light, ThemeOptions.light,
                   context.l10n.light, Icons.light_mode_outlined),
@@ -43,10 +44,8 @@ class ThemeSettingsPage extends ConsumerWidget {
     return SettingsChoiceTile(
       title: label,
       leading: Icon(icon, size: 20),
-      trailing: current == mode
-          ? Icon(Icons.check_circle,
-              color: Theme.of(ref.context).colorScheme.primary)
-          : null,
+      selected: current == mode,
+      showSelectionIndicator: true,
       onTap: () => ref.read(themeProvider.notifier).setTheme(option),
     );
   }

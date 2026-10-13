@@ -17,6 +17,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class EnvelopePage extends StatefulWidget {
   const EnvelopePage({
     this.repository,
+    this.showBackButton = true,
     this.initialMonth,
     this.initialEnvelopeId,
     this.displayCurrency,
@@ -24,6 +25,7 @@ class EnvelopePage extends StatefulWidget {
   });
   final EnvelopeRepository? repository;
   final DateTime? initialMonth;
+  final bool showBackButton;
   final String? initialEnvelopeId;
   final CurrencyState? displayCurrency;
   @override
@@ -49,7 +51,6 @@ class _EnvelopePageState extends State<EnvelopePage> {
     _pageController = PageController(initialPage: _initialPage);
     WidgetsBinding.instance.addPostFrameCallback((_) => _load());
   }
-
   Future<void> _load() async {
     try {
       await _viewModel.load();
@@ -57,7 +58,6 @@ class _EnvelopePageState extends State<EnvelopePage> {
       if (mounted) showErrorToast(context, error);
     }
   }
-
   Future<void> _changeMonth(int offset) async {
     final target = DateTime(
       _viewModel.month.year,
@@ -76,7 +76,6 @@ class _EnvelopePageState extends State<EnvelopePage> {
       if (mounted) showErrorToast(context, error);
     }
   }
-
   Future<void> _pickMonth() async {
     final selected = await AppWheelPicker.monthYear(
       context,
@@ -89,7 +88,6 @@ class _EnvelopePageState extends State<EnvelopePage> {
     // Jump directly so distant selections do not load every intervening month.
     _pageController.jumpToPage(_pageForMonth(selected));
   }
-
   Future<void> _selectPage(int page) async {
     try {
       await _viewModel.selectMonth(_monthForPage(page));
@@ -131,6 +129,7 @@ class _EnvelopePageState extends State<EnvelopePage> {
         context,
         wallets: _viewModel.wallets,
         requiredAmount: error.requiredAmount,
+        currencyState: widget.displayCurrency,
       );
       if (walletId == null) rethrow;
       await _viewModel.add(
@@ -172,6 +171,7 @@ class _EnvelopePageState extends State<EnvelopePage> {
       body: ListenableBuilder(
         listenable: _viewModel,
         builder: (context, _) => EnvelopePageContent(
+          showBackButton: widget.showBackButton,
           viewModel: _viewModel,
           pageController: _pageController,
           pageOrigin: _pageOrigin,

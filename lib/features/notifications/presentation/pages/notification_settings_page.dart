@@ -29,6 +29,7 @@ class NotificationSettingsPage extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
         children: [
           SettingsMenuGroup(
+            flat: true,
             items: [
               NotificationSettingsToggle(
                 loading: state.isLoading,

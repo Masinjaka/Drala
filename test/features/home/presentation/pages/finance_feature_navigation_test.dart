@@ -62,7 +62,8 @@ class _StatsRepository implements MonthlyStatsRepository {
 }
 
 void main() {
-  testWidgets('Envelope drawer item opens envelope page', (tester) async {
+  testWidgets('Envelope bottom destination opens envelope page',
+      (tester) async {
     usePhoneWindow(tester);
     await tester.pumpWidget(
       MaterialApp(
@@ -73,20 +74,18 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byKey(const Key('home-menu-button')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('drawer-envelope-button')));
+    await tester.tap(find.byKey(const ValueKey('home-navigation-1')));
     await tester.pumpAndSettle();
 
     expect(find.byType(EnvelopePage), findsOneWidget);
-    expect(find.text('Envelope'), findsOneWidget);
+    expect(find.byKey(const ValueKey('envelope-month-pages')), findsOneWidget);
     final month =
         tester.widget<MonthCarousel>(find.byType(MonthCarousel)).month;
     final now = DateTime.now();
     expect(month, DateTime(now.year, now.month));
   });
 
-  testWidgets('Stats drawer item opens new stats page', (tester) async {
+  testWidgets('Reports bottom destination opens stats page', (tester) async {
     usePhoneWindow(tester);
     await tester.pumpWidget(
       MaterialApp(
@@ -97,13 +96,11 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byKey(const Key('home-menu-button')));
-    await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('drawer-stats-button')));
+    await tester.tap(find.byKey(const ValueKey('home-navigation-2')));
     await tester.pumpAndSettle();
 
     expect(find.byType(FinanceStatsPage), findsOneWidget);
-    expect(find.text('Stats'), findsOneWidget);
+    expect(find.byKey(const ValueKey('stats-month-pages')), findsOneWidget);
     final month =
         tester.widget<MonthCarousel>(find.byType(MonthCarousel)).month;
     final now = DateTime.now();

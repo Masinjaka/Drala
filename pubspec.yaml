@@ -84,6 +84,7 @@ dependencies:
   animated_digit: ^3.3.3
   animated_text_kit: ^4.3.0
   google_mobile_ads: ^8.0.0
+  flutter_svg: ^2.3.0
   
 
 dev_dependencies:
@@ -119,6 +120,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/navigation/
+    - assets/settings/
     - assets/profil.png
     - assets/icon/
     - assets/images/

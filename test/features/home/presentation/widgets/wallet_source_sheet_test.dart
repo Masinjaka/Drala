@@ -1,0 +1,66 @@
+import 'package:budgets/core/theme.dart';
+import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_source_sheet.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  testWidgets('uses the shared sheet design and disables short wallets',
+      (tester) async {
+    String? selectedWallet;
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => TextButton(
+              onPressed: () async {
+                selectedWallet = await WalletSourceSheet.show(
+                  context,
+                  wallets: _wallets,
+                  requiredAmount: 1000,
+                );
+              },
+              child: const Text('Open'),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Open'));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('app-sheet-surface')), findsOneWidget);
+    expect(find.text('Choose another wallet'), findsOneWidget);
+    expect(find.text('Insufficient balance'), findsOneWidget);
+
+    final cashTile = tester.widget<InkWell>(
+      find.byKey(const Key('wallet-source-cash')),
+    );
+    expect(cashTile.onTap, isNull);
+
+    await tester.tap(find.byKey(const Key('confirm-wallet-source')));
+    await tester.pumpAndSettle();
+    expect(selectedWallet, 'bank');
+  });
+}
+
+const _wallets = [
+  WalletSummary(
+    id: 'cash',
+    name: 'Cash',
+    balance: 500,
+    currencyCode: 'MGA',
+    iconKey: 'wallet',
+    isDefault: true,
+  ),
+  WalletSummary(
+    id: 'bank',
+    name: 'Bank',
+    balance: 1500,
+    currencyCode: 'MGA',
+    iconKey: 'bank',
+    isDefault: false,
+  ),
+];

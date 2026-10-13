@@ -21,10 +21,12 @@ class EnvelopePageContent extends StatelessWidget {
     this.initialEnvelopeId,
     this.displayCurrency,
     this.onEdit,
+    this.showBackButton = true,
     super.key,
   });
 
   final EnvelopeViewModel viewModel;
+  final bool showBackButton;
   final PageController pageController;
   final DateTime pageOrigin;
   final int initialPage;
@@ -49,6 +51,7 @@ class EnvelopePageContent extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: DetailPageHeader(
                 title: context.l10n.envelope,
+                showBackButton: showBackButton,
                 onAdd: onAdd,
                 addTooltip: context.l10n.addEnvelope,
               ),

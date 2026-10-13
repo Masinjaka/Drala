@@ -38,6 +38,9 @@ class AppLocalizationsMg extends AppLocalizations {
   String get setDefaultWallet => 'Hametraka poketra ampiasaina voalohany';
 
   @override
+  String get defaultWalletLabel => 'Voalohany';
+
+  @override
   String get theme => 'Endrika';
 
   @override
@@ -110,6 +113,15 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get expandMenu => 'Asehoy ny menu';
+
+  @override
+  String get activities => 'Hetsika';
+
+  @override
+  String get reports => 'Tatitra';
+
+  @override
+  String get profile => 'Mombamomba';
 
   @override
   String get envelope => 'Valopy';
@@ -503,21 +515,21 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get deleteAllDataSummary =>
-      'Mamafa tanteraka ny votoatin\'ny fampiharana rehetra.';
+      'Mamafa ny angona sy rakitry ny fampiharana, fa mitahiry ny kaonty fidiranao.';
 
   @override
   String get deleteAccount => 'Hamafa ny kaontiko';
 
   @override
   String get deleteAccountSummary =>
-      'Mamafa ny angonao ary manakana ny fidiranao.';
+      'Mamafa ny kaonty fidiranao, ny angona ary ny rakitra.';
 
   @override
   String get deleteAllDataQuestion => 'Hofafana ve ny angona rehetra?';
 
   @override
   String get deleteAllDataDetails =>
-      'Hofafana ny fifanakalozana, poketra, valopy, tetibola, tanjona, tantaran\'ny AI, safidy ary rakitra. Hijanona ny kaontinao sy ny drafitrao.';
+      'Hofafana ny fifanakalozana sy ny fivezivezen\'ny vola, ny poketra tsy toerana voalohany, ny sokajy, valopy, tetibola sy ny tantarany, tantaran\'ny AI, tapakila notarafina, fikirana fampandrenesana, mombamomba ary rakitra voatahiry. Hijanona ny kaonty fidiranao. Hotahirizina na hoforonina ny poketra toerana voalohany manana salan\'isa aotra. Haverina avy amin\'ny mailakao ny anaranao, hofafana ny sarinao, ary haverina ho MGA ny volanao.';
 
   @override
   String get deleteKeyword => 'DELETE';
@@ -533,7 +545,7 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get deleteAccountDetails =>
-      'Mamafa ny kaontinao, ny drafitrao, ny rakitrao ary ny angonao rehetra izany. Tsy azo averina intsony.';
+      'Hofafana ny kaonty fidiranao, mombamomba, fifanakalozana, poketra sy fivezivezen\'ny vola, sokajy, valopy, tetibola sy ny tantarany, tantaran\'ny AI, tapakila notarafina, fikirana fampandrenesana ary rakitra voatahiry. Hivoaka amin\'ny kaonty ianao. Tsy azo averina izany.';
 
   @override
   String typeValueToConfirm(Object value) {

@@ -1,6 +1,7 @@
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,30 +12,41 @@ class SettingsProfileHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userModelProvider);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 80,
-          height: 80,
+          width: 60,
+          height: 60,
           child: user.when(
             data: (value) => value == null ||
                     value.profilePhoto == null ||
                     value.profilePhoto!.isEmpty
                 ? _placeholder(context)
-                : avatar(context, value.profilePhoto, 80),
-            loading: () => avatarSkeleton(context, 80),
+                : avatar(context, value.profilePhoto, 60),
+            loading: () => avatarSkeleton(context, 60),
             error: (_, __) => _placeholder(context),
           ),
         ),
-        const SizedBox(height: 14),
-        user.when(
-          data: (value) => Text(
-            value?.name?.trim().isNotEmpty == true
-                ? value!.name!.trim()
-                : context.l10n.user,
-            style: Theme.of(context).textTheme.bodyMedium,
+        const SizedBox(height: 8),
+        SizedBox(
+          width: 120,
+          child: user.when(
+            data: (value) => Text(
+              value?.name?.trim().isNotEmpty == true
+                  ? value!.name!.trim()
+                  : context.l10n.user,
+              textAlign: TextAlign.center,
+              // maxLines: 1,
+              // overflow: TextOverflow.ellipsis,
+              style: AppSettingsTheme.profileName(context),
+            ),
+            loading: () => textSkeleton(context, 72, 12),
+            error: (_, __) => Text(
+              context.l10n.user,
+              textAlign: TextAlign.center,
+              style: AppSettingsTheme.profileName(context),
+            ),
           ),
-          loading: () => textSkeleton(context, 72, 14),
-          error: (_, __) => Text(context.l10n.user),
         ),
       ],
     );
@@ -45,6 +57,6 @@ class SettingsProfileHeader extends ConsumerWidget {
           color: Theme.of(context).colorScheme.surface,
           shape: BoxShape.circle,
         ),
-        child: const Icon(Icons.person_outline_rounded, size: 38),
+        child: const Icon(Icons.person_outline_rounded, size: 30),
       );
 }

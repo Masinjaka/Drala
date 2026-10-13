@@ -111,6 +111,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
         ChatExampleSuggestions.build(context, widget.currencyCode);
     final isBusy = widget.isSubmitting || _isProcessingReceipt;
     final isFocused = _focusNode.hasFocus;
+    final isExpanded = isFocused || _controller.text.trim().isNotEmpty;
     final animationDuration = MediaQuery.disableAnimationsOf(context)
         ? Duration.zero
         : const Duration(milliseconds: 220);
@@ -120,7 +121,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
       focusNode: _focusNode,
       enabled: !isBusy,
       hints: suggestions,
-      cursorColor: theme.colorScheme.inverseSurface,
+      cursorColor: theme.textSelectionTheme.cursorColor!,
       hintColor: theme.colorScheme.onSurfaceVariant,
     );
     final addButton = SizedBox(
@@ -159,8 +160,8 @@ class _ChatInputBarState extends State<ChatInputBar> {
             child: Container(
               key: const Key('chat-input-container'),
               constraints: BoxConstraints(
-                minHeight: isFocused ? 85 : 48,
-                maxHeight: isFocused ? 157 : 48,
+                minHeight: isExpanded ? 85 : 48,
+                maxHeight: isExpanded ? 157 : 48,
               ),
               margin: const EdgeInsets.symmetric(horizontal: 29),
               decoration: BoxDecoration(
@@ -168,7 +169,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: ChatInputComposerLayout(
-                isFocused: isFocused,
+                isExpanded: isExpanded,
                 textInput: textInput,
                 addButton: addButton,
                 sendButton: sendButton,

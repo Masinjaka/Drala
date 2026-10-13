@@ -50,8 +50,6 @@ void main() {
             return Scaffold(
               body: HomeDashboard(
                 today: DateTime(2026, 7, 25),
-                drawerProgress: const AlwaysStoppedAnimation(0),
-                onMenuPressed: () {},
                 viewModel: viewModel,
                 notificationViewModel: notifications,
                 onNotificationsPressed: () {},

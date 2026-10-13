@@ -1,5 +1,7 @@
 import 'package:budgets/features/settings/presentation/widgets/settings_content.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_menu_icon.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_item.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -16,6 +18,10 @@ void main() {
         home: Scaffold(
           body: SettingsContent(
             profileHeader: const Text('John Doe'),
+            categoryCount: 12,
+            walletCount: 3,
+            onCategories: () => taps.add('categories'),
+            onWallets: () => taps.add('wallets'),
             onEditProfile: () => taps.add('profile'),
             onChangePassword: () => taps.add('password'),
             onNotifications: () => taps.add('notifications'),
@@ -34,25 +40,41 @@ void main() {
       ),
     );
 
-    expect(find.text('Preferences'), findsOneWidget);
-    expect(find.text('Legal'), findsOneWidget);
+    expect(find.text('Categories'), findsOneWidget);
+    expect(find.text('Wallets'), findsOneWidget);
+    expect(find.text('12'), findsOneWidget);
+    expect(find.text('3'), findsOneWidget);
     expect(find.text('Zone de danger'), findsNothing);
     expect(find.text('Version 2.0.2'), findsOneWidget);
-    expect(find.byType(FilledButton), findsOneWidget);
-    final leadingIcons = tester
-        .widgetList<Icon>(
-          find.descendant(
-            of: find.byType(SettingsMenuItem),
-            matching: find.byType(Icon),
-          ),
-        )
-        .where((icon) => icon.icon != Icons.chevron_right_rounded)
-        .map((icon) => icon.icon)
-        .toList();
-    expect(leadingIcons, hasLength(10));
-    expect(leadingIcons.toSet(), hasLength(10));
+    expect(find.byType(OutlinedButton), findsOneWidget);
+    expect(find.byType(SettingsSummaryCard), findsNWidgets(2));
+    expect(find.byType(SettingsMenuIcon), findsNWidgets(10));
+    expect(
+      tester
+          .widget<SettingsMenuItem>(
+            find.ancestor(
+              of: find.text('Language'),
+              matching: find.byType(SettingsMenuItem),
+            ),
+          )
+          .iconAsset,
+      'assets/settings/language.svg',
+    );
+    expect(
+      tester
+          .widget<SettingsMenuItem>(
+            find.ancestor(
+              of: find.text('Scanned receipts'),
+              matching: find.byType(SettingsMenuItem),
+            ),
+          )
+          .iconAsset,
+      'assets/settings/scanned_receipts.svg',
+    );
 
     for (final label in [
+      'Categories',
+      'Wallets',
       'Edit profile',
       'Change password',
       'Notification',
@@ -73,6 +95,8 @@ void main() {
     expect(
       taps,
       [
+        'categories',
+        'wallets',
         'profile',
         'password',
         'notifications',

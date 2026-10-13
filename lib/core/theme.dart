@@ -44,8 +44,8 @@ class AppTheme {
   static const Color homeBannerText = Color(0xFFF4F4F4);
   static const Color secondaryGreen = Color(0xff4C8352);
   static const Color dangerColor = Color(0xFFE57373);
-  static const Color errorLight = Color(0xFFB42318);
-  static const Color errorDark = Color(0xFFFDA4A4);
+  static const Color errorLight = Color.fromARGB(255, 233, 21, 6);
+  static const Color errorDark = Color.fromARGB(255, 233, 21, 6);
   static const Color positiveAmountLight = Color(0xFF006D4E);
   static const Color positiveAmountDark = Color(0xFF54DEAC);
   static const Color neutralSurface = Color(0xFFF3F3F3);
@@ -76,6 +76,9 @@ class AppTheme {
     cardColor: secondaryLight,
     primaryColor: primaryGreen,
     fontFamily: fontFamily,
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Colors.black,
+    ),
     iconTheme: const IconThemeData(color: textLight),
     textTheme: AppTextTheme.create(textLight),
     appBarTheme: const AppBarTheme(
@@ -125,6 +128,9 @@ class AppTheme {
     shadowColor: const Color(0xFF141619),
     primaryColor: primaryGreen,
     fontFamily: fontFamily,
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: Colors.white,
+    ),
     iconTheme: const IconThemeData(color: textDark),
     textTheme: AppTextTheme.create(textDark),
     appBarTheme: const AppBarTheme(

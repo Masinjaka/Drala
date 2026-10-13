@@ -1,7 +1,7 @@
-import 'package:budgets/core/ui/detail_list_skeleton.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/features/settings/presentation/widgets/currency_choice_list.dart';
+import 'package:budgets/core/ui/detail_list_skeleton.dart';
+import 'package:budgets/features/onboarding/presentation/widgets/setup_currency_choices.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +31,10 @@ class _CurrencySelectionPageState extends ConsumerState<CurrencySelectionPage> {
             children: [
               Expanded(
                 child: state.when(
-                  data: (value) => CurrencyChoiceList(
-                    selectedCode: value.code,
-                    availableCodes: value.rates.keys,
+                  data: (value) => SetupCurrencyChoices(
+                    selected: value.code,
                     pendingCode: _pendingCode,
-                    searchHint: context.l10n.searchCurrency,
-                    onSelected: _select,
+                    onChanged: _select,
                   ),
                   loading: () => const DetailListSkeleton(),
                   error: (error, _) => Center(

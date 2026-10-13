@@ -86,8 +86,6 @@ Future<void> _pumpDashboard(WidgetTester tester) async {
     home: Scaffold(
         body: HomeDashboard(
       today: today,
-      drawerProgress: const AlwaysStoppedAnimation(0),
-      onMenuPressed: () {},
       viewModel: model,
       notificationViewModel: notifications,
       onNotificationsPressed: () {},

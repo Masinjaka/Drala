@@ -15,6 +15,10 @@ void main() {
       home: Scaffold(
         body: SettingsContent(
           profileHeader: const SizedBox(),
+          categoryCount: 0,
+          walletCount: 0,
+          onCategories: () {},
+          onWallets: () {},
           onEditProfile: () {},
           onChangePassword: () {},
           onNotifications: () {},

@@ -15,8 +15,6 @@ import 'package:flutter/material.dart';
 class HomeDashboard extends StatelessWidget {
   const HomeDashboard({
     required this.today,
-    required this.drawerProgress,
-    required this.onMenuPressed,
     required this.viewModel,
     required this.notificationViewModel,
     required this.onNotificationsPressed,
@@ -29,8 +27,6 @@ class HomeDashboard extends StatelessWidget {
   });
 
   final DateTime today;
-  final Animation<double> drawerProgress;
-  final VoidCallback onMenuPressed;
   final AiEntryViewModel viewModel;
   final FinanceNotificationViewModel notificationViewModel;
   final VoidCallback onNotificationsPressed;
@@ -55,8 +51,6 @@ class HomeDashboard extends StatelessWidget {
             child: HomeScrollLayout(
               onNearTransactionsEnd: viewModel.loadMoreEntries,
               header: HomeDashboardHeader(
-                drawerProgress: drawerProgress,
-                onMenuPressed: onMenuPressed,
                 notificationViewModel: notificationViewModel,
                 onNotificationsPressed: onNotificationsPressed,
               ),

@@ -23,6 +23,8 @@ void main() {
     );
 
     expect(find.text('Cash'), findsOneWidget);
+    expect(find.text('Default'), findsOneWidget);
+    expect(find.byKey(const Key('default-wallet-badge')), findsOneWidget);
     expect(find.text('250 k MGA'), findsOneWidget);
     final amount = tester.widget<Text>(find.text('250 k MGA'));
     final suffix = (amount.textSpan! as TextSpan).children!.last as TextSpan;

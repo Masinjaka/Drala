@@ -35,9 +35,13 @@ class EditableProfileAvatar extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primary,
                   shape: BoxShape.circle,
                 ),
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.all(7),
-                  child: Icon(Icons.camera_alt_outlined, size: 17),
+                  child: Icon(
+                    Icons.camera_alt_outlined,
+                    size: 17,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ),
               ),
             ),

@@ -123,7 +123,7 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
                 value,
               );
             },
-            cursorColor: Theme.of(context).textTheme.bodyLarge?.color,
+            cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
             decoration: InputDecoration(
               isDense: true,
               filled: true,

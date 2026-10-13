@@ -38,6 +38,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get setDefaultWallet => 'Imposta portafoglio predefinito';
 
   @override
+  String get defaultWalletLabel => 'Predefinito';
+
+  @override
   String get theme => 'Tema';
 
   @override
@@ -110,6 +113,15 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get expandMenu => 'Espandi menu';
+
+  @override
+  String get activities => 'Attività';
+
+  @override
+  String get reports => 'Report';
+
+  @override
+  String get profile => 'Profilo';
 
   @override
   String get envelope => 'Busta';
@@ -499,21 +511,21 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get deleteAllDataSummary =>
-      'Elimina definitivamente tutti i contenuti dell\'app.';
+      'Elimina dati e file dell\'app, ma conserva il tuo account di accesso.';
 
   @override
   String get deleteAccount => 'Elimina il mio account';
 
   @override
   String get deleteAccountSummary =>
-      'Elimina i tuoi dati e disattiva l\'accesso.';
+      'Elimina il tuo account di accesso, dati e file.';
 
   @override
   String get deleteAllDataQuestion => 'Eliminare tutti i dati?';
 
   @override
   String get deleteAllDataDetails =>
-      'Saranno eliminati transazioni, portafogli, buste, budget, obiettivi, cronologia IA, preferenze e file. Il tuo account e il tuo piano saranno mantenuti.';
+      'Elimina transazioni e attività dei portafogli, i portafogli non predefiniti, categorie, buste, budget e cronologia, cronologia IA, ricevute scansionate, impostazioni delle notifiche, dati del profilo e file archiviati. Il tuo account di accesso viene conservato. Viene mantenuto o creato un portafoglio predefinito con saldo zero. Il nome viene reimpostato dalla tua e-mail, la foto viene rimossa e la valuta torna a MGA.';
 
   @override
   String get deleteKeyword => 'DELETE';
@@ -529,7 +541,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get deleteAccountDetails =>
-      'Questo elimina il tuo account, il piano, i file e tutti i tuoi dati. L\'azione non può essere annullata.';
+      'Elimina il tuo account di accesso, profilo, transazioni, portafogli e relativa attività, categorie, buste, budget e cronologia, cronologia IA, ricevute scansionate, impostazioni delle notifiche e file archiviati. Verrai disconnesso. L\'azione non può essere annullata.';
 
   @override
   String typeValueToConfirm(Object value) {

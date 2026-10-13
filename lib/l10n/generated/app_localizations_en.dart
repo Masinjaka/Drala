@@ -38,6 +38,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setDefaultWallet => 'Set default wallet';
 
   @override
+  String get defaultWalletLabel => 'Default';
+
+  @override
   String get theme => 'Theme';
 
   @override
@@ -110,6 +113,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expandMenu => 'Expand menu';
+
+  @override
+  String get activities => 'Activities';
+
+  @override
+  String get reports => 'Reports';
+
+  @override
+  String get profile => 'Profile';
 
   @override
   String get envelope => 'Envelope';
@@ -498,21 +510,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteAllData => 'Delete all my data';
 
   @override
-  String get deleteAllDataSummary => 'Permanently deletes all app content.';
+  String get deleteAllDataSummary =>
+      'Deletes app data and files, but keeps your sign-in account.';
 
   @override
   String get deleteAccount => 'Delete my account';
 
   @override
   String get deleteAccountSummary =>
-      'Deletes your data and disables your sign-in.';
+      'Deletes your sign-in account, app data, and files.';
 
   @override
   String get deleteAllDataQuestion => 'Delete all data?';
 
   @override
   String get deleteAllDataDetails =>
-      'Transactions, wallets, envelopes, budgets, goals, AI history, preferences, and files will be deleted. Your account and plan will be retained.';
+      'Deletes transactions and wallet activity, non-default wallets, categories, envelopes, budgets and history, AI history, receipt scans, notification settings, profile details, and stored files. Your sign-in account remains. A zero-balance default wallet is kept or created. Your name is reset from your email, your photo is removed, and your currency resets to MGA.';
 
   @override
   String get deleteKeyword => 'DELETE';
@@ -528,7 +541,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAccountDetails =>
-      'This deletes your account, plan, files, and all your data. It cannot be undone.';
+      'Deletes your sign-in account, profile, transactions, wallets and wallet activity, categories, envelopes, budgets and history, AI history, receipt scans, notification settings, and stored files. You will be signed out. This cannot be undone.';
 
   @override
   String typeValueToConfirm(Object value) {

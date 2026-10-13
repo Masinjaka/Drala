@@ -1,3 +1,6 @@
+import 'package:budgets/features/envelopes/presentation/pages/envelope_page.dart';
+import 'package:budgets/features/stats/presentation/pages/finance_stats_page.dart';
+import 'package:budgets/features/settings/presentation/pages/setting_page.dart';
 import 'dart:async';
 
 import 'package:budgets/core/currency/currency_state.dart';
@@ -5,7 +8,6 @@ import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/ai_entry/domain/repositories/ai_entry_repository.dart';
 import 'package:budgets/features/ai_entry/presentation/view_models/ai_entry_view_model.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
-import 'package:budgets/features/home/presentation/controllers/home_drawer_motion_controller.dart';
 import 'package:budgets/features/home/presentation/widgets/chat_home_layout.dart';
 import 'package:budgets/features/home/data/services/home_repository_factory.dart';
 import 'package:budgets/features/home/presentation/widgets/drawer_destination_navigator.dart';
@@ -46,9 +48,7 @@ class ChatHomePage extends StatefulWidget {
   State<ChatHomePage> createState() => _ChatHomePageState();
 }
 
-class _ChatHomePageState extends State<ChatHomePage>
-    with SingleTickerProviderStateMixin {
-  late final HomeDrawerMotionController _drawer;
+class _ChatHomePageState extends State<ChatHomePage> {
   late final DateTime _today;
   late final AiEntryViewModel _aiEntryViewModel;
   late final ActivityCalendarViewModel _activityCalendarViewModel;
@@ -59,7 +59,6 @@ class _ChatHomePageState extends State<ChatHomePage>
   @override
   void initState() {
     super.initState();
-    _drawer = HomeDrawerMotionController(this);
     _today = DateUtils.dateOnly(widget.today ?? DateTime.now());
     _selectedDate = _today;
     final defaults = HomeRepositoryFactory.create(_today);
@@ -96,7 +95,6 @@ class _ChatHomePageState extends State<ChatHomePage>
 
   void _selectDate(DateTime date) {
     setState(() => _selectedDate = DateUtils.dateOnly(date));
-    _drawer.close();
     unawaited(_loadSelectedDate());
   }
 
@@ -134,7 +132,6 @@ class _ChatHomePageState extends State<ChatHomePage>
     _activityCalendarViewModel.dispose();
     _notificationViewModel.dispose();
     _aiEntryViewModel.dispose();
-    _drawer.dispose();
     super.dispose();
   }
 
@@ -142,7 +139,7 @@ class _ChatHomePageState extends State<ChatHomePage>
   Widget build(BuildContext context) {
     final destinations = DrawerDestinationNavigator(
       context: context,
-      closeDrawer: _drawer.close,
+      closeDrawer: () {},
       onReturn: _aiEntryViewModel.refreshBalances,
       shouldRunOnReturn: widget.isSignedIn,
       envelopeRepository: widget.envelopeRepository,
@@ -159,30 +156,41 @@ class _ChatHomePageState extends State<ChatHomePage>
     return NotificationPermissionPrompt(
       child: ChatHomeLayout(
         today: _today,
-        selectedDate: _selectedDate,
-        drawerController: _drawer.animation,
         viewModel: _aiEntryViewModel,
         activityCalendarViewModel: _activityCalendarViewModel,
         currencyState: widget.currencyState,
         isCurrencyLoading: widget.isCurrencyLoading,
-        onOpenDrawer: _drawer.open,
-        onCloseDrawer: _drawer.close,
         onDateSelected: _selectDate,
-        onEnvelopePressed: destinations.openEnvelopes,
-        onStatsPressed: destinations.openStats,
-        onWalletsPressed: destinations.openWallets,
-        onCategoriesPressed: destinations.openCategories,
-        onPlanPressed: destinations.openPlans,
-        onFeedbackPressed: destinations.openFeedback,
+        destinations: [
+          EnvelopePage(
+              repository: widget.envelopeRepository,
+              displayCurrency: widget.currencyState,
+              showBackButton: false),
+          FinanceStatsPage(
+              repository: widget.statsRepository,
+              displayCurrency: widget.currencyState,
+              showBackButton: false),
+          SettingPage(
+            onDataDeleted: _resetAfterDataDeletion,
+            showBackButton: false,
+            notificationViewModel: _notificationViewModel,
+            onNotificationsPressed: () =>
+                destinations.openNotifications(_notificationViewModel),
+            walletsListenable: _aiEntryViewModel,
+            walletCountReader: () => _aiEntryViewModel.wallets.length,
+            onCategoriesPressed: destinations.openCategories,
+            onWalletsPressed: destinations.openWallets,
+          ),
+        ],
+        onActivitiesSelected: () {
+          unawaited(_loadSelectedDate());
+          unawaited(_refreshNotifications());
+        },
         notificationViewModel: _notificationViewModel,
         onNotificationsPressed: () => destinations.openNotifications(
           _notificationViewModel,
         ),
         onFinanceChanged: _refreshNotifications,
-        onSettingsPressed: destinations.openSettings,
-        onDragUpdate: _drawer.updateDrag,
-        onDragEnd: _drawer.settle,
-        onDragCancel: _drawer.cancelDrag,
       ),
     );
   }

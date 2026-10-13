@@ -60,7 +60,7 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
         TextField(
           key: const ValueKey('category-search'),
           controller: _searchController,
-          cursorColor: Theme.of(context).colorScheme.onSurface,
+          cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
           onChanged: (_) => setState(() {}),
           style: Theme.of(context).textTheme.bodySmall,
           decoration: InputDecoration(

@@ -45,10 +45,27 @@ class EnvelopeCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                        child: Text('${envelope.emoji} ${envelope.name}',
+                        child: Row(
+                      children: [
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: theme.colorScheme.surfaceDim,
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(envelope.emoji,
+                              style: theme.textTheme.titleMedium
+                                  ?.copyWith(fontSize: 22)),
+                        ),
+                        SizedBox(width: 10),
+                        Text(envelope.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyMedium)),
+                            style: theme.textTheme.bodyMedium),
+                      ],
+                    )),
                     if (envelope.isExceeded && !loading) ...[
                       const SizedBox(width: 8),
                       Flexible(

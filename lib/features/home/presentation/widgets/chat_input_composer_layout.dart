@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 class ChatInputComposerLayout extends StatelessWidget {
   const ChatInputComposerLayout({
-    required this.isFocused,
+    required this.isExpanded,
     required this.textInput,
     required this.addButton,
     required this.sendButton,
     super.key,
   });
 
-  final bool isFocused;
+  final bool isExpanded;
   final Widget textInput;
   final Widget addButton;
   final Widget sendButton;
 
   @override
   Widget build(BuildContext context) {
-    if (!isFocused) {
+    if (!isExpanded) {
       return SizedBox(
         height: 48,
         child: Row(
@@ -39,12 +39,12 @@ class ChatInputComposerLayout extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 45),
+            constraints: const BoxConstraints(minHeight: 37),
             child: textInput,
           ),
         ),
         SizedBox(
-          height: 40,
+          height: 48,
           child: Row(
             children: [addButton, const Spacer(), sendButton],
           ),

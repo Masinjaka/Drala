@@ -138,6 +138,7 @@ class HomeEntryActions {
       context,
       wallets: viewModel.wallets,
       requiredAmount: amount,
+      currencyState: currencyState,
     );
   }
 

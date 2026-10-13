@@ -1,4 +1,5 @@
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_control_metrics.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/core/ui/detail_page_header.dart';
@@ -21,7 +22,7 @@ void main() {
     expect(find.byType(DetailPageHeader), findsOneWidget);
     final button =
         tester.widget<OutlinedSquareButton>(find.byType(OutlinedSquareButton));
-    expect(button.visualSize, 34);
+    expect(button.visualSize, AppControlMetrics.squareButtonVisualSize);
     expect(button.iconSize, 22);
     final title = tester.widget<Text>(find.text('Settings'));
     expect(title.style?.fontFamily, AppTheme.fontFamily);

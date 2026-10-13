@@ -1,14 +1,21 @@
+import 'package:budgets/core/currency/currency_state.dart';
+import 'package:budgets/core/ui/app_sheet_header.dart';
+import 'package:budgets/core/ui/app_sheet_route.dart';
+import 'package:budgets/core/ui/app_sheet_surface.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
+import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_source_option.dart';
+import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class WalletSourceSheet extends StatelessWidget {
+class WalletSourceSheet extends StatefulWidget {
   const WalletSourceSheet({
     required this.wallets,
     required this.requiredAmount,
     this.title = 'Choose another wallet',
     this.message,
+    this.currencyState,
     super.key,
   });
 
@@ -16,6 +23,7 @@ class WalletSourceSheet extends StatelessWidget {
   final int requiredAmount;
   final String title;
   final String? message;
+  final CurrencyState? currencyState;
 
   static Future<String?> show(
     BuildContext context, {
@@ -23,73 +31,117 @@ class WalletSourceSheet extends StatelessWidget {
     required int requiredAmount,
     String title = 'Choose another wallet',
     String? message,
+    CurrencyState? currencyState,
   }) {
-    return showModalBottomSheet<String>(
-      context: context,
-      useSafeArea: true,
-      showDragHandle: true,
-      backgroundColor: Theme.of(context).bottomSheetTheme.backgroundColor,
+    return showAppSheet<String>(
+      context,
       builder: (_) => WalletSourceSheet(
         wallets: wallets,
         requiredAmount: requiredAmount,
         title: title,
         message: message,
+        currencyState: currencyState,
       ),
     );
   }
 
   @override
+  State<WalletSourceSheet> createState() => _WalletSourceSheetState();
+}
+
+class _WalletSourceSheetState extends State<WalletSourceSheet> {
+  String? _selectedWalletId;
+
+  @override
+  void initState() {
+    super.initState();
+    final eligible = widget.wallets.where(_isEligible);
+    _selectedWalletId =
+        eligible.where((wallet) => wallet.isDefault).firstOrNull?.id ??
+            eligible.firstOrNull?.id;
+  }
+
+  bool _isEligible(WalletSummary wallet) =>
+      wallet.balance >= widget.requiredAmount;
+
+  @override
   Widget build(BuildContext context) {
-    final formatter = NumberFormat.decimalPattern('fr_FR');
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(22, 4, 22, 24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 6),
-          PrivacyText(
-            message ??
-                'The transaction needs ${formatter.format(requiredAmount)}.',
-            hiddenText: message ?? 'The transaction needs ***.',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-          ),
-          const SizedBox(height: 14),
-          ...wallets.map((wallet) {
-            final enabled = wallet.balance >= requiredAmount;
-            return ListTile(
-              contentPadding: EdgeInsets.zero,
-              enabled: enabled,
-              leading: CircleAvatar(
-                backgroundColor: Theme.of(context).cardColor,
-                child: Icon(
-                  wallet.iconKey == 'bank'
-                      ? Icons.account_balance_outlined
-                      : Icons.account_balance_wallet_outlined,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+    final sourceCode = widget.wallets
+            .where((wallet) => wallet.isDefault)
+            .firstOrNull
+            ?.currencyCode ??
+        (widget.wallets.isEmpty ? 'MGA' : widget.wallets.first.currencyCode);
+    final displayCode = widget.currencyState?.code ?? sourceCode;
+    final displayRequired = widget.currencyState?.convertToSelected(
+          widget.requiredAmount,
+          sourceCode,
+        ) ??
+        widget.requiredAmount;
+
+    return AppSheetSurface(
+      heightFactor: .59,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppSheetHeader(
+              title: widget.title,
+              onClose: () => Navigator.pop(context),
+            ),
+            const SizedBox(height: 8),
+            PrivacyText(
+              widget.message ??
+                  'The transaction needs ${formatAmountWithCurrency(displayRequired, displayCode, preserveFraction: true)}.',
+              hiddenText: widget.message ?? 'The transaction needs ***.',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView.separated(
+                itemCount: widget.wallets.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 8),
+                itemBuilder: (context, index) {
+                  final wallet = widget.wallets[index];
+                  return WalletSourceOption(
+                    wallet: wallet,
+                    enabled: _isEligible(wallet),
+                    selected: wallet.id == _selectedWalletId,
+                    balanceText: _balanceText(wallet),
+                    onTap: () => setState(() => _selectedWalletId = wallet.id),
+                  );
+                },
               ),
-              title: Text(wallet.name),
-              subtitle: wallet.isDefault ? const Text('Default wallet') : null,
-              trailing: PrivacyText(
-                '${formatter.format(wallet.balance)} ${wallet.currencyCode}',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: enabled
-                          ? Theme.of(context).colorScheme.onSurface
-                          : Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-              ),
-              onTap: enabled ? () => Navigator.pop(context, wallet.id) : null,
-            );
-          }),
-        ],
+            ),
+            const SizedBox(height: 12),
+            CustomButton(
+              key: const Key('confirm-wallet-source'),
+              text:
+                  widget.requiredAmount > 0 ? 'Use this wallet' : 'Save wallet',
+              height: 40,
+              borderRadius: BorderRadius.circular(6),
+              onPressed: _selectedWalletId == null
+                  ? null
+                  : () => Navigator.pop(context, _selectedWalletId),
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  String _balanceText(WalletSummary wallet) {
+    final converted = widget.currencyState?.convertToSelected(
+          wallet.balance,
+          wallet.currencyCode,
+        ) ??
+        wallet.balance;
+    return formatAmountWithCurrency(
+      converted,
+      widget.currencyState?.code ?? wallet.currencyCode,
+      preserveFraction: true,
     );
   }
 }
