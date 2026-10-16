@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/features/categories/domain/models/subcategories.dart';
 import 'package:budgets/features/categories/presentation/widgets/add_subcategory_dialog.dart';
@@ -160,7 +161,8 @@ class SubcategorySelectionDialog extends StatelessWidget {
             Icon(
               Icons.add,
               size: 16,
-              color: Theme.of(context).textTheme.bodyMedium?.color,
+              color: AppIconForeground.resolve(
+                  context, Theme.of(context).textTheme.bodyMedium?.color),
             ),
             SizedBox(width: 8),
             Text(

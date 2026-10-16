@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class PlanChoiceCard extends StatelessWidget {
@@ -50,7 +51,13 @@ class PlanChoiceCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, color: foreground, size: 22),
+              Icon(icon,
+                  color: AppIconForeground.resolve(
+                    context,
+                    foreground,
+                    background: isSelected ? theme.colorScheme.primary : null,
+                  ),
+                  size: 22),
               const SizedBox(height: 16),
               Text(
                 title,

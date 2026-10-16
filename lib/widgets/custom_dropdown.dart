@@ -1,4 +1,4 @@
-import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -272,7 +272,11 @@ class _CustomDropdownState extends ConsumerState<CustomDropdown>
                 if (isSelected)
                   Icon(
                     Icons.check,
-                    color: Theme.of(context).textTheme.bodyLarge?.color,
+                    color: AppIconForeground.resolve(
+                      context,
+                      Theme.of(context).textTheme.bodyLarge?.color ??
+                          Theme.of(context).colorScheme.onSurface,
+                    ),
                     size: 18,
                   ),
               ],
@@ -358,7 +362,11 @@ class _CustomDropdownState extends ConsumerState<CustomDropdown>
                           _isDropdownOpen
                               ? Icons.arrow_drop_up
                               : Icons.arrow_drop_down,
-                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                          color: AppIconForeground.resolve(
+                            context,
+                            Theme.of(context).textTheme.bodyLarge?.color ??
+                                Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ],
                     ),

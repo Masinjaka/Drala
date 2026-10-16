@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -58,7 +59,8 @@ class TransactionDatePickerField extends StatelessWidget {
                 SizedBox(width: 8),
                 Icon(
                   Icons.calendar_today,
-                  color: theme.colorScheme.onSurface,
+                  color: AppIconForeground.resolve(
+                      context, theme.colorScheme.onSurface),
                   size: 18,
                 ),
               ],

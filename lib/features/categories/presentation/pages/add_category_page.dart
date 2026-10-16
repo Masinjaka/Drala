@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/glass_flexible_space.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/constants.dart';
@@ -91,6 +92,7 @@ class _AddCategoryPageState extends ConsumerState<AddCategoryPage> {
                 categoryViewConfig: CategoryViewConfig(
                   backgroundColor: Theme.of(context).cardColor,
                   tabBarHeight: 56,
+                  iconColor: Theme.of(context).iconTheme.color ?? Colors.white,
                   iconColorSelected:
                       Theme.of(context).iconTheme.color ?? Colors.white,
                   backspaceColor:
@@ -324,7 +326,8 @@ class _AddCategoryPageState extends ConsumerState<AddCategoryPage> {
                     children: [
                       Icon(
                         Icons.info_outline,
-                        color: Theme.of(context).primaryColor,
+                        color: AppIconForeground.resolve(
+                            context, Theme.of(context).primaryColor),
                         size: 18,
                       ),
                       SizedBox(width: 8),

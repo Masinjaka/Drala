@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,10 @@ class NotificationInboxButton extends StatelessWidget {
                   child: Icon(
                     Icons.warning_rounded,
                     key: Key('notification-warning-badge'),
-                    color: Theme.of(context).colorScheme.error,
+                    color: AppIconForeground.resolve(
+                      context,
+                      Theme.of(context).colorScheme.error,
+                    ),
                     size: 16,
                   ),
                 ),

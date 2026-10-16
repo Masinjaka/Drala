@@ -1,11 +1,17 @@
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class DefaultWalletService {
+abstract class DefaultWalletRepository {
+  Future<List<WalletSummary>> wallets();
+  Future<void> setDefault(String walletId);
+}
+
+class DefaultWalletService implements DefaultWalletRepository {
   const DefaultWalletService(this._client);
 
   final SupabaseClient _client;
 
+  @override
   Future<List<WalletSummary>> wallets() async {
     final userId = _client.auth.currentUser?.id;
     if (userId == null) throw StateError('Please sign in to view wallets.');
@@ -19,6 +25,7 @@ class DefaultWalletService {
         .toList(growable: false);
   }
 
+  @override
   Future<void> setDefault(String walletId) =>
       _client.rpc('set_default_wallet', params: {'p_wallet_id': walletId});
 }

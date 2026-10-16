@@ -1,4 +1,5 @@
 import 'package:budgets/core/currency/currency_provider.dart';
+import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/core/ui/scroll_edge_fade.dart';
 import 'package:budgets/features/settings/presentation/widgets/currency_search_field.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -57,8 +58,9 @@ class _SetupCurrencyChoicesState extends ConsumerState<SetupCurrencyChoices> {
 
   @override
   Widget build(BuildContext context) {
-    final rateState = ref.watch(exchangeRatesProvider);
-    final rates = rateState.value;
+    final isGuest = ref.watch(guestSessionProvider)?.isActive == true;
+    final rateState = isGuest ? null : ref.watch(exchangeRatesProvider);
+    final rates = rateState?.value;
     final all = <String>{
       ...priority,
       widget.selected,
@@ -85,7 +87,7 @@ class _SetupCurrencyChoicesState extends ConsumerState<SetupCurrencyChoices> {
         const SizedBox(height: 38),
         Expanded(
           child: ScrollEdgeFade(
-            child: rateState.isLoading && !rateState.hasValue
+            child: rateState?.isLoading == true && rateState?.hasValue != true
                 ? const SetupCurrencySkeleton()
                 : ListView.separated(
                     controller: _scrollController,

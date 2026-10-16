@@ -8,7 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LanguageSettingsPage extends ConsumerWidget {
-  const LanguageSettingsPage({super.key});
+  const LanguageSettingsPage({
+    this.onSelected,
+    this.syncNotifications = true,
+    super.key,
+  });
+
+  final Future<void> Function(String)? onSelected;
+  final bool syncNotifications;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -51,9 +58,12 @@ class LanguageSettingsPage extends ConsumerWidget {
           await ref
               .read(localeProvider.notifier)
               .setLocale(Locale(languageCode));
-          await ref
-              .read(notificationControllerProvider.notifier)
-              .syncLanguage();
+          await onSelected?.call(languageCode);
+          if (syncNotifications) {
+            await ref
+                .read(notificationControllerProvider.notifier)
+                .syncLanguage();
+          }
         },
       );
 }

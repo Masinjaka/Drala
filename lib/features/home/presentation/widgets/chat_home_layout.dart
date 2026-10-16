@@ -1,9 +1,11 @@
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/presentation/view_models/ai_entry_view_model.dart';
 import 'package:budgets/features/home/presentation/view_models/activity_calendar_view_model.dart';
+import 'package:budgets/features/home/presentation/controllers/home_entry_actions.dart';
 import 'package:budgets/features/home/presentation/widgets/home_bottom_navigation_bar.dart';
 import 'package:budgets/features/home/presentation/widgets/home_dashboard.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
 class ChatHomeLayout extends StatefulWidget {
@@ -19,6 +21,7 @@ class ChatHomeLayout extends StatefulWidget {
     required this.onActivitiesSelected,
     this.currencyState,
     this.isCurrencyLoading = false,
+    this.manualOnly = false,
     super.key,
   });
 
@@ -33,6 +36,7 @@ class ChatHomeLayout extends StatefulWidget {
   final VoidCallback onActivitiesSelected;
   final CurrencyState? currencyState;
   final bool isCurrencyLoading;
+  final bool manualOnly;
 
   @override
   State<ChatHomeLayout> createState() => _ChatHomeLayoutState();
@@ -46,6 +50,14 @@ class _ChatHomeLayoutState extends State<ChatHomeLayout> {
     FocusManager.instance.primaryFocus?.unfocus();
     setState(() => _selectedIndex = index);
     if (index == 0) widget.onActivitiesSelected();
+  }
+
+  Future<void> _addManualEntry() async {
+    await HomeEntryActions(
+      widget.viewModel,
+      currencyState: widget.currencyState,
+    ).addManual(context);
+    if (mounted) await widget.onFinanceChanged();
   }
 
   @override
@@ -68,6 +80,7 @@ class _ChatHomeLayoutState extends State<ChatHomeLayout> {
                   onDateSelected: widget.onDateSelected,
                   currencyState: widget.currencyState,
                   isCurrencyLoading: widget.isCurrencyLoading,
+                  manualOnly: widget.manualOnly,
                 ),
               ),
             ),
@@ -82,5 +95,15 @@ class _ChatHomeLayoutState extends State<ChatHomeLayout> {
           selectedIndex: _selectedIndex,
           onSelected: _select,
         ),
+        floatingActionButton: widget.manualOnly && _selectedIndex == 0
+            ? FloatingActionButton(
+                key: const Key('guest-manual-entry-fab'),
+                onPressed: _addManualEntry,
+                tooltip: context.l10n.manualEntry,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                child: const Icon(Icons.add_rounded),
+              )
+            : null,
       );
 }

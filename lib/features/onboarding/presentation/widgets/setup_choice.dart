@@ -1,5 +1,6 @@
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -126,7 +127,10 @@ class _SetupChoiceState extends State<SetupChoice>
                           color: foreground,
                         ),
                         child: IconTheme(
-                          data: IconThemeData(color: foreground),
+                          data: IconThemeData(
+                            color:
+                                AppIconForeground.resolve(context, foreground),
+                          ),
                           child: widget.trailing!,
                         ),
                       ),

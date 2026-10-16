@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
@@ -54,11 +55,13 @@ class TransactionDetailHeader extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.calendar_today,
-                    color: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.color
-                        ?.withAlpha(128),
+                    color: AppIconForeground.resolve(
+                        context,
+                        Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.color
+                            ?.withAlpha(128)),
                     size: 14,
                   ),
                   SizedBox(width: 8),
@@ -80,11 +83,13 @@ class TransactionDetailHeader extends StatelessWidget {
                     SizedBox(width: 12),
                     Icon(
                       Icons.access_time,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.color
-                          ?.withAlpha(128),
+                      color: AppIconForeground.resolve(
+                          context,
+                          Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color
+                              ?.withAlpha(128)),
                       size: 14,
                     ),
                     SizedBox(width: 4),

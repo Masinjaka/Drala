@@ -11,7 +11,7 @@ class HomeScrollLayout extends StatefulWidget {
     this.ad,
     required this.calendarBuilder,
     required this.transactions,
-    required this.composer,
+    this.composer,
     this.onNearTransactionsEnd,
     super.key,
   });
@@ -24,7 +24,7 @@ class HomeScrollLayout extends StatefulWidget {
 
   /// A sliver sharing the banner and calendar's scroll position.
   final Widget transactions;
-  final Widget composer;
+  final Widget? composer;
   final VoidCallback? onNearTransactionsEnd;
 
   @override
@@ -93,6 +93,10 @@ class _HomeScrollLayoutState extends State<HomeScrollLayout> {
                       widget.transactions,
                       if (widget.ad != null)
                         SliverToBoxAdapter(child: widget.ad!),
+                      if (widget.composer == null)
+                        const SliverToBoxAdapter(
+                          child: SizedBox(height: 80),
+                        ),
                       SliverLayoutBuilder(builder: (context, constraints) {
                         // Short/empty lists still have enough travel to scroll the
                         // banner away and fully collapse the pinned calendar controls.
@@ -111,24 +115,22 @@ class _HomeScrollLayoutState extends State<HomeScrollLayout> {
                 ),
               ),
             ),
-            ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: height * 0.4),
-              child: SingleChildScrollView(
-                  primary: false,
-                  reverse: true,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: AppNavigationTheme.background(context),
-                      // border: Border(
-                      //     top: BorderSide(
-                      //         color: AppNavigationTheme.divider(context))),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 17, bottom: 10),
-                      child: widget.composer,
-                    ),
-                  )),
-            ),
+            if (widget.composer case final composer?)
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: height * 0.4),
+                child: SingleChildScrollView(
+                    primary: false,
+                    reverse: true,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppNavigationTheme.background(context),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 17, bottom: 10),
+                        child: composer,
+                      ),
+                    )),
+              ),
           ]);
         },
       );

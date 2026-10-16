@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/home/domain/models/home_expense.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,8 @@ class ExpenseListItem extends StatelessWidget {
             child: Icon(
               icon,
               size: 21,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppIconForeground.resolve(
+                  context, Theme.of(context).colorScheme.onSurface),
             ),
           ),
           const SizedBox(width: 17),

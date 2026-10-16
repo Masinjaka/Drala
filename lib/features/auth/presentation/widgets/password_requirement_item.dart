@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,11 @@ class PasswordRequirementItem extends StatelessWidget {
                         Icons.check_rounded,
                         key: const ValueKey('checked'),
                         size: 10,
-                        color: Theme.of(context).colorScheme.onPrimary,
+                        color: AppIconForeground.resolve(
+                          context,
+                          Theme.of(context).colorScheme.onPrimary,
+                          background: Theme.of(context).colorScheme.primary,
+                        ),
                       )
                     : const SizedBox.shrink(key: ValueKey('unchecked')),
               ),

@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 // A reusable search bar widget
@@ -78,17 +79,28 @@ class _ReusableSearchBarState extends State<ReusableSearchBar> {
           prefixIcon: widget.isSearchFocused
               ? IconButton(
                   icon: Icon(Icons.arrow_back,
-                      color: Theme.of(context).hintColor),
+                      color: AppIconForeground.resolve(
+                        context,
+                        Theme.of(context).hintColor,
+                      )),
                   onPressed: widget.onSearchUnfocused,
                 )
-              : Icon(Icons.search, color: Theme.of(context).hintColor),
+              : Icon(Icons.search,
+                  color: AppIconForeground.resolve(
+                    context,
+                    Theme.of(context).hintColor,
+                  )),
           prefixIconConstraints: const BoxConstraints(
             minWidth: 48,
             minHeight: 48,
           ),
           suffixIcon: widget.isSearchFocused && _hasText
               ? IconButton(
-                  icon: Icon(Icons.close, color: Theme.of(context).hintColor),
+                  icon: Icon(Icons.close,
+                      color: AppIconForeground.resolve(
+                        context,
+                        Theme.of(context).hintColor,
+                      )),
                   onPressed: widget.onClearSearch,
                 )
               : null,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,10 @@ Widget avatar(BuildContext context, String? url, double size) {
   final theme = Theme.of(context);
   if (url == null || url.isEmpty) {
     return ClipOval(
-      child: Icon(Icons.person, size: size, color: theme.colorScheme.onSurface),
+      child: Icon(Icons.person,
+          size: size,
+          color:
+              AppIconForeground.resolve(context, theme.colorScheme.onSurface)),
     );
   }
 
@@ -68,7 +72,8 @@ Widget avatar(BuildContext context, String? url, double size) {
         child: Icon(
           Icons.person,
           size: size,
-          color: theme.colorScheme.onSurface,
+          color:
+              AppIconForeground.resolve(context, theme.colorScheme.onSurface),
         ),
       );
     }
@@ -87,8 +92,10 @@ Widget avatar(BuildContext context, String? url, double size) {
           child: const CircularProgressIndicator(strokeWidth: 2),
         ),
       ),
-      errorWidget: (context, _, __) =>
-          Icon(Icons.person, size: size, color: theme.colorScheme.onSurface),
+      errorWidget: (context, _, __) => Icon(Icons.person,
+          size: size,
+          color:
+              AppIconForeground.resolve(context, theme.colorScheme.onSurface)),
     ),
   );
 }

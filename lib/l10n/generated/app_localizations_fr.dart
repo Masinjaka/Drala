@@ -448,6 +448,26 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les dépenses et les nouvelles enveloppes utilisent ce portefeuille par défaut.';
 
   @override
+  String get walletSourceChooseAnother => 'Choisir un autre portefeuille';
+
+  @override
+  String walletSourceAmountNeeded(String amount) {
+    return 'Cette opération nécessite $amount.';
+  }
+
+  @override
+  String get walletSourceUseWallet => 'Utiliser ce portefeuille';
+
+  @override
+  String get walletSourceSaveWallet => 'Enregistrer le portefeuille';
+
+  @override
+  String get walletSourceDefaultWallet => 'Portefeuille par défaut';
+
+  @override
+  String get walletSourceInsufficientBalance => 'Solde insuffisant';
+
+  @override
   String get defaultWalletUpdated => 'Portefeuille par défaut mis à jour.';
 
   @override
@@ -938,4 +958,36 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get authResetSuccess => 'Mot de passe réinitialisé';
+
+  @override
+  String get guestWelcomeTitle => 'Prenez le contrôle de votre argent';
+
+  @override
+  String get guestWelcomeBody =>
+      'Configurez votre budget en quelques étapes. Vous pouvez commencer sans compte.';
+
+  @override
+  String get guestGetStarted => 'Commencer';
+
+  @override
+  String get guestChoiceTitle => 'Comment souhaitez-vous continuer ?';
+
+  @override
+  String get guestChoiceBody =>
+      'Créez un compte pour synchroniser votre budget, ou gardez-le sur cet appareil pour le moment.';
+
+  @override
+  String get guestContinue => 'Continuer en invité';
+
+  @override
+  String get guestSyncNow => 'Synchroniser maintenant';
+
+  @override
+  String guestCurrencyRatePending(String preferred, String displayed) {
+    return 'La devise $preferred est enregistrée. Les montants restent en $displayed tant que les taux de change sont indisponibles.';
+  }
+
+  @override
+  String get guestCurrencyRateStillUnavailable =>
+      'Les taux de change sont encore indisponibles. Réessayez une fois connecté.';
 }

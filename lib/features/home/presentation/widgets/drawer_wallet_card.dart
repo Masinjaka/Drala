@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
@@ -53,7 +54,8 @@ class DrawerWalletCard extends StatelessWidget {
                       backgroundColor: Theme.of(context).cardColor,
                       child: Icon(
                         Icons.account_balance_wallet_outlined,
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color: AppIconForeground.resolve(
+                            context, Theme.of(context).colorScheme.onSurface),
                         size: 21,
                       ),
                     ),

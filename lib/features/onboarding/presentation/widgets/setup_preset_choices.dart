@@ -23,12 +23,16 @@ class SetupPresetChoices extends ConsumerWidget {
   static const visible = [
     'shopping',
     'transport',
+    'housing',
     'health',
+    'education',
     'utilities',
     'food',
     'entertainment',
+    'other_expense',
     'salary',
     'freelance',
+    'other_income',
   ];
 
   @override

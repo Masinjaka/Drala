@@ -16,6 +16,7 @@ class ChatInputBar extends StatefulWidget {
     required this.onManualEntryRequested,
     this.onReceiptSubmit,
     this.isQuotaExhausted = false,
+    this.manualOnly = false,
     this.currencyCode = 'MGA',
     this.receiptInputService = const ReceiptInputService(),
     super.key,
@@ -25,6 +26,7 @@ class ChatInputBar extends StatefulWidget {
   final Future<void> Function() onManualEntryRequested;
   final Future<bool> Function(ReceiptInputResult input)? onReceiptSubmit;
   final bool isQuotaExhausted;
+  final bool manualOnly;
   final String currencyCode;
   final ReceiptInputService receiptInputService;
   @override
@@ -66,6 +68,10 @@ class _ChatInputBarState extends State<ChatInputBar> {
   }
 
   Future<void> _showReceiptOptions() async {
+    if (widget.manualOnly) {
+      await widget.onManualEntryRequested();
+      return;
+    }
     final action = await ReceiptInputBottomSheet.show(context);
     if (action == null || !mounted) return;
     if (action == ReceiptInputAction.manualEntry) {
@@ -119,9 +125,10 @@ class _ChatInputBarState extends State<ChatInputBar> {
       key: _textInputKey,
       controller: _controller,
       focusNode: _focusNode,
-      enabled: !isBusy,
+      enabled: !isBusy && !widget.manualOnly,
       hints: suggestions,
-      cursorColor: theme.textSelectionTheme.cursorColor!,
+      cursorColor:
+          theme.textSelectionTheme.cursorColor ?? theme.colorScheme.primary,
       hintColor: theme.colorScheme.onSurfaceVariant,
     );
     final addButton = SizedBox(
@@ -131,19 +138,23 @@ class _ChatInputBarState extends State<ChatInputBar> {
         onPressed: isBusy ? null : _showReceiptOptions,
         icon: const Icon(Icons.add_rounded, size: 22),
         padding: EdgeInsets.zero,
-        tooltip: context.l10n.addReceipt,
+        tooltip: widget.manualOnly
+            ? context.l10n.manualEntry
+            : context.l10n.addReceipt,
       ),
     );
     final sendButton = ChatSendButton(
-      key: Key(widget.isQuotaExhausted ? 'manual-entry-send' : 'ai-send'),
+      key: Key(widget.isQuotaExhausted || widget.manualOnly
+          ? 'manual-entry-send'
+          : 'ai-send'),
       isBusy: isBusy,
-      isManualEntry: widget.isQuotaExhausted,
+      isManualEntry: widget.isQuotaExhausted || widget.manualOnly,
       onPressed: isBusy
           ? null
-          : widget.isQuotaExhausted
+          : widget.isQuotaExhausted || widget.manualOnly
               ? widget.onManualEntryRequested
               : _submit,
-      tooltip: widget.isQuotaExhausted
+      tooltip: widget.isQuotaExhausted || widget.manualOnly
           ? context.l10n.manualEntry
           : context.l10n.send,
       bottomPadding: isFocused ? 4 : 0,

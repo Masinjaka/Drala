@@ -1,11 +1,11 @@
 import 'package:budgets/core/ui/app_control_metrics.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/widgets/custom_textfield_validator.dart';
 import 'package:budgets/widgets/persistent_textfield_suffix.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
-
 class CustomTextField extends ConsumerStatefulWidget {
   const CustomTextField({
     super.key,
@@ -60,14 +60,11 @@ class CustomTextField extends ConsumerStatefulWidget {
   final ValueChanged<String>? onChanged;
   final String? suffixText;
   final List<TextInputFormatter>? inputFormatters;
-
   @override
   ConsumerState<CustomTextField> createState() => _CustomTextFieldState();
 }
-
 class _CustomTextFieldState extends ConsumerState<CustomTextField> {
   bool isObscure = true;
-
   @override
   Widget build(BuildContext context) {
     final isPassword = widget.isPassword == true;
@@ -92,7 +89,6 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
       color: Theme.of(context).colorScheme.onSurfaceVariant,
       fontSize: widget.hintTextStyle?.fontSize ?? fontSize,
     );
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +172,11 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
                         isObscure
                             ? Icons.visibility_outlined
                             : Icons.visibility_off_outlined,
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                        color: AppIconForeground.resolve(
+                          context,
+                          Theme.of(context).textTheme.bodyLarge?.color ??
+                              Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     )
                   : widget.suffixText != null

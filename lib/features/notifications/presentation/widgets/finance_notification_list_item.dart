@@ -1,5 +1,6 @@
 import 'package:budgets/features/notifications/domain/models/finance_notification.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -32,7 +33,7 @@ class FinanceNotificationListItem extends StatelessWidget {
             children: [
               Icon(
                 Icons.warning_rounded,
-                color: colors.error,
+                color: AppIconForeground.resolve(context, colors.error),
                 size: 25,
               ),
               const SizedBox(width: 13),

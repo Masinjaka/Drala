@@ -1,4 +1,5 @@
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
 import 'package:budgets/features/home/presentation/widgets/home_balance_eye_painter.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -45,7 +46,11 @@ class HomeBalanceVisibilityButton extends StatelessWidget {
                   key: const Key('home-balance-eye'),
                   painter: HomeBalanceEyePainter(
                     isVisible: isVisible,
-                    color: AppTheme.homeBannerText,
+                    color: AppIconForeground.resolve(
+                      context,
+                      AppTheme.homeBannerText,
+                      background: AppTheme.homeBanner,
+                    ),
                   ),
                 ),
               ),

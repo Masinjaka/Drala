@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class SettingsSelectionIndicator extends StatelessWidget {
@@ -54,7 +55,10 @@ class _SelectedMark extends StatelessWidget {
         child: Center(
           child: Icon(
             Icons.check_rounded,
-            color: colors.surface,
+            color: AppIconForeground.resolve(context, colors.surface),
+            shadows: Theme.of(context).brightness == Brightness.dark
+                ? [Shadow(color: colors.surface, blurRadius: 4)]
+                : null,
             size: 15,
           ),
         ),

@@ -1,4 +1,4 @@
-import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/categories/domain/models/subcategories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -252,11 +252,15 @@ class _CustomSubcategoryDropdownState
                     Icon(
                       Icons.category_outlined,
                       size: 16,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.color
-                          ?.withOpacity(0.7),
+                      color: AppIconForeground.resolve(
+                        context,
+                        Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.color
+                                ?.withOpacity(0.7) ??
+                            Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
                     SizedBox(width: 8),
                     Expanded(
@@ -321,11 +325,15 @@ class _CustomSubcategoryDropdownState
                         Icon(
                           Icons.add_circle_outline,
                           size: 16,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.color
-                              ?.withOpacity(0.9),
+                          color: AppIconForeground.resolve(
+                            context,
+                            Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color
+                                    ?.withOpacity(0.9) ??
+                                Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                         SizedBox(width: 8),
                         Text(
@@ -431,7 +439,11 @@ class _CustomSubcategoryDropdownState
                             _isDropdownOpen
                                 ? Icons.arrow_drop_up
                                 : Icons.arrow_drop_down,
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                            color: AppIconForeground.resolve(
+                              context,
+                              Theme.of(context).textTheme.bodyLarge?.color ??
+                                  Theme.of(context).colorScheme.onSurface,
+                            ),
                           ),
                         ),
                       ),

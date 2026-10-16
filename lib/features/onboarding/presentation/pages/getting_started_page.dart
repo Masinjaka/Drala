@@ -1,14 +1,39 @@
+import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/features/guest/domain/guest_session.dart';
+import 'package:budgets/features/onboarding/domain/providers/onboarding_providers.dart';
 import 'package:budgets/features/onboarding/presentation/widgets/category_explosion.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class GettingStartedPage extends StatelessWidget {
+class GettingStartedPage extends ConsumerStatefulWidget {
   const GettingStartedPage({super.key});
+
+  @override
+  ConsumerState<GettingStartedPage> createState() => _GettingStartedPageState();
+}
+
+class _GettingStartedPageState extends ConsumerState<GettingStartedPage> {
+  bool _starting = false;
+
+  Future<void> _start() async {
+    if (_starting) return;
+    setState(() => _starting = true);
+    try {
+      await ref.read(guestSessionProvider)!.start();
+      ref.invalidate(onboardingRepositoryProvider);
+      ref.invalidate(onboardingPresetsProvider);
+      if (mounted) context.go('/onboarding');
+    } finally {
+      if (mounted) setState(() => _starting = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final english = Localizations.localeOf(context).languageCode == 'en';
+    final l = context.l10n;
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -27,20 +52,30 @@ class GettingStartedPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Text(
+                    l.guestWelcomeTitle,
+                    textAlign: TextAlign.center,
+                    style: AppTextTheme.onboardingTitle(context),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l.guestWelcomeBody,
+                    textAlign: TextAlign.center,
+                    style: AppTextTheme.onboardingBody(context),
+                  ),
+                  const SizedBox(height: 32),
                   CustomButton(
-                    text: english ? 'Create account' : context.l10n.authSignUp,
-                    onPressed: () => context.push('/signup'),
+                    text: l.guestGetStarted,
+                    onPressed: _start,
+                    isLoading: _starting,
                     height: 44,
                     borderRadius: BorderRadius.circular(9),
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   ),
-                  const SizedBox(height: 15),
-                  CustomButton.outlined(
-                    text: english ? 'Login' : context.l10n.authSignIn,
+                  const SizedBox(height: 12),
+                  CustomButton.text(
+                    text: l.authSignIn,
                     onPressed: () => context.push('/login'),
                     height: 44,
-                    borderRadius: BorderRadius.circular(9),
                   ),
                 ],
               ),

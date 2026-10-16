@@ -1,5 +1,6 @@
 import 'package:budgets/features/transactions/domain/providers/transaction_provider.dart';
 import 'package:budgets/widgets/custom_button.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -24,7 +25,7 @@ class TransactionErrorState extends ConsumerWidget {
           Icon(
             Icons.error_outline,
             size: 48,
-            color: Colors.red[400],
+            color: AppIconForeground.resolve(context, Colors.red[400]!),
           ),
           SizedBox(height: 16),
           Text(

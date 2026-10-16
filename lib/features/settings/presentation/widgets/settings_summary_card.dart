@@ -53,82 +53,89 @@ class SettingsSummaryCard extends StatelessWidget {
                   child: SvgPicture.asset(
                     'assets/settings/summary_arrow.svg',
                     colorFilter: ColorFilter.mode(
-                      AppSettingsTheme.foreground(context),
+                      AppSettingsTheme.iconForeground(context),
                       BlendMode.srcIn,
                     ),
                   ),
                 ),
-                ..._decorations(),
+                ..._decorations(context),
               ],
             ),
           ),
         ),
       );
 
-  List<Widget> _decorations() => type == SettingsSummaryCardType.categories
-      ? [
-          _emojiCircle(
-            right: -6,
-            top: 43,
-            asset: 'assets/settings/decor_circle_blue.svg',
-            emoji: '🚌',
-            angle: .37,
-          ),
-          Positioned(
-            right: 28,
-            top: 34,
-            child: SvgPicture.asset(
-              'assets/settings/category_pig.svg',
-              width: 25,
-              height: 25,
-            ),
-          ),
-          _emojiCircle(
-            right: 36,
-            top: 68,
-            asset: 'assets/settings/decor_circle_yellow.svg',
-            emoji: '💰',
-            angle: -.33,
-          ),
-          _emojiCircle(
-            right: 62,
-            top: 63,
-            asset: 'assets/settings/decor_circle_large.svg',
-            emoji: '🛒',
-            size: 29,
-            angle: .18,
-          ),
-        ]
-      : [
-          _emojiCircle(
-            right: -6,
-            top: 43,
-            asset: 'assets/settings/decor_circle_blue.svg',
-            emoji: '🚌',
-            angle: .37,
-          ),
-          _emojiCircle(
-            right: 28,
-            top: 34,
-            asset: 'assets/settings/decor_circle_money.svg',
-            emoji: '💰',
-          ),
-          _emojiCircle(
-            right: 36,
-            top: 68,
-            asset: 'assets/settings/decor_circle_yellow.svg',
-            emoji: '💰',
-            angle: -.33,
-          ),
-          _emojiCircle(
-            right: 61,
-            top: 64,
-            asset: 'assets/settings/decor_circle_large.svg',
-            emoji: '🛒',
-            size: 29,
-            angle: .18,
-          ),
-        ];
+  List<Widget> _decorations(BuildContext context) =>
+      type == SettingsSummaryCardType.categories
+          ? [
+              _emojiCircle(
+                right: -6,
+                top: 43,
+                asset: 'assets/settings/decor_circle_blue.svg',
+                emoji: '🚌',
+                angle: .37,
+              ),
+              Positioned(
+                right: 28,
+                top: 34,
+                child: SvgPicture.asset(
+                  'assets/settings/category_pig.svg',
+                  width: 25,
+                  height: 25,
+                  colorFilter: Theme.of(context).brightness == Brightness.dark
+                      ? ColorFilter.mode(
+                          AppSettingsTheme.iconForeground(context),
+                          BlendMode.srcIn,
+                        )
+                      : null,
+                ),
+              ),
+              _emojiCircle(
+                right: 36,
+                top: 68,
+                asset: 'assets/settings/decor_circle_yellow.svg',
+                emoji: '💰',
+                angle: -.33,
+              ),
+              _emojiCircle(
+                right: 62,
+                top: 63,
+                asset: 'assets/settings/decor_circle_large.svg',
+                emoji: '🛒',
+                size: 29,
+                angle: .18,
+              ),
+            ]
+          : [
+              _emojiCircle(
+                right: -6,
+                top: 43,
+                asset: 'assets/settings/decor_circle_blue.svg',
+                emoji: '🚌',
+                angle: .37,
+              ),
+              _emojiCircle(
+                right: 28,
+                top: 34,
+                asset: 'assets/settings/decor_circle_money.svg',
+                emoji: '💰',
+              ),
+              _emojiCircle(
+                right: 36,
+                top: 68,
+                asset: 'assets/settings/decor_circle_yellow.svg',
+                emoji: '💰',
+                angle: -.33,
+              ),
+              _emojiCircle(
+                right: 61,
+                top: 64,
+                asset: 'assets/settings/decor_circle_large.svg',
+                emoji: '🛒',
+                size: 29,
+                angle: .18,
+              ),
+            ];
 
   Widget _emojiCircle({
     required double right,

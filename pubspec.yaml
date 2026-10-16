@@ -69,6 +69,7 @@ dependencies:
   shimmer: ^3.0.0
   package_info_plus: ^9.0.0
   shared_preferences: ^2.5.4
+  drift: ^2.32.0
   vibration: ^3.1.5
   local_auth: ^3.0.0
   sentry_flutter: ^9.27.0

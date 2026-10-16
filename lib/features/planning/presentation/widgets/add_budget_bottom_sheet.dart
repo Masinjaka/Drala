@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -338,7 +339,7 @@ class _AddBudgetBottomSheetState extends ConsumerState<AddBudgetBottomSheet> {
             Icon(
               Icons.add,
               size: 14,
-              color: textColor,
+              color: AppIconForeground.resolve(context, textColor),
             ),
             SizedBox(width: 4),
             Text(

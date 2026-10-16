@@ -1,5 +1,7 @@
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_toast.dart';
+import 'package:budgets/features/categories/domain/providers/category_provider.dart';
+import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/features/settings/domain/providers/locale_provider.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -12,7 +14,13 @@ import '../widgets/setup_submit_bar.dart';
 import '../widgets/setup_preset_choices.dart';
 
 class AccountSetupPage extends ConsumerStatefulWidget {
-  const AccountSetupPage({super.key});
+  const AccountSetupPage({
+    this.completionRoute = '/home',
+    this.onCompleted,
+    super.key,
+  });
+  final String completionRoute;
+  final Future<void> Function()? onCompleted;
   @override
   ConsumerState<AccountSetupPage> createState() => _AccountSetupPageState();
 }
@@ -41,13 +49,11 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
         draft['wallets'] as List? ?? const ['cash', 'bank', 'mobile']);
     pages = PageController(initialPage: step - 2);
   }
-
   @override
   void dispose() {
     pages.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
@@ -102,7 +108,18 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
         bottomNavigationBar: SetupSubmitBar(
           text: step == 6 ? l.setupDone : l.setupContinue,
           onPressed: step == 6
-              ? () => context.go('/home')
+              ? () async {
+                  try {
+                    await widget.onCompleted?.call();
+                    ref.invalidate(guestSessionProvider);
+                    ref.invalidate(categoriesProvider);
+                    ref.invalidate(currencyControllerProvider);
+                    ref.invalidate(userModelProvider);
+                    if (context.mounted) context.go(widget.completionRoute);
+                  } catch (error) {
+                    if (context.mounted) showErrorToast(context, error);
+                  }
+                }
               : busy || moving || (step == 4 && !presets.hasValue)
                   ? null
                   : _next,
@@ -116,7 +133,6 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   void _toggle(Set<String> values, String value) => setState(() {
         if (!values.remove(value)) values.add(value);
       });
-
   Future<void> _selectLanguage(String code) async {
     setState(() => language = code);
     try {
@@ -125,7 +141,6 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
       if (mounted) showErrorToast(context, error);
     }
   }
-
   void _back() {
     if (!busy && !moving && step > 2 && step < 6) _moveTo(step - 1);
   }
@@ -156,14 +171,14 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
     try {
       final repo = ref.read(onboardingRepositoryProvider);
       await ref.read(localeProvider.notifier).setLocale(Locale(language));
+      final selections = {
+        'language': language,
+        'currency': currency,
+        'categories': categories.toList(),
+        'wallets': wallets.toList(),
+      };
       if (step == 5) {
-        await repo.save({
-          'step': step,
-          'language': language,
-          'currency': currency,
-          'categories': categories.toList(),
-          'wallets': wallets.toList()
-        });
+        await repo.save({'step': step, ...selections});
         await repo.complete(
             currency: currency,
             language: language,
@@ -173,13 +188,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
         ref.invalidate(currencyControllerProvider);
         if (mounted) await _moveTo(6);
       } else {
-        await repo.save({
-          'step': step + 1,
-          'language': language,
-          'currency': currency,
-          'categories': categories.toList(),
-          'wallets': wallets.toList()
-        });
+        await repo.save({'step': step + 1, ...selections});
         if (mounted) await _moveTo(step + 1);
       }
     } catch (e) {

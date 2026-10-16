@@ -3,11 +3,23 @@ import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppButtonTheme {
-  static ElevatedButtonThemeData elevated(Brightness brightness) =>
-      ElevatedButtonThemeData(style: _filled(brightness));
+  static ElevatedButtonThemeData elevated(
+    Brightness brightness, {
+    required Color background,
+    required Color foreground,
+  }) =>
+      ElevatedButtonThemeData(
+        style: _filled(brightness, background, foreground),
+      );
 
-  static FilledButtonThemeData filled(Brightness brightness) =>
-      FilledButtonThemeData(style: _filled(brightness));
+  static FilledButtonThemeData filled(
+    Brightness brightness, {
+    required Color background,
+    required Color foreground,
+  }) =>
+      FilledButtonThemeData(
+        style: _filled(brightness, background, foreground),
+      );
 
   static OutlinedButtonThemeData outlined(Brightness brightness) =>
       OutlinedButtonThemeData(
@@ -23,10 +35,14 @@ abstract final class AppButtonTheme {
         style: _base(brightness),
       );
 
-  static ButtonStyle _filled(Brightness brightness) =>
+  static ButtonStyle _filled(
+    Brightness brightness,
+    Color background,
+    Color foreground,
+  ) =>
       _base(brightness).copyWith(
-        backgroundColor: WidgetStatePropertyAll(_foreground(brightness)),
-        foregroundColor: WidgetStatePropertyAll(_background(brightness)),
+        backgroundColor: WidgetStatePropertyAll(background),
+        foregroundColor: WidgetStatePropertyAll(foreground),
       );
 
   static ButtonStyle _base(Brightness brightness) => ButtonStyle(
@@ -45,7 +61,4 @@ abstract final class AppButtonTheme {
 
   static Color _foreground(Brightness brightness) =>
       brightness == Brightness.dark ? Colors.white : Colors.black;
-
-  static Color _background(Brightness brightness) =>
-      brightness == Brightness.dark ? Colors.black : Colors.white;
 }

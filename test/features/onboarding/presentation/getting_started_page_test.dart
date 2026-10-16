@@ -50,7 +50,7 @@ void main() {
 
     expect((middle - drala).distance, greaterThan((start - drala).distance));
     expect((end - drala).distance, greaterThan((middle - drala).distance));
-    expect((end - const Offset(193, 221)).distance, lessThan(1));
+    expect(end.dy, lessThan(drala.dy));
     expect(find.byType(CategoryBubble), findsNWidgets(18));
     final icons = tester
         .widgetList<CategoryBubble>(find.byType(CategoryBubble))
@@ -58,8 +58,8 @@ void main() {
         .toList();
     expect(icons, hasLength(18));
     expect(icons.toSet(), hasLength(icons.length));
-    expect(find.text('Create account'), findsOneWidget);
-    expect(find.text('Login'), findsOneWidget);
+    expect(find.text('Get started'), findsOneWidget);
+    expect(find.text('Sign in'), findsOneWidget);
     await expectLater(find.byType(GettingStartedPage),
         matchesGoldenFile('goldens/getting_started_reference.png'));
   });

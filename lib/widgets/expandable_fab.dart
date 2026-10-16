@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 
@@ -174,7 +175,11 @@ class _ExpandableFabState extends State<ExpandableFab>
           child: Icon(
             _isOpen ? Icons.close : widget.icon,
             key: ValueKey(_isOpen),
-            color: iconColor,
+            color: AppIconForeground.resolve(
+              context,
+              iconColor,
+              background: backgroundColor,
+            ),
             size: 24,
           ),
         ),
@@ -227,7 +232,11 @@ class _FabChildButton extends StatelessWidget {
         onPressed: onPressed,
         child: Icon(
           icon,
-          color: iconColor,
+          color: AppIconForeground.resolve(
+            context,
+            iconColor,
+            background: backgroundColor,
+          ),
           size: 24,
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/app_control_metrics.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,6 @@ class CustomButton extends StatelessWidget {
     super.key,
   })  : outlined = false,
         textOnly = false;
-
   const CustomButton.outlined({
     required this.text,
     required this.onPressed,
@@ -42,7 +42,6 @@ class CustomButton extends StatelessWidget {
   })  : backgroundColor = null,
         outlined = true,
         textOnly = false;
-
   const CustomButton.icon({
     required this.icon,
     required this.onPressed,
@@ -62,7 +61,6 @@ class CustomButton extends StatelessWidget {
   })  : text = null,
         outlined = false,
         textOnly = false;
-
   const CustomButton.text({
     required this.text,
     required this.onPressed,
@@ -82,7 +80,6 @@ class CustomButton extends StatelessWidget {
         isLoading = false,
         outlined = false,
         textOnly = true;
-
   final String? text;
   final double? width;
   final Color? backgroundColor;
@@ -100,7 +97,6 @@ class CustomButton extends StatelessWidget {
   final bool? isLoading;
   final bool outlined;
   final bool textOnly;
-
   @override
   Widget build(BuildContext context) {
     final colors = _resolveColors(context);
@@ -135,18 +131,16 @@ class CustomButton extends StatelessWidget {
                   color: colors.foreground,
                 ),
               )
-            : _content(context, colors.foreground),
+            : _content(context, colors),
       ),
     );
     return tooltip == null ? button : Tooltip(message: tooltip!, child: button);
   }
-
   BorderSide _border(Color fallback) {
     if (textOnly) return BorderSide.none;
     if (borderColor != null) return BorderSide(color: borderColor!);
     return outlined ? BorderSide(color: fallback) : BorderSide.none;
   }
-
   ({Color background, Color foreground}) _resolveColors(
     BuildContext context,
   ) {
@@ -163,9 +157,9 @@ class CustomButton extends StatelessWidget {
         foreground: foregroundColor ?? colors.onSurface,
       );
     }
-    final background = backgroundColor ?? colors.inverseSurface;
+    final background = backgroundColor ?? colors.primary;
     final defaultForeground = backgroundColor == null
-        ? colors.onInverseSurface
+        ? colors.onPrimary
         : background == colors.primary
             ? colors.onPrimary
             : AppTheme.foregroundFor(background);
@@ -175,7 +169,9 @@ class CustomButton extends StatelessWidget {
     );
   }
 
-  Widget _content(BuildContext context, Color color) {
+  Widget _content(
+      BuildContext context, ({Color background, Color foreground}) colors) {
+    final color = colors.foreground;
     final label = Text(
       text ?? '',
       style: (textStyle ?? Theme.of(context).textTheme.bodyMedium)
@@ -183,13 +179,19 @@ class CustomButton extends StatelessWidget {
     );
     if (icon == null) return label;
     if (text == null || text!.isEmpty) {
-      return Icon(icon, color: iconColor ?? color, size: iconSize);
+      return Icon(icon,
+          color: AppIconForeground.resolve(context, iconColor ?? color,
+              background: colors.background),
+          size: iconSize);
     }
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(icon, color: iconColor ?? color, size: iconSize),
+        Icon(icon,
+            color: AppIconForeground.resolve(context, iconColor ?? color,
+                background: colors.background),
+            size: iconSize),
         const SizedBox(width: AppControlMetrics.contentGap),
         label,
       ],

@@ -444,6 +444,26 @@ class AppLocalizationsEs extends AppLocalizations {
       'Los gastos y los sobres nuevos usan esta cartera de forma predeterminada.';
 
   @override
+  String get walletSourceChooseAnother => 'Elegir otra cartera';
+
+  @override
+  String walletSourceAmountNeeded(String amount) {
+    return 'Esta transacción necesita $amount.';
+  }
+
+  @override
+  String get walletSourceUseWallet => 'Usar esta cartera';
+
+  @override
+  String get walletSourceSaveWallet => 'Guardar cartera';
+
+  @override
+  String get walletSourceDefaultWallet => 'Cartera predeterminada';
+
+  @override
+  String get walletSourceInsufficientBalance => 'Saldo insuficiente';
+
+  @override
   String get defaultWalletUpdated => 'Cartera predeterminada actualizada.';
 
   @override
@@ -933,4 +953,36 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get authResetSuccess => 'Contraseña restablecida';
+
+  @override
+  String get guestWelcomeTitle => 'Toma el control de tu dinero';
+
+  @override
+  String get guestWelcomeBody =>
+      'Configura tu presupuesto en unos pasos. Puedes empezar sin una cuenta.';
+
+  @override
+  String get guestGetStarted => 'Empezar';
+
+  @override
+  String get guestChoiceTitle => '¿Cómo quieres continuar?';
+
+  @override
+  String get guestChoiceBody =>
+      'Crea una cuenta para sincronizar tu presupuesto o guárdalo en este dispositivo por ahora.';
+
+  @override
+  String get guestContinue => 'Continuar como invitado';
+
+  @override
+  String get guestSyncNow => 'Sincronizar ahora';
+
+  @override
+  String guestCurrencyRatePending(String preferred, String displayed) {
+    return 'Se guardó $preferred. Los importes seguirán en $displayed hasta que haya tipos de cambio disponibles.';
+  }
+
+  @override
+  String get guestCurrencyRateStillUnavailable =>
+      'Los tipos de cambio aún no están disponibles. Vuelve a intentarlo cuando tengas conexión.';
 }

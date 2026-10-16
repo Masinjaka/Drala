@@ -6,6 +6,7 @@ import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_source_option.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class WalletSourceSheet extends StatefulWidget {
   const WalletSourceSheet({
     required this.wallets,
     required this.requiredAmount,
-    this.title = 'Choose another wallet',
+    this.title,
     this.message,
     this.currencyState,
     super.key,
@@ -21,7 +22,7 @@ class WalletSourceSheet extends StatefulWidget {
 
   final List<WalletSummary> wallets;
   final int requiredAmount;
-  final String title;
+  final String? title;
   final String? message;
   final CurrencyState? currencyState;
 
@@ -29,7 +30,7 @@ class WalletSourceSheet extends StatefulWidget {
     BuildContext context, {
     required List<WalletSummary> wallets,
     required int requiredAmount,
-    String title = 'Choose another wallet',
+    String? title,
     String? message,
     CurrencyState? currencyState,
   }) {
@@ -86,14 +87,21 @@ class _WalletSourceSheetState extends State<WalletSourceSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppSheetHeader(
-              title: widget.title,
+              title: widget.title ?? context.l10n.walletSourceChooseAnother,
               onClose: () => Navigator.pop(context),
             ),
             const SizedBox(height: 8),
             PrivacyText(
               widget.message ??
-                  'The transaction needs ${formatAmountWithCurrency(displayRequired, displayCode, preserveFraction: true)}.',
-              hiddenText: widget.message ?? 'The transaction needs ***.',
+                  context.l10n.walletSourceAmountNeeded(
+                    formatAmountWithCurrency(
+                      displayRequired,
+                      displayCode,
+                      preserveFraction: true,
+                    ),
+                  ),
+              hiddenText: widget.message ??
+                  context.l10n.walletSourceAmountNeeded('***'),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
@@ -118,8 +126,9 @@ class _WalletSourceSheetState extends State<WalletSourceSheet> {
             const SizedBox(height: 12),
             CustomButton(
               key: const Key('confirm-wallet-source'),
-              text:
-                  widget.requiredAmount > 0 ? 'Use this wallet' : 'Save wallet',
+              text: widget.requiredAmount > 0
+                  ? context.l10n.walletSourceUseWallet
+                  : context.l10n.walletSourceSaveWallet,
               height: 40,
               borderRadius: BorderRadius.circular(6),
               onPressed: _selectedWalletId == null

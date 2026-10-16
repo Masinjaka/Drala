@@ -78,7 +78,7 @@ class SettingsMenuItem extends StatelessWidget {
   Widget _assetChevron(BuildContext context) => SvgPicture.asset(
         'assets/settings/chevron.svg',
         colorFilter: ColorFilter.mode(
-          AppSettingsTheme.foreground(context),
+          AppSettingsTheme.iconForeground(context),
           BlendMode.srcIn,
         ),
       );

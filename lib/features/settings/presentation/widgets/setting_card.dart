@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class SettingCard extends StatefulWidget {
@@ -78,7 +79,8 @@ class _SettingCardState extends State<SettingCard> {
                     child: Icon(
                       widget.iconData,
                       size: 20,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                      color: AppIconForeground.resolve(context,
+                          Theme.of(context).textTheme.bodyLarge?.color),
                     ),
                   ),
                   SizedBox(width: 16),
@@ -136,7 +138,8 @@ class _SettingCardState extends State<SettingCard> {
                     Icon(
                       Icons.arrow_forward_ios,
                       size: 15,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
+                      color: AppIconForeground.resolve(context,
+                          Theme.of(context).textTheme.bodyLarge?.color),
                     ),
                 ],
               ),

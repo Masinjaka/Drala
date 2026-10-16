@@ -1,6 +1,3 @@
-import 'package:budgets/features/envelopes/presentation/pages/envelope_page.dart';
-import 'package:budgets/features/stats/presentation/pages/finance_stats_page.dart';
-import 'package:budgets/features/settings/presentation/pages/setting_page.dart';
 import 'dart:async';
 
 import 'package:budgets/core/currency/currency_state.dart';
@@ -8,6 +5,8 @@ import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/ai_entry/domain/repositories/ai_entry_repository.dart';
 import 'package:budgets/features/ai_entry/presentation/view_models/ai_entry_view_model.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
+import 'package:budgets/features/envelopes/presentation/pages/envelope_page.dart';
+import 'package:budgets/features/guest/presentation/pages/guest_settings_page.dart';
 import 'package:budgets/features/home/presentation/widgets/chat_home_layout.dart';
 import 'package:budgets/features/home/data/services/home_repository_factory.dart';
 import 'package:budgets/features/home/presentation/widgets/drawer_destination_navigator.dart';
@@ -17,9 +16,10 @@ import 'package:budgets/features/notifications/data/repositories/finance_notific
 import 'package:budgets/features/notifications/domain/repositories/finance_notification_repository.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:budgets/features/stats/domain/repositories/monthly_stats_repository.dart';
+import 'package:budgets/features/stats/presentation/pages/finance_stats_page.dart';
+import 'package:budgets/features/settings/presentation/pages/setting_page.dart';
 import 'package:budgets/features/receipts/domain/repositories/receipt_repository.dart';
 import 'package:flutter/material.dart';
-
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({
     this.today,
@@ -31,9 +31,9 @@ class ChatHomePage extends StatefulWidget {
     this.currencyState,
     this.isCurrencyLoading = false,
     this.notificationRepository,
+    this.isGuest = false,
     super.key,
   });
-
   final DateTime? today;
   final AiEntryRepository? aiEntryRepository;
   final EnvelopeRepository? envelopeRepository;
@@ -43,11 +43,10 @@ class ChatHomePage extends StatefulWidget {
   final CurrencyState? currencyState;
   final bool isCurrencyLoading;
   final FinanceNotificationRepository? notificationRepository;
-
+  final bool isGuest;
   @override
   State<ChatHomePage> createState() => _ChatHomePageState();
 }
-
 class _ChatHomePageState extends State<ChatHomePage> {
   late final DateTime _today;
   late final AiEntryViewModel _aiEntryViewModel;
@@ -55,7 +54,6 @@ class _ChatHomePageState extends State<ChatHomePage> {
   late final FinanceNotificationViewModel _notificationViewModel;
   late DateTime _selectedDate;
   DateTime? _loadedDate;
-
   @override
   void initState() {
     super.initState();
@@ -71,7 +69,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
     _activityCalendarViewModel = ActivityCalendarViewModel(repository);
     _notificationViewModel = FinanceNotificationViewModel(
       widget.notificationRepository ??
-          FinanceNotificationRepositoryFactory.create(),
+          FinanceNotificationRepositoryFactory.create(isGuest: widget.isGuest),
     );
     _aiEntryViewModel.addListener(_syncSelectedActivity);
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -80,7 +78,6 @@ class _ChatHomePageState extends State<ChatHomePage> {
       unawaited(_refreshNotifications());
     });
   }
-
   Future<void> _loadSelectedDate() async {
     final targetDate = _selectedDate;
     try {
@@ -92,22 +89,17 @@ class _ChatHomePageState extends State<ChatHomePage> {
       if (mounted) showErrorToast(context, error);
     }
   }
-
   void _selectDate(DateTime date) {
     setState(() => _selectedDate = DateUtils.dateOnly(date));
     unawaited(_loadSelectedDate());
   }
-
   void _syncSelectedActivity() {
-    if (_loadedDate != _selectedDate || _aiEntryViewModel.isLoading) {
-      return;
-    }
+    if (_loadedDate != _selectedDate || _aiEntryViewModel.isLoading) return;
     _activityCalendarViewModel.setActivity(
       _selectedDate,
       _aiEntryViewModel.entries.isNotEmpty,
     );
   }
-
   void _resetAfterDataDeletion() {
     _activityCalendarViewModel.clear();
     _notificationViewModel.clear();
@@ -117,7 +109,6 @@ class _ChatHomePageState extends State<ChatHomePage> {
       }),
     );
   }
-
   Future<void> _refreshNotifications() async {
     try {
       await _notificationViewModel.load();
@@ -125,7 +116,6 @@ class _ChatHomePageState extends State<ChatHomePage> {
       if (mounted) showErrorToast(context, error);
     }
   }
-
   @override
   void dispose() {
     _aiEntryViewModel.removeListener(_syncSelectedActivity);
@@ -134,14 +124,22 @@ class _ChatHomePageState extends State<ChatHomePage> {
     _aiEntryViewModel.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
-    final destinations = DrawerDestinationNavigator(
+    late final DrawerDestinationNavigator destinations;
+    GuestSettingsPage guestSettings() => GuestSettingsPage(
+          onCategoriesPressed: () => destinations.openCategories(),
+          onWalletsPressed: () => destinations.openWallets(),
+          walletsListenable: _aiEntryViewModel,
+          walletCountReader: () => _aiEntryViewModel.wallets.length,
+        );
+    destinations = DrawerDestinationNavigator(
       context: context,
       closeDrawer: () {},
       onReturn: _aiEntryViewModel.refreshBalances,
-      shouldRunOnReturn: widget.isSignedIn,
+      shouldRunOnReturn: () =>
+          widget.isGuest || (widget.isSignedIn?.call() ?? true),
+      settingsPage: widget.isGuest ? guestSettings() : null,
       envelopeRepository: widget.envelopeRepository,
       statsRepository: widget.statsRepository,
       onDataDeleted: _resetAfterDataDeletion,
@@ -153,23 +151,25 @@ class _ChatHomePageState extends State<ChatHomePage> {
       walletsListenable: _aiEntryViewModel,
       walletReader: () => _aiEntryViewModel.wallets,
     );
-    return NotificationPermissionPrompt(
-      child: ChatHomeLayout(
-        today: _today,
-        viewModel: _aiEntryViewModel,
-        activityCalendarViewModel: _activityCalendarViewModel,
-        currencyState: widget.currencyState,
-        isCurrencyLoading: widget.isCurrencyLoading,
-        onDateSelected: _selectDate,
-        destinations: [
-          EnvelopePage(
-              repository: widget.envelopeRepository,
-              displayCurrency: widget.currencyState,
-              showBackButton: false),
-          FinanceStatsPage(
-              repository: widget.statsRepository,
-              displayCurrency: widget.currencyState,
-              showBackButton: false),
+    final layout = ChatHomeLayout(
+      today: _today,
+      viewModel: _aiEntryViewModel,
+      activityCalendarViewModel: _activityCalendarViewModel,
+      currencyState: widget.currencyState,
+      isCurrencyLoading: widget.isCurrencyLoading,
+      onDateSelected: _selectDate,
+      destinations: [
+        EnvelopePage(
+            repository: widget.envelopeRepository,
+            displayCurrency: widget.currencyState,
+            showBackButton: false),
+        FinanceStatsPage(
+            repository: widget.statsRepository,
+            displayCurrency: widget.currencyState,
+            showBackButton: false),
+        if (widget.isGuest)
+          guestSettings()
+        else
           SettingPage(
             onDataDeleted: _resetAfterDataDeletion,
             showBackButton: false,
@@ -181,17 +181,20 @@ class _ChatHomePageState extends State<ChatHomePage> {
             onCategoriesPressed: destinations.openCategories,
             onWalletsPressed: destinations.openWallets,
           ),
-        ],
-        onActivitiesSelected: () {
-          unawaited(_loadSelectedDate());
-          unawaited(_refreshNotifications());
-        },
-        notificationViewModel: _notificationViewModel,
-        onNotificationsPressed: () => destinations.openNotifications(
-          _notificationViewModel,
-        ),
-        onFinanceChanged: _refreshNotifications,
+      ],
+      onActivitiesSelected: () {
+        unawaited(_loadSelectedDate());
+        unawaited(_refreshNotifications());
+      },
+      notificationViewModel: _notificationViewModel,
+      onNotificationsPressed: () => destinations.openNotifications(
+        _notificationViewModel,
       ),
+      onFinanceChanged: _refreshNotifications,
+      manualOnly: widget.isGuest,
     );
+    return widget.isGuest
+        ? layout
+        : NotificationPermissionPrompt(child: layout);
   }
 }

@@ -30,6 +30,11 @@ abstract final class AppSettingsTheme {
   static Color foreground(BuildContext context) =>
       Theme.of(context).colorScheme.onSurface;
 
+  static Color iconForeground(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Theme.of(context).iconTheme.color!
+          : foreground(context);
+
   static Color logout(BuildContext context) =>
       Theme.of(context).brightness == Brightness.light
           ? _logoutLight

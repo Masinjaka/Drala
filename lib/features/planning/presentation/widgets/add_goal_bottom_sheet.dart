@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/functions/pick_image_with_permissions.dart';
@@ -324,10 +325,12 @@ class _AddGoalBottomSheetState extends ConsumerState<AddGoalBottomSheet> {
                               icon: Icon(
                                 Icons.chevron_left,
                                 size: 25,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.color,
+                                color: AppIconForeground.resolve(
+                                    context,
+                                    Theme.of(context)
+                                        .textTheme
+                                        .bodyLarge
+                                        ?.color),
                               ),
                             ),
                           ),
@@ -523,7 +526,7 @@ class _AddGoalBottomSheetState extends ConsumerState<AddGoalBottomSheet> {
             Icon(
               Icons.add,
               size: 14,
-              color: textColor,
+              color: AppIconForeground.resolve(context, textColor),
             ),
             SizedBox(width: 4),
             Text(
@@ -576,7 +579,7 @@ class _AddGoalBottomSheetState extends ConsumerState<AddGoalBottomSheet> {
       suffixIcon: Icon(
         Icons.calendar_today,
         size: 18,
-        color: Theme.of(context).hintColor,
+        color: AppIconForeground.resolve(context, Theme.of(context).hintColor),
       ),
     );
   }
@@ -633,7 +636,8 @@ class _AddGoalBottomSheetState extends ConsumerState<AddGoalBottomSheet> {
                     child: Icon(
                       Icons.add,
                       size: 18,
-                      color: Theme.of(context).hintColor,
+                      color: AppIconForeground.resolve(
+                          context, Theme.of(context).hintColor),
                     ),
                   ),
           ),

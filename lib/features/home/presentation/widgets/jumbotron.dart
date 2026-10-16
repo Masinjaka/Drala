@@ -1,5 +1,6 @@
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/stats/domain/providers/stats_provider.dart';
 import 'package:budgets/features/stats/presentation/modules/authentication_utils.dart';
@@ -89,7 +90,10 @@ class _JumbotronState extends ConsumerState<Jumbotron> {
                   _isHidden ? Ionicons.eye_off : Ionicons.eye,
                   key: ValueKey(_isHidden),
                   size: 18,
-                  color: textColor.withValues(alpha: 0.5),
+                  color: AppIconForeground.resolve(
+                    context,
+                    textColor.withValues(alpha: 0.5),
+                  ),
                 ),
               ),
             ),

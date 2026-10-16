@@ -443,6 +443,26 @@ class AppLocalizationsEn extends AppLocalizations {
       'Expenses and new envelopes use this wallet by default.';
 
   @override
+  String get walletSourceChooseAnother => 'Choose another wallet';
+
+  @override
+  String walletSourceAmountNeeded(String amount) {
+    return 'The transaction needs $amount.';
+  }
+
+  @override
+  String get walletSourceUseWallet => 'Use this wallet';
+
+  @override
+  String get walletSourceSaveWallet => 'Save wallet';
+
+  @override
+  String get walletSourceDefaultWallet => 'Default wallet';
+
+  @override
+  String get walletSourceInsufficientBalance => 'Insufficient balance';
+
+  @override
   String get defaultWalletUpdated => 'Default wallet updated.';
 
   @override
@@ -931,4 +951,36 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authResetSuccess => 'Password reset successfully';
+
+  @override
+  String get guestWelcomeTitle => 'Take control of your money';
+
+  @override
+  String get guestWelcomeBody =>
+      'Set up your budget in a few steps. You can start without an account.';
+
+  @override
+  String get guestGetStarted => 'Get started';
+
+  @override
+  String get guestChoiceTitle => 'How would you like to continue?';
+
+  @override
+  String get guestChoiceBody =>
+      'Create an account to sync your budget, or keep it on this device for now.';
+
+  @override
+  String get guestContinue => 'Continue as guest';
+
+  @override
+  String get guestSyncNow => 'Sync now';
+
+  @override
+  String guestCurrencyRatePending(String preferred, String displayed) {
+    return '$preferred is saved. Amounts stay in $displayed until exchange rates are available.';
+  }
+
+  @override
+  String get guestCurrencyRateStillUnavailable =>
+      'Exchange rates are still unavailable. Try again when you\'re online.';
 }

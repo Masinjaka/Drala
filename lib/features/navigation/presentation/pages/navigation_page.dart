@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:budgets/core/enums/transaction_type.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/navigation/domain/providers/sub_tab_providers.dart';
 import 'package:budgets/features/planning/presentation/widgets/add_budget_bottom_sheet.dart';
 import 'package:budgets/features/planning/presentation/widgets/add_goal_bottom_sheet.dart';
@@ -160,7 +161,14 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
             onPressed: isFabVisible ? () => _onFabPressed(currentIndex) : null,
             backgroundColor: Theme.of(context).primaryColor,
             shape: const CircleBorder(),
-            child: const Icon(Icons.add, color: Colors.black),
+            child: Icon(
+              Icons.add,
+              color: AppIconForeground.resolve(
+                context,
+                Colors.black,
+                background: Theme.of(context).colorScheme.primary,
+              ),
+            ),
           ),
         ),
       ),
@@ -201,7 +209,11 @@ class _NavigatorPageState extends ConsumerState<NavigatorPage> {
                         isActive ? tab.selectedIcon : tab.unselectedIcon,
                         key: ValueKey('${tab.label}-$isActive'),
                         size: 17.2,
-                        color: isActive ? textColor : hintColor,
+                        color: AppIconForeground.resolve(
+                          context,
+                          (isActive ? textColor : hintColor) ??
+                              Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ),
                     SizedBox(height: 4),

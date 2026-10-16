@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class AddCategoryPill extends StatelessWidget {
@@ -23,7 +24,11 @@ class AddCategoryPill extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.add, size: 14, color: textColor),
+            Icon(
+              Icons.add,
+              size: 14,
+              color: AppIconForeground.resolve(context, textColor),
+            ),
             SizedBox(width: 4),
             Text(
               'Ajouter une catégorie',

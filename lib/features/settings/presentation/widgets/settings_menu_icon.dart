@@ -23,7 +23,7 @@ class SettingsMenuIcon extends StatelessWidget {
             SvgPicture.asset(
               asset,
               colorFilter: ColorFilter.mode(
-                AppSettingsTheme.foreground(context),
+                AppSettingsTheme.iconForeground(context),
                 BlendMode.srcIn,
               ),
             ),

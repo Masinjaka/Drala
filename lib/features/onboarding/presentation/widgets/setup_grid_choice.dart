@@ -1,4 +1,5 @@
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -99,9 +100,12 @@ class _SetupGridChoiceState extends State<SetupGridChoice>
                             : Icons.circle_outlined,
                         key: ValueKey(widget.selected),
                         size: 18,
-                        color: widget.selected
-                            ? AppTheme.homeBanner
-                            : colors.onSurfaceVariant,
+                        color: AppIconForeground.resolve(
+                          context,
+                          widget.selected
+                              ? AppTheme.homeBanner
+                              : colors.onSurfaceVariant,
+                        ),
                       ),
                     ),
                   ],

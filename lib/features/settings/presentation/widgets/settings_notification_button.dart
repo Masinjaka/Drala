@@ -39,7 +39,7 @@ class SettingsNotificationButton extends StatelessWidget {
                   child: SvgPicture.asset(
                     'assets/settings/notification_bell.svg',
                     colorFilter: ColorFilter.mode(
-                      AppSettingsTheme.foreground(context),
+                      AppSettingsTheme.iconForeground(context),
                       BlendMode.srcIn,
                     ),
                   ),

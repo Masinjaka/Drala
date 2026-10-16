@@ -13,24 +13,28 @@ class SetupPageLayout extends StatelessWidget {
   final String subtitle;
   final Widget content;
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
-        child: Column(
-          children: [
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: AppTextTheme.onboardingTitle(context),
-            ),
-            const SizedBox(height: 35),
-            Text(
-              subtitle,
-              textAlign: TextAlign.center,
-              style: AppTextTheme.onboardingBody(context),
-            ),
-            const SizedBox(height: 32),
-            Expanded(child: content),
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).height < 700 ||
+        MediaQuery.textScalerOf(context).scale(1) > 1.3;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(29, 0, 29, 0),
+      child: Column(
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: AppTextTheme.onboardingTitle(context),
+          ),
+          SizedBox(height: compact ? 12 : 35),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: AppTextTheme.onboardingBody(context),
+          ),
+          SizedBox(height: compact ? 12 : 32),
+          Expanded(child: content),
+        ],
+      ),
+    );
+  }
 }

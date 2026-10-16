@@ -1,8 +1,10 @@
+import 'dart:io';
+
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'dart:io';
 import 'package:budgets/widgets/permission_request_dialog.dart';
 import 'package:go_router/go_router.dart';
 import '../../../profile/presentation/controllers/profile_photo_controller.dart';
@@ -76,9 +78,11 @@ class _UploadProfilePhotoPageState
                           ? Icon(
                               Icons.person,
                               size: 50,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
+                              color: AppIconForeground.resolve(
+                                  context,
+                                  Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant),
                             )
                           : ClipOval(
                               child: Image.file(

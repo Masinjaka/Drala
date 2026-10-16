@@ -1,5 +1,8 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+import 'package:budgets/features/home/presentation/widgets/localized_wallet_name.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
 class WalletSourceOption extends StatelessWidget {
@@ -63,7 +66,7 @@ class WalletSourceOption extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        wallet.name,
+                        localizedWalletName(context, wallet),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodyMedium,
@@ -71,7 +74,9 @@ class WalletSourceOption extends StatelessWidget {
                       if (wallet.isDefault || !enabled) ...[
                         const SizedBox(height: 2),
                         Text(
-                          enabled ? 'Default wallet' : 'Insufficient balance',
+                          enabled
+                              ? context.l10n.walletSourceDefaultWallet
+                              : context.l10n.walletSourceInsufficientBalance,
                           style: Theme.of(context).textTheme.labelSmall,
                         ),
                       ],
@@ -89,7 +94,10 @@ class WalletSourceOption extends StatelessWidget {
                       ? Icons.check_circle_rounded
                       : Icons.radio_button_unchecked_rounded,
                   size: 20,
-                  color: selected ? colors.inverseSurface : colors.outline,
+                  color: AppIconForeground.resolve(
+                    context,
+                    selected ? colors.inverseSurface : colors.outline,
+                  ),
                 ),
               ],
             ),

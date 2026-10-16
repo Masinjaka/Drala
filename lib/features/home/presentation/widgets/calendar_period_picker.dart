@@ -1,5 +1,6 @@
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/features/home/presentation/widgets/calendar_label_formatter.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class CalendarPeriodPicker extends StatelessWidget {
@@ -41,7 +42,10 @@ class CalendarPeriodPicker extends StatelessWidget {
                 const SizedBox(width: 4),
                 Icon(
                   Icons.keyboard_arrow_down_rounded,
-                  color: Theme.of(context).colorScheme.inverseSurface,
+                  color: AppIconForeground.resolve(
+                    context,
+                    Theme.of(context).colorScheme.inverseSurface,
+                  ),
                   size: 16,
                 ),
               ],

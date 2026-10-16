@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,11 @@ class EditableProfileAvatar extends StatelessWidget {
                   child: Icon(
                     Icons.camera_alt_outlined,
                     size: 17,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: AppIconForeground.resolve(
+                      context,
+                      Theme.of(context).colorScheme.onPrimary,
+                      background: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                 ),
               ),

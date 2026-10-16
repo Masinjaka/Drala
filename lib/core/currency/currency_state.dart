@@ -1,15 +1,17 @@
 class CurrencyState {
   final String code;
+  final String preferredCode;
   final String baseCode;
   final Map<String, double> rates;
   final DateTime? fetchedAt;
 
   const CurrencyState({
     required this.code,
+    String? preferredCode,
     required this.baseCode,
     required this.rates,
     this.fetchedAt,
-  });
+  }) : preferredCode = preferredCode ?? code;
 
   double rateFor(String currencyCode) {
     final normalized = currencyCode.toUpperCase();
@@ -37,12 +39,14 @@ class CurrencyState {
 
   CurrencyState copyWith({
     String? code,
+    String? preferredCode,
     String? baseCode,
     Map<String, double>? rates,
     DateTime? fetchedAt,
   }) {
     return CurrencyState(
       code: code ?? this.code,
+      preferredCode: preferredCode ?? this.preferredCode,
       baseCode: baseCode ?? this.baseCode,
       rates: rates ?? this.rates,
       fetchedAt: fetchedAt ?? this.fetchedAt,

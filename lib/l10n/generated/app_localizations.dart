@@ -808,6 +808,42 @@ abstract class AppLocalizations {
   /// **'Expenses and new envelopes use this wallet by default.'**
   String get defaultWalletDescription;
 
+  /// No description provided for @walletSourceChooseAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose another wallet'**
+  String get walletSourceChooseAnother;
+
+  /// No description provided for @walletSourceAmountNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'The transaction needs {amount}.'**
+  String walletSourceAmountNeeded(String amount);
+
+  /// No description provided for @walletSourceUseWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this wallet'**
+  String get walletSourceUseWallet;
+
+  /// No description provided for @walletSourceSaveWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save wallet'**
+  String get walletSourceSaveWallet;
+
+  /// No description provided for @walletSourceDefaultWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Default wallet'**
+  String get walletSourceDefaultWallet;
+
+  /// No description provided for @walletSourceInsufficientBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient balance'**
+  String get walletSourceInsufficientBalance;
+
   /// No description provided for @defaultWalletUpdated.
   ///
   /// In en, this message translates to:
@@ -1707,6 +1743,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password reset successfully'**
   String get authResetSuccess;
+
+  /// No description provided for @guestWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take control of your money'**
+  String get guestWelcomeTitle;
+
+  /// No description provided for @guestWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your budget in a few steps. You can start without an account.'**
+  String get guestWelcomeBody;
+
+  /// No description provided for @guestGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get guestGetStarted;
+
+  /// No description provided for @guestChoiceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to continue?'**
+  String get guestChoiceTitle;
+
+  /// No description provided for @guestChoiceBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account to sync your budget, or keep it on this device for now.'**
+  String get guestChoiceBody;
+
+  /// No description provided for @guestContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as guest'**
+  String get guestContinue;
+
+  /// No description provided for @guestSyncNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get guestSyncNow;
+
+  /// No description provided for @guestCurrencyRatePending.
+  ///
+  /// In en, this message translates to:
+  /// **'{preferred} is saved. Amounts stay in {displayed} until exchange rates are available.'**
+  String guestCurrencyRatePending(String preferred, String displayed);
+
+  /// No description provided for @guestCurrencyRateStillUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange rates are still unavailable. Try again when you\'re online.'**
+  String get guestCurrencyRateStillUnavailable;
 }
 
 class _AppLocalizationsDelegate

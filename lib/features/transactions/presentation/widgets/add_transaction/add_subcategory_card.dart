@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class AddSubcategoryCard extends StatelessWidget {
@@ -24,7 +25,8 @@ class AddSubcategoryCard extends StatelessWidget {
           child: Icon(
             Icons.add,
             size: 24,
-            color: Theme.of(context).textTheme.bodyLarge?.color,
+            color: AppIconForeground.resolve(
+                context, Theme.of(context).textTheme.bodyLarge?.color),
           ),
         ),
       ),

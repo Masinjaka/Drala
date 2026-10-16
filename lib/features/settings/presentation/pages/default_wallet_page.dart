@@ -4,6 +4,7 @@ import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+import 'package:budgets/features/home/presentation/widgets/localized_wallet_name.dart';
 import 'package:budgets/features/settings/data/services/default_wallet_service.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_choice_tile.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
@@ -16,14 +17,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class DefaultWalletPage extends ConsumerStatefulWidget {
   const DefaultWalletPage({this.service, super.key});
 
-  final DefaultWalletService? service;
+  final DefaultWalletRepository? service;
 
   @override
   ConsumerState<DefaultWalletPage> createState() => _DefaultWalletPageState();
 }
 
 class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
-  late final DefaultWalletService _service =
+  late final DefaultWalletRepository _service =
       widget.service ?? DefaultWalletService(Supabase.instance.client);
   List<WalletSummary>? _wallets;
   String? _pendingId;
@@ -101,7 +102,7 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
                   items: _wallets!
                       .map(
                         (wallet) => SettingsChoiceTile(
-                          title: wallet.name,
+                          title: localizedWalletName(context, wallet),
                           subtitleWidget: PrivacyText(
                             formatAmountWithCurrency(
                               displayCurrency?.convertToSelected(

@@ -31,6 +31,7 @@ class DrawerDestinationNavigator {
     this.onDeleteWallet,
     this.walletsListenable,
     this.walletReader,
+    this.settingsPage,
   });
 
   final BuildContext context;
@@ -47,9 +48,10 @@ class DrawerDestinationNavigator {
   final Future<void> Function(String)? onDeleteWallet;
   final Listenable? walletsListenable;
   final List<WalletSummary> Function()? walletReader;
+  final Widget? settingsPage;
 
   Future<void> openSettings() => _push(
-        SettingsWithBackPage(onDataDeleted: onDataDeleted),
+        settingsPage ?? SettingsWithBackPage(onDataDeleted: onDataDeleted),
       );
 
   void openPlans() => _push(const PlanPage());

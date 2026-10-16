@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
@@ -50,7 +51,13 @@ class NewBalanceCard extends ConsumerWidget {
               color: Theme.of(context).colorScheme.surfaceDim,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(iconData, color: textColor?.withValues(alpha: 0.7)),
+            child: Icon(
+              iconData,
+              color: AppIconForeground.resolve(
+                context,
+                textColor?.withValues(alpha: 0.7),
+              ),
+            ),
           ),
           SizedBox(height: 16),
           Text(

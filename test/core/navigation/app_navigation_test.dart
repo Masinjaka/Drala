@@ -26,16 +26,14 @@ void main() {
     await tester.pump();
     expect(find.byType(GettingStartedPage), findsOneWidget);
 
-    await tester.tap(find.text('Login'));
+    await tester.tap(find.text('Sign in'));
     await tester.pumpAndSettle();
     expect(find.byType(LoginPage), findsOneWidget);
     await tester.tap(find.byIcon(Icons.arrow_back_rounded));
     await tester.pumpAndSettle();
     expect(find.byType(GettingStartedPage), findsOneWidget);
 
-    navigation.router.go('/getting-started');
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Create account'));
+    navigation.router.go('/signup');
     await tester.pumpAndSettle();
     expect(find.byType(SignUpPage), findsOneWidget);
     await tester.tap(find.byIcon(Icons.arrow_back_rounded));

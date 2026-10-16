@@ -3,6 +3,7 @@ import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_default_badge.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class WalletOverviewCard extends StatelessWidget {
@@ -59,7 +60,9 @@ class WalletOverviewCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Icon(Icons.more_vert_rounded, color: foreground, size: 19),
+                    Icon(Icons.more_vert_rounded,
+                        color: AppIconForeground.resolve(context, foreground),
+                        size: 19),
                   ],
                 ),
                 const Spacer(),

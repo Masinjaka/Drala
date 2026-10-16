@@ -444,6 +444,26 @@ class AppLocalizationsMg extends AppLocalizations {
       'Ity poketra ity no ampiasaina voalohany amin\'ny fandaniana sy valopy vaovao.';
 
   @override
+  String get walletSourceChooseAnother => 'Misafidiana kitapom-bola hafa';
+
+  @override
+  String walletSourceAmountNeeded(String amount) {
+    return 'Mila $amount ity fifanakalozana ity.';
+  }
+
+  @override
+  String get walletSourceUseWallet => 'Ampiasao ity kitapom-bola ity';
+
+  @override
+  String get walletSourceSaveWallet => 'Tehirizo ny kitapom-bola';
+
+  @override
+  String get walletSourceDefaultWallet => 'Kitapom-bola fototra';
+
+  @override
+  String get walletSourceInsufficientBalance => 'Tsy ampy ny vola';
+
+  @override
   String get defaultWalletUpdated =>
       'Nohavaozina ny poketra ampiasaina voalohany.';
 
@@ -936,4 +956,36 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get authResetSuccess => 'Vita ny famerenana ny teny miafina';
+
+  @override
+  String get guestWelcomeTitle => 'Tantano ny volanao';
+
+  @override
+  String get guestWelcomeBody =>
+      'Amboary amin\'ny dingana vitsivitsy ny teti-bolanao. Afaka manomboka tsy misy kaonty ianao.';
+
+  @override
+  String get guestGetStarted => 'Hanomboka';
+
+  @override
+  String get guestChoiceTitle => 'Ahoana no tianao hanohizana?';
+
+  @override
+  String get guestChoiceBody =>
+      'Mamoròna kaonty hampifanarahana ny teti-bolanao, na tehirizo amin\'ity fitaovana ity aloha.';
+
+  @override
+  String get guestContinue => 'Hanohy tsy misy kaonty';
+
+  @override
+  String get guestSyncNow => 'Ampifanaraho izao';
+
+  @override
+  String guestCurrencyRatePending(String preferred, String displayed) {
+    return 'Voatahiry ny $preferred. Mbola aseho amin\'ny $displayed ny vola mandra-pahazoana ny tahan\'ny fifanakalozana.';
+  }
+
+  @override
+  String get guestCurrencyRateStillUnavailable =>
+      'Mbola tsy misy ny tahan\'ny fifanakalozana. Andramo indray rehefa misy aterineto.';
 }

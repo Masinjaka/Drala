@@ -23,6 +23,14 @@ const categoryPresetNames = <String, Map<String, String>>{
     'es': 'Transporte',
     'it': 'Trasporti',
   },
+  'housing': {
+    'en': 'Housing',
+    'fr': 'Logement',
+    'mg': 'Trano',
+    'de': 'Wohnen',
+    'es': 'Vivienda',
+    'it': 'Casa',
+  },
   'health': {
     'en': 'Health',
     'fr': 'Santé',
@@ -47,6 +55,14 @@ const categoryPresetNames = <String, Map<String, String>>{
     'es': 'Entretenimiento',
     'it': 'Intrattenimento',
   },
+  'education': {
+    'en': 'Education',
+    'fr': 'Éducation',
+    'mg': 'Fanabeazana',
+    'de': 'Bildung',
+    'es': 'Educación',
+    'it': 'Istruzione',
+  },
   'salary': {
     'en': 'Salary',
     'fr': 'Salaire',
@@ -62,5 +78,21 @@ const categoryPresetNames = <String, Map<String, String>>{
     'de': 'Nebenjob',
     'es': 'Trabajo extra',
     'it': 'Lavoro extra',
+  },
+  'other_expense': {
+    'en': 'Other',
+    'fr': 'Autre',
+    'mg': 'Hafa',
+    'de': 'Sonstiges',
+    'es': 'Otros',
+    'it': 'Altro',
+  },
+  'other_income': {
+    'en': 'Other income',
+    'fr': 'Autres revenus',
+    'mg': 'Fidiram-bola hafa',
+    'de': 'Sonstige Einnahmen',
+    'es': 'Otros ingresos',
+    'it': 'Altri redditi',
   },
 };

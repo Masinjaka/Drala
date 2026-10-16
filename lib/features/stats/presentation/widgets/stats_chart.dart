@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -163,7 +164,8 @@ class _StatsChartState extends ConsumerState<StatsChart> {
                     icon: Icon(
                       Icons.keyboard_arrow_down_rounded,
                       size: 18,
-                      color: textColor?.withValues(alpha: 0.5),
+                      color: AppIconForeground.resolve(
+                          context, textColor?.withValues(alpha: 0.5)),
                     ),
                     items: dropdownWeeks
                         .map(

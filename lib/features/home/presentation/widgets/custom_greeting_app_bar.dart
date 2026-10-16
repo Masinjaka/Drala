@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +117,10 @@ class CustomGreetingAppBar extends ConsumerWidget
                       icon: Icon(
                         Icons.notifications_none_rounded,
                         size: 18,
-                        color: Theme.of(context).colorScheme.inverseSurface,
+                        color: AppIconForeground.resolve(
+                          context,
+                          Theme.of(context).colorScheme.inverseSurface,
+                        ),
                       ),
                       onPressed: onNotificationPressed),
                 ),

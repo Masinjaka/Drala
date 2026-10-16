@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,10 @@ class MetricSurfaceCard extends StatelessWidget {
             Icon(
               icon,
               size: 22,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              color: AppIconForeground.resolve(
+                context,
+                Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           const Spacer(),
           if (maskValue)

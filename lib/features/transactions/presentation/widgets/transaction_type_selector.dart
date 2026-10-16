@@ -1,4 +1,5 @@
 import 'package:budgets/core/enums/transaction_type.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TransactionTypeSelector extends StatelessWidget {
@@ -17,44 +18,41 @@ class TransactionTypeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 34,
-      padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        border: Border.all(
-            color: Theme.of(context).colorScheme.onSurface, width: 1.2),
-        borderRadius: BorderRadius.circular(7),
-      ),
-      child: Row(children: [
-        _segment(context, TransactionType.income, incomeLabel),
-        _segment(context, TransactionType.expense, expenseLabel),
-      ]),
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
+    final labelStyle = theme.textTheme.labelSmall?.copyWith(
+      color: colors.onSurface,
     );
-  }
-
-  Widget _segment(BuildContext context, TransactionType type, String label) {
-    final selected = value == type;
-    final colors = Theme.of(context).colorScheme;
-    return Expanded(
-      child: InkWell(
-        key: ValueKey('transaction-type-${type.value}'),
-        onTap: () => onChanged(type),
-        borderRadius: BorderRadius.circular(5),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOutCubic,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: selected ? colors.inverseSurface : Colors.transparent,
-            borderRadius: BorderRadius.circular(5),
+    return SizedBox(
+      width: double.infinity,
+      height: 34,
+      child: CupertinoSlidingSegmentedControl<TransactionType>(
+        groupValue: value,
+        backgroundColor: colors.surfaceContainer,
+        thumbColor: colors.outline,
+        onValueChanged: (type) {
+          if (type != null) onChanged(type);
+        },
+        children: {
+          TransactionType.income: Padding(
+            key: const ValueKey('transaction-type-income'),
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              incomeLabel,
+              textAlign: TextAlign.center,
+              style: labelStyle,
+            ),
           ),
-          child: Text(
-            label,
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  color: selected ? colors.onInverseSurface : colors.onSurface,
-                ),
+          TransactionType.expense: Padding(
+            key: const ValueKey('transaction-type-expense'),
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              expenseLabel,
+              textAlign: TextAlign.center,
+              style: labelStyle,
+            ),
           ),
-        ),
+        },
       ),
     );
   }

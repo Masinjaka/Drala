@@ -1,5 +1,6 @@
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/stats/domain/providers/selected_date_provider.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:vibration/vibration.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -197,7 +198,9 @@ class _BouncingIconState extends State<_BouncingIcon>
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: ScaleTransition(
           scale: _scaleAnimation,
-          child: Icon(widget.icon, size: widget.size, color: widget.color),
+          child: Icon(widget.icon,
+              size: widget.size,
+              color: AppIconForeground.resolve(context, widget.color)),
         ),
       ),
     );

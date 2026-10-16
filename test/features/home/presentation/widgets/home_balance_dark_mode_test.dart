@@ -1,5 +1,6 @@
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/features/home/presentation/widgets/home_balance_card.dart';
+import 'package:budgets/features/home/presentation/widgets/home_balance_eye_painter.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -23,9 +24,13 @@ void main() {
 
     final card =
         tester.widget<Container>(find.byKey(const Key('home-balance-card')));
-    expect((card.decoration as BoxDecoration).color,
-        AppTheme.darkTheme.colorScheme.surfaceContainerLowest);
+    expect((card.decoration as BoxDecoration).color, AppTheme.homeBanner);
     expect((card.decoration as BoxDecoration).color,
         isNot(AppTheme.darkTheme.scaffoldBackgroundColor));
+    final eye = tester.widget<CustomPaint>(
+      find.byKey(const Key('home-balance-eye')),
+    );
+    expect((eye.painter as HomeBalanceEyePainter).color,
+        AppTheme.darkTheme.colorScheme.onPrimary);
   });
 }

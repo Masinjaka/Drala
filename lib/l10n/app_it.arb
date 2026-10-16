@@ -159,6 +159,12 @@
   "searchCurrency": "Cerca una valuta",
   "errorWithMessage": "Errore: {message}",
   "defaultWalletDescription": "Le spese e le nuove buste usano questo portafoglio per impostazione predefinita.",
+  "walletSourceChooseAnother": "Scegli un altro portafoglio",
+  "walletSourceAmountNeeded": "Questa transazione richiede {amount}.",
+  "walletSourceUseWallet": "Usa questo portafoglio",
+  "walletSourceSaveWallet": "Salva portafoglio",
+  "walletSourceDefaultWallet": "Portafoglio predefinito",
+  "walletSourceInsufficientBalance": "Saldo insufficiente",
   "defaultWalletUpdated": "Portafoglio predefinito aggiornato.",
   "termsIntro": "Questi termini spiegano le regole per usare Drala.",
   "termsDetails": "Usa Drala solo per gestire legalmente le tue finanze personali. Sei responsabile di verificare le voci create dall'IA prima di farvi affidamento. La disponibilità del servizio può cambiare con l'evoluzione dell'app.",
@@ -343,5 +349,14 @@
   "authVerificationCode": "Codice di verifica",
   "authEnterSixDigitCode": "Inserisci il codice a 6 cifre",
   "authResetButton": "Reimposta password",
-  "authResetSuccess": "Password reimpostata"
+  "authResetSuccess": "Password reimpostata",
+  "guestWelcomeTitle": "Prendi il controllo del tuo denaro",
+  "guestWelcomeBody": "Imposta il tuo budget in pochi passaggi. Puoi iniziare senza un account.",
+  "guestGetStarted": "Inizia",
+  "guestChoiceTitle": "Come vuoi continuare?",
+  "guestChoiceBody": "Crea un account per sincronizzare il budget oppure conservalo su questo dispositivo per ora.",
+  "guestContinue": "Continua come ospite",
+  "guestSyncNow": "Sincronizza ora",
+  "guestCurrencyRatePending": "La scelta {preferred} è stata salvata. Gli importi restano in {displayed} finché i tassi di cambio non sono disponibili.",
+  "guestCurrencyRateStillUnavailable": "I tassi di cambio non sono ancora disponibili. Riprova quando sei online."
 }

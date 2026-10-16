@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -37,7 +38,10 @@ class EmptyStatePhrase extends StatelessWidget {
                   child: FaIcon(
                     icon,
                     size: 24,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: AppIconForeground.resolve(
+                      context,
+                      Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class ReceiptInputOption extends StatelessWidget {
@@ -23,7 +24,8 @@ class ReceiptInputOption extends StatelessWidget {
             Icon(
               icon,
               size: 23,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: AppIconForeground.resolve(
+                  context, Theme.of(context).colorScheme.onSurface),
             ),
             const SizedBox(width: 8),
             Text(

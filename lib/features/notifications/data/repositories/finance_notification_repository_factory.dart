@@ -7,7 +7,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class FinanceNotificationRepositoryFactory {
   const FinanceNotificationRepositoryFactory._();
 
-  static FinanceNotificationRepository create() {
+  static FinanceNotificationRepository create({bool isGuest = false}) {
+    if (isGuest) return const EmptyFinanceNotificationRepository();
     try {
       return SupabaseFinanceNotificationRepository(
         FinanceNotificationService(Supabase.instance.client),

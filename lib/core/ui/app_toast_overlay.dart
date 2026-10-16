@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:budgets/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -97,7 +98,9 @@ class _AppToastOverlayState extends State<AppToastOverlay> {
               Icon(
                 widget.icon,
                 size: 17,
-                color: Colors.white,
+                color: widget.color == AppTheme.primaryGreen
+                    ? AppTheme.interactiveTextColor
+                    : Colors.white,
               ),
               const SizedBox(width: 8),
               Flexible(

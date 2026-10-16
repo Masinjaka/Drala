@@ -25,25 +25,29 @@ class AppTheme {
   static Color onboardingChoiceForeground(BuildContext context,
           {required bool selected}) =>
       selected
-          ? Theme.of(context).colorScheme.onInverseSurface
+          ? Theme.of(context).brightness == Brightness.light
+              ? homeBannerText
+              : Theme.of(context).colorScheme.onInverseSurface
           : Theme.of(context).colorScheme.onSurface;
 
   static const String fontFamily = 'Alexandria';
 
-  static const Color backgroundDark = Color(0xFF202123);
-  static const Color secondaryDark = Color(0xFF2E3033);
-  static const Color borderColorDark = Color(0xFF56595D);
+  static const Color backgroundDark = Color(0xFF1E1E24);
+  static const Color secondaryDark = Color(0xFF2C2B33);
+  static const Color borderColorDark = Color(0xFF595862);
   static const Color primaryGreen = Color(0xFF10B981);
+  static const Color palettePeach = Color(0xFFFB9F89);
+  static const Color paletteTaupe = Color(0xFFC4AF9A);
+  static const Color paletteLavender = Color(0xFF8E8DBE);
   static const Color onboardingBlue = Color(0xFFBDE5FB);
   static const Color onboardingYellow = Color(0xFFF3FAC7);
-  static const Color onboardingPink = Color(0xFFFBC8C7);
-  static const Color onboardingLavender = Color(0xFFD7DAFF);
+  static const Color onboardingPink = palettePeach;
+  static const Color onboardingLavender = paletteLavender;
   static const Color onboardingPaleBlue = Color(0xFFE7F5FC);
-  static const Color onboardingPalePink = Color(0xFFFCEAEA);
-  static const Color homeBanner = Color(0xFF343434);
-  static const Color homeBannerText = Color(0xFFF4F4F4);
-  static const Color secondaryGreen = Color(0xff4C8352);
-  static const Color dangerColor = Color(0xFFE57373);
+  static const Color onboardingPalePink = paletteTaupe;
+  static const Color homeBanner = primaryGreen;
+  static const Color homeBannerText = interactiveTextColor;
+  static const Color dangerColor = Color(0xFFC85E4B);
   static const Color errorLight = Color.fromARGB(255, 233, 21, 6);
   static const Color errorDark = Color.fromARGB(255, 233, 21, 6);
   static const Color positiveAmountLight = Color(0xFF006D4E);
@@ -51,7 +55,7 @@ class AppTheme {
   static const Color neutralSurface = Color(0xFFF3F3F3);
   static const Color textDark = Color(0xFFF5F5F5);
   static const Color mutedTextDark = Color(0xFFD0D0D0);
-  static const Color raisedSurfaceDark = Color(0xFF3B3D40);
+  static const Color raisedSurfaceDark = Color(0xFF3B3A43);
   static const Color skeletonBaseDark = Color(0xFF585B5F);
   static const Color skeletonHighlightDark = Color(0xFF8A8E93);
   static const Color skeletonBaseLight = Color(0xFFD9DEE3);
@@ -64,11 +68,11 @@ class AppTheme {
   static const Color mutedTextLight = Color(0xFF606060);
   static const Color borderColorLight = Color(0xFFD8D8D8);
   static const Color incomeBadgeLight = Color(0xFFB9E5C7);
-  static const Color expenseBadgeLight = Color(0xFFF3C1C1);
-  static const Color transferBadgeLight = Color(0xFFB9D5F5);
+  static const Color expenseBadgeLight = palettePeach;
+  static const Color transferBadgeLight = paletteLavender;
   static const Color incomeBadgeDark = Color(0xFF244C3F);
-  static const Color expenseBadgeDark = Color(0xFF533336);
-  static const Color transferBadgeDark = Color(0xFF29405B);
+  static const Color expenseBadgeDark = Color(0xFF583B35);
+  static const Color transferBadgeDark = Color(0xFF37364F);
   static const Color interactiveTextColor = Colors.black;
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
@@ -91,19 +95,28 @@ class AppTheme {
       backgroundColor: backgroundLight,
     ),
     tabBarTheme: const TabBarThemeData(
-      indicatorColor: backgroundDark,
-      labelColor: backgroundLight,
+      indicatorColor: paletteLavender,
+      labelColor: interactiveTextColor,
       unselectedLabelColor: textLight,
     ),
-    elevatedButtonTheme: AppButtonTheme.elevated(Brightness.light),
+    elevatedButtonTheme: AppButtonTheme.elevated(
+      Brightness.light,
+      background: primaryGreen,
+      foreground: interactiveTextColor,
+    ),
     textButtonTheme: AppButtonTheme.text(Brightness.light),
     outlinedButtonTheme: AppButtonTheme.outlined(Brightness.light),
-    filledButtonTheme: AppButtonTheme.filled(Brightness.light),
-    iconButtonTheme: AppIconButtonTheme.data,
+    filledButtonTheme: AppButtonTheme.filled(
+      Brightness.light,
+      background: primaryGreen,
+      foreground: interactiveTextColor,
+    ),
+    iconButtonTheme: AppIconButtonTheme.data(Brightness.light),
     colorScheme: const ColorScheme.light(
       primary: primaryGreen,
       onPrimary: interactiveTextColor,
-      secondary: secondaryGreen,
+      secondary: paletteTaupe,
+      onSecondary: interactiveTextColor,
       error: errorLight,
       onError: Colors.white,
       surface: secondaryLight,
@@ -131,31 +144,40 @@ class AppTheme {
     textSelectionTheme: const TextSelectionThemeData(
       cursorColor: Colors.white,
     ),
-    iconTheme: const IconThemeData(color: textDark),
+    iconTheme: const IconThemeData(color: Colors.white),
     textTheme: AppTextTheme.create(textDark),
     appBarTheme: const AppBarTheme(
       backgroundColor: backgroundDark,
       elevation: 0,
-      iconTheme: IconThemeData(color: textDark),
+      iconTheme: IconThemeData(color: Colors.white),
     ),
     dialogTheme: const DialogThemeData(backgroundColor: secondaryDark),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: secondaryDark,
     ),
     tabBarTheme: const TabBarThemeData(
-      indicatorColor: backgroundLight,
-      labelColor: backgroundDark,
+      indicatorColor: paletteLavender,
+      labelColor: interactiveTextColor,
       unselectedLabelColor: textDark,
     ),
-    elevatedButtonTheme: AppButtonTheme.elevated(Brightness.dark),
+    elevatedButtonTheme: AppButtonTheme.elevated(
+      Brightness.dark,
+      background: primaryGreen,
+      foreground: interactiveTextColor,
+    ),
     textButtonTheme: AppButtonTheme.text(Brightness.dark),
     outlinedButtonTheme: AppButtonTheme.outlined(Brightness.dark),
-    filledButtonTheme: AppButtonTheme.filled(Brightness.dark),
-    iconButtonTheme: AppIconButtonTheme.data,
+    filledButtonTheme: AppButtonTheme.filled(
+      Brightness.dark,
+      background: primaryGreen,
+      foreground: interactiveTextColor,
+    ),
+    iconButtonTheme: AppIconButtonTheme.data(Brightness.dark),
     colorScheme: const ColorScheme.dark(
       primary: primaryGreen,
       onPrimary: interactiveTextColor,
-      secondary: secondaryGreen,
+      secondary: paletteTaupe,
+      onSecondary: interactiveTextColor,
       error: errorDark,
       onError: interactiveTextColor,
       surface: secondaryDark,

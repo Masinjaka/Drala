@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -24,13 +25,18 @@ class CategoryEmojiPicker extends StatelessWidget {
             ),
             categoryViewConfig: CategoryViewConfig(
               backgroundColor: colors.surfaceContainer,
-              iconColor: colors.onSurfaceVariant,
-              iconColorSelected: colors.onSurface,
+              iconColor:
+                  AppIconForeground.resolve(context, colors.onSurfaceVariant),
+              iconColorSelected:
+                  AppIconForeground.resolve(context, colors.onSurface),
+              backspaceColor:
+                  AppIconForeground.resolve(context, colors.onSurface),
               indicatorColor: colors.primary,
             ),
             searchViewConfig: SearchViewConfig(
               backgroundColor: colors.surfaceContainerLowest,
-              buttonIconColor: colors.onSurface,
+              buttonIconColor:
+                  AppIconForeground.resolve(context, colors.onSurface),
               hintTextStyle: Theme.of(context).textTheme.bodySmall,
               inputTextStyle: Theme.of(context).textTheme.bodySmall,
             ),

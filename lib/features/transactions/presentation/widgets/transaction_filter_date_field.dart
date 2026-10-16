@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class TransactionFilterDateField extends StatelessWidget {
@@ -45,7 +46,7 @@ class TransactionFilterDateField extends StatelessWidget {
         hintText: hint,
         suffixIcon: Icon(
           Icons.calendar_month_outlined,
-          color: colors.onSurface,
+          color: AppIconForeground.resolve(context, colors.onSurface),
         ),
       ),
     );

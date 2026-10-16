@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/presentation/widgets/finance_entry_amount_badge.dart';
@@ -73,9 +74,11 @@ class FinanceEntryItem extends StatelessWidget {
                             child: Icon(
                               Icons.mail_outline_rounded,
                               size: 14,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
+                              color: AppIconForeground.resolve(
+                                  context,
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant),
                             ),
                           ),
                         ],

@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 
 class ThemeSettingsPage extends ConsumerWidget {
-  const ThemeSettingsPage({super.key});
+  const ThemeSettingsPage({this.onSelected, super.key});
+
+  final Future<void> Function(String)? onSelected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,7 +48,10 @@ class ThemeSettingsPage extends ConsumerWidget {
       leading: Icon(icon, size: 20),
       selected: current == mode,
       showSelectionIndicator: true,
-      onTap: () => ref.read(themeProvider.notifier).setTheme(option),
+      onTap: () async {
+        await ref.read(themeProvider.notifier).setTheme(option);
+        await onSelected?.call(option.name);
+      },
     );
   }
 }

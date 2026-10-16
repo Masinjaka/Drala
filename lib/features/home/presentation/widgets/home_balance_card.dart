@@ -25,9 +25,7 @@ class HomeBalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final bannerColor = theme.brightness == Brightness.dark
-        ? theme.colorScheme.surfaceContainerLowest
-        : HomeColors.banner;
+    const bannerColor = HomeColors.banner;
     final labelStyle = theme.textTheme.labelSmall!.copyWith(
       color: AppTheme.homeBannerText,
     );

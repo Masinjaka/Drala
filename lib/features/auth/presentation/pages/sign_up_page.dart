@@ -1,5 +1,7 @@
 import 'package:budgets/features/auth/domain/providers/auth_providers.dart';
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
+import 'package:budgets/features/auth/presentation/post_sign_up_destination.dart';
+import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/core/legal/legal_document_launcher.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/auth/presentation/widgets/auth_header.dart';
@@ -149,6 +151,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     }
     setState(() => _isLoading = true);
     try {
+      final guest = ref.read(guestSessionProvider);
+      final completedGuestOnboarding =
+          guest?.isActive == true && guest!.onboardingComplete;
       await ref.read(authControllerProvider.notifier).signUp(
             email: _emailController.text.trim(),
             password: _passwordController.text,
@@ -157,12 +162,16 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
       if (!mounted) return;
       final hasSession = await ref.read(authRepositoryProvider).hasSession();
       if (!mounted) return;
-      if (hasSession) {
-        context.go('/onboarding');
-      } else {
-        showInfoToast(context, context.l10n.authConfirmEmail);
-        context.go('/login');
+      if (!hasSession && completedGuestOnboarding) {
+        await guest.markChoiceSeen();
+        if (!mounted) return;
       }
+      final destination = postSignUpDestination(
+        hasSession: hasSession,
+        completedGuestOnboarding: completedGuestOnboarding,
+      );
+      if (!hasSession) showInfoToast(context, context.l10n.authConfirmEmail);
+      context.go(destination);
     } catch (error, stackTrace) {
       debugPrint('[SignUpPage] signUp submission error: $error');
       debugPrint('[SignUpPage] signUp submission stackTrace: $stackTrace');

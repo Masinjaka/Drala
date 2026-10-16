@@ -25,12 +25,21 @@ void main() {
     expect(decorator.decoration.fillColor, AppTheme.neutralSurface);
   });
 
-  testWidgets('default button colors reverse in dark mode', (tester) async {
+  testWidgets('default button uses primary green in both themes',
+      (tester) async {
     await _pumpControls(tester, AppTheme.lightTheme);
-    _expectButtonColors(tester, Colors.black, Colors.white);
+    _expectButtonColors(
+      tester,
+      AppTheme.primaryGreen,
+      AppTheme.interactiveTextColor,
+    );
 
     await _pumpControls(tester, AppTheme.darkTheme);
-    _expectButtonColors(tester, Colors.white, Colors.black);
+    _expectButtonColors(
+      tester,
+      AppTheme.primaryGreen,
+      AppTheme.interactiveTextColor,
+    );
   });
 }
 

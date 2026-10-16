@@ -23,6 +23,7 @@ class HomeDashboard extends StatelessWidget {
     this.currencyState,
     this.activityCalendarViewModel,
     this.isCurrencyLoading = false,
+    this.manualOnly = false,
     super.key,
   });
 
@@ -35,6 +36,7 @@ class HomeDashboard extends StatelessWidget {
   final CurrencyState? currencyState;
   final ActivityCalendarViewModel? activityCalendarViewModel;
   final bool isCurrencyLoading;
+  final bool manualOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class HomeDashboard extends StatelessWidget {
                       currencyState?.code ?? viewModel.walletCurrencyCode,
                 ),
               ),
-              ad: const HomeNativeAd(),
+              ad: manualOnly ? null : const HomeNativeAd(),
               calendarBuilder: (compact, onVisibilityChanged) => HomeWeekPanel(
                 onControlsVisibilityChanged: onVisibilityChanged,
                 compact: compact,
@@ -87,7 +89,7 @@ class HomeDashboard extends StatelessWidget {
                   await onFinanceChanged();
                 },
               ),
-              composer: ChatInputBar(
+              composer: manualOnly ? null : ChatInputBar(
                 isSubmitting: viewModel.isSubmitting,
                 currencyCode:
                     currencyState?.code ?? viewModel.walletCurrencyCode,
@@ -96,9 +98,11 @@ class HomeDashboard extends StatelessWidget {
                 onSubmit: (message) => _refreshAfter(
                   () => actions.submitMessage(context, message),
                 ),
-                onReceiptSubmit: (input) => _refreshAfter(
-                  () => actions.submitReceipt(context, input),
-                ),
+                onReceiptSubmit: manualOnly
+                    ? null
+                    : (input) => _refreshAfter(
+                          () => actions.submitReceipt(context, input),
+                        ),
                 onManualEntryRequested: () async {
                   await actions.addManual(context);
                   await onFinanceChanged();

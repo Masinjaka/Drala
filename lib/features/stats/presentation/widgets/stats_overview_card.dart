@@ -1,3 +1,4 @@
+import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/stats/domain/models/monthly_stats.dart';
@@ -46,14 +47,14 @@ class StatsOverviewCard extends StatelessWidget {
                 child: _value(
                   'Income',
                   stats.income,
-                  const Color(0xFF75C58C),
+                  AppTheme.primaryGreen,
                 ),
               ),
               Expanded(
                 child: _value(
                   'Expenses',
                   stats.expenses,
-                  const Color(0xFFF07868),
+                  AppTheme.palettePeach,
                 ),
               ),
             ],

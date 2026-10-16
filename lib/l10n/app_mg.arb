@@ -159,6 +159,12 @@
   "searchCurrency": "Mitady vola",
   "errorWithMessage": "Hadisoana: {message}",
   "defaultWalletDescription": "Ity poketra ity no ampiasaina voalohany amin'ny fandaniana sy valopy vaovao.",
+  "walletSourceChooseAnother": "Misafidiana kitapom-bola hafa",
+  "walletSourceAmountNeeded": "Mila {amount} ity fifanakalozana ity.",
+  "walletSourceUseWallet": "Ampiasao ity kitapom-bola ity",
+  "walletSourceSaveWallet": "Tehirizo ny kitapom-bola",
+  "walletSourceDefaultWallet": "Kitapom-bola fototra",
+  "walletSourceInsufficientBalance": "Tsy ampy ny vola",
   "defaultWalletUpdated": "Nohavaozina ny poketra ampiasaina voalohany.",
   "termsIntro": "Manazava ny fitsipika fampiasana an'i Drala ireo fepetra ireo.",
   "termsDetails": "Ampiasao amin'ny fitantanana ara-dalàna ny volanao manokana ihany i Drala. Anjaranao ny manamarina ireo firaketana noforonin'ny AI alohan'ny hianteherana aminy. Mety hiova ny fisian'ny tolotra rehefa mivoatra ny fampiharana.",
@@ -343,5 +349,14 @@
   "authVerificationCode": "Kaody fanamarinana",
   "authEnterSixDigitCode": "Ampidiro ny kaody 6 isa",
   "authResetButton": "Avereno ny teny miafina",
-  "authResetSuccess": "Vita ny famerenana ny teny miafina"
+  "authResetSuccess": "Vita ny famerenana ny teny miafina",
+  "guestWelcomeTitle": "Tantano ny volanao",
+  "guestWelcomeBody": "Amboary amin'ny dingana vitsivitsy ny teti-bolanao. Afaka manomboka tsy misy kaonty ianao.",
+  "guestGetStarted": "Hanomboka",
+  "guestChoiceTitle": "Ahoana no tianao hanohizana?",
+  "guestChoiceBody": "Mamoròna kaonty hampifanarahana ny teti-bolanao, na tehirizo amin'ity fitaovana ity aloha.",
+  "guestContinue": "Hanohy tsy misy kaonty",
+  "guestSyncNow": "Ampifanaraho izao",
+  "guestCurrencyRatePending": "Voatahiry ny {preferred}. Mbola aseho amin'ny {displayed} ny vola mandra-pahazoana ny tahan'ny fifanakalozana.",
+  "guestCurrencyRateStillUnavailable": "Mbola tsy misy ny tahan'ny fifanakalozana. Andramo indray rehefa misy aterineto."
 }

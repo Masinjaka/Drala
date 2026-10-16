@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,8 @@ class FinanceNotificationsEmptyState extends StatelessWidget {
             Icon(
               Icons.notifications_none_rounded,
               size: 38,
-              color: colors.onSurfaceVariant,
+              color:
+                  AppIconForeground.resolve(context, colors.onSurfaceVariant),
             ),
             const SizedBox(height: 12),
             Text(

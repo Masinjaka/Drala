@@ -1,8 +1,10 @@
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+import 'package:budgets/features/home/presentation/widgets/localized_wallet_name.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_source_sheet.dart';
 import 'package:budgets/features/settings/data/services/default_wallet_service.dart';
 import 'package:budgets/features/settings/presentation/widgets/setting_card.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -54,14 +56,14 @@ class _DefaultWalletSettingCardState extends State<DefaultWalletSettingCard> {
       context,
       wallets: _wallets,
       requiredAmount: 0,
-      title: 'Default wallet',
-      message: 'Expenses and new envelopes use this wallet by default.',
+      title: context.l10n.setDefaultWallet,
+      message: context.l10n.defaultWalletDescription,
     );
     if (walletId == null) return;
     try {
       await _service!.setDefault(walletId);
       await _load();
-      if (mounted) showSuccessToast(context, 'Default wallet updated.');
+      if (mounted) showSuccessToast(context, context.l10n.defaultWalletUpdated);
     } catch (error) {
       if (mounted) showErrorToast(context, error);
     }
@@ -70,11 +72,13 @@ class _DefaultWalletSettingCardState extends State<DefaultWalletSettingCard> {
   @override
   Widget build(BuildContext context) {
     return SettingCard(
-      title: 'Portefeuille par défaut',
+      title: context.l10n.setDefaultWallet,
       iconData: Icons.account_balance_wallet_outlined,
       onTap: _choose,
       showSuffixSettingChoice: true,
-      settingChoice: _defaultWallet?.name ?? '...',
+      settingChoice: _defaultWallet == null
+          ? '...'
+          : localizedWalletName(context, _defaultWallet!),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/planning/data/datasources/budget_history_datasource.dart';
 import 'package:budgets/features/planning/domain/models/budget_history_model.dart';
 import 'package:budgets/features/planning/domain/providers/budget_history_provider.dart';
@@ -76,7 +77,8 @@ class BudgetHistoryCard extends ConsumerWidget {
             Icon(
               Icons.inbox_outlined,
               size: 24,
-              color: textColor?.withValues(alpha: 0.3),
+              color: AppIconForeground.resolve(
+                  context, textColor?.withValues(alpha: 0.3)),
             ),
             SizedBox(height: 8),
             Text(

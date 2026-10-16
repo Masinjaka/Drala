@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/value_skeleton.dart';
 import 'package:budgets/core/ui/scroll_edge_fade.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
@@ -132,9 +133,11 @@ class CategoryTabContent extends ConsumerWidget {
                                 if (snapshot.data == true) {
                                   return Icon(
                                     Icons.lock_outline,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
+                                    color: AppIconForeground.resolve(
+                                        context,
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant),
                                     size: 14,
                                   );
                                 }

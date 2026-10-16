@@ -31,4 +31,22 @@ void main() {
       expect(mga.convertSelectedToMga(200), 200);
     });
   });
+
+  test('keeps an offline preference separate from the safe display code', () {
+    const currency = CurrencyState(
+      code: 'MGA',
+      preferredCode: 'EUR',
+      baseCode: 'MGA',
+      rates: {'MGA': 1},
+    );
+
+    expect(currency.preferredCode, 'EUR');
+    expect(currency.convertToSelected(1000, 'MGA'), 1000);
+    expect(
+        currency
+            .copyWith(rates: const {'MGA': 1, 'EUR': 0.0002})
+            .copyWith(code: 'EUR')
+            .preferredCode,
+        'EUR');
+  });
 }

@@ -12,12 +12,15 @@ class SetupCategoryIcon extends StatelessWidget {
     final appearance = switch (iconKey) {
       'shopping' => ('🛒', AppTheme.onboardingYellow),
       'transport' => ('🚕', AppTheme.onboardingLavender),
+      'housing' => ('🏠', AppTheme.onboardingPaleBlue),
       'health' => ('🏥', AppTheme.onboardingBlue),
       'utilities' => ('🛠️', AppTheme.onboardingYellow),
       'food' => ('🍔', AppTheme.onboardingPink),
       'entertainment' => ('🍴', AppTheme.onboardingPalePink),
+      'education' => ('🎓', AppTheme.onboardingBlue),
       'salary' => ('💼', AppTheme.onboardingPalePink),
       'freelance' => ('💰', AppTheme.onboardingPink),
+      'income' => ('💰', AppTheme.onboardingYellow),
       _ => ('🧾', AppTheme.onboardingPaleBlue),
     };
     final dark = Theme.of(context).brightness == Brightness.dark;

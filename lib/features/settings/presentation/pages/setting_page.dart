@@ -13,6 +13,7 @@ import 'package:budgets/features/settings/presentation/pages/edit_password_page.
 import 'package:budgets/features/settings/presentation/pages/edit_profile_page.dart';
 import 'package:budgets/features/settings/presentation/pages/language_settings_page.dart';
 import 'package:budgets/features/settings/presentation/pages/theme_settings_page.dart';
+import 'package:budgets/features/settings/data/services/cloud_appearance_preferences.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_content.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_header.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_profile_header.dart';
@@ -22,6 +23,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SettingPage extends ConsumerStatefulWidget {
   const SettingPage({
@@ -118,8 +120,12 @@ class _SettingPageState extends ConsumerState<SettingPage> {
             onNotifications: () => _open(const NotificationSettingsPage()),
             onCurrency: () => _open(const CurrencySelectionPage()),
             onDefaultWallet: () => _open(const DefaultWalletPage()),
-            onTheme: () => _open(const ThemeSettingsPage()),
-            onLanguage: () => _open(const LanguageSettingsPage()),
+            onTheme: () => _open(ThemeSettingsPage(
+              onSelected: (mode) => _saveAppearance('theme_mode', mode),
+            )),
+            onLanguage: () => _open(LanguageSettingsPage(
+              onSelected: (code) => _saveAppearance('language_code', code),
+            )),
             onScannedReceipts: () => _open(const ReceiptGalleryPage()),
             onTerms: () =>
                 _openLegal(widget.legalLauncher.openTermsAndConditions),
@@ -136,6 +142,15 @@ class _SettingPageState extends ConsumerState<SettingPage> {
   Future<void> _open(Widget page) => Navigator.of(context).push(
         MaterialPageRoute<void>(builder: (_) => page),
       );
+
+  Future<void> _saveAppearance(String key, String value) async {
+    try {
+      await CloudAppearancePreferences(Supabase.instance.client)
+          .save(key, value);
+    } catch (error) {
+      if (mounted) showErrorToast(context, error);
+    }
+  }
 
   Future<void> _openLegal(Future<void> Function() open) async {
     try {

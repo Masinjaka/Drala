@@ -60,7 +60,10 @@ class SettingsChoiceTile extends StatelessWidget {
                     ),
                     child: Center(
                       child: IconTheme.merge(
-                        data: IconThemeData(color: foreground, size: 19),
+                        data: IconThemeData(
+                          color: AppSettingsTheme.iconForeground(context),
+                          size: 19,
+                        ),
                         child: DefaultTextStyle.merge(
                           style: theme.textTheme.titleMedium!.copyWith(
                             color: foreground,
@@ -99,7 +102,9 @@ class SettingsChoiceTile extends StatelessWidget {
                 if (trailing != null || showSelectionIndicator) ...[
                   const SizedBox(width: 12),
                   IconTheme.merge(
-                    data: IconThemeData(color: foreground),
+                    data: IconThemeData(
+                      color: AppSettingsTheme.iconForeground(context),
+                    ),
                     child: DefaultTextStyle.merge(
                       style: theme.textTheme.bodySmall!.copyWith(
                         color: foreground,

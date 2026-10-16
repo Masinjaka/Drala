@@ -68,3 +68,9 @@
 
 ## App language and localization
 - [x] Add Malagasy, German/deutch, Spanish, Italian languages.
+
+## Guest Mode
+- [x] Add a guest mode to the app that allows the user to do budgeting without needing to create an account or signing in. For this, use Drift database as local persistent database. The data structure should be the same as with supabase.
+- [x] In the settings page in guest mode, there should be a way, following the design language and pattern of the app, that tells the user to sign in to sync their data with supabase. Others settings that normally doesn't require you to sign in should work in guest mode (but still, these settings can also be synced) like currency, notification preference, language, theme, default wallet,...
+- [x] Operations made in offline mode can be synced to the cloud (supabase) once the user decides to log in or create account.
+- [x] Onboarding should then be arranged like this : The very first screen is a screen that welcomes the user to the app, and a few presentation of the app, with a getting started button, then the getting started goes through the onboarding flow after the current sign up page, then after all of the things in the onboarding are done, then the login and sign up and continue as a guest shows up (I'm not sure about this flow tho, check on the internet what is the usual order of that kind of onboarding that supports guest user)

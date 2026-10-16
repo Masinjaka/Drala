@@ -21,9 +21,11 @@ abstract final class AppNavigationTheme {
               : Theme.of(context).colorScheme.onSurfaceVariant;
 
   static Color icon(BuildContext context, {required bool selected}) =>
-      selected || Theme.of(context).brightness == Brightness.dark
-          ? foreground(context, selected: selected)
-          : const Color(0xFF9E9E9E);
+      Theme.of(context).brightness == Brightness.dark
+          ? Theme.of(context).iconTheme.color!
+          : selected
+              ? foreground(context, selected: selected)
+              : const Color(0xFF9E9E9E);
 
   static TextStyle label(BuildContext context,
           {required int index, required bool selected}) =>

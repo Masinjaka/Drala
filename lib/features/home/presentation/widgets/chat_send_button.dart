@@ -1,5 +1,6 @@
 import 'package:budgets/features/home/presentation/widgets/chat_loading_dots.dart';
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/home/presentation/widgets/home_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -69,9 +70,12 @@ class _ChatSendButtonState extends State<ChatSendButton>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final background = theme.brightness == Brightness.dark
-        ? theme.colorScheme.surfaceContainerLowest
-        : HomeColors.banner;
+    const background = HomeColors.banner;
+    final iconColor = AppIconForeground.resolve(
+      context,
+      AppTheme.homeBannerText,
+      background: background,
+    );
     return SizedBox(
       width: 52,
       height: 40,
@@ -102,9 +106,8 @@ class _ChatSendButtonState extends State<ChatSendButton>
                     style: IconButton.styleFrom(
                       minimumSize: const Size.square(_buttonSize),
                       maximumSize: const Size.square(_buttonSize),
-                      foregroundColor: AppTheme.homeBannerText,
-                      disabledForegroundColor:
-                          AppTheme.homeBannerText.withValues(alpha: .7),
+                      foregroundColor: iconColor,
+                      disabledForegroundColor: iconColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -112,9 +115,9 @@ class _ChatSendButtonState extends State<ChatSendButton>
                     icon: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 160),
                       child: widget.isBusy
-                          ? const ChatLoadingDots(
+                          ? ChatLoadingDots(
                               key: ValueKey('chat-send-loading'),
-                              color: AppTheme.homeBannerText,
+                              color: iconColor,
                             )
                           : Icon(
                               widget.isManualEntry

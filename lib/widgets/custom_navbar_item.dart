@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,7 +42,10 @@ class _CustomNavItemState extends ConsumerState<CustomNavItem> {
             ),
             child: Icon(
               widget.icon,
-              color: textColor,
+              color: AppIconForeground.resolve(
+                context,
+                textColor ?? Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
           Text(

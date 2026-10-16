@@ -18,8 +18,11 @@ class SetupHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final compact = MediaQuery.sizeOf(context).height < 700 ||
+        MediaQuery.textScalerOf(context).scale(1) > 1.3;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(29, 48, 29, 27),
+      padding:
+          EdgeInsets.fromLTRB(29, compact ? 16 : 48, 29, compact ? 12 : 27),
       child: SizedBox(
         height: 36,
         child: Stack(

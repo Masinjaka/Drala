@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/constants.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
@@ -293,10 +294,12 @@ class _GoalListItemState extends ConsumerState<GoalListItem>
                               ),
                               child: Icon(
                                 Icons.edit_outlined,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.color,
+                                color: AppIconForeground.resolve(
+                                    context,
+                                    Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color),
                                 size: 18,
                               ),
                             ),
@@ -609,7 +612,8 @@ class _GoalListItemState extends ConsumerState<GoalListItem>
           ),
           child: Icon(
             Icons.add_circle_outline_rounded,
-            color: Theme.of(context).textTheme.bodyMedium?.color,
+            color: AppIconForeground.resolve(
+                context, Theme.of(context).textTheme.bodyMedium?.color),
             size: 20,
           ),
         ),

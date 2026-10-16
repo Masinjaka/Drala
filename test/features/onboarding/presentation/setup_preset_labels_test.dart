@@ -53,7 +53,8 @@ void main() {
         supportedAppLocales.map((locale) => locale.languageCode));
   });
 
-  test('preset JSON parses names and falls back to its default name', () {
+  test('preset JSON uses shared translations when server language is absent',
+      () {
     const row = {
       'slug': 'food',
       'name': 'Foods & Drinks',
@@ -63,6 +64,6 @@ void main() {
     };
     final preset = OnboardingPreset.fromJson(row);
     expect(preset.nameFor('fr'), 'Repas et boissons');
-    expect(preset.nameFor('it'), 'Foods & Drinks');
+    expect(preset.nameFor('it'), 'Cibo e bevande');
   });
 }

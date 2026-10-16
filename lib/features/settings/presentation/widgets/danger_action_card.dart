@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
 class DangerActionCard extends StatelessWidget {
@@ -35,7 +36,11 @@ class DangerActionCard extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Icon(icon,
-                  color: Theme.of(context).colorScheme.error, size: 21),
+                  color: AppIconForeground.resolve(
+                    context,
+                    Theme.of(context).colorScheme.error,
+                  ),
+                  size: 21),
             ),
             const SizedBox(width: 13),
             Expanded(
