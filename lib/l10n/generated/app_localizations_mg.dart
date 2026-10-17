@@ -816,6 +816,13 @@ class AppLocalizationsMg extends AppLocalizations {
       'Tena tianao hofafana ve ity sokajy ity? Tsy azo averina intsony izany.';
 
   @override
+  String get categoryInUse =>
+      'Tsy azo fafana ity sokajy ity satria mbola ampiasaina.';
+
+  @override
+  String get noActivitiesForDay => 'Tsy misy hetsika amin’ity andro ity';
+
+  @override
   String get editTransaction => 'Hanova fifanakalozana';
 
   @override

@@ -25,17 +25,17 @@ class WalletOverviewCard extends StatelessWidget {
     final foreground = Theme.of(context).colorScheme.onSurface;
     return Material(
         color: Theme.of(context).colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
         child: InkWell(
           key: Key('wallet-card-action-${wallet.id}'),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           onTap: onPressed,
           child: Ink(
             height: 132,
             padding: const EdgeInsets.fromLTRB(19, 13, 14, 16),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,6 +5,7 @@ import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
 import 'package:budgets/features/categories/presentation/widgets/category_appearance_field.dart';
 import 'package:budgets/features/categories/presentation/widgets/category_emoji_picker.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_delete_error_toast.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_edit_scroll_view.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_actions.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_header.dart';
@@ -24,9 +25,9 @@ class CategoryEditorSheet extends ConsumerStatefulWidget {
   final TransactionType type;
   final Category? category;
 
-  static Future<void> show(BuildContext context,
+  static Future<Category?> show(BuildContext context,
           {required TransactionType type, Category? category}) =>
-      showTransactionFormSheet<void>(context,
+      showTransactionFormSheet<Category>(context,
           builder: (_) => CategoryEditorSheet(type: type, category: category));
 
   @override
@@ -105,12 +106,14 @@ class _CategoryEditorSheetState extends ConsumerState<CategoryEditorSheet> {
         transactionType: widget.category?.transactionType ?? widget.type,
       );
       final categories = ref.read(categoriesProvider.notifier);
+      Category saved = value;
       if (widget.category == null) {
-        await categories.addSomeCategory(value);
+        final id = await categories.addSomeCategory(value);
+        saved = value.copyWith(id: id);
       } else {
         await categories.editSomeCategory(value);
       }
-      if (mounted) Navigator.of(context).pop();
+      if (mounted) Navigator.of(context).pop(saved);
     } catch (error) {
       if (mounted) showErrorToast(context, error);
     } finally {
@@ -132,7 +135,7 @@ class _CategoryEditorSheetState extends ConsumerState<CategoryEditorSheet> {
       await ref.read(categoriesProvider.notifier).deleteSomeCategory(category);
       if (mounted) Navigator.of(context).pop();
     } catch (error) {
-      if (mounted) showErrorToast(context, error);
+      if (mounted) showCategoryDeleteErrorToast(context, error);
     } finally {
       if (mounted) setState(() => _saving = false);
     }

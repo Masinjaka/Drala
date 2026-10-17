@@ -1,5 +1,6 @@
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/ui/app_toast.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_delete_error_toast.dart';
 import 'package:budgets/widgets/delete_confirmation_dialog.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,7 @@ class CategoryModule {
         context.pop();
       } catch (e) {
         if (!context.mounted) return;
-        showErrorToast(context, e);
+        showCategoryDeleteErrorToast(context, e);
       }
     }
   }

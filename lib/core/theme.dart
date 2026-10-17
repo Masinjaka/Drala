@@ -1,6 +1,7 @@
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/ui/app_button_theme.dart';
 import 'package:budgets/core/ui/app_icon_button_theme.dart';
+import 'package:budgets/core/ui/app_toast_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -75,6 +76,7 @@ class AppTheme {
   static const Color transferBadgeDark = Color(0xFF37364F);
   static const Color interactiveTextColor = Colors.black;
   static final ThemeData lightTheme = ThemeData(
+    extensions: const [AppToastTheme.light],
     brightness: Brightness.light,
     scaffoldBackgroundColor: backgroundLight,
     cardColor: secondaryLight,
@@ -135,6 +137,7 @@ class AppTheme {
   );
 
   static final ThemeData darkTheme = ThemeData(
+    extensions: const [AppToastTheme.dark],
     brightness: Brightness.dark,
     scaffoldBackgroundColor: backgroundDark,
     cardColor: secondaryDark,

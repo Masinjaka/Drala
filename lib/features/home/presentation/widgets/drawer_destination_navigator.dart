@@ -31,6 +31,7 @@ class DrawerDestinationNavigator {
     this.onDeleteWallet,
     this.walletsListenable,
     this.walletReader,
+    this.walletLoadingReader,
     this.settingsPage,
   });
 
@@ -48,6 +49,7 @@ class DrawerDestinationNavigator {
   final Future<void> Function(String)? onDeleteWallet;
   final Listenable? walletsListenable;
   final List<WalletSummary> Function()? walletReader;
+  final bool Function()? walletLoadingReader;
   final Widget? settingsPage;
 
   Future<void> openSettings() => _push(
@@ -67,6 +69,7 @@ class DrawerDestinationNavigator {
           currencyState: currencyState,
           walletsListenable: walletsListenable,
           walletReader: walletReader,
+          loadingReader: walletLoadingReader,
         ),
       );
 

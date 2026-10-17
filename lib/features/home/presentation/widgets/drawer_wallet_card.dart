@@ -33,7 +33,7 @@ class DrawerWalletCard extends StatelessWidget {
           padding: const EdgeInsets.only(top: 14),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerLowest,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
                 color: Theme.of(context).shadowColor.withValues(alpha: .07),

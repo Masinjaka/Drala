@@ -41,11 +41,7 @@ abstract final class AppSettingsTheme {
           : Theme.of(context).colorScheme.error;
 
   static TextStyle pageTitle(BuildContext context) =>
-      Theme.of(context).textTheme.titleLarge!.copyWith(
-            fontFamily: AppTypography.amountFontFamily,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          );
+      Theme.of(context).textTheme.titleLarge!;
 
   static TextStyle profileName(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(

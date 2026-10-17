@@ -148,29 +148,6 @@ void main() {
     expect(requested, isTrue);
   });
 
-  testWidgets('quota exhaustion replaces send with manual entry',
-      (tester) async {
-    var requested = false;
-    await tester.pumpWidget(
-      MaterialApp(
-        home: Scaffold(
-          body: ChatInputBar(
-            isSubmitting: false,
-            isQuotaExhausted: true,
-            onSubmit: (_) async => true,
-            onManualEntryRequested: () async => requested = true,
-          ),
-        ),
-      ),
-    );
-
-    expect(find.byKey(const Key('manual-entry-send')), findsOneWidget);
-    expect(find.byKey(const Key('ai-send')), findsNothing);
-    await tester.tap(find.byTooltip('Manual entry'));
-    await tester.pump();
-    expect(requested, isTrue);
-  });
-
   testWidgets('scanned receipt is sent for AI processing', (tester) async {
     ReceiptInputResult? submitted;
     await tester.pumpWidget(

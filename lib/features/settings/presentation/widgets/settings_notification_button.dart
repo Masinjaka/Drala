@@ -1,7 +1,7 @@
-import 'package:budgets/core/ui/app_settings_theme.dart';
+import 'package:budgets/core/ui/outlined_square_button.dart';
+import 'package:budgets/features/notifications/presentation/widgets/notification_count_badge.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsNotificationButton extends StatelessWidget {
   const SettingsNotificationButton({
@@ -26,44 +26,18 @@ class SettingsNotificationButton extends StatelessWidget {
   Widget _button(BuildContext context, int unreadCount) => Stack(
         clipBehavior: Clip.none,
         children: [
-          Material(
-            color: AppSettingsTheme.iconSurface(context),
-            borderRadius: BorderRadius.circular(8),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              key: const Key('settings-notification-button'),
-              onTap: onPressed,
-              child: SizedBox.square(
-                dimension: 35,
-                child: Center(
-                  child: SvgPicture.asset(
-                    'assets/settings/notification_bell.svg',
-                    colorFilter: ColorFilter.mode(
-                      AppSettingsTheme.iconForeground(context),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          OutlinedSquareButton(
+            key: const Key('settings-notification-button'),
+            icon: Icons.notifications_none_rounded,
+            onPressed: onPressed,
           ),
           if (unreadCount > 0)
             Positioned(
-              right: -3,
-              top: -3,
-              child: Container(
+              right: -1,
+              top: -2,
+              child: NotificationCountBadge(
                 key: const Key('settings-notification-badge'),
-                width: 16,
-                height: 16,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.error,
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  '${unreadCount.clamp(0, 9)}',
-                  style: AppSettingsTheme.badge(context),
-                ),
+                count: unreadCount,
               ),
             ),
         ],

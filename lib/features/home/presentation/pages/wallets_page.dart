@@ -3,12 +3,14 @@ import 'package:budgets/core/ui/scroll_edge_fade.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/detail_page_header.dart';
+import 'package:budgets/core/widgets/empty_state_phrase.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_editor_result.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:budgets/features/home/presentation/widgets/add_wallet_sheet.dart';
 import 'package:budgets/features/home/presentation/widgets/edit_wallet_sheet.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_overview_card.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_card_skeleton.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +23,7 @@ class WalletsPage extends StatelessWidget {
     this.currencyState,
     this.walletsListenable,
     this.walletReader,
+    this.loadingReader,
     super.key,
   });
 
@@ -31,6 +34,7 @@ class WalletsPage extends StatelessWidget {
   final CurrencyState? currencyState;
   final Listenable? walletsListenable;
   final List<WalletSummary> Function()? walletReader;
+  final bool Function()? loadingReader;
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +71,23 @@ class WalletsPage extends StatelessWidget {
 
   Widget _cards() {
     final currentWallets = walletReader?.call() ?? wallets;
+    if (loadingReader?.call() == true && currentWallets.isEmpty) {
+      return ListView.separated(
+        padding: const EdgeInsets.fromLTRB(29, 0, 29, 32),
+        itemCount: 3,
+        separatorBuilder: (_, __) => const SizedBox(height: 10),
+        itemBuilder: (_, __) => const WalletCardSkeleton(),
+      );
+    }
+    if (currentWallets.isEmpty) {
+      return Builder(
+        builder: (context) => EmptyStatePhrase(
+          title: context.l10n.wallets,
+          brief: true,
+          illustrationAsset: 'assets/illustrations/empty_states/wallets.png',
+        ),
+      );
+    }
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(29, 0, 29, 32),
       itemCount: currentWallets.length,

@@ -1,31 +1,43 @@
 import 'package:budgets/core/ui/app_icon_foreground.dart';
+import 'package:budgets/core/widgets/empty_state_illustration.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-/// Shared text-only empty state used across app sections.
+/// Shared illustrated empty state used across app sections.
 class EmptyStatePhrase extends StatelessWidget {
   const EmptyStatePhrase({
     super.key,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
+    this.illustrationAsset,
+    this.brief = false,
     this.icon,
     this.padding,
   });
 
   final String title;
-  final String subtitle;
+  final String? subtitle;
+  final String? illustrationAsset;
+  final bool brief;
   final FaIconData? icon;
   final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 32),
+      padding: padding ?? const EdgeInsets.symmetric(horizontal: 32),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+            EmptyStateIllustration(
+              width: 160,
+              asset: illustrationAsset ??
+                  'assets/illustrations/empty-budgeting.png',
+              lineArt: illustrationAsset != null,
+            ),
+            const SizedBox(height: 12),
             if (icon != null) ...[
               Container(
                 width: 60,
@@ -45,27 +57,23 @@ class EmptyStatePhrase extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
             ],
             Text(
               title,
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: brief
+                  ? Theme.of(context).textTheme.bodyMedium
+                  : Theme.of(context).textTheme.titleMedium,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 16),
-            Text(
-              subtitle,
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-                fontSize: 16,
-                height: 1.4,
+            if (subtitle case final subtitle?) ...[
+              const SizedBox(height: 8),
+              Text(
+                subtitle,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
+            ],
           ],
         ),
       ),

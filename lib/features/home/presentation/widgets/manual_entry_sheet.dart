@@ -6,6 +6,7 @@ import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_input.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_editor_sheet.dart';
 import 'package:budgets/features/home/domain/models/manual_entry_sheet_result.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_category_page.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_detail_edit_page.dart';
@@ -118,6 +119,15 @@ class _ManualEntrySheetState extends State<ManualEntrySheet> {
       duration: const Duration(milliseconds: 420),
       curve: transactionSheetCurve);
 
+  Future<void> _createCategory() async {
+    final created = await CategoryEditorSheet.show(context, type: _type);
+    if (!mounted || created == null) return;
+    setState(() {
+      _categories = [..._categories, created];
+      _category = created;
+    });
+  }
+
   void _submit() {
     final amount =
         CurrencyAmountInput.toMga(_amount.text, widget.currencyState);
@@ -177,6 +187,7 @@ class _ManualEntrySheetState extends State<ManualEntrySheet> {
                 .toList(),
             selected: _category,
             onSelected: (value) => setState(() => _category = value),
+            onCreate: _createCategory,
             onBack: () => _goToPage(0),
           ),
         ],

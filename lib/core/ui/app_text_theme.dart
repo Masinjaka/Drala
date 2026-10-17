@@ -89,6 +89,12 @@ abstract final class AppTextTheme {
             fontWeight: FontWeight.normal,
           );
 
+  static TextStyle notificationBadge(BuildContext context) =>
+      Theme.of(context).textTheme.labelSmall!.copyWith(
+            color: Theme.of(context).colorScheme.onError,
+            fontSize: 8,
+          );
+
   static TextTheme create(Color foreground) => TextTheme(
         headlineMedium: TextStyle(
             color: foreground,

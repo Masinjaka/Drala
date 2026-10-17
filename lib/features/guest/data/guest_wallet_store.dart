@@ -49,13 +49,14 @@ class GuestWalletStore implements DefaultWalletRepository {
         'is_default': false,
       });
     });
+    if (input.setAsDefault) await setDefault(id);
     return WalletSummary(
       id: id,
       name: input.name,
       balance: input.initialBalance,
       currencyCode: 'MGA',
       iconKey: 'wallet',
-      isDefault: false,
+      isDefault: input.setAsDefault,
     );
   }
 
@@ -79,6 +80,7 @@ class GuestWalletStore implements DefaultWalletRepository {
         'balance': input.initialBalance,
       });
     });
+    if (input.setAsDefault) await setDefault(id);
     final row = await database.customSelect(
       '''SELECT id,name,balance,currency_code,icon_key,is_default
          FROM guest_wallets WHERE id = ? AND user_id = ?''',

@@ -305,6 +305,8 @@
   "deleteGoalDescription": "Möchtest du dieses Ziel wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
   "deleteCategoryQuestion": "Kategorie löschen?",
   "deleteCategoryDescription": "Möchtest du diese Kategorie wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+  "categoryInUse": "Diese Kategorie kann nicht gelöscht werden, da sie noch verwendet wird.",
+  "noActivitiesForDay": "Keine Aktivitäten an diesem Tag",
   "editTransaction": "Transaktion bearbeiten",
   "expense": "Ausgabe",
   "title": "Titel",

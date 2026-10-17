@@ -814,6 +814,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Möchtest du diese Kategorie wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
+  String get categoryInUse =>
+      'Diese Kategorie kann nicht gelöscht werden, da sie noch verwendet wird.';
+
+  @override
+  String get noActivitiesForDay => 'Keine Aktivitäten an diesem Tag';
+
+  @override
   String get editTransaction => 'Transaktion bearbeiten';
 
   @override

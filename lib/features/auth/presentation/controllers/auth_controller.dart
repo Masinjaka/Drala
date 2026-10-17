@@ -6,6 +6,7 @@ import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
 import 'package:budgets/features/notifications/presentation/controllers/notification_controller.dart';
+import 'package:budgets/features/settings/domain/providers/locale_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -61,13 +62,23 @@ class AuthController extends _$AuthController {
   Future<void> signOut() async {
     state = const AsyncLoading();
     final repo = ref.read(authRepositoryProvider);
+    final guest = ref.read(guestSessionProvider);
+    final language = ref.read(localeProvider).languageCode;
+    guest?.setSigningOut(true);
     try {
       await repo.signOut();
+      await guest?.enterAfterSignOut(currency: 'MGA', language: language);
+      ref.invalidate(guestSessionProvider);
+      ref.invalidate(categoriesProvider);
+      ref.invalidate(currencyControllerProvider);
+      ref.invalidate(notificationControllerProvider);
       ref.invalidate(userModelProvider);
       state = const AsyncData(null);
     } catch (e, st) {
       state = AsyncError(e, st);
       rethrow;
+    } finally {
+      guest?.setSigningOut(false);
     }
   }
 

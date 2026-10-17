@@ -813,6 +813,13 @@ class AppLocalizationsEs extends AppLocalizations {
       '¿Seguro que quieres eliminar esta categoría? Esta acción no se puede deshacer.';
 
   @override
+  String get categoryInUse =>
+      'No se puede eliminar esta categoría porque está en uso.';
+
+  @override
+  String get noActivitiesForDay => 'No hay actividad este día';
+
+  @override
   String get editTransaction => 'Editar transacción';
 
   @override

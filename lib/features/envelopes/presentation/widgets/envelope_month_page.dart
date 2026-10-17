@@ -28,26 +28,36 @@ class EnvelopeMonthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScrollEdgeFade(
-        child: RefreshIndicator(
-      onRefresh: onRefresh,
-      child: ListView(
-        key: const Key('envelope-month-list'),
-        padding: const EdgeInsets.fromLTRB(29, 0, 29, 32),
-        physics: const AlwaysScrollableScrollPhysics(),
-        children: [
-          if (isLoading && envelopes.isEmpty)
-            const EnvelopeListSkeleton()
-          else
-            EnvelopeListPanel(
-              envelopes: envelopes,
-              onDelete: onDelete,
-              onEdit: onEdit,
-              loading: isLoading,
-              displayCurrency: displayCurrency,
-              targetEnvelopeId: targetEnvelopeId,
-            ),
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) => RefreshIndicator(
+          onRefresh: onRefresh,
+          child: ListView(
+            key: const Key('envelope-month-list'),
+            padding: const EdgeInsets.fromLTRB(29, 0, 29, 32),
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              if (isLoading && envelopes.isEmpty)
+                const EnvelopeListSkeleton()
+              else
+                SizedBox(
+                  height: envelopes.isEmpty
+                      ? (constraints.maxHeight > 32
+                          ? constraints.maxHeight - 32
+                          : 0)
+                      : null,
+                  child: EnvelopeListPanel(
+                    envelopes: envelopes,
+                    onDelete: onDelete,
+                    onEdit: onEdit,
+                    loading: isLoading,
+                    displayCurrency: displayCurrency,
+                    targetEnvelopeId: targetEnvelopeId,
+                  ),
+                ),
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }

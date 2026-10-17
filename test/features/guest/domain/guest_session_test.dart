@@ -30,4 +30,33 @@ void main() {
     expect(guest.onboardingComplete, false);
     expect(guest.accountChoiceSeen, false);
   });
+
+  test('sign-out opens a fresh guest account ready for Activities', () async {
+    SharedPreferences.setMockInitialValues({});
+    final database = GuestDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+    final guest = await GuestSession.load(database);
+    await guest.start();
+    await guest.onboarding.complete(
+      currency: 'MGA',
+      language: 'en',
+      categories: const [],
+      wallets: const [],
+    );
+    guest.markOnboardingComplete();
+    await guest.stopAfterSync();
+    final oldId = guest.userId;
+
+    await guest.enterAfterSignOut(currency: 'MGA', language: 'fr');
+
+    expect(guest.userId, isNot(oldId));
+    expect(guest.isActive, isTrue);
+    expect(guest.onboardingComplete, isTrue);
+    expect(guest.accountChoiceSeen, isTrue);
+    final reloaded = await GuestSession.load(database);
+    expect(reloaded.onboardingComplete, isTrue);
+    expect(reloaded.accountChoiceSeen, isTrue);
+    final wallets = await guest.repositories.wallets.wallets();
+    expect(wallets, isNotEmpty);
+  });
 }

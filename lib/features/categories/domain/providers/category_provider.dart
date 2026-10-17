@@ -23,6 +23,7 @@ class Categories extends _$Categories {
   }
 
   Future<String> addSomeCategory(Category category) async {
+    final previous = state.value;
     state = const AsyncValue.loading();
     try {
       final result = await (_guest?.add(category) ?? addCategory(category));
@@ -30,12 +31,14 @@ class Categories extends _$Categories {
       state = AsyncValue.data(categories);
       return result;
     } catch (e, s) {
-      state = AsyncValue.error(e, s);
+      state =
+          previous == null ? AsyncValue.error(e, s) : AsyncValue.data(previous);
       rethrow;
     }
   }
 
   Future<String> editSomeCategory(Category category) async {
+    final previous = state.value;
     // state = const AsyncValue.loading();
     try {
       final result = await (_guest?.update(category) ?? editCategory(category));
@@ -43,12 +46,14 @@ class Categories extends _$Categories {
       state = AsyncValue.data(categories);
       return result;
     } catch (e, s) {
-      state = AsyncValue.error(e, s);
+      state =
+          previous == null ? AsyncValue.error(e, s) : AsyncValue.data(previous);
       rethrow;
     }
   }
 
   Future<String> deleteSomeCategory(Category category) async {
+    final previous = state.value;
     state = const AsyncValue.loading();
     try {
       final result =
@@ -57,7 +62,8 @@ class Categories extends _$Categories {
       state = AsyncValue.data(categories);
       return result;
     } catch (e, s) {
-      state = AsyncValue.error(e, s);
+      state =
+          previous == null ? AsyncValue.error(e, s) : AsyncValue.data(previous);
       rethrow;
     }
   }

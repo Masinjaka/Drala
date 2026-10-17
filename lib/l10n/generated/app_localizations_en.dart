@@ -810,6 +810,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this category? This action is irreversible.';
 
   @override
+  String get categoryInUse =>
+      'The category cannot be deleted because it is currently in use.';
+
+  @override
+  String get noActivitiesForDay => 'No activity on this day';
+
+  @override
   String get editTransaction => 'Edit transaction';
 
   @override

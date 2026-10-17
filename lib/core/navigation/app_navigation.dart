@@ -48,6 +48,11 @@ class AppNavigation {
         GoRoute(path: '/login', builder: (_, __) => const LoginPage()),
         GoRoute(path: '/signup', builder: (_, __) => const SignUpPage()),
         GoRoute(
+          path: '/sign-in-choice',
+          builder: (_, __) =>
+              const GuestAccountChoicePage(showGuestOption: false),
+        ),
+        GoRoute(
           path: '/reset-password',
           builder: (_, __) => const ResetPasswordPage(),
         ),
@@ -117,15 +122,25 @@ class AppNavigation {
     '/getting-started',
     '/login',
     '/signup',
+    '/sign-in-choice',
     '/reset-password',
     '/verify-reset-code',
     '/account-choice',
   };
 
   String? _redirect(BuildContext context, GoRouterState state) {
+    // Keep the current route until the guest destination is fully initialized.
+    if (_guestSession?.isSigningOut == true) return null;
     final isSignedIn = _isSignedIn();
     final isPublic = _publicPaths.contains(state.matchedLocation);
     if (_guestSession?.isActive == true) {
+      if (!isSignedIn &&
+          _guestSession!.onboardingComplete &&
+          _guestSession.accountChoiceSeen &&
+          (state.matchedLocation == '/getting-started' ||
+              state.matchedLocation == '/onboarding')) {
+        return '/home';
+      }
       if (isPublic) return null;
       if (!_guestSession!.onboardingComplete &&
           state.matchedLocation != '/onboarding') {

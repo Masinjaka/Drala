@@ -306,6 +306,8 @@
   "deleteGoalDescription": "Are you sure you want to delete this goal? This action is irreversible.",
   "deleteCategoryQuestion": "Delete category?",
   "deleteCategoryDescription": "Are you sure you want to delete this category? This action is irreversible.",
+  "categoryInUse": "The category cannot be deleted because it is currently in use.",
+  "noActivitiesForDay": "No activity on this day",
   "editTransaction": "Edit transaction",
   "expense": "Expense",
   "title": "Title",

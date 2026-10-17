@@ -128,6 +128,8 @@ flutter:
     - assets/images/
     - assets/illustrations/dark/
     - assets/illustrations/light/
+    - assets/illustrations/empty-budgeting.png
+    - assets/illustrations/empty_states/
 
   fonts:
     - family: Alexandria

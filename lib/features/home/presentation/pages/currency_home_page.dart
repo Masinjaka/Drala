@@ -14,23 +14,31 @@ class CurrencyHomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currency = ref.watch(currencyControllerProvider);
     final guest = ref.watch(guestSessionProvider);
-    if (guest?.isActive == true) {
-      final finance = guest!.repositories.finance;
+    Widget home() {
+      if (guest?.isActive == true) {
+        return ChatHomePage(
+          key: ValueKey(guest!.userId),
+          isGuest: true,
+          isSignedIn: isSignedIn,
+          aiEntryRepository: guest.repositories.finance,
+          envelopeRepository: guest.repositories.envelopeRepository,
+          statsRepository: guest.repositories.stats,
+          notificationRepository: const EmptyFinanceNotificationRepository(),
+          currencyState: currency.value,
+          isCurrencyLoading: currency.isLoading,
+        );
+      }
       return ChatHomePage(
-        isGuest: true,
         isSignedIn: isSignedIn,
-        aiEntryRepository: finance,
-        envelopeRepository: guest.repositories.envelopeRepository,
-        statsRepository: guest.repositories.stats,
-        notificationRepository: const EmptyFinanceNotificationRepository(),
         currencyState: currency.value,
         isCurrencyLoading: currency.isLoading,
       );
     }
-    return ChatHomePage(
-      isSignedIn: isSignedIn,
-      currencyState: currency.value,
-      isCurrencyLoading: currency.isLoading,
+
+    if (guest == null) return home();
+    return ListenableBuilder(
+      listenable: guest,
+      builder: (context, _) => home(),
     );
   }
 }

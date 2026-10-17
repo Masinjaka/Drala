@@ -31,6 +31,7 @@ class _EditWalletSheetState extends State<EditWalletSheet> {
       text: CurrencyAmountInput.fromStored(widget.wallet.balance,
           widget.wallet.currencyCode, widget.currencyState));
   bool _canSubmit = true;
+  late bool _setAsDefault = widget.wallet.isDefault;
 
   @override
   void initState() {
@@ -52,8 +53,10 @@ class _EditWalletSheetState extends State<EditWalletSheet> {
 
   void _save() {
     if (!_canSubmit) return;
-    Navigator.of(context).pop(WalletEditorResult.save(
-        AddWalletInput(name: _name.text.trim(), initialBalance: _amount ?? 0)));
+    Navigator.of(context).pop(WalletEditorResult.save(AddWalletInput(
+        name: _name.text.trim(),
+        initialBalance: _amount ?? 0,
+        setAsDefault: _setAsDefault)));
   }
 
   @override
@@ -74,6 +77,9 @@ class _EditWalletSheetState extends State<EditWalletSheet> {
             balanceController: _balance,
             currencyState: widget.currencyState,
             canSubmit: _canSubmit,
+            setAsDefault: _setAsDefault,
+            onDefaultChanged: (value) => setState(() => _setAsDefault = value),
+            defaultOptionEnabled: !widget.wallet.isDefault,
             onSave: _save,
             onDelete: widget.wallet.isDefault
                 ? null

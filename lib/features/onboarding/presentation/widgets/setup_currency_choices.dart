@@ -1,4 +1,5 @@
 import 'package:budgets/core/currency/currency_provider.dart';
+import 'package:budgets/core/currency/currency_defaults.dart';
 import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/core/ui/scroll_edge_fade.dart';
 import 'package:budgets/features/settings/presentation/widgets/currency_search_field.dart';

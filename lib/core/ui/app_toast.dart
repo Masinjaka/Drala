@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:budgets/core/monitoring/development_log.dart';
 
-import '../theme.dart';
 import '../utils/error_messages.dart';
 import 'app_toast_overlay.dart';
+import 'app_toast_type.dart';
 
-enum AppToastType { success, error, info }
+export 'app_toast_type.dart';
 
 OverlayEntry? _activeToast;
 
@@ -16,14 +16,15 @@ void showAppToast(
 }) {
   final overlay = Navigator.of(context, rootNavigator: true).overlay;
   if (overlay == null) return;
+  final aboveNavigationBar = _hasBottomNavigationBar(context);
   _activeToast?.remove();
 
   late final OverlayEntry entry;
   entry = OverlayEntry(
     builder: (_) => AppToastOverlay(
       message: message,
-      color: _toastColor(type),
-      icon: _toastIcon(type),
+      type: type,
+      aboveNavigationBar: aboveNavigationBar,
       onDisposed: () {
         if (_activeToast == entry) _activeToast = null;
       },
@@ -55,14 +56,15 @@ void showErrorToast(BuildContext context, Object error) {
   );
 }
 
-Color _toastColor(AppToastType type) => switch (type) {
-      AppToastType.success => AppTheme.primaryGreen,
-      AppToastType.error => const Color(0xFFDB5A42),
-      AppToastType.info => const Color(0xFFFA9500),
-    };
-
-IconData _toastIcon(AppToastType type) => switch (type) {
-      AppToastType.success => Icons.check_circle_outline_rounded,
-      AppToastType.error => Icons.error_outline_rounded,
-      AppToastType.info => Icons.info_outline_rounded,
-    };
+bool _hasBottomNavigationBar(BuildContext context) {
+  var found = false;
+  context.visitAncestorElements((element) {
+    final widget = element.widget;
+    if (widget is Scaffold && widget.bottomNavigationBar != null) {
+      found = true;
+      return false;
+    }
+    return true;
+  });
+  return found;
+}

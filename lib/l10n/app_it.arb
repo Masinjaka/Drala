@@ -305,6 +305,8 @@
   "deleteGoalDescription": "Vuoi davvero eliminare questo obiettivo? L'azione non può essere annullata.",
   "deleteCategoryQuestion": "Eliminare la categoria?",
   "deleteCategoryDescription": "Vuoi davvero eliminare questa categoria? L'azione non può essere annullata.",
+  "categoryInUse": "Questa categoria non può essere eliminata perché è ancora in uso.",
+  "noActivitiesForDay": "Nessuna attività in questo giorno",
   "editTransaction": "Modifica transazione",
   "expense": "Spesa",
   "title": "Titolo",

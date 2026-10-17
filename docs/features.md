@@ -45,6 +45,7 @@
 - [x] In the legacy design, users were able to add subcategories within a category. Hide that feature for now.
 - [x] Make sure that AI ALSO (Not exclusively) take into account the categories added manually by the user when it is adding a new transaction.
 
+
 ## Settings
 - [x] The buttons and input fields in the settings page and all of the subpages should be designed exactly like the buttons and input field in the Edit transaction bottom sheet ( these are the common, design language and pattern of the app)
 - [x] The font weight and sizes of the setting options (item lists) should match the font weight and sizes in the title of cards in the stats page (these are also the common design language and pattern)
@@ -53,6 +54,8 @@
 
 ## Wallets
 - [x] The add or edit wallet bottom sheet layout should be the same as in the envelope page. (The amount field style and the rest...).
+- [x] The cards of wallets should have a 10 border radius (both actual cards and skeleton)
+- [x] When editing a wallet (or creating it), there should be an option to set it as default wallet. Make sure to follow the design system of the app.
 
 
 ## AdMob integration
@@ -61,6 +64,7 @@
 ## Transaction entry
 - [x] Allow users and AI to entre expenses even if there is 0 income. If there are no income, the negative expenses should be taken from the chosen default wallet (It will then have a negative value)
 - [x] If it is not already the case, If users have allocated an envelope for a category and makes a transaction belonging to that category, the amount should be taken from the envelope instead of a wallet because normally the amount allocated in that envelope was already taken from a wallet.
+- [x] When selecting a category while manually adding a transaction, add an option to create a new category.
 
 ## Notification
 - [x] Fix the push notification for alerts on envelope budget almost reached , reached and exceeded. The implementation of notifications for these were already imopolemented but it doesn't work now.
@@ -74,3 +78,11 @@
 - [x] In the settings page in guest mode, there should be a way, following the design language and pattern of the app, that tells the user to sign in to sync their data with supabase. Others settings that normally doesn't require you to sign in should work in guest mode (but still, these settings can also be synced) like currency, notification preference, language, theme, default wallet,...
 - [x] Operations made in offline mode can be synced to the cloud (supabase) once the user decides to log in or create account.
 - [x] Onboarding should then be arranged like this : The very first screen is a screen that welcomes the user to the app, and a few presentation of the app, with a getting started button, then the getting started goes through the onboarding flow after the current sign up page, then after all of the things in the onboarding are done, then the login and sign up and continue as a guest shows up (I'm not sure about this flow tho, check on the internet what is the usual order of that kind of onboarding that supports guest user)
+
+
+## Empty states
+- [x] Design an Icon representing empty states for each of the following pages: Avtivities pages (On some day, there might be no transaction at all, anbd the transaction list is empty, so add an icon representing that in the middle of the list view, below the calendar view), Envelope (remove the container and the long texts, just a brief text, icon representing the empty envelope and position it in the middel of the empty list), Categories page ( same idea as envelope page), wallet page (same idea as the envelope page), notification page. The icons are NOT flutter pre-defined Icons but rather creative images AI-generated. These Icons have nio filling colors.
+
+## Toasts.
+- [x] The Toasts showing error, info and success should be shown from the bottom and shown at the bottom of the page like a normal usual Toast. (Above the bottom navigation bar)
+- [x] The toasts should be redesign to match pixel by pixel to the variant taken in the screenshoot `Toasts.png`

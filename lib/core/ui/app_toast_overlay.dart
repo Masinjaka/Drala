@@ -1,24 +1,25 @@
 import 'dart:async';
 
-import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_toast_theme.dart';
+import 'package:budgets/core/ui/app_toast_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class AppToastOverlay extends StatefulWidget {
   const AppToastOverlay({
     required this.message,
-    required this.color,
-    required this.icon,
+    required this.type,
     required this.onDismissed,
     required this.onDisposed,
+    this.aboveNavigationBar = false,
     this.displayDuration = const Duration(milliseconds: 3000),
-    this.animationDuration = const Duration(milliseconds: 380),
+    this.animationDuration = const Duration(milliseconds: 220),
     super.key,
   });
 
   final String message;
-  final Color color;
-  final IconData icon;
+  final AppToastType type;
+  final bool aboveNavigationBar;
   final VoidCallback onDismissed;
   final VoidCallback onDisposed;
   final Duration displayDuration;
@@ -30,18 +31,16 @@ class AppToastOverlay extends StatefulWidget {
 
 class _AppToastOverlayState extends State<AppToastOverlay> {
   Timer? _dismissTimer;
-  var _isExiting = false;
+  bool _isExiting = false;
 
   void _startDismissTimer() {
     _dismissTimer?.cancel();
-    _dismissTimer = Timer(
-      widget.displayDuration,
-      _dismiss,
-    );
+    _dismissTimer = Timer(widget.displayDuration, _dismiss);
   }
 
   void _dismiss() {
     if (!mounted || _isExiting) return;
+    _dismissTimer?.cancel();
     setState(() => _isExiting = true);
   }
 
@@ -58,61 +57,75 @@ class _AppToastOverlayState extends State<AppToastOverlay> {
 
   @override
   Widget build(BuildContext context) {
-    final topInset = MediaQuery.paddingOf(context).top;
+    final safeBottom = MediaQuery.paddingOf(context).bottom;
+    final keyboard = MediaQuery.viewInsetsOf(context).bottom;
+    final navigation = widget.aboveNavigationBar && keyboard == 0
+        ? 57 + (safeBottom > 16 ? safeBottom : 16)
+        : safeBottom;
     return Positioned(
-      left: 12,
-      right: 12,
-      top: topInset + 12,
-      child: IgnorePointer(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: _buildToast(),
-        ),
+      left: 30,
+      right: 30,
+      bottom: keyboard + navigation + 12,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: _buildToast(context),
       ),
     );
   }
 
-  Widget _buildToast() {
+  Widget _buildToast(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.extension<AppToastTheme>() ??
+        (theme.brightness == Brightness.dark
+            ? AppToastTheme.dark
+            : AppToastTheme.light);
+    final accent = switch (widget.type) {
+      AppToastType.success => colors.success,
+      AppToastType.error => colors.error,
+      AppToastType.info => colors.info,
+    };
+    final icon = switch (widget.type) {
+      AppToastType.success => Icons.check_rounded,
+      AppToastType.error => Icons.priority_high_rounded,
+      AppToastType.info => Icons.info_rounded,
+    };
     final toast = Material(
       type: MaterialType.transparency,
       child: Semantics(
         liveRegion: true,
         child: Container(
           key: const Key('app-toast'),
-          constraints: const BoxConstraints(maxWidth: 300),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+          constraints: const BoxConstraints(maxWidth: 520, minHeight: 44),
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
           decoration: BoxDecoration(
-            color: widget.color,
+            color: colors.background,
             borderRadius: BorderRadius.circular(11),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x26000000),
-                blurRadius: 10,
-                offset: Offset(0, 3),
-              ),
-            ],
           ),
           child: Row(
-            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                widget.icon,
-                size: 17,
-                color: widget.color == AppTheme.primaryGreen
-                    ? AppTheme.interactiveTextColor
-                    : Colors.white,
+              CircleAvatar(
+                radius: 11,
+                backgroundColor: accent,
+                child: Icon(icon, color: colors.iconForeground, size: 16),
               ),
-              const SizedBox(width: 8),
-              Flexible(
+              const SizedBox(width: 20),
+              Expanded(
                 child: Text(
                   widget.message,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w700,
-                    decoration: TextDecoration.none,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors.foreground,
                   ),
                 ),
+              ),
+              const SizedBox(width: 12),
+              IconButton(
+                key: const Key('app-toast-close'),
+                onPressed: _dismiss,
+                tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
+                iconSize: 24,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                icon: Icon(Icons.cancel_outlined, color: colors.foreground),
               ),
             ],
           ),
@@ -123,35 +136,26 @@ class _AppToastOverlayState extends State<AppToastOverlay> {
     if (_isExiting) {
       return toast
           .animate(
-            key: const Key('app-toast-exit'),
-            onComplete: _finishDismissal,
-          )
-          .fadeOut(
-            duration: widget.animationDuration,
-            curve: Curves.easeIn,
-          )
+              key: const Key('app-toast-exit'), onComplete: _finishDismissal)
+          .fadeOut(duration: widget.animationDuration, curve: Curves.easeIn)
           .slideY(
             begin: 0,
-            end: -1.5,
+            end: 1,
             duration: widget.animationDuration,
-            curve: Curves.easeInBack,
+            curve: Curves.easeIn,
           );
     }
 
     return toast
         .animate(
-          key: const Key('app-toast-enter'),
-          onComplete: (_) => _startDismissTimer(),
-        )
-        .fadeIn(
-          duration: widget.animationDuration,
-          curve: Curves.easeOut,
-        )
+            key: const Key('app-toast-enter'),
+            onComplete: (_) => _startDismissTimer())
+        .fadeIn(duration: widget.animationDuration, curve: Curves.easeOut)
         .slideY(
-          begin: -1.5,
+          begin: 1,
           end: 0,
           duration: widget.animationDuration,
-          curve: Curves.easeOutBack,
+          curve: Curves.easeOutCubic,
         );
   }
 }

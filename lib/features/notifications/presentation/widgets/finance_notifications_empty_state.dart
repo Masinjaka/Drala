@@ -1,4 +1,4 @@
-import 'package:budgets/core/ui/app_icon_foreground.dart';
+import 'package:budgets/core/widgets/empty_state_phrase.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
@@ -7,35 +7,10 @@ class FinanceNotificationsEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.notifications_none_rounded,
-              size: 38,
-              color:
-                  AppIconForeground.resolve(context, colors.onSurfaceVariant),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              context.l10n.noNotifications,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 5),
-            Text(
-              context.l10n.noNotificationsDescription,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colors.onSurfaceVariant,
-                  ),
-            ),
-          ],
-        ),
-      ),
+    return EmptyStatePhrase(
+      title: context.l10n.noNotifications,
+      brief: true,
+      illustrationAsset: 'assets/illustrations/empty_states/notifications.png',
     );
   }
 }

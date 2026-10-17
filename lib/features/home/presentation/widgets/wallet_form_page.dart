@@ -4,6 +4,7 @@ import 'package:budgets/features/transactions/presentation/widgets/transaction_a
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_actions.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_header.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_field.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_default_option.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,9 @@ class WalletFormPage extends StatelessWidget {
     required this.balanceController,
     required this.onSave,
     required this.canSubmit,
+    required this.setAsDefault,
+    required this.onDefaultChanged,
+    this.defaultOptionEnabled = true,
     this.currencyState,
     this.editing = false,
     this.onDelete,
@@ -24,6 +28,9 @@ class WalletFormPage extends StatelessWidget {
   final CurrencyState? currencyState;
   final VoidCallback onSave;
   final bool canSubmit;
+  final bool setAsDefault;
+  final ValueChanged<bool> onDefaultChanged;
+  final bool defaultOptionEnabled;
   final bool editing;
   final VoidCallback? onDelete;
 
@@ -59,6 +66,12 @@ class WalletFormPage extends StatelessWidget {
               hint: context.l10n.walletNameHint,
               textInputAction: TextInputAction.done,
             ),
+          ),
+          const SizedBox(height: 20),
+          WalletDefaultOption(
+            value: setAsDefault,
+            onChanged: onDefaultChanged,
+            enabled: defaultOptionEnabled,
           ),
           const Spacer(),
           TransactionFormActions(

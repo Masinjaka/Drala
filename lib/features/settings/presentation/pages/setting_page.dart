@@ -173,6 +173,6 @@ class _SettingPageState extends ConsumerState<SettingPage> {
     setState(() => _isLoggingOut = true);
     await ref.read(authControllerProvider.notifier).signOut();
     if (!mounted) return;
-    context.go('/getting-started');
+    context.go('/home');
   }
 }

@@ -11,6 +11,7 @@ class TransactionCategoryPage extends StatefulWidget {
     required this.selected,
     required this.onSelected,
     required this.onBack,
+    this.onCreate,
     this.isLoading = false,
   });
 
@@ -18,6 +19,7 @@ class TransactionCategoryPage extends StatefulWidget {
   final Category? selected;
   final ValueChanged<Category> onSelected;
   final VoidCallback onBack;
+  final VoidCallback? onCreate;
   final bool isLoading;
 
   @override
@@ -96,6 +98,17 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
                       );
                     }).toList(growable: false),
                   ))),
+        if (widget.onCreate != null) ...[
+          const SizedBox(height: 12),
+          CustomButton.outlined(
+            key: const ValueKey('category-create'),
+            text: context.l10n.create,
+            onPressed: widget.onCreate!,
+            height: 40,
+            borderColor: Theme.of(context).colorScheme.outlineVariant,
+            borderRadius: BorderRadius.circular(6),
+          ),
+        ],
         const SizedBox(height: 12),
         CustomButton.outlined(
           key: const ValueKey('category-done'),

@@ -1,10 +1,36 @@
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/home/presentation/pages/wallets_page.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_card_skeleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('shows wallet-shaped skeletons until wallets load',
+      (tester) async {
+    final wallets = ValueNotifier<List<WalletSummary>>([]);
+    addTearDown(wallets.dispose);
+    var loading = true;
+    await tester.pumpWidget(MaterialApp(
+      home: WalletsPage(
+        wallets: const [],
+        walletsListenable: wallets,
+        walletReader: () => wallets.value,
+        loadingReader: () => loading,
+        onAddWallet: (_) async {},
+        onUpdateWallet: (_, __) async {},
+        onDeleteWallet: (_) async {},
+      ),
+    ));
+    expect(find.byType(WalletCardSkeleton), findsNWidgets(3));
+
+    loading = false;
+    wallets.value = [_wallet('cash', 'Cash')];
+    await tester.pump();
+    expect(find.byType(WalletCardSkeleton), findsNothing);
+    expect(find.text('Cash'), findsOneWidget);
+  });
+
   testWidgets('refreshes cards when the wallet model changes', (tester) async {
     final wallets =
         ValueNotifier<List<WalletSummary>>([_wallet('cash', 'Cash')]);

@@ -100,7 +100,7 @@ class _GuestSettingsPageState extends ConsumerState<GuestSettingsPage> {
                               null) {
                             _sync();
                           } else {
-                            context.push('/login');
+                            context.push('/sign-in-choice');
                           }
                         },
                       ),

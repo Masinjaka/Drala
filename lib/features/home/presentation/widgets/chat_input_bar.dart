@@ -55,10 +55,6 @@ class _ChatInputBarState extends State<ChatInputBar> {
   }
 
   Future<void> _submit() async {
-    if (widget.isQuotaExhausted) {
-      await widget.onManualEntryRequested();
-      return;
-    }
     final message = _controller.text.trim();
     if (message.isEmpty || widget.isSubmitting) return;
     FocusScope.of(context).unfocus();
@@ -118,6 +114,8 @@ class _ChatInputBarState extends State<ChatInputBar> {
     final isBusy = widget.isSubmitting || _isProcessingReceipt;
     final isFocused = _focusNode.hasFocus;
     final isExpanded = isFocused || _controller.text.trim().isNotEmpty;
+    final isManualEntry =
+        widget.manualOnly || (widget.isQuotaExhausted && !isExpanded);
     final animationDuration = MediaQuery.disableAnimationsOf(context)
         ? Duration.zero
         : const Duration(milliseconds: 220);
@@ -144,19 +142,15 @@ class _ChatInputBarState extends State<ChatInputBar> {
       ),
     );
     final sendButton = ChatSendButton(
-      key: Key(widget.isQuotaExhausted || widget.manualOnly
-          ? 'manual-entry-send'
-          : 'ai-send'),
+      key: Key(isManualEntry ? 'manual-entry-send' : 'ai-send'),
       isBusy: isBusy,
-      isManualEntry: widget.isQuotaExhausted || widget.manualOnly,
+      isManualEntry: isManualEntry,
       onPressed: isBusy
           ? null
-          : widget.isQuotaExhausted || widget.manualOnly
+          : isManualEntry
               ? widget.onManualEntryRequested
               : _submit,
-      tooltip: widget.isQuotaExhausted || widget.manualOnly
-          ? context.l10n.manualEntry
-          : context.l10n.send,
+      tooltip: isManualEntry ? context.l10n.manualEntry : context.l10n.send,
       bottomPadding: isFocused ? 4 : 0,
     );
     return Column(

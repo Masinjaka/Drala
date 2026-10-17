@@ -70,6 +70,7 @@ class AiEntryViewModel extends ChangeNotifier {
   int? get remainingRequests => _quota?.remaining;
   bool get hasUnlimitedAiRequests => _quota?.unlimited ?? false;
   List<WalletSummary> get wallets => _wallets;
+  bool get walletsLoaded => _walletsLoaded;
   bool get isAddingWallet => _isAddingWallet;
   int get totalWalletBalance => _totalFunds;
   bool get isFirstEntryExperience => _hasAnyEntries == false;

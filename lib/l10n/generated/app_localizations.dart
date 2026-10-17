@@ -1474,6 +1474,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this category? This action is irreversible.'**
   String get deleteCategoryDescription;
 
+  /// No description provided for @categoryInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'The category cannot be deleted because it is currently in use.'**
+  String get categoryInUse;
+
+  /// No description provided for @noActivitiesForDay.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity on this day'**
+  String get noActivitiesForDay;
+
   /// No description provided for @editTransaction.
   ///
   /// In en, this message translates to:

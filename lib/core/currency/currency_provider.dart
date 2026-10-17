@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:budgets/core/currency/currency_state.dart';
+import 'package:budgets/core/currency/currency_defaults.dart';
 import 'package:budgets/core/currency/exchange_rates.dart';
 import 'package:budgets/core/currency/exchange_rates_datasource.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
@@ -6,31 +8,13 @@ import 'package:budgets/features/guest/data/guest_sync_journal.dart';
 import 'package:budgets/features/guest/data/guest_exchange_rate_cache.dart';
 import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:drift/drift.dart';
-import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'currency_provider.g.dart';
 
-const fallbackCurrencyCodes = <String>{
-  'MGA',
-  'USD',
-  'EUR',
-  'GBP',
-  'CAD',
-  'AUD',
-  'JPY',
-  'CNY',
-  'CHF',
-  'ZAR',
-  'KES',
-};
-
 @riverpod
-Future<ExchangeRates?> exchangeRates(Ref ref) async {
-  const datasource = ExchangeRatesDataSource();
-  return datasource.fetchLatest();
-}
+Future<ExchangeRates?> exchangeRates(Ref ref) =>
+    const ExchangeRatesDataSource().fetchLatest();
 
 @Riverpod(keepAlive: true)
 class CurrencyController extends _$CurrencyController {
@@ -47,13 +31,12 @@ class CurrencyController extends _$CurrencyController {
       var rates = await cache.load();
       if (rates == null && selected != 'MGA') {
         try {
-          rates = await const ExchangeRatesDataSource()
-              .fetchLatest()
-              .timeout(const Duration(seconds: 5));
-          if (rates != null) await cache.save(rates);
+          rates = await _fetchGuestRates(selected, guest);
         } catch (_) {
           // Offline guests can still use the MGA ledger safely.
         }
+      } else {
+        unawaited(_refreshGuestRates(guest));
       }
       if (rates != null &&
           rates.baseCode != 'MGA' &&
@@ -79,7 +62,7 @@ class CurrencyController extends _$CurrencyController {
       throw StateError('User profile is not loaded');
     }
 
-    final defaultCode = _defaultCurrencyCode();
+    final defaultCode = defaultCurrencyCode();
     final code = user.currencyCode ?? defaultCode;
 
     if (user.currencyCode == null) {
@@ -181,12 +164,36 @@ class CurrencyController extends _$CurrencyController {
     return latest;
   }
 
-  String _defaultCurrencyCode() {
-    final locale = WidgetsBinding.instance.platformDispatcher.locale;
-    final localeName = locale.toString();
-    final formatter = NumberFormat.simpleCurrency(locale: localeName);
-    final currencyName = formatter.currencyName;
-    if (currencyName == null || currencyName.isEmpty) return 'MGA';
-    return currencyName;
+  Future<void> _refreshGuestRates(GuestSession guest) async {
+    try {
+      final latest = await const ExchangeRatesDataSource()
+          .fetchLatest()
+          .timeout(const Duration(seconds: 5));
+      if (latest == null ||
+          (latest.baseCode != 'MGA' && !latest.rates.containsKey('MGA'))) {
+        return;
+      }
+      await GuestExchangeRateCache(guest.database).save(latest);
+      if (!ref.mounted) return;
+      final activeGuest = ref.read(guestSessionProvider);
+      if (activeGuest?.isActive != true ||
+          activeGuest?.userId != guest.userId) {
+        return;
+      }
+      final current = state.value;
+      if (current == null) return;
+      final preferred = current.preferredCode;
+      state = AsyncData(current.copyWith(
+        code:
+            preferred == latest.baseCode || latest.rates.containsKey(preferred)
+                ? preferred
+                : 'MGA',
+        baseCode: latest.baseCode,
+        rates: latest.rates,
+        fetchedAt: latest.fetchedAt,
+      ));
+    } catch (_) {
+      // Cached rates are retained when the guest is offline.
+    }
   }
 }

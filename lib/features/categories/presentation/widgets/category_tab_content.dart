@@ -3,6 +3,9 @@ import 'package:budgets/core/ui/value_skeleton.dart';
 import 'package:budgets/core/ui/scroll_edge_fade.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/ui/app_toast.dart';
+import 'package:budgets/core/widgets/empty_state_phrase.dart';
+import 'package:budgets/core/utils/error_messages.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/features/categories/data/datasource/category_api.dart'
     as category_api;
 import 'package:budgets/features/categories/domain/models/category_model.dart';
@@ -35,7 +38,13 @@ class CategoryTabContent extends ConsumerWidget {
             child: switch (categoriesAsyncValue) {
               AsyncData(:final value) => ScrollEdgeFade(
                   child: _categoryGrid(context, _filterCategories(value))),
-              AsyncError(:final error) => Text('error: $error'),
+              AsyncError(:final error) => Center(
+                  child: Text(
+                    friendlyErrorMessage(error),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               _ => _skeleton(context),
             },
           ),
@@ -72,11 +81,10 @@ class CategoryTabContent extends ConsumerWidget {
 
   Widget _categoryGrid(BuildContext context, List<Category> categories) {
     if (categories.isEmpty) {
-      return Center(
-        child: Text(
-          'Aucune catégorie trouvée.',
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
+      return EmptyStatePhrase(
+        title: context.l10n.categories,
+        brief: true,
+        illustrationAsset: 'assets/illustrations/empty_states/categories.png',
       );
     }
     return GridView.builder(

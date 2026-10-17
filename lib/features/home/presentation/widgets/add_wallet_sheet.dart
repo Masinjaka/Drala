@@ -25,6 +25,7 @@ class _AddWalletSheetState extends State<AddWalletSheet> {
   final _name = TextEditingController();
   final _balance = TextEditingController();
   bool _canSubmit = false;
+  bool _setAsDefault = false;
 
   @override
   void initState() {
@@ -48,7 +49,9 @@ class _AddWalletSheetState extends State<AddWalletSheet> {
   void _submit() {
     if (!_canSubmit) return;
     Navigator.of(context).pop(AddWalletInput(
-        name: _name.text.trim(), initialBalance: _initialBalance ?? 0));
+        name: _name.text.trim(),
+        initialBalance: _initialBalance ?? 0,
+        setAsDefault: _setAsDefault));
   }
 
   @override
@@ -68,6 +71,8 @@ class _AddWalletSheetState extends State<AddWalletSheet> {
             balanceController: _balance,
             currencyState: widget.currencyState,
             canSubmit: _canSubmit,
+            setAsDefault: _setAsDefault,
+            onDefaultChanged: (value) => setState(() => _setAsDefault = value),
             onSave: _submit,
           ),
         ],

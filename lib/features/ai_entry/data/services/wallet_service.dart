@@ -36,7 +36,11 @@ class WalletService {
         })
         .select(_selection)
         .single();
-    return _wallet(row);
+    if (input.setAsDefault) {
+      await _client
+          .rpc('set_default_wallet', params: {'p_wallet_id': row['id']});
+    }
+    return _wallet(input.setAsDefault ? {...row, 'is_default': true} : row);
   }
 
   Future<WalletSummary> update(
@@ -53,6 +57,10 @@ class WalletService {
         .eq('id', walletId)
         .eq('user_id', _requireUserId());
     await _renewEnvelopes();
+    if (input.setAsDefault) {
+      await _client
+          .rpc('set_default_wallet', params: {'p_wallet_id': walletId});
+    }
     final row = await _client
         .from('wallets')
         .select(_selection)

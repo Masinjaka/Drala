@@ -305,6 +305,8 @@
   "deleteGoalDescription": "Tena tianao hofafana ve ity tanjona ity? Tsy azo averina intsony izany.",
   "deleteCategoryQuestion": "Hofafana ve ny sokajy?",
   "deleteCategoryDescription": "Tena tianao hofafana ve ity sokajy ity? Tsy azo averina intsony izany.",
+  "categoryInUse": "Tsy azo fafana ity sokajy ity satria mbola ampiasaina.",
+  "noActivitiesForDay": "Tsy misy hetsika amin’ity andro ity",
   "editTransaction": "Hanova fifanakalozana",
   "expense": "Fandaniana",
   "title": "Lohateny",

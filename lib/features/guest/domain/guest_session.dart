@@ -1,6 +1,7 @@
 import 'package:budgets/features/guest/data/guest_database.dart';
 import 'package:budgets/features/guest/data/guest_onboarding_repository.dart';
 import 'package:budgets/features/guest/data/guest_repositories.dart';
+import 'package:budgets/features/onboarding/domain/models/category_preset_names.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,6 +28,13 @@ class GuestSession extends ChangeNotifier {
   bool onboardingComplete;
   bool accountChoiceSeen;
   bool isSyncing = false;
+  bool isSigningOut = false;
+
+  void setSigningOut(bool value) {
+    if (isSigningOut == value) return;
+    isSigningOut = value;
+    notifyListeners();
+  }
 
   void setSyncing(bool value) {
     if (isSyncing == value) return;
@@ -88,6 +96,21 @@ class GuestSession extends ChangeNotifier {
     await _preferences.setBool('guest_account_choice_seen', true);
     accountChoiceSeen = true;
     notifyListeners();
+  }
+
+  Future<void> enterAfterSignOut({
+    required String currency,
+    required String language,
+  }) async {
+    await start();
+    await onboarding.complete(
+      currency: currency,
+      language: language,
+      categories: categoryPresetNames.keys.toList(growable: false),
+      wallets: const ['cash', 'bank', 'mobile'],
+    );
+    markOnboardingComplete();
+    await markChoiceSeen();
   }
 
   Future<void> stopAfterSync() async {

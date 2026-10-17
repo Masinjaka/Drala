@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/outlined_square_button.dart';
+import 'package:budgets/features/notifications/presentation/widgets/notification_count_badge.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -28,22 +29,9 @@ class HomeNotificationButton extends StatelessWidget {
             Positioned(
               right: -1,
               top: -2,
-              child: Container(
+              child: NotificationCountBadge(
                 key: const Key('notification-warning-badge'),
-                width: 16,
-                height: 16,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.error,
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  '${viewModel.unreadCount.clamp(0, 9)}',
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onError,
-                        fontSize: 8,
-                      ),
-                ),
+                count: viewModel.unreadCount,
               ),
             ),
         ],

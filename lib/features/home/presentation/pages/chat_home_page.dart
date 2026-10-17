@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/ai_entry/domain/repositories/ai_entry_repository.dart';
@@ -20,6 +19,9 @@ import 'package:budgets/features/stats/presentation/pages/finance_stats_page.dar
 import 'package:budgets/features/settings/presentation/pages/setting_page.dart';
 import 'package:budgets/features/receipts/domain/repositories/receipt_repository.dart';
 import 'package:flutter/material.dart';
+
+part 'chat_home_page_actions.dart';
+
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({
     this.today,
@@ -47,6 +49,7 @@ class ChatHomePage extends StatefulWidget {
   @override
   State<ChatHomePage> createState() => _ChatHomePageState();
 }
+
 class _ChatHomePageState extends State<ChatHomePage> {
   late final DateTime _today;
   late final AiEntryViewModel _aiEntryViewModel;
@@ -78,6 +81,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
       unawaited(_refreshNotifications());
     });
   }
+
   Future<void> _loadSelectedDate() async {
     final targetDate = _selectedDate;
     try {
@@ -89,10 +93,12 @@ class _ChatHomePageState extends State<ChatHomePage> {
       if (mounted) showErrorToast(context, error);
     }
   }
+
   void _selectDate(DateTime date) {
     setState(() => _selectedDate = DateUtils.dateOnly(date));
     unawaited(_loadSelectedDate());
   }
+
   void _syncSelectedActivity() {
     if (_loadedDate != _selectedDate || _aiEntryViewModel.isLoading) return;
     _activityCalendarViewModel.setActivity(
@@ -100,22 +106,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
       _aiEntryViewModel.entries.isNotEmpty,
     );
   }
-  void _resetAfterDataDeletion() {
-    _activityCalendarViewModel.clear();
-    _notificationViewModel.clear();
-    unawaited(
-      _aiEntryViewModel.resetAfterDataDeletion().catchError((Object error) {
-        if (mounted) showErrorToast(context, error);
-      }),
-    );
-  }
-  Future<void> _refreshNotifications() async {
-    try {
-      await _notificationViewModel.load();
-    } catch (error) {
-      if (mounted) showErrorToast(context, error);
-    }
-  }
+
   @override
   void dispose() {
     _aiEntryViewModel.removeListener(_syncSelectedActivity);
@@ -124,6 +115,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
     _aiEntryViewModel.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     late final DrawerDestinationNavigator destinations;
@@ -150,6 +142,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
       onDeleteWallet: _aiEntryViewModel.deleteWallet,
       walletsListenable: _aiEntryViewModel,
       walletReader: () => _aiEntryViewModel.wallets,
+      walletLoadingReader: () => !_aiEntryViewModel.walletsLoaded,
     );
     final layout = ChatHomeLayout(
       today: _today,

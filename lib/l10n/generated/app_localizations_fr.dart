@@ -818,6 +818,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Voulez-vous vraiment supprimer cette catégorie ? Cette action est irréversible.';
 
   @override
+  String get categoryInUse =>
+      'Cette catégorie ne peut pas être supprimée car elle est actuellement utilisée.';
+
+  @override
+  String get noActivitiesForDay => 'Aucune activité ce jour-là';
+
+  @override
   String get editTransaction => 'Modifier la transaction';
 
   @override

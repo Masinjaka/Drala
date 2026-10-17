@@ -5,7 +5,9 @@ extension AiEntryWallets on AiEntryViewModel {
     if (_isAddingWallet) return;
     await _runWalletMutation(() async {
       final wallet = await _repository.addWallet(input);
-      _wallets = List.unmodifiable([..._wallets, wallet]);
+      _wallets = List.unmodifiable(input.setAsDefault
+          ? await _repository.wallets()
+          : [..._wallets, wallet]);
       await _refreshWalletTotal();
     });
   }
@@ -17,9 +19,9 @@ extension AiEntryWallets on AiEntryViewModel {
     if (_isAddingWallet) return;
     await _runWalletMutation(() async {
       final updated = await _repository.updateWallet(walletId, input);
-      _wallets = List.unmodifiable(
-        _wallets.map((wallet) => wallet.id == walletId ? updated : wallet),
-      );
+      _wallets = List.unmodifiable(input.setAsDefault
+          ? await _repository.wallets()
+          : _wallets.map((wallet) => wallet.id == walletId ? updated : wallet));
       await _refreshWalletTotal();
     });
   }

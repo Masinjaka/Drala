@@ -3,6 +3,7 @@ import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry_edit_changes.dart';
 import 'package:budgets/features/home/presentation/widgets/home_operation_row.dart';
 import 'package:budgets/features/home/presentation/widgets/home_operation_skeleton.dart';
+import 'package:budgets/features/home/presentation/widgets/activity_empty_state.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -80,6 +81,8 @@ class HomeOperationsList extends StatelessWidget {
           ),
         ),
       ),
+      if (!isLoading && !isAdding && entries.isEmpty)
+        const SliverToBoxAdapter(child: ActivityEmptyState()),
     ];
     if (asSliver) return SliverMainAxisGroup(slivers: slivers);
     return CustomScrollView(
