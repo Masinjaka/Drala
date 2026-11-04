@@ -171,7 +171,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get walletInUseCannotBeDeleted =>
-      'This wallet has transaction history and cannot be deleted.';
+      'This wallet is used by an envelope or transaction history and cannot be deleted.';
 
   @override
   String get allTime => 'All time';
@@ -194,7 +194,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notifications => 'Notifications';
 
   @override
-  String get noNotifications => 'No notifications';
+  String get noNotifications =>
+      'You’re all caught up! We’ll keep you posted here.';
 
   @override
   String get noNotificationsDescription =>
@@ -671,7 +672,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get largestExpense => 'Largest expense';
 
   @override
-  String get dailySpending => 'Daily spending';
+  String get dailySpending => 'Daily Spending';
 
   @override
   String get topSpending => 'Top spending';
@@ -730,7 +731,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get create => 'Create';
 
   @override
-  String get noEnvelopesYet => 'No envelopes yet';
+  String get noEnvelopesYet => 'Give your plans a little room to grow.';
 
   @override
   String get envelopeEmptyDescription =>
@@ -814,7 +815,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'The category cannot be deleted because it is currently in use.';
 
   @override
-  String get noActivitiesForDay => 'No activity on this day';
+  String get noActivitiesForDay =>
+      'A little quiet today. Ready to track something?';
 
   @override
   String get editTransaction => 'Edit transaction';
@@ -990,4 +992,426 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guestCurrencyRateStillUnavailable =>
       'Exchange rates are still unavailable. Try again when you\'re online.';
+
+  @override
+  String get deleteEnvelopeDescription =>
+      'Deleting this envelope returns its remaining funds to its wallet. Transaction history is preserved.';
+
+  @override
+  String get insufficientWalletFunds =>
+      'The selected wallet does not have enough funds. Choose a wallet with a sufficient balance.';
+
+  @override
+  String get envelopeAmountBelowSpent =>
+      'The envelope amount cannot be lower than the amount already spent.';
+
+  @override
+  String get monthlyScheduleNotLatest =>
+      'Only the latest monthly envelope can change its renewal settings.';
+
+  @override
+  String get selectDate => 'Select a date';
+
+  @override
+  String get transfer => 'Transfer';
+
+  @override
+  String get fromWallet => 'From wallet';
+
+  @override
+  String get toWallet => 'To wallet';
+
+  @override
+  String get transferNeedsWallets =>
+      'Add a second wallet to transfer money between wallets.';
+
+  @override
+  String get transferSaved => 'Transfer saved.';
+
+  @override
+  String get differentTransferWallets => 'Choose two different wallets.';
+
+  @override
+  String get walletCurrencyMismatch => 'Transfers require two wallets in MGA.';
+
+  @override
+  String get walletUnavailable =>
+      'A selected wallet is no longer available. Choose another wallet.';
+
+  @override
+  String get transferConflict =>
+      'This transfer was already submitted with different details. Open a new transfer.';
+
+  @override
+  String get selectItems => 'Select';
+
+  @override
+  String selectedItemCount(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get deleteSelectedItems => 'Delete selected';
+
+  @override
+  String deleteSelectedWalletsDescription(int count) {
+    return 'Delete $count selected wallets? This cannot be undone.';
+  }
+
+  @override
+  String deleteSelectedEnvelopesDescription(int count) {
+    return 'Delete $count selected envelopes? Remaining funds return to their wallets. Transaction history is preserved.';
+  }
+
+  @override
+  String get defaultWalletCannotDelete =>
+      'The default wallet cannot be deleted. Choose another default wallet first.';
+
+  @override
+  String get envelopeUnavailable =>
+      'A selected envelope is no longer available. Refresh the list.';
+
+  @override
+  String get operationInProgress =>
+      'Please wait for the current operation to finish.';
+
+  @override
+  String get dailyReminderNotificationTitle => 'Daily reminder';
+
+  @override
+  String get dailyReminderNotificationBody =>
+      'Remember to record your expenses or income today.';
+
+  @override
+  String get categoryNameRequired => 'Enter a category name.';
+
+  @override
+  String get envelopeNameRequired => 'Enter an envelope name.';
+
+  @override
+  String get envelopeCategoryRequired => 'Choose a category for this envelope.';
+
+  @override
+  String get fieldRequired => 'This field is required.';
+
+  @override
+  String get positiveAmountRequired => 'Enter an amount greater than zero.';
+
+  @override
+  String get nonNegativeAmountRequired => 'Enter a balance of zero or more.';
+
+  @override
+  String get envelopeFundingWalletFixed =>
+      'An existing envelope keeps its original funding wallet.';
+
+  @override
+  String get envelopeFundingWalletUnavailable => 'Funding wallet unavailable';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get seeMore => 'See more';
+
+  @override
+  String get recentTransactions => 'Recent transactions';
+
+  @override
+  String get envelopes => 'Envelopes';
+
+  @override
+  String get noRecentTransactions =>
+      'Add a transaction to start tracking your budget.';
+
+  @override
+  String get overviewLoadFailed => 'Unable to refresh. Tap to retry.';
+
+  @override
+  String get homeHello => 'Hi';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Hi, $name';
+  }
+
+  @override
+  String get networkUnavailable =>
+      'Unable to reach the server. Check your internet connection and try again.';
+
+  @override
+  String get offlineModeToast =>
+      'Connection lost. Offline mode is on. Your changes will sync when you reconnect.';
+
+  @override
+  String get onlineModeToast => 'Connection restored. Your changes are synced.';
+
+  @override
+  String get onlinePendingToast =>
+      'Connection restored. Some changes still need your attention.';
+
+  @override
+  String get offlineStatus => 'Offline · changes saved on this device';
+
+  @override
+  String get syncingStatus => 'Syncing your changes…';
+
+  @override
+  String pendingStatus(int count) {
+    return '$count changes waiting to sync';
+  }
+
+  @override
+  String get offlineInitial =>
+      'Connect to download your account data for offline use.';
+
+  @override
+  String get offlineSetupUnavailable =>
+      'Sync is unavailable. Your local changes are safely stored on this device.';
+
+  @override
+  String get syncConflictTitle => 'Review changes before syncing';
+
+  @override
+  String get syncConflictMessage =>
+      'Your cloud data changed while this device was offline. Review your pending changes before retrying, or use the cloud version.';
+
+  @override
+  String get offlineRetry => 'Retry';
+
+  @override
+  String get offlineReview => 'Review';
+
+  @override
+  String get offlineKeepCloud => 'Use cloud data';
+
+  @override
+  String get offlineRetryChanges => 'Sync these changes';
+
+  @override
+  String get offlineDiscardTitle => 'Discard changes saved on this device?';
+
+  @override
+  String get offlineDiscardBody =>
+      'These changes have not reached the cloud. This removes them from this device and downloads the cloud version.';
+
+  @override
+  String get onlineRequired => 'This action needs an internet connection.';
+
+  @override
+  String get signInSyncRequired =>
+      'Sign in again to continue syncing. Your local changes are kept.';
+
+  @override
+  String get categoryIconFood => 'Food & drinks';
+
+  @override
+  String get categoryIconShopping => 'Groceries';
+
+  @override
+  String get categoryIconTransport => 'Transport';
+
+  @override
+  String get categoryIconHousing => 'Housing';
+
+  @override
+  String get categoryIconHealth => 'Health';
+
+  @override
+  String get categoryIconUtilities => 'Utilities';
+
+  @override
+  String get categoryIconEntertainment => 'Entertainment';
+
+  @override
+  String get categoryIconEducation => 'Education';
+
+  @override
+  String get categoryIconSalary => 'Salary';
+
+  @override
+  String get categoryIconFreelance => 'Freelance';
+
+  @override
+  String get categoryIconIncome => 'Income';
+
+  @override
+  String get categoryIconOther => 'Other';
+
+  @override
+  String get categoryIconCoffee => 'Coffee';
+
+  @override
+  String get categoryIconDining => 'Restaurants';
+
+  @override
+  String get categoryIconTravel => 'Travel';
+
+  @override
+  String get categoryIconGifts => 'Gifts';
+
+  @override
+  String get categoryIconPets => 'Pets';
+
+  @override
+  String get categoryIconFamily => 'Family';
+
+  @override
+  String get categoryIconSubscriptions => 'Subscriptions';
+
+  @override
+  String get categoryIconPhone => 'Phone';
+
+  @override
+  String get categoryIconInternet => 'Internet';
+
+  @override
+  String get categoryIconSavings => 'Savings';
+
+  @override
+  String get categoryIconInvestment => 'Investments';
+
+  @override
+  String get categoryIconInsurance => 'Insurance';
+
+  @override
+  String get categoryIconTaxes => 'Taxes';
+
+  @override
+  String get categoryIconFitness => 'Fitness';
+
+  @override
+  String get categoryIconBeauty => 'Personal care';
+
+  @override
+  String get categoryIconClothing => 'Clothing';
+
+  @override
+  String get categoryIconRepairs => 'Repairs';
+
+  @override
+  String get categoryIconFuel => 'Fuel';
+
+  @override
+  String get categoryIconBicycle => 'Cycling';
+
+  @override
+  String get categoryIconBus => 'Public transport';
+
+  @override
+  String get categoryIconRain => 'Rainy day fund';
+
+  @override
+  String get categoryIconCharity => 'Donations';
+
+  @override
+  String get categoryIconMusic => 'Music';
+
+  @override
+  String get categoryIconBooks => 'Books';
+
+  @override
+  String get categoryIconTransfer => 'Transfers';
+
+  @override
+  String get chooseCategoryIcon => 'Choose an icon';
+
+  @override
+  String get searchCategoryIcons => 'Search icons';
+
+  @override
+  String get activitiesComposerHint => 'Tell me what you spent...';
+
+  @override
+  String get createEnvelope => 'Create envelope';
+
+  @override
+  String get trackYourBudget => 'Track your budget';
+
+  @override
+  String get emptyCategories => 'Make room for the things that matter to you.';
+
+  @override
+  String get emptyWallets => 'A home for your money starts here.';
+
+  @override
+  String get createCategory => 'Create a category';
+
+  @override
+  String get emptyExpenses =>
+      'Small steps make a clearer budget. Let’s add your first expense.';
+
+  @override
+  String get emptyIncomes => 'Every income is a fresh start. Add yours here.';
+
+  @override
+  String get emptySearch =>
+      'Let’s try another search to find what you’re looking for.';
+
+  @override
+  String get createExpense => 'Add an expense';
+
+  @override
+  String get createIncome => 'Add an income';
+
+  @override
+  String get resetSearch => 'Reset search';
+
+  @override
+  String get emptyBudgets =>
+      'Give your spending a direction with your first budget.';
+
+  @override
+  String get emptyGoals =>
+      'Big plans start with a little saving. What’s your first goal?';
+
+  @override
+  String get createBudget => 'Create a budget';
+
+  @override
+  String get createGoal => 'Create a goal';
+
+  @override
+  String get manageNotifications => 'Manage notifications';
+
+  @override
+  String get envelopeRemaining => 'Remaining';
+
+  @override
+  String get envelopeBudgetOf => 'of';
+
+  @override
+  String get statsNet => 'Net';
+
+  @override
+  String get statsNetDescription => 'Income minus expenses';
+
+  @override
+  String get statsNumbers => 'The numbers';
+
+  @override
+  String get statsCategories => 'The categories';
+
+  @override
+  String get statsOnAverage => 'on average';
+
+  @override
+  String get statsPreviousMonth => 'vs last month';
+
+  @override
+  String get statsEmptyCategories =>
+      'Track an expense to see your spending by category.';
+
+  @override
+  String statsActivityCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count activities',
+      one: '1 activity',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chooseCategoryColor => 'Choose a color';
 }

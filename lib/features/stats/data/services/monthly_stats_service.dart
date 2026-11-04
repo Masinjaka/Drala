@@ -14,7 +14,7 @@ class MonthlyStatsService {
         .from('transaction')
         .select(
           'amount,date,transaction_type,currency_code,'
-          'categories(name,emoji)',
+          'categories(name,emoji,icon_key,color)',
         )
         .gte('date', start.toUtc().toIso8601String())
         .lt('date', end.toUtc().toIso8601String())

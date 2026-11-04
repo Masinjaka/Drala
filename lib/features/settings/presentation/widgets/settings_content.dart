@@ -1,8 +1,10 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_logout_button.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_item.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_summary_cards.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_section_title.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +19,6 @@ class SettingsContent extends StatelessWidget {
     required this.onChangePassword,
     required this.onNotifications,
     required this.onCurrency,
-    required this.onDefaultWallet,
     required this.onTheme,
     required this.onLanguage,
     required this.onScannedReceipts,
@@ -40,7 +41,6 @@ class SettingsContent extends StatelessWidget {
   final VoidCallback onChangePassword;
   final VoidCallback onNotifications;
   final VoidCallback onCurrency;
-  final VoidCallback onDefaultWallet;
   final VoidCallback onTheme;
   final VoidCallback onLanguage;
   final VoidCallback onScannedReceipts;
@@ -57,10 +57,10 @@ class SettingsContent extends StatelessWidget {
     final l = context.l10n;
     return ListView(
       key: const Key('settings-content'),
-      padding: const EdgeInsets.fromLTRB(28, 0, 28, 28),
+      padding: AppPageSpacing.insets(context, top: 0, bottom: 28),
       children: [
         Align(alignment: Alignment.center, child: profileHeader),
-        const SizedBox(height: 37),
+        const SizedBox(height: 24),
         SettingsSummaryCards(
           categoriesLabel: l.categories,
           walletsLabel: l.wallets,
@@ -69,27 +69,27 @@ class SettingsContent extends StatelessWidget {
           onCategories: onCategories,
           onWallets: onWallets,
         ),
-        const SizedBox(height: 43),
+        const SizedBox(height: 24),
+        SettingsSectionTitle(l.profile),
         SettingsMenuGroup(
-          flat: true,
           items: [
             SettingsMenuItem(
               title: l.editProfile,
               iconAsset: 'assets/settings/profile.svg',
-              height: 50,
+              height: 56,
               onTap: onEditProfile,
             ),
             SettingsMenuItem(
               title: l.changePassword,
               iconAsset: 'assets/settings/password.svg',
-              height: 50,
+              height: 56,
               onTap: onChangePassword,
             ),
           ],
         ),
-        _divider(context, top: 6, bottom: 20),
+        const SizedBox(height: 24),
+        SettingsSectionTitle(l.preferences),
         SettingsMenuGroup(
-          flat: true,
           items: [
             SettingsMenuItem(
               title: l.notification,
@@ -102,37 +102,10 @@ class SettingsContent extends StatelessWidget {
               onTap: onCurrency,
             ),
             SettingsMenuItem(
-              title: l.setDefaultWallet,
-              iconAsset: 'assets/settings/privacy.svg',
-              onTap: onDefaultWallet,
-            ),
-            SettingsMenuItem(
               title: l.theme,
               iconAsset: 'assets/settings/wallet.svg',
               onTap: onTheme,
             ),
-          ],
-        ),
-        _divider(context, top: 7, bottom: 19),
-        SettingsMenuGroup(
-          flat: true,
-          items: [
-            SettingsMenuItem(
-              title: l.termsOfService,
-              iconAsset: 'assets/settings/terms.svg',
-              onTap: onTerms,
-            ),
-            SettingsMenuItem(
-              title: l.privacyPolicy,
-              iconAsset: 'assets/settings/theme.svg',
-              onTap: onPrivacy,
-            ),
-          ],
-        ),
-        _divider(context, top: 7, bottom: 19),
-        SettingsMenuGroup(
-          flat: true,
-          items: [
             SettingsMenuItem(
               title: l.language,
               iconAsset: 'assets/settings/language.svg',
@@ -151,7 +124,23 @@ class SettingsContent extends StatelessWidget {
               ),
           ],
         ),
-        const SizedBox(height: 41),
+        const SizedBox(height: 24),
+        SettingsSectionTitle(l.legal),
+        SettingsMenuGroup(
+          items: [
+            SettingsMenuItem(
+              title: l.termsOfService,
+              iconAsset: 'assets/settings/terms.svg',
+              onTap: onTerms,
+            ),
+            SettingsMenuItem(
+              title: l.privacyPolicy,
+              iconAsset: 'assets/settings/theme.svg',
+              onTap: onPrivacy,
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
         SettingsLogoutButton(
           label: l.logOut,
           isLoading: isLoggingOut,
@@ -170,18 +159,4 @@ class SettingsContent extends StatelessWidget {
       ],
     );
   }
-
-  Widget _divider(
-    BuildContext context, {
-    required double top,
-    required double bottom,
-  }) =>
-      Padding(
-        padding: EdgeInsets.only(top: top, bottom: bottom),
-        child: Divider(
-          height: 1,
-          thickness: 1,
-          color: AppSettingsTheme.divider(context),
-        ),
-      );
 }

@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
@@ -63,10 +65,7 @@ class _JumbotronState extends ConsumerState<Jumbotron> {
               alignment: Alignment.topLeft,
               child: Text(
                 'Solde total',
-                style: TextStyle(
-                  fontSize: 15.5,
-                  color: textColor,
-                ),
+                style: AppTextStyle(AppTextRole.body, color: textColor),
               ),
             ),
           ),
@@ -127,31 +126,25 @@ class _JumbotronState extends ConsumerState<Jumbotron> {
                         ? Text(
                             '********',
                             key: const ValueKey('hidden'),
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: textColor,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 2.0,
-                            ),
+                            style: AppTextStyle(AppTextRole.display,
+                                color: textColor, letterSpacing: 2.0),
                           )
                         : Text(
                             '${isNegative ? '-' : ''}${formatAmountWithCurrency(displayAmount, currencyCode, preserveFraction: true)}',
                             key: const ValueKey('visible'),
-                            style: AppTextTheme.amount(TextStyle(
-                              fontSize: 22,
-                              color: isNegative ? Colors.red : textColor,
-                              fontWeight: FontWeight.w600,
-                            )),
+                            style: AppTextTheme.amount(AppTextStyle(
+                                AppTextRole.display,
+                                color: isNegative
+                                    ? Theme.of(context).colorScheme.error
+                                    : textColor)),
                           ),
                   );
                 },
                 loading: () => const JumbotronAmountSkeleton(),
                 error: (error, stack) => Text(
                   'Erreur',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.red,
-                  ),
+                  style: AppTextStyle(AppTextRole.display,
+                      color: Theme.of(context).colorScheme.error),
                 ),
               ),
             ),

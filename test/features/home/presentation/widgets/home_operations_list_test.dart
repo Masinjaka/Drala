@@ -30,7 +30,7 @@ void main() {
     await tester.pumpWidget(_app());
 
     expect(find.byType(ActivityEmptyState), findsOneWidget);
-    expect(find.text('No activity on this day'), findsOneWidget);
+    expect(find.text('A little quiet today. Ready to track something?'), findsOneWidget);
     expect(find.byType(HomeOperationSkeleton), findsNothing);
   });
 }

@@ -1,4 +1,6 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -17,30 +19,25 @@ class LegalSettingsPage extends StatelessWidget {
       title:
           isTerms ? localizations.termsOfService : localizations.privacyPolicy,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
+        padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
         children: [
           Text(
             isTerms ? localizations.termsIntro : localizations.privacyIntro,
-            style: const TextStyle(
-              fontSize: AppTypography.title,
-              fontWeight: FontWeight.w800,
-            ),
+            style: const AppTextStyle(AppTextRole.sheetTitle),
           ),
           const SizedBox(height: 18),
           Text(
             isTerms ? localizations.termsDetails : localizations.privacyDetails,
-            style: const TextStyle(fontSize: AppTypography.body, height: 1.6),
+            style: const AppTextStyle(AppTextRole.body, height: 1.6),
           ),
           const SizedBox(height: 24),
           Text(
             localizations.legalLastUpdated,
-            style: TextStyle(
-              fontSize: AppTypography.supporting,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurface
-                  .withValues(alpha: 0.6),
-            ),
+            style: AppTextStyle(AppTextRole.supporting,
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.6)),
           ),
         ],
       ),

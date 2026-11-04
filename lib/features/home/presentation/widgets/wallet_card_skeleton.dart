@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/ui/value_skeleton.dart';
 import 'package:flutter/material.dart';
 
@@ -6,11 +8,12 @@ class WalletCardSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 132,
+        height: 180,
         padding: const EdgeInsets.fromLTRB(19, 18, 14, 19),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(10),
+          boxShadow: AppCardTheme.shadows(context),
+          color: AppFinanceSurfaceTheme.field(context),
+          borderRadius: AppFinanceSurfaceTheme.cardRadius,
         ),
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,

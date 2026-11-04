@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/forms/field_validators.dart';
 import 'package:budgets/core/currency/currency_amount_input_formatter.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -22,18 +25,16 @@ class ManualEntryPrimaryFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const labelStyle = TextStyle(
-      fontSize: AppTypography.body,
-      fontWeight: FontWeight.w700,
-    );
+    const labelStyle = AppTextStyle(AppTextRole.body);
     return Column(
       children: [
         CustomTextField(
           title: const Text('Title', style: labelStyle),
           hint: transactionType == 'expense' ? 'Coffee' : 'Salary',
           controller: titleController,
+          fieldValidator: (value) => FieldValidators.required(context, value),
           fillColor: Theme.of(context).cardColor,
-          fontSize: AppTypography.body,
+          fontSize: AppTypography.input,
         ),
         const SizedBox(height: 14),
         CustomTextField(
@@ -41,13 +42,15 @@ class ManualEntryPrimaryFields extends StatelessWidget {
           hint: amountHint,
           suffixText: amountSuffix,
           controller: amountController,
+          fieldValidator: (value) =>
+              FieldValidators.positiveAmount(context, value),
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: const [CurrencyAmountInputFormatter()],
           textStyle: AppTextTheme.amount(
             Theme.of(context).textTheme.bodySmall!,
           ),
           fillColor: Theme.of(context).cardColor,
-          fontSize: AppTypography.body,
+          fontSize: AppTypography.input,
         ),
       ],
     );

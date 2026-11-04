@@ -7,19 +7,23 @@ class HomeOperationPrivacyAmount extends StatelessWidget {
     required this.id,
     required this.text,
     required this.style,
+    this.useAmountFont = true,
     super.key,
   });
 
   final String id;
   final String text;
   final TextStyle? style;
+  final bool useAmountFont;
 
   @override
   Widget build(BuildContext context) {
     final isVisible = AmountVisibilityScope.isVisibleOf(context);
-    final amountStyle = AppTextTheme.amount(
-      style ?? DefaultTextStyle.of(context).style,
-    );
+    final amountStyle = useAmountFont
+        ? AppTextTheme.amount(
+            style ?? DefaultTextStyle.of(context).style,
+          )
+        : style ?? DefaultTextStyle.of(context).style;
     const duration = Duration(milliseconds: 260);
 
     return AnimatedSize(
@@ -63,6 +67,7 @@ class HomeOperationPrivacyAmount extends StatelessWidget {
             isVisible ? 'visible-operation-$id' : 'hidden-operation-$id',
           ),
           maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: amountStyle,
         ),
       ),

@@ -1,8 +1,12 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/planning/domain/models/goal_model.dart';
 import 'package:budgets/features/planning/domain/providers/goal_provider.dart';
 import 'package:budgets/features/planning/presentation/widgets/goal_list_item.dart';
 import 'package:budgets/features/planning/presentation/widgets/planning_common_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
+import 'add_goal_bottom_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -66,8 +70,8 @@ class _GoalsTabContentState extends ConsumerState<GoalsTabContent> {
               AsyncError(:final error) => Center(
                   child: Text(
                     'Erreur: $error',
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.error),
+                    style: AppTextStyle(AppTextRole.body,
+                        color: Theme.of(context).colorScheme.error),
                   ),
                 ),
               _ => const GoalListSkeleton(),
@@ -91,10 +95,11 @@ class _GoalsTabContentState extends ConsumerState<GoalsTabContent> {
         });
       }
       return PlanningEmptyState(
-        title: 'Vos objectifs commencent ici',
-        subtitle:
-            'Fixez votre premier objectif d’épargne et suivez votre élan.',
+        title: context.l10n.emptyGoals,
+        subtitle: '',
         icon: FontAwesomeIcons.bullseye,
+        actionLabel: context.l10n.createGoal,
+        onAction: () => AddGoalBottomSheet.show(context),
       );
     }
 

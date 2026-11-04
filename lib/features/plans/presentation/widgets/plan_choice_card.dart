@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
@@ -39,13 +40,7 @@ class PlanChoiceCard extends StatelessWidget {
                   ? theme.colorScheme.primary
                   : theme.colorScheme.outline,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: theme.shadowColor.withValues(alpha: .055),
-                blurRadius: 14,
-                offset: Offset(0, 5),
-              ),
-            ],
+            boxShadow: AppCardTheme.shadows(context),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,

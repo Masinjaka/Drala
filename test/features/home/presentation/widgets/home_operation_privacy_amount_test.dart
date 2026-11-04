@@ -1,3 +1,4 @@
+import 'package:budgets/features/home/presentation/widgets/home_operation_privacy_amount.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/amount_visibility_controller.dart';
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
@@ -39,8 +40,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    final badge =
-        find.byKey(const ValueKey('operation-amount-badge-coffee'));
+    final badge = find.byType(HomeOperationPrivacyAmount);
     final initialBadgeWidth = tester.getSize(badge).width;
     controller.toggle();
     await tester.pump();
@@ -61,7 +61,7 @@ void main() {
     expect(settledLeft, closeTo(endLeft, .01));
     expect(middleBadgeWidth, lessThan(initialBadgeWidth));
     expect(endBadgeWidth, lessThan(middleBadgeWidth));
-    expect(find.text('-5 000 MGA'), findsNothing);
+    expect(find.text('- Ar 5,000'), findsNothing);
     expect(find.text('***'), findsOneWidget);
   });
 }

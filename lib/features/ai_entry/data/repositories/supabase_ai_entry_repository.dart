@@ -1,3 +1,7 @@
+import 'package:budgets/features/ai_entry/domain/repositories/recent_transaction_repository.dart';
+import 'package:budgets/features/home/domain/repositories/bulk_wallet_repository.dart';
+import 'package:budgets/features/ai_entry/domain/models/manual_transfer_input.dart';
+import 'package:budgets/features/ai_entry/domain/repositories/manual_transfer_repository.dart';
 import 'package:budgets/features/ai_entry/data/services/ai_entry_service.dart';
 import 'package:budgets/features/ai_entry/data/services/manual_entry_service.dart';
 import 'package:budgets/features/ai_entry/data/services/wallet_service.dart';
@@ -13,7 +17,12 @@ import 'package:budgets/features/ai_entry/domain/repositories/ai_entry_repositor
 import 'package:budgets/features/ai_entry/domain/repositories/paged_ai_entry_repository.dart';
 
 class SupabaseAiEntryRepository
-    implements AiEntryRepository, PagedAiEntryRepository {
+    implements
+        AiEntryRepository,
+        RecentTransactionRepository,
+        PagedAiEntryRepository,
+        ManualTransferRepository,
+        BulkWalletRepository {
   const SupabaseAiEntryRepository(
     this._service,
     this._manualEntryService,
@@ -23,6 +32,14 @@ class SupabaseAiEntryRepository
   final AiEntryService _service;
   final ManualEntryService _manualEntryService;
   final WalletService _walletService;
+
+  @override
+  Future<void> deleteWallets(List<String> ids) =>
+      _walletService.deleteMany(ids);
+
+  @override
+  Future<FinanceEntry> addManualTransfer(ManualTransferInput input) =>
+      _walletService.transfer(input);
 
   @override
   Future<List<FinanceEntry>> entriesForDate(DateTime date) =>
@@ -45,6 +62,10 @@ class SupabaseAiEntryRepository
   @override
   Future<List<FinanceEntry>> entriesForMonth(DateTime month) =>
       _service.entriesForMonth(month);
+
+  @override
+  Future<List<FinanceEntry>> recentTransactions({int limit = 3}) =>
+      _service.recentTransactions(limit: limit);
 
   @override
   Future<bool> hasAnyEntries() => _service.hasAnyEntries();

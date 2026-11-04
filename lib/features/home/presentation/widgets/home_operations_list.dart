@@ -1,10 +1,11 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry_edit_changes.dart';
 import 'package:budgets/features/home/presentation/widgets/home_operation_row.dart';
 import 'package:budgets/features/home/presentation/widgets/home_operation_skeleton.dart';
 import 'package:budgets/features/home/presentation/widgets/activity_empty_state.dart';
-import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/features/home/presentation/widgets/activities_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -14,6 +15,7 @@ class HomeOperationsList extends StatelessWidget {
     required this.isLoading,
     required this.isAdding,
     this.isLoadingMore = false,
+    this.onCreate,
     required this.onEntryTap,
     this.currencyState,
     this.asSliver = false,
@@ -21,6 +23,7 @@ class HomeOperationsList extends StatelessWidget {
     super.key,
   });
 
+  final VoidCallback? onCreate;
   final List<FinanceEntry> entries;
   final bool isLoading;
   final bool isAdding;
@@ -34,16 +37,9 @@ class HomeOperationsList extends StatelessWidget {
   Widget build(BuildContext context) {
     final slivers = <Widget>[
       SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(29, 7, 28, 8),
-          child: Text(
-            '${entries.length} ${context.l10n.transactions.toLowerCase()}',
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-          ),
-        ),
-      ),
+          child: ActivitiesSummary(entries: entries, currency: currencyState)),
       SliverPadding(
-        padding: const EdgeInsets.symmetric(horizontal: 29),
+        padding: AppPageSpacing.insets(context),
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
@@ -61,19 +57,24 @@ class HomeOperationsList extends StatelessWidget {
                     key: ValueKey('loading-more-operation-$entryIndex'));
               }
               final entry = entries[entryIndex];
-              return KeyedSubtree(
-                key: ValueKey('ready-operation-${entry.id}'),
-                child: _animateItem(
-                  HomeOperationRow(
-                    key: ValueKey('operation-${entry.id}'),
-                    entry: entry,
-                    pendingEdit: pendingEdits[entry.id],
-                    currencyState: currencyState,
-                    onTap: () => onEntryTap(entry),
-                  ),
-                  entryIndex,
-                ),
-              );
+              return Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: KeyedSubtree(
+                    key: ValueKey('ready-operation-${entry.id}'),
+                    child: _animateItem(
+                      context,
+                      HomeOperationRow(
+                        key: ValueKey('operation-${entry.id}'),
+                        entry: entry,
+                        isFirst: entryIndex == 0,
+                        isLast: entryIndex == entries.length - 1,
+                        pendingEdit: pendingEdits[entry.id],
+                        currencyState: currencyState,
+                        onTap: () => onEntryTap(entry),
+                      ),
+                      entryIndex,
+                    ),
+                  ));
             },
             childCount: isLoading
                 ? 3
@@ -82,7 +83,7 @@ class HomeOperationsList extends StatelessWidget {
         ),
       ),
       if (!isLoading && !isAdding && entries.isEmpty)
-        const SliverToBoxAdapter(child: ActivityEmptyState()),
+        SliverToBoxAdapter(child: ActivityEmptyState(onAdd: onCreate)),
     ];
     if (asSliver) return SliverMainAxisGroup(slivers: slivers);
     return CustomScrollView(
@@ -92,8 +93,11 @@ class HomeOperationsList extends StatelessWidget {
     );
   }
 
-  Widget _animateItem(Widget child, int index) => child
-      .animate(delay: (index < 3 ? 25 * index : 0).ms)
-      .fadeIn(duration: 180.ms)
-      .slideY(begin: 0.15, duration: 180.ms, curve: Curves.easeOutCubic);
+  Widget _animateItem(BuildContext context, Widget child, int index) {
+    if (MediaQuery.disableAnimationsOf(context)) return child;
+    return child
+        .animate(delay: (index < 3 ? 25 * index : 0).ms)
+        .fadeIn(duration: 180.ms)
+        .slideY(begin: 0.15, duration: 180.ms, curve: Curves.easeOutCubic);
+  }
 }

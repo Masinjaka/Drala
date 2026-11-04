@@ -1,5 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/ui/amount_visibility_button.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
@@ -70,10 +71,7 @@ class HomeHeader extends StatelessWidget {
                         key: const Key('header-balance-label'),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: AppTypography.body,
-                          fontWeight: FontWeight.w800,
-                        ),
+                        style: const AppTextStyle(AppTextRole.body),
                       ),
                     ),
                     const AmountVisibilityButton(),
@@ -122,12 +120,7 @@ class HomeHeader extends StatelessWidget {
       key: const Key('overall-balance-label'),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        color: color,
-        fontSize: AppTypography.caption,
-        fontWeight: FontWeight.w600,
-        height: 1,
-      ),
+      style: AppTextStyle(AppTextRole.caption, color: color, height: 1),
     );
   }
 }

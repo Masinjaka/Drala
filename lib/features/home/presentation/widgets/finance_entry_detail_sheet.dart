@@ -1,7 +1,9 @@
+import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+import 'transfer_wallet_field.dart';
 import 'package:budgets/core/currency/currency_amount_input.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
-import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
@@ -13,18 +15,23 @@ import 'package:budgets/features/transactions/presentation/widgets/transaction_d
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_surface.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_motion.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_editor_sheet.dart';
+
+part 'finance_entry_detail_sheet_body.dart';
 
 class FinanceEntryDetailSheet extends StatefulWidget {
   const FinanceEntryDetailSheet({
     required this.entry,
     required this.categories,
     this.currencyState,
+    this.wallets = const [],
     super.key,
   });
 
   final FinanceEntry entry;
   final Future<List<ManualEntryCategory>> categories;
   final CurrencyState? currencyState;
+  final List<WalletSummary> wallets;
 
   @override
   State<FinanceEntryDetailSheet> createState() =>
@@ -42,6 +49,10 @@ class _FinanceEntryDetailSheetState extends State<FinanceEntryDetailSheet> {
   Category? _category;
   List<Category> _categories = const [];
 
+  void _update(VoidCallback change) => setState(change);
+  late String? _sourceWalletId = widget.entry.sourceWalletId;
+  late bool _useAllWallets = widget.entry.usedMultipleWallets;
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +63,8 @@ class _FinanceEntryDetailSheetState extends State<FinanceEntryDetailSheet> {
       id: entry.categoryId,
       name: entry.categoryName,
       emoji: entry.emoji,
+      iconKey: entry.iconKey,
+      color: entry.categoryColor,
       transactionType: _type,
     );
     _amountController = TextEditingController(
@@ -77,45 +90,16 @@ class _FinanceEntryDetailSheetState extends State<FinanceEntryDetailSheet> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final available = _categories
-        .where((category) => category.transactionType == _type)
-        .toList();
-    final selected = _category;
-    if (selected != null &&
-        !available.any((category) => category.id == selected.id)) {
-      available.insert(0, selected);
-    }
-    return TransactionSheetSurface(
-      pageController: _pageController,
-      pages: [
-        TransactionDetailEditPage(
-          formKey: _formKey,
-          amountController: _amountController,
-          titleController: _titleController,
-          descriptionController: _descriptionController,
-          currencyCode: widget.currencyState?.code ?? widget.entry.currencyCode,
-          type: _type,
-          category: _category,
-          saving: false,
-          onTypeChanged: _changeType,
-          onCategoryTap: () => _goToPage(1),
-          onCategoryClear: () => setState(() => _category = null),
-          onClose: () => Navigator.pop(context),
-          onDelete: () => Navigator.pop(
-            context,
-            const ManualEntrySheetResult.delete(),
-          ),
-          onSave: _submit,
-        ),
-        TransactionCategoryPage(
-          categories: available,
-          selected: _category,
-          onSelected: (value) => setState(() => _category = value),
-          onBack: () => _goToPage(0),
-        ),
-      ],
-    );
+  Widget build(BuildContext context) => _buildSheet(context);
+
+  Future<void> _createCategory() async {
+    final created = await CategoryEditorSheet.show(context, type: _type);
+    if (!mounted || created == null) return;
+    setState(() {
+      _categories = [..._categories, created];
+      _category = created;
+    });
+    _goToPage(0);
   }
 
   void _setCategories(List<ManualEntryCategory> values) {
@@ -126,6 +110,7 @@ class _FinanceEntryDetailSheetState extends State<FinanceEntryDetailSheet> {
           id: category.id,
           name: category.name,
           emoji: category.emoji,
+          iconKey: category.iconKey,
           color: category.colorHex,
           transactionType: TransactionType.fromValue(category.transactionType),
         );
@@ -146,8 +131,8 @@ class _FinanceEntryDetailSheetState extends State<FinanceEntryDetailSheet> {
     final matches = _categories.where((item) => item.transactionType == value);
     setState(() {
       _type = value;
-      if (_category?.transactionType != value && matches.isNotEmpty) {
-        _category = matches.first;
+      if (_category?.transactionType != value) {
+        _category = matches.firstOrNull;
       }
     });
   }
@@ -160,12 +145,7 @@ class _FinanceEntryDetailSheetState extends State<FinanceEntryDetailSheet> {
             ? widget.entry.amount.round()
             : CurrencyAmountInput.toMga(
                 _amountController.text, widget.currencyState);
-    if (_titleController.text.trim().isEmpty ||
-        amount <= 0 ||
-        _category == null) {
-      showInfoToast(context, 'Enter a title and a positive amount.');
-      return;
-    }
+    if (!(_formKey.currentState?.validate() ?? false)) return;
     final input = ManualEntryInput(
       title: _titleController.text.trim(),
       description: _descriptionController.text.trim(),
@@ -173,8 +153,8 @@ class _FinanceEntryDetailSheetState extends State<FinanceEntryDetailSheet> {
       transactionType: _type.value,
       categoryId: _category!.id,
       occurredAt: widget.entry.occurredAt,
-      sourceWalletId: widget.entry.sourceWalletId,
-      useAllWallets: widget.entry.usedMultipleWallets,
+      sourceWalletId: _sourceWalletId,
+      useAllWallets: _useAllWallets,
     );
     Navigator.pop(context, ManualEntrySheetResult.save(input));
   }

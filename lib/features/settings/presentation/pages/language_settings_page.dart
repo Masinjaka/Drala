@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/features/settings/domain/providers/locale_provider.dart';
 import 'package:budgets/features/notifications/presentation/controllers/notification_controller.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_choice_tile.dart';
@@ -24,7 +25,7 @@ class LanguageSettingsPage extends ConsumerWidget {
     return SettingsPageShell(
       title: localizations.language,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
+        padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
         children: [
           SettingsMenuGroup(
             flat: true,

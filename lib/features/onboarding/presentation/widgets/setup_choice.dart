@@ -1,4 +1,7 @@
+import 'package:budgets/core/ui/app_card_surface.dart';
+import 'package:budgets/core/ui/app_button_theme.dart';
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_setup_theme.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +15,8 @@ class SetupChoice extends StatefulWidget {
     this.leading,
     this.trailing,
     this.height = 40,
+    this.pill = false,
+    this.centerTitle = false,
     super.key,
   });
 
@@ -21,6 +26,8 @@ class SetupChoice extends StatefulWidget {
   final Widget? leading;
   final Widget? trailing;
   final double height;
+  final bool pill;
+  final bool centerTitle;
 
   @override
   State<SetupChoice> createState() => _SetupChoiceState();
@@ -77,8 +84,10 @@ class _SetupChoiceState extends State<SetupChoice>
 
   @override
   Widget build(BuildContext context) {
-    final foreground =
-        AppTheme.onboardingChoiceForeground(context, selected: widget.selected);
+    final foreground = widget.pill
+        ? AppSetupTheme.choiceForeground(context, selected: widget.selected)
+        : AppTheme.onboardingChoiceForeground(context,
+            selected: widget.selected);
     return ScaleTransition(
       scale: _scale,
       child: GestureDetector(
@@ -93,17 +102,23 @@ class _SetupChoiceState extends State<SetupChoice>
         child: Semantics(
           selected: widget.selected,
           button: true,
-          child: Material(
-            color: AppTheme.onboardingChoiceColor(
-              context,
-              selected: widget.selected,
-            ),
-            borderRadius: BorderRadius.circular(8),
+          child: AppCardSurface(
+            color: widget.pill
+                ? AppSetupTheme.choiceBackground(context,
+                    selected: widget.selected)
+                : AppTheme.onboardingChoiceColor(
+                    context,
+                    selected: widget.selected,
+                  ),
+            shape: AppButtonTheme.shape,
             clipBehavior: Clip.antiAlias,
             child: SizedBox(
               height: widget.height,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
+                padding: EdgeInsets.only(
+                  left: widget.pill && !widget.centerTitle ? 24 : 15,
+                  right: widget.pill && !widget.centerTitle ? 16 : 15,
+                ),
                 child: Row(
                   children: [
                     if (widget.leading != null) ...[
@@ -113,9 +128,15 @@ class _SetupChoiceState extends State<SetupChoice>
                     Expanded(
                       child: Text(
                         widget.title,
+                        textAlign: widget.centerTitle
+                            ? TextAlign.center
+                            : TextAlign.start,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTextTheme.onboardingLabel(context).copyWith(
+                        style: (widget.pill
+                                ? AppTextTheme.setupLabel(context)
+                                : AppTextTheme.onboardingLabel(context))
+                            .copyWith(
                           color: foreground,
                         ),
                       ),
@@ -123,7 +144,10 @@ class _SetupChoiceState extends State<SetupChoice>
                     if (widget.trailing != null) ...[
                       const SizedBox(width: 8),
                       DefaultTextStyle.merge(
-                        style: AppTextTheme.onboardingLabel(context).copyWith(
+                        style: (widget.pill
+                                ? AppTextTheme.setupLabel(context)
+                                : AppTextTheme.onboardingLabel(context))
+                            .copyWith(
                           color: foreground,
                         ),
                         child: IconTheme(

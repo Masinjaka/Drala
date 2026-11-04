@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:budgets/features/auth/presentation/widgets/file_picker_option.dart';
+import 'package:budgets/features/auth/presentation/widgets/image_source_sheet.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/widgets/permission_request_dialog.dart';
@@ -30,44 +30,7 @@ Future<File?> pickImageWithPermissions(
     mediaPermission = Permission.photos;
   }
 
-  final source = await showModalBottomSheet<ImageSource>(
-    context: context,
-    backgroundColor: Theme.of(context).cardColor,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-    ),
-    builder: (ctx) {
-      return SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 16),
-            Text(
-              context.l10n.chooseSource,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FileOption(
-                  icon: Icons.photo_library,
-                  title: context.l10n.fromGallery,
-                  onTap: () => Navigator.pop(ctx, ImageSource.gallery),
-                ),
-                FileOption(
-                  icon: Icons.photo_camera,
-                  title: context.l10n.takePhoto,
-                  onTap: () => Navigator.pop(ctx, ImageSource.camera),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-          ],
-        ),
-      );
-    },
-  );
+  final source = await ImageSourceSheet.show(context);
 
   if (source == null) return null;
 

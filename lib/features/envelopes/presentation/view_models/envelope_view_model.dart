@@ -1,8 +1,11 @@
+import 'package:budgets/features/envelopes/domain/repositories/bulk_envelope_repository.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope_category.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+
+part 'envelope_bulk_deletion.dart';
 
 class EnvelopeViewModel extends ChangeNotifier {
   EnvelopeViewModel(this._repository, DateTime initialMonth)
@@ -45,8 +48,20 @@ class EnvelopeViewModel extends ChangeNotifier {
         !_envelopesByMonth.containsKey(key);
   }
 
+  bool get supportsBulkDeletion => _repository is BulkEnvelopeRepository;
+  void _notifyBulkDeletion() => notifyListeners();
   bool get isSaving => _isSaving;
   List<WalletSummary> get wallets => _wallets;
+  Future<void> refreshCategories() async {
+    _categories = List.unmodifiable(await _repository.expenseCategories());
+    notifyListeners();
+  }
+
+  Future<void> refreshWallets() async {
+    _wallets = List.unmodifiable(await _repository.wallets());
+    notifyListeners();
+  }
+
   int get totalBudget =>
       envelopes.fold(0, (total, item) => total + item.amount);
   int get totalSpent => envelopes.fold(0, (total, item) => total + item.spent);

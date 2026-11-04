@@ -1,3 +1,4 @@
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/features/categories/data/datasource/category_api.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/guest/data/guest_category_store.dart';
@@ -11,7 +12,10 @@ class Categories extends _$Categories {
   GuestCategoryStore? get _guest {
     final session = ref.read(guestSessionProvider);
     if (session?.isActive != true) {
-      return null;
+      final account = ref.read(offlineAccountProvider);
+      return account == null
+          ? null
+          : GuestCategoryStore(account.database, account.id);
     }
     return GuestCategoryStore(session!.database, session.userId);
   }
@@ -19,6 +23,7 @@ class Categories extends _$Categories {
   @override
   Future<List<Category>> build() {
     ref.watch(guestSessionProvider);
+    ref.watch(offlineDataVersionProvider);
     return _guest?.categories() ?? getCategories();
   }
 

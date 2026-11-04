@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
@@ -71,20 +73,16 @@ class CustomGreetingAppBar extends ConsumerWidget
                         children: [
                           Text(
                             'Bienvenue',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).hintColor,
-                            ),
+                            style: AppTextStyle(AppTextRole.body,
+                                color: Theme.of(context).hintColor),
                           ),
                           Text(
                             username,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color:
-                                  Theme.of(context).textTheme.bodyLarge?.color,
-                            ),
+                            style: AppTextStyle(AppTextRole.profile,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.color),
                           ),
                         ],
                       ),

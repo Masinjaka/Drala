@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -21,10 +23,10 @@ class SetupHeader extends StatelessWidget {
     final compact = MediaQuery.sizeOf(context).height < 700 ||
         MediaQuery.textScalerOf(context).scale(1) > 1.3;
     return Padding(
-      padding:
-          EdgeInsets.fromLTRB(29, compact ? 16 : 48, 29, compact ? 12 : 27),
+      padding: AppPageSpacing.insets(context,
+          top: AppHeaderMetrics.topPadding, bottom: compact ? 12 : 27),
       child: SizedBox(
-        height: 36,
+        height: AppHeaderMetrics.buttonSize,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -33,10 +35,9 @@ class SetupHeader extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: CustomButton.icon(
                   icon: Icons.arrow_back_rounded,
-                  iconSize: 20,
-                  width: 36,
-                  height: 36,
-                  borderRadius: BorderRadius.circular(9),
+                  iconSize: AppHeaderMetrics.iconSize,
+                  width: AppHeaderMetrics.buttonSize,
+                  height: AppHeaderMetrics.buttonSize,
                   backgroundColor: colors.surfaceContainer,
                   foregroundColor: colors.onSurface,
                   onPressed: onBack,

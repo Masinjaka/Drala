@@ -1,6 +1,11 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-String friendlyErrorMessage(Object error) {
+String friendlyErrorMessage(Object error, {String? networkMessage}) {
+  if (error is AuthRetryableFetchException) {
+    return networkMessage ??
+        "Impossible de joindre le serveur. Vérifiez votre connexion internet et réessayez.";
+  }
+
   if (error is AuthException) {
     return _friendlyAuthMessage(error.message);
   }

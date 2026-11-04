@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_interaction_theme.dart';
 import 'package:budgets/core/ui/app_control_metrics.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/theme.dart';
@@ -14,8 +15,6 @@ class CustomButton extends StatelessWidget {
     this.icon,
     this.iconColor,
     this.iconSize,
-    this.isSquare = false,
-    this.borderRadius,
     this.height,
     this.tooltip,
     this.textStyle,
@@ -32,8 +31,6 @@ class CustomButton extends StatelessWidget {
     this.icon,
     this.iconColor,
     this.iconSize,
-    this.isSquare = false,
-    this.borderRadius,
     this.height,
     this.tooltip,
     this.textStyle,
@@ -50,9 +47,7 @@ class CustomButton extends StatelessWidget {
     this.foregroundColor,
     this.iconColor,
     this.iconSize,
-    this.isSquare = false,
     this.borderColor,
-    this.borderRadius,
     this.height,
     this.tooltip,
     this.textStyle,
@@ -74,8 +69,6 @@ class CustomButton extends StatelessWidget {
         icon = null,
         iconColor = null,
         iconSize = null,
-        isSquare = false,
-        borderRadius = null,
         tooltip = null,
         isLoading = false,
         outlined = false,
@@ -88,8 +81,6 @@ class CustomButton extends StatelessWidget {
   final IconData? icon;
   final Color? iconColor;
   final double? iconSize;
-  final bool isSquare;
-  final BorderRadius? borderRadius;
   final double? height;
   final String? tooltip;
   final TextStyle? textStyle;
@@ -105,7 +96,7 @@ class CustomButton extends StatelessWidget {
       height: height ?? AppControlMetrics.height,
       child: FilledButton(
         onPressed: isLoading == true ? null : onPressed,
-        style: FilledButton.styleFrom(
+        style: AppInteractionTheme.withoutPressFeedback(FilledButton.styleFrom(
           backgroundColor: colors.background,
           foregroundColor: colors.foreground,
           disabledBackgroundColor:
@@ -114,15 +105,11 @@ class CustomButton extends StatelessWidget {
                   : colors.background.withValues(alpha: .65),
           disabledForegroundColor: colors.foreground,
           side: _border(colors.foreground),
-          shape: RoundedRectangleBorder(
-            borderRadius:
-                borderRadius ?? BorderRadius.circular(isSquare ? 12 : 999),
-          ),
           padding: icon != null && text == null
               ? EdgeInsets.zero
               : const EdgeInsets.symmetric(horizontal: 16),
           textStyle: textStyle ?? Theme.of(context).textTheme.bodyMedium,
-        ),
+        )),
         child: isLoading == true
             ? SizedBox.square(
                 dimension: 18,
@@ -136,11 +123,13 @@ class CustomButton extends StatelessWidget {
     );
     return tooltip == null ? button : Tooltip(message: tooltip!, child: button);
   }
+
   BorderSide _border(Color fallback) {
     if (textOnly) return BorderSide.none;
     if (borderColor != null) return BorderSide(color: borderColor!);
     return outlined ? BorderSide(color: fallback) : BorderSide.none;
   }
+
   ({Color background, Color foreground}) _resolveColors(
     BuildContext context,
   ) {
@@ -180,8 +169,9 @@ class CustomButton extends StatelessWidget {
     if (icon == null) return label;
     if (text == null || text!.isEmpty) {
       return Icon(icon,
-          color: AppIconForeground.resolve(context, iconColor ?? color,
-              background: colors.background),
+          color: iconColor ??
+              AppIconForeground.resolve(context, color,
+                  background: colors.background),
           size: iconSize);
     }
     return Row(
@@ -189,8 +179,9 @@ class CustomButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(icon,
-            color: AppIconForeground.resolve(context, iconColor ?? color,
-                background: colors.background),
+            color: iconColor ??
+                AppIconForeground.resolve(context, color,
+                    background: colors.background),
             size: iconSize),
         const SizedBox(width: AppControlMetrics.contentGap),
         label,

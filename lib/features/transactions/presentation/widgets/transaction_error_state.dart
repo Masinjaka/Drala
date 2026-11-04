@@ -1,6 +1,7 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/transactions/domain/providers/transaction_provider.dart';
 import 'package:budgets/widgets/custom_button.dart';
-import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,24 +26,19 @@ class TransactionErrorState extends ConsumerWidget {
           Icon(
             Icons.error_outline,
             size: 48,
-            color: AppIconForeground.resolve(context, Colors.red[400]!),
+            color: Theme.of(context).colorScheme.error,
           ),
           SizedBox(height: 16),
           Text(
             errorMessage,
-            style: TextStyle(
-              color: Theme.of(context).textTheme.bodyLarge?.color,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: AppTextStyle(AppTextRole.body,
+                color: Theme.of(context).textTheme.bodyLarge?.color),
           ),
           SizedBox(height: 8),
           Text(
             error.toString(),
-            style: TextStyle(
-              color: Theme.of(context).hintColor,
-              fontSize: 12,
-            ),
+            style: AppTextStyle(AppTextRole.body,
+                color: Theme.of(context).hintColor),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 16),

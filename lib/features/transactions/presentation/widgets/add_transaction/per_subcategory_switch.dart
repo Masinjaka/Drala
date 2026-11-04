@@ -23,10 +23,7 @@ class PerSubcategorySwitch extends StatelessWidget {
         children: [
           Text(
             'Par sous-catégorie',
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w500, fontSize: 15),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
           Switch(value: value, onChanged: onChanged),
         ],

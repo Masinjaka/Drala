@@ -19,8 +19,8 @@ void main() {
 
       final button = find.byKey(const ValueKey('save-transaction'));
       final text = find.descendant(of: button, matching: find.byType(Text));
-      expect(tester.widget<Text>(text).style?.color,
-          theme.colorScheme.onInverseSurface);
+      expect(
+          tester.widget<Text>(text).style?.color, theme.colorScheme.onPrimary);
     });
   }
 }

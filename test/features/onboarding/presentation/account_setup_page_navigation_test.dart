@@ -24,18 +24,18 @@ void main() {
 
     expect(find.text('Your language'), findsOneWidget);
     expect(tester.widget<Text>(find.text('Your language')).textAlign,
-        TextAlign.center);
+        TextAlign.start);
     expect(
       tester
           .widget<Text>(find.text(
               'Select your prefered language. You can always change it later in the settings.'))
           .textAlign,
-      TextAlign.center,
+      TextAlign.start,
     );
     final dotsTop = tester.getTopLeft(find.byType(SetupProgressDots)).dy;
     expect(tester.getSize(find.byKey(const Key('setup-progress-2'))).width, 24);
     expect(find.widgetWithText(SetupChoice, 'English'), findsOneWidget);
-    expect(find.byIcon(Icons.arrow_back_rounded), findsNothing);
+    expect(_backButton(tester).onPressed, isNull);
     expect(find.text('Sign up'), findsNothing);
     await tester.binding.handlePopRoute();
     await tester.pumpAndSettle();
@@ -54,7 +54,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Your currency'), findsOneWidget);
     expect(tester.widget<Text>(find.text('Your currency')).textAlign,
-        TextAlign.center);
+        TextAlign.start);
     expect(tester.getTopLeft(find.byType(SetupProgressDots)).dy, dotsTop);
     expect(tester.getSize(find.byKey(const Key('setup-progress-3'))).width, 24);
     expect(tester.getSize(find.byKey(const Key('setup-progress-2'))).width, 8);
@@ -72,7 +72,7 @@ void main() {
     await tester.tap(find.byIcon(Icons.arrow_back_rounded));
     await tester.pumpAndSettle();
     expect(find.text('Your language'), findsOneWidget);
-    expect(find.byIcon(Icons.arrow_back_rounded), findsNothing);
+    expect(_backButton(tester).onPressed, isNull);
     router.dispose();
   });
 

@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,7 @@ class UserCard extends ConsumerWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),
       decoration: BoxDecoration(
+        boxShadow: AppCardTheme.shadows(context),
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
       ),
@@ -53,11 +57,8 @@ class UserCard extends ConsumerWidget {
                   }
                   return Text(
                     username,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                    ),
+                    style: AppTextStyle(AppTextRole.profile,
+                        color: Theme.of(context).textTheme.bodyLarge?.color),
                   );
                 },
                 loading: () => Padding(
@@ -72,10 +73,7 @@ class UserCard extends ConsumerWidget {
               SizedBox(height: 8),
               Text(
                 userEmail,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey,
-                ),
+                style: const AppTextStyle(AppTextRole.body, color: Colors.grey),
               ),
             ],
           )

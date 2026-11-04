@@ -2,8 +2,7 @@ import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.da
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
 import 'package:budgets/features/categories/presentation/widgets/category_editor_sheet.dart';
 import 'package:budgets/features/home/presentation/widgets/manual_entry_sheet.dart';
-import 'package:budgets/features/transactions/presentation/widgets/transaction_category_chip.dart';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,6 +16,8 @@ void main() {
         categoriesProvider.overrideWith(ManualEntryTestCategories.new)
       ],
       child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: Builder(
             builder: (context) => TextButton(
@@ -46,12 +47,9 @@ void main() {
       find.descendant(of: editor, matching: find.byType(TextFormField)),
       'Groceries',
     );
-    await tester.tap(find.byKey(const Key('category-emoji-button')));
+    await tester.tap(find.byKey(const Key('category-icon-button')));
     await tester.pumpAndSettle();
-    tester.widget<EmojiPicker>(find.byType(EmojiPicker)).onEmojiSelected!(
-      null,
-      const Emoji('🛒', 'shopping cart'),
-    );
+    await tester.tap(find.byKey(const Key('category-icon-shopping')));
     await tester.pumpAndSettle();
     await tester.tap(find.descendant(
       of: editor,
@@ -59,11 +57,8 @@ void main() {
     ));
     await tester.pumpAndSettle();
     expect(find.byType(CategoryEditorSheet), findsNothing);
-    expect(find.text('🛒 Groceries'), findsOneWidget);
-    final chip = tester.widget<TransactionCategoryChip>(
-      find.byType(TransactionCategoryChip),
-    );
-    expect(chip.selected, true);
-    expect(chip.category.id, 'groceries');
+    expect(find.text('Groceries'), findsOneWidget);
+    expect(find.byKey(const Key('save-transaction')), findsOneWidget);
+    expect(find.byKey(const Key('category-search')), findsNothing);
   });
 }

@@ -1,7 +1,6 @@
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/theme.dart';
-import 'package:budgets/core/ui/scroll_edge_fade.dart';
-import 'package:budgets/core/ui/scroll_edge_gradient.dart';
+import 'package:budgets/features/onboarding/presentation/widgets/setup_currency_choices.dart';
 import 'package:budgets/features/onboarding/domain/providers/onboarding_providers.dart';
 import 'package:budgets/features/onboarding/presentation/pages/account_setup_page.dart';
 import 'package:budgets/features/onboarding/presentation/widgets/setup_choice.dart';
@@ -23,7 +22,7 @@ void main() {
     await tester.pumpWidget(_app(repo));
     await tester.pumpAndSettle();
     expect(find.text('Your language'), findsOneWidget);
-    expect(find.byType(CustomButton), findsOneWidget);
+    expect(find.byType(CustomButton), findsNWidgets(2));
     await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
     expect(find.text('Your currency'), findsOneWidget);
@@ -80,12 +79,14 @@ void main() {
     expect(find.text('Ariary'), findsOneWidget);
     expect(find.text('MGA'), findsOneWidget);
     expect(tester.getRect(find.text('Ariary')).bottom, lessThan(667));
-    expect(find.byType(ScrollEdgeFade), findsOneWidget);
-    expect(_edge(top: false), findsOneWidget);
+    final currencies = find.descendant(
+        of: find.byType(SetupCurrencyChoices), matching: find.byType(ListView));
+    expect(currencies, findsOneWidget);
+    expect(_edgeShades, findsNothing);
 
-    await tester.drag(find.byType(ScrollEdgeFade), const Offset(0, -80));
+    await tester.drag(currencies, const Offset(0, -80));
     await tester.pumpAndSettle();
-    expect(_edge(top: true), findsOneWidget);
+    expect(_edgeShades, findsNothing);
 
     await tester.enterText(find.byType(TextField), 'EUR');
     await tester.pump();
@@ -105,7 +106,11 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(find.text(r'$'), findsOneWidget);
+    expect(
+        find.descendant(
+            of: find.widgetWithText(SetupChoice, 'Canadian Dollar'),
+            matching: find.text('CAD')),
+        findsOneWidget);
   });
   testWidgets('failed completion retains choices and can retry',
       (tester) async {
@@ -141,8 +146,11 @@ void main() {
   });
 }
 
-Finder _edge({required bool top}) => find.byWidgetPredicate(
-      (widget) => widget is ScrollEdgeGradient && widget.top == top,
+Finder get _edgeShades => find.byWidgetPredicate(
+      (widget) =>
+          widget is DecoratedBox &&
+          widget.decoration is BoxDecoration &&
+          (widget.decoration as BoxDecoration).gradient is LinearGradient,
     );
 
 Widget _app(FakeOnboardingRepository repo, {double scale = 1}) {

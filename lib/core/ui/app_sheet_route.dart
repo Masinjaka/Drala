@@ -5,11 +5,12 @@ const _appSheetCurve = Cubic(0.32, 0.72, 0, 1);
 Future<T?> showAppSheet<T>(
   BuildContext context, {
   required WidgetBuilder builder,
+  bool barrierDismissible = true,
 }) =>
     showGeneralDialog<T>(
       context: context,
       useRootNavigator: true,
-      barrierDismissible: true,
+      barrierDismissible: barrierDismissible,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: Theme.of(context).colorScheme.scrim.withValues(alpha: .46),
       transitionDuration: const Duration(milliseconds: 220),

@@ -13,7 +13,7 @@ class ManualEntryService {
   Future<List<ManualEntryCategory>> categories() async {
     final rows = await _client
         .from('categories')
-        .select('id,name,emoji,color,transaction_type')
+        .select('id,name,emoji,icon_key,color,transaction_type')
         .order('name');
     return rows
         .map(

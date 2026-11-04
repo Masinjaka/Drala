@@ -12,7 +12,9 @@ class CustomTextFieldValidator {
       case 'email':
         return _email(value);
       case 'required':
-        return value == null || value.isEmpty ? error ?? '' : null;
+        return value == null || value.trim().isEmpty
+            ? (error?.isNotEmpty == true ? error : context.l10n.fieldRequired)
+            : null;
       case 'password':
         return _password(value);
       default:
@@ -21,15 +23,17 @@ class CustomTextFieldValidator {
   }
 
   String? _email(String? value) {
-    if (value == null || value.isEmpty) return context.l10n.enterEmail;
+    if (value == null || value.trim().isEmpty) return context.l10n.enterEmail;
     final pattern = RegExp(
       r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
     );
-    return pattern.hasMatch(value) ? null : context.l10n.invalidEmail;
+    return pattern.hasMatch(value.trim()) ? null : context.l10n.invalidEmail;
   }
 
   String? _password(String? value) {
-    if (value == null || value.isEmpty) return context.l10n.enterPassword;
+    if (value == null || value.trim().isEmpty) {
+      return context.l10n.enterPassword;
+    }
     final validation = PasswordValidation(value);
     if (!validation.hasMinimumLength) return context.l10n.passwordMinLength;
     if (!validation.hasUppercase) {

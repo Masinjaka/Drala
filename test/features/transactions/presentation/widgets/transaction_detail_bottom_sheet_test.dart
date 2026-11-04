@@ -2,6 +2,7 @@ import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
@@ -85,51 +86,29 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('matches the inset geometry and does not grow on upward drag',
+  testWidgets(
+      'uses the full-width reference surface and keeps actions reachable',
       (tester) async {
     await pumpSheet(tester);
-
-    final rect = tester.getRect(
-      find.byKey(const ValueKey('transaction-sheet-surface')),
-    );
-    expect(rect.left, closeTo(24, 0.1));
-    expect(rect.width, closeTo(364, 0.1));
-    expect(rect.bottom, closeTo(893, 0.1));
-    expect(find.text('Edit transaction'), findsOneWidget);
+    final surface = find.byKey(const ValueKey('transaction-sheet-surface'));
+    final rect = tester.getRect(surface);
+    expect(rect.left, 0);
+    expect(rect.width, 412);
+    expect(rect.bottom, 917);
+    expect(rect.height, closeTo(917 * .86, .1));
     expect(find.text('Food'), findsOneWidget);
-    expect(find.text('Bought food for my sweet family'), findsOneWidget);
-    final fields =
-        tester.widgetList<InputDecorator>(find.byType(InputDecorator));
-    expect(fields.elementAt(1).decoration.fillColor,
-        AppTheme.lightTheme.colorScheme.surfaceContainer);
-    expect(fields.elementAt(2).decoration.fillColor,
-        AppTheme.lightTheme.colorScheme.surfaceContainer);
-    final categoryField = tester.widget<Material>(
-      find.byKey(const ValueKey('transaction-category-field')),
-    );
-    expect(categoryField.color,
-        AppTheme.lightTheme.colorScheme.surfaceContainer);
-    final surface = tester.widget<Container>(
-      find.byKey(const ValueKey('transaction-sheet-surface')),
-    );
-    final decoration = surface.decoration! as BoxDecoration;
-    expect(decoration.color,
-        AppTheme.lightTheme.colorScheme.surfaceContainerLowest);
-    final lastFieldRect = tester.getRect(find.byType(InputDecorator).last);
-    final deleteButtonRect = tester.getRect(
-      find.byKey(const ValueKey('delete-transaction')),
-    );
-    expect(
-        deleteButtonRect.top - lastFieldRect.bottom, greaterThanOrEqualTo(16));
-
+    expect(find.text('Bought food for my sweet family'), findsNothing);
+    expect(find.byType(TextFormField), findsNWidgets(2));
+    final material = tester.widget<Material>(surface);
+    expect(material.borderRadius, AppFinanceSurfaceTheme.sheetRadius);
+    expect(material.color,
+        AppFinanceSurfaceTheme.background(tester.element(surface)));
+    expect(find.byKey(const Key('save-transaction')).hitTestable(),
+        findsOneWidget);
     final gesture = await tester.startGesture(const Offset(206, 500));
     await gesture.moveBy(const Offset(0, -100));
     await tester.pump();
-    final draggedRect = tester.getRect(
-      find.byKey(const ValueKey('transaction-sheet-surface')),
-    );
-    expect(draggedRect.top, closeTo(rect.top, 0.1));
-    expect(draggedRect.left, closeTo(rect.left, 0.1));
+    expect(tester.getRect(surface), rect);
     await gesture.up();
   });
 
@@ -142,20 +121,22 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Categories'), findsOneWidget);
+    expect(find.byKey(const Key('category-done')), findsNothing);
     expect(find.byKey(const ValueKey('category-search')), findsOneWidget);
-    expect(find.text('🔦 Utility'), findsOneWidget);
+    expect(find.text('Utility'), findsOneWidget);
     final search = tester.widget<TextField>(
       find.byKey(const ValueKey('category-search')),
     );
-    expect(search.decoration?.fillColor,
-        AppTheme.lightTheme.colorScheme.surfaceContainer);
+    expect(
+        search.decoration?.fillColor,
+        AppFinanceSurfaceTheme.background(
+            tester.element(find.byKey(const Key('category-search')))));
 
-    await tester.tap(find.text('🔦 Utility'));
-    await tester.tap(find.byKey(const ValueKey('category-done')));
+    await tester.tap(find.text('Utility'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Edit transaction'), findsOneWidget);
-    expect(find.text('🔦 Utility'), findsOneWidget);
+    expect(find.byKey(const Key('save-transaction')), findsOneWidget);
+    expect(find.byKey(const Key('category-search')), findsNothing);
+    expect(find.text('Utility'), findsOneWidget);
   });
 }

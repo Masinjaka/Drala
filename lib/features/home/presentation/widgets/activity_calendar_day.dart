@@ -1,5 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/theme.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 
 class ActivityCalendarDay extends StatelessWidget {
@@ -30,13 +31,10 @@ class ActivityCalendarDay extends StatelessWidget {
       ),
       child: Text(
         '${day.day}',
-        style: TextStyle(
-          color: isSelected
-              ? Theme.of(context).colorScheme.inverseSurface
-              : Theme.of(context).colorScheme.onPrimary,
-          fontSize: AppTypography.supporting,
-          fontWeight: FontWeight.w700,
-        ),
+        style: AppTextStyle(AppTextRole.input,
+            color: isSelected
+                ? Theme.of(context).colorScheme.inverseSurface
+                : Theme.of(context).colorScheme.onPrimary),
       ),
     );
   }

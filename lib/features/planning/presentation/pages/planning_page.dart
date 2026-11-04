@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/navigation/domain/providers/sub_tab_providers.dart';
 import 'package:budgets/features/planning/presentation/widgets/budgets_tab_content.dart';
 import 'package:budgets/features/planning/presentation/widgets/goals_tab_content.dart';
@@ -57,10 +59,7 @@ class _PlanningPageState extends ConsumerState<PlanningPage>
           titleSpacing: 32,
           title: Text(
             'Planification',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+            style: AppTextStyle(AppTextRole.pageTitle),
           ),
           centerTitle: false,
           bottom: PreferredSize(
@@ -92,14 +91,8 @@ class _PlanningPageState extends ConsumerState<PlanningPage>
                     },
                   ),
                   splashFactory: NoSplash.splashFactory,
-                  labelStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  unselectedLabelStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  labelStyle: AppTextStyle(AppTextRole.body),
+                  unselectedLabelStyle: AppTextStyle(AppTextRole.body),
                   tabs: _tabLabels.map((label) => Tab(text: label)).toList(),
                 ),
               ),

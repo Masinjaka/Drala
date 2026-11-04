@@ -1,3 +1,7 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/forms/field_validators.dart';
+import 'package:budgets/core/forms/validated_selection.dart';
 import 'package:budgets/features/categories/domain/models/subcategories.dart';
 import 'package:budgets/widgets/custom_subcategory_dropdown.dart';
 import 'package:flutter/material.dart';
@@ -38,20 +42,25 @@ class SubcategoryAmountRow extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomSubcategoryDropdown(
-                  title: const SizedBox.shrink(),
-                  hint: 'Tapez ou sélectionnez une sous-catégorie',
-                  items: subcategories,
-                  selectedValue: item['subcategory'] as Subcategory?,
-                  onChanged: enabled ? onSubcategoryChanged : null,
-                  enabled: enabled,
-                  onTap: onSubcategoryTap,
-                ),
+                ValidatedSelection(
+                    value: item['subcategory'],
+                    child: CustomSubcategoryDropdown(
+                      title: const SizedBox.shrink(),
+                      hint: 'Tapez ou sélectionnez une sous-catégorie',
+                      items: subcategories,
+                      selectedValue: item['subcategory'] as Subcategory?,
+                      onChanged: enabled ? onSubcategoryChanged : null,
+                      enabled: enabled,
+                      onTap: onSubcategoryTap,
+                    )),
                 SizedBox(height: 8),
                 TextFormField(
                   controller:
                       item['amountController'] as TextEditingController?,
                   keyboardType: TextInputType.number,
+                  validator: (value) =>
+                      FieldValidators.positiveAmount(context, value),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   enabled: enabled,
                   onChanged: onAmountChanged,
                   decoration: InputDecoration(
@@ -65,10 +74,8 @@ class SubcategoryAmountRow extends StatelessWidget {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   ),
-                  style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyLarge?.color,
-                    fontSize: 18,
-                  ),
+                  style: AppTextStyle(AppTextRole.sheetTitle,
+                      color: Theme.of(context).textTheme.bodyLarge?.color),
                   textAlign: TextAlign.center,
                 ),
               ],

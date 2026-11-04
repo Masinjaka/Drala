@@ -1,3 +1,6 @@
+import 'package:budgets/features/guest/presentation/services/guest_notification_gateway.dart';
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
+import 'package:budgets/features/offline/data/repositories/offline_notification_datasource.dart';
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,12 +18,15 @@ final notificationControllerProvider =
         NotificationController.new);
 
 class NotificationController extends AsyncNotifier<NotificationSettings> {
-  late final NotificationDataSource _dataSource;
+  late NotificationDataSource _dataSource;
   NotificationService? _service;
 
   @override
   Future<NotificationSettings> build() async {
-    _dataSource = NotificationDataSource(Supabase.instance.client);
+    final account = ref.watch(offlineAccountProvider);
+    _dataSource = account == null
+        ? NotificationDataSource(Supabase.instance.client)
+        : OfflineNotificationDataSource(Supabase.instance.client, account);
     _service = NotificationService(_dataSource);
     return _dataSource.fetchSettings();
   }
@@ -51,6 +57,7 @@ class NotificationController extends AsyncNotifier<NotificationSettings> {
 
   Future<void> registerIfEnabled() async {
     await syncLanguage();
+    if (ref.read(offlineAccountProvider)?.status.name == 'offline') return;
     final current = state.asData?.value ?? await _dataSource.fetchSettings();
     if (!current.anyEnabled) {
       return;
@@ -88,7 +95,29 @@ class NotificationController extends AsyncNotifier<NotificationSettings> {
     state = AsyncData(next);
 
     try {
-      if (next.notificationsEnabled && !(current.notificationsEnabled)) {
+      final account = ref.read(offlineAccountProvider);
+      if (account != null) {
+        if (next.notificationsEnabled &&
+            !current.notificationsEnabled &&
+            !await ref
+                .read(guestNotificationGatewayProvider)
+                .requestPermission()) {
+          state = AsyncData(current);
+          return false;
+        }
+        await (OfflineNotificationDataSource(Supabase.instance.client, account))
+            .upsertSettings(
+                notificationsEnabled: next.notificationsEnabled,
+                remindersEnabled: next.remindersEnabled,
+                warningsEnabled: next.warningsEnabled,
+                reminderHour: next.reminderHour,
+                reminderMinute: next.reminderMinute,
+                timezoneOffsetMinutes: DateTime.now().timeZoneOffset.inMinutes);
+        return true;
+      }
+      if (next.notificationsEnabled &&
+          !(current.notificationsEnabled) &&
+          ref.read(offlineAccountProvider)?.status.name != 'offline') {
         final granted = await _service?.registerDevice() ?? false;
         if (!granted) {
           state = AsyncData(current);
@@ -96,7 +125,8 @@ class NotificationController extends AsyncNotifier<NotificationSettings> {
         }
       }
 
-      if (!next.notificationsEnabled) {
+      if (!next.notificationsEnabled &&
+          ref.read(offlineAccountProvider)?.status.name != 'offline') {
         await _service?.disableAllDevices();
       }
 

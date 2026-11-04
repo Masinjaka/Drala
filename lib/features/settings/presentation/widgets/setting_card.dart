@@ -1,4 +1,6 @@
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
+import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:flutter/material.dart';
 
 class SettingCard extends StatefulWidget {
@@ -61,6 +63,7 @@ class _SettingCardState extends State<SettingCard> {
         width: double.infinity,
         padding: EdgeInsets.all(8),
         decoration: BoxDecoration(
+          boxShadow: AppCardTheme.shadows(context),
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
         ),
@@ -89,10 +92,7 @@ class _SettingCardState extends State<SettingCard> {
                       widget.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Theme.of(context).textTheme.bodyLarge?.color,
-                      ),
+                      style: AppSettingsTheme.menuLabel(context),
                     ),
                   ),
                 ],
@@ -111,10 +111,7 @@ class _SettingCardState extends State<SettingCard> {
                           widget.settingChoice ?? '',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
+                          style: AppSettingsTheme.supportingLabel(context),
                         ),
                   if (widget.trailingWidget != null)
                     widget.trailingWidget!
@@ -123,7 +120,9 @@ class _SettingCardState extends State<SettingCard> {
                       opacity: widget.switchDisabled ? 0.5 : 1,
                       child: IgnorePointer(
                         ignoring: widget.switchDisabled,
-                        child: Switch(
+                        child: Switch.adaptive(
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
                           value: resolvedSwitchValue,
                           onChanged: (val) {
                             if (widget.switchValue == null) {

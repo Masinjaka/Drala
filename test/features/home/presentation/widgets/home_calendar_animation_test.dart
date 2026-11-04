@@ -1,3 +1,4 @@
+import 'package:budgets/features/home/presentation/widgets/calendar_view_toggle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -24,7 +25,7 @@ void main() {
     await tester.pumpAndSettle();
     final monthHeight = height();
     expect(monthHeight, closeTo(weekHeight + 160, 0.01));
-    expect(tester.getSize(toggle).height, 40);
+    expect(tester.getSize(toggle).height, CalendarViewToggle.height);
     centered();
     await tester.tap(toggle);
     await tester.pump();

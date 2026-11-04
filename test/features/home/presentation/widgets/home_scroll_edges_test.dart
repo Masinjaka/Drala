@@ -1,4 +1,5 @@
 import 'package:budgets/features/home/presentation/widgets/home_month_calendar.dart';
+import 'package:budgets/features/home/presentation/widgets/home_calendar_sliver_delegate.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,7 +12,10 @@ void main() {
         (tester) async {
       await pumpHomeScrollApp(tester, count: count);
       await scrollList(tester, -300);
-      expect(transactionPosition(tester).pixels, greaterThanOrEqualTo(219));
+      expect(
+          transactionPosition(tester).pixels,
+          greaterThanOrEqualTo(
+              138 + HomeCalendarSliverDelegate.controlsHeight));
       expect(revealHeight(tester, 'home-calendar-header-reveal'), 0);
       expect(revealHeight(tester, 'home-calendar-toggle-reveal'), 8);
       await scrollList(tester, 350);

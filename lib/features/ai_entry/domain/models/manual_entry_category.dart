@@ -3,6 +3,7 @@ class ManualEntryCategory {
     required this.id,
     required this.name,
     required this.emoji,
+    this.iconKey = '',
     required this.transactionType,
     this.colorHex,
   });
@@ -11,7 +12,8 @@ class ManualEntryCategory {
     return ManualEntryCategory(
       id: json['id'] as String,
       name: (json['name'] as String?) ?? 'Other',
-      emoji: (json['emoji'] as String?) ?? '🧾',
+      emoji: (json['emoji'] as String?) ?? '',
+      iconKey: (json['icon_key'] as String?) ?? '',
       transactionType: (json['transaction_type'] as String?) ?? 'expense',
       colorHex: json['color'] as String?,
     );
@@ -20,6 +22,7 @@ class ManualEntryCategory {
   final String id;
   final String name;
   final String emoji;
+  final String iconKey;
   final String transactionType;
   final String? colorHex;
 }

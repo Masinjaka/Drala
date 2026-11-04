@@ -18,7 +18,10 @@ class SupabaseMonthlyStatsRepository implements MonthlyStatsRepository {
     final days = DateTime(month.year, month.month + 1, 0).day;
     final daily = List<int>.filled(days, 0);
     final categoryTotals = <String, int>{};
+    final categoryCounts = <String, int>{};
     final categoryEmoji = <String, String>{};
+    final categoryIcons = <String, String>{};
+    final categoryColors = <String, String?>{};
     var income = 0;
     var expenses = 0;
     var largest = 0;
@@ -42,7 +45,10 @@ class SupabaseMonthlyStatsRepository implements MonthlyStatsRepository {
         (value) => value + amount,
         ifAbsent: () => amount,
       );
-      categoryEmoji[name] = (category['emoji'] as String?) ?? '🧾';
+      categoryCounts.update(name, (count) => count + 1, ifAbsent: () => 1);
+      categoryEmoji[name] = (category['emoji'] as String?) ?? '';
+      categoryIcons[name] = (category['icon_key'] as String?) ?? '';
+      categoryColors[name] = category['color'] as String?;
     }
 
     final breakdown = categoryTotals.entries
@@ -50,7 +56,10 @@ class SupabaseMonthlyStatsRepository implements MonthlyStatsRepository {
           (entry) => CategoryStat(
             name: entry.key,
             emoji: categoryEmoji[entry.key]!,
+            iconKey: categoryIcons[entry.key]!,
             amount: entry.value,
+            colorHex: categoryColors[entry.key],
+            transactionCount: categoryCounts[entry.key] ?? 0,
           ),
         )
         .toList()

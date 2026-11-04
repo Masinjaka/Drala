@@ -8,7 +8,6 @@ class GuestSettingsOptions extends StatelessWidget {
   const GuestSettingsOptions({
     required this.onNotifications,
     required this.onCurrency,
-    required this.onDefaultWallet,
     required this.onTheme,
     required this.onLanguage,
     super.key,
@@ -16,7 +15,6 @@ class GuestSettingsOptions extends StatelessWidget {
 
   final VoidCallback onNotifications;
   final VoidCallback onCurrency;
-  final VoidCallback onDefaultWallet;
   final VoidCallback onTheme;
   final VoidCallback onLanguage;
 
@@ -38,11 +36,6 @@ class GuestSettingsOptions extends StatelessWidget {
               title: l.currency,
               iconAsset: 'assets/settings/currency.svg',
               onTap: onCurrency,
-            ),
-            SettingsMenuItem(
-              title: l.setDefaultWallet,
-              iconAsset: 'assets/settings/privacy.svg',
-              onTap: onDefaultWallet,
             ),
             SettingsMenuItem(
               title: l.theme,

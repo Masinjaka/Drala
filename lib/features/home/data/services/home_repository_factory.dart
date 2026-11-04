@@ -1,3 +1,6 @@
+import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
+import 'package:budgets/features/envelopes/data/repositories/supabase_envelope_repository.dart';
+import 'package:budgets/features/envelopes/data/services/envelope_service.dart';
 import 'package:budgets/features/ai_entry/data/repositories/preview_ai_entry_repository.dart';
 import 'package:budgets/features/ai_entry/data/repositories/supabase_ai_entry_repository.dart';
 import 'package:budgets/features/ai_entry/data/services/ai_entry_service.dart';
@@ -20,6 +23,15 @@ class HomeRepositories {
 
 class HomeRepositoryFactory {
   const HomeRepositoryFactory._();
+
+  static EnvelopeRepository? envelopes() {
+    try {
+      return SupabaseEnvelopeRepository(
+          EnvelopeService(Supabase.instance.client));
+    } catch (_) {
+      return null;
+    }
+  }
 
   static HomeRepositories create(DateTime today) {
     try {

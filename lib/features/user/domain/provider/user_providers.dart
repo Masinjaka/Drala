@@ -1,3 +1,5 @@
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
+import 'package:budgets/features/offline/data/repositories/offline_user_datasource.dart';
 import 'package:budgets/features/user/domain/models/user_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -11,7 +13,10 @@ part 'user_providers.g.dart';
 @riverpod
 SupabaseUserDataSource userDataSource(Ref ref) {
   final client = Supabase.instance.client;
-  return SupabaseUserDataSource(client);
+  final account = ref.watch(offlineAccountProvider);
+  return account == null
+      ? SupabaseUserDataSource(client)
+      : OfflineUserDataSource(client, account);
 }
 
 @riverpod
@@ -22,6 +27,7 @@ UserRepositoryImpl userRepository(Ref ref) {
 
 @riverpod
 Future<UserModel?> userModel(Ref ref) async {
+  ref.watch(offlineDataVersionProvider);
   if (Supabase.instance.client.auth.currentUser == null) return null;
   final ds = ref.watch(userDataSourceProvider);
   return ds.getCurrentUserRow();

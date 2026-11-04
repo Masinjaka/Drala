@@ -1,4 +1,5 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
 import 'package:budgets/features/home/presentation/widgets/manual_entry_category_field.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ class _CategoryLoadError extends StatelessWidget {
     return const _CategoryStatus(
       child: Text(
         'Could not load categories',
-        style: TextStyle(fontSize: AppTypography.supporting),
+        style: AppTextStyle(AppTextRole.supporting),
       ),
     );
   }
@@ -79,10 +80,7 @@ class _CategoryStatus extends StatelessWidget {
       children: [
         const Text(
           'Category',
-          style: TextStyle(
-            fontSize: AppTypography.body,
-            fontWeight: FontWeight.w700,
-          ),
+          style: AppTextStyle(AppTextRole.body),
         ),
         const SizedBox(height: 8),
         SizedBox(

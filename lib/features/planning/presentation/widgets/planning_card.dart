@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:flutter/material.dart';
 
 class PlanningCard extends StatelessWidget {
@@ -16,6 +17,7 @@ class PlanningCard extends StatelessWidget {
       margin: margin ?? EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
+        boxShadow: AppCardTheme.shadows(context),
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
       ),

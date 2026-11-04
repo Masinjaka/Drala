@@ -1,6 +1,6 @@
 import 'package:budgets/features/envelopes/domain/models/envelope_category.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/add_envelope_sheet.dart';
-import 'package:budgets/features/transactions/presentation/widgets/transaction_category_chip.dart';
+import 'package:budgets/features/transactions/presentation/widgets/reference_category_selection.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -19,14 +19,13 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('transaction-category-field')));
     await tester.pumpAndSettle();
-    final chip = find.byType(TransactionCategoryChip);
-    expect(tester.widget<TransactionCategoryChip>(chip).selected, isFalse);
+    expect(find.byKey(const Key('category-create')), findsOneWidget);
+    final picker = find.byType(ReferenceCategorySelection);
+    expect(tester.widget<ReferenceCategorySelection>(picker).selected, isNull);
     await tester.tap(find.byKey(const Key('category-food')));
     await tester.pumpAndSettle();
-    expect(tester.widget<TransactionCategoryChip>(chip).selected, isTrue);
-    await tester.tap(find.byKey(const Key('category-done')));
-    await tester.pumpAndSettle();
-    expect(find.text('🍔 Food'), findsOneWidget);
+    expect(picker, findsNothing);
+    expect(find.text('Food'), findsOneWidget);
   });
 }
 

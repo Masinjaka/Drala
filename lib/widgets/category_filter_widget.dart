@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
@@ -74,23 +77,21 @@ class _CategoryFilterWidgetState extends State<CategoryFilterWidget> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (category.emoji != null &&
-                        category.emoji!.isNotEmpty) ...[
-                      Text(
-                        category.emoji!,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      SizedBox(width: 4),
-                    ],
+                    CategoryIcon(
+                        iconKey: category.iconKey,
+                        emoji: category.emoji,
+                        colorHex: category.color,
+                        size: 18,
+                        backgroundColor: isSelected
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).colorScheme.surface),
+                    const SizedBox(width: 4),
                     Text(
                       category.name ?? 'Unknown',
-                      style: TextStyle(
-                        color: isSelected
-                            ? AppTheme.interactiveTextColor
-                            : Theme.of(context).textTheme.bodyMedium?.color,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: AppTextStyle(AppTextRole.body,
+                          color: isSelected
+                              ? AppTheme.interactiveTextColor
+                              : Theme.of(context).textTheme.bodyMedium?.color),
                     ),
                   ],
                 ),

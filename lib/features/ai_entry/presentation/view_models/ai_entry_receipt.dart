@@ -20,7 +20,7 @@ extension AiEntryReceipt on AiEntryViewModel {
           outputLanguage: outputLanguage,
         ),
       );
-      await _applyResult(result, targetDate);
+      _applyResult(result, targetDate);
       _notifyReceiptChanged();
       return result;
     } finally {

@@ -25,9 +25,7 @@ class ChatTypingHint extends StatelessWidget {
         style: style,
       );
     }
-    final animatedStyle = style.copyWith(
-      fontSize: (style.fontSize ?? 14) - 1,
-    );
+    final animatedStyle = style;
     return DefaultTextStyle(
       style: style,
       child: AnimatedTextKit(

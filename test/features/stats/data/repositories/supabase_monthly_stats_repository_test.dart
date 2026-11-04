@@ -34,6 +34,10 @@ void main() {
     expect(result.dailyExpenses[2], 12000);
     expect(result.expenseCategories.first.name, 'Food');
     expect(result.expenseCategories.first.amount, 10000);
+    expect(result.expenseCategories.first.transactionCount, 2);
+    expect(result.expenseCategories.first.colorHex, 'FFFB9F89');
+    expect(result.expenseCategories.last.colorHex, 'FF8E8DBE');
+    expect(result.expenseCategories.last.transactionCount, 1);
     expect(result.expenseChange, 50);
   });
 }
@@ -50,6 +54,10 @@ Map<String, dynamic> _row(
     'transaction_type': type,
     'date': '${date}T12:00:00Z',
     'currency_code': 'MGA',
-    'categories': {'name': category, 'emoji': emoji},
+    'categories': {
+      'name': category,
+      'emoji': emoji,
+      'color': category == 'Food' ? 'FFFB9F89' : 'FF8E8DBE'
+    },
   };
 }

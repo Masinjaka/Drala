@@ -1,3 +1,8 @@
+import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/forms/field_validators.dart';
+import 'package:budgets/core/forms/validated_selection.dart';
 import 'package:budgets/core/constants.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -18,6 +23,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+part 'add_transaction_build_removed_item.dart';
+part 'add_transaction_build.dart';
+part 'add_transaction_build_body.dart';
+part 'add_transaction_build_add_button.dart';
+
 class TransactionCreationPage extends ConsumerStatefulWidget {
   final String transactionType;
   final TransactionModel? transaction;
@@ -32,6 +42,8 @@ class TransactionCreationPage extends ConsumerStatefulWidget {
 
 class _TransactionCreationPageState
     extends ConsumerState<TransactionCreationPage> {
+  void _update(VoidCallback action) => setState(action);
+
   final _formKey = GlobalKey<FormState>();
   final _module = TransactionModule();
   final _listKey = GlobalKey<AnimatedListState>();
@@ -92,36 +104,8 @@ class _TransactionCreationPageState
     super.dispose();
   }
 
-  Widget _buildRemovedItem(Map<String, dynamic> item, Animation<double> anim) {
-    return SizeTransition(
-      sizeFactor: anim.drive(Tween(begin: 0.0, end: 1.0)
-          .chain(CurveTween(curve: Curves.easeInOut))),
-      child: ScaleTransition(
-        scale: anim.drive(Tween(begin: 0.0, end: 1.0)
-            .chain(CurveTween(curve: Curves.easeOut))),
-        child: FadeTransition(
-            opacity: anim,
-            child: SubcategoryAmountRow(
-                item: item, subcategories: _subcategories, enabled: false)),
-      ),
-    );
-  }
-
   @override
-  Widget build(BuildContext context) {
-    if (_isInitializing) {
-      return Scaffold(
-          body: Center(
-              child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor)));
-    }
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: _buildAppBar(context),
-      body: _buildBody(),
-      bottomNavigationBar: _buildAddButton(),
-    );
-  }
+  Widget build(BuildContext context) => _buildFormContent(context);
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
@@ -139,165 +123,7 @@ class _TransactionCreationPageState
             : (transactionType == TransactionType.income
                 ? 'Nouveau revenu'
                 : 'Nouvelle dépense'),
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-      ),
-    );
-  }
-
-  Widget _buildBody() {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: SizedBox(
-        height: double.infinity,
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.only(left: 32, right: 32, top: 40),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 80),
-                  if (_selectedCategory?.name !=
-                      SystemCategories.savingsCategoryName) ...[
-                    DetailedTransactionSwitch(
-                      value: _isMultipleAmounts,
-                      onChanged: (value) {
-                        setState(() {
-                          _isMultipleAmounts = value;
-                          if (!value) {
-                            _module.clearAllSubcategoryAmounts(
-                                subcategoryAmounts: _subcategoryAmounts,
-                                listKey: _listKey,
-                                buildRemovedItem: (item, _, anim) =>
-                                    _buildRemovedItem(item, anim),
-                                onStateChanged: () => setState(() {}));
-                          }
-                        });
-                      },
-                    ),
-                    SizedBox(height: 40),
-                  ],
-                  CustomDropdown(
-                    title: Text('Catégorie',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900, fontSize: 15.5)),
-                    hint: 'Choisissez une catégorie',
-                    items: _categories,
-                    selectedValue: _selectedCategory,
-                    enabled: _selectedCategory?.name !=
-                        SystemCategories.savingsCategoryName,
-                    onChanged: (Category? category) async {
-                      setState(() {
-                        _selectedCategory = category;
-                        _subcategories = [];
-                      });
-                      if (category?.id != null) {
-                        try {
-                          final subs = await _module.fetchSubcategories(
-                              ref, category!.id!);
-                          setState(() => _subcategories = subs);
-                        } catch (_) {
-                          setState(() => _subcategories = []);
-                        }
-                      }
-                    },
-                    validator: const <String, String>{"type": "required"},
-                    showEmojis: true,
-                  ),
-                  SizedBox(height: 16),
-                  if (!_isMultipleAmounts)
-                    CustomTextField(
-                      title: const SizedBox.shrink(),
-                      hint: '0.00',
-                      controller: _montantController,
-                      keyboardType: TextInputType.number,
-                      textAlign: TextAlign.center,
-                      fontSize: 24,
-                      height: 128,
-                      width: double.infinity,
-                      borderRadius: BorderRadius.circular(20),
-                      validator: const <String, String>{"type": "required"},
-                    )
-                  else
-                    MultipleAmountsSection(
-                      subcategoryAmounts: _subcategoryAmounts,
-                      subcategories: _subcategories,
-                      listKey: _listKey,
-                      module: _module,
-                      onStateChanged: () => setState(() {}),
-                      buildRemovedItem: _buildRemovedItem,
-                      onSubcategoryChanged: (sub, item) => setState(() {}),
-                      onSubcategoryTapWithoutCategory: () {
-                        if (_selectedCategory == null)
-                          showInfoToast(context,
-                              "La catégorie doit être sélectionnée en premier");
-                      },
-                    ),
-                  CustomTextField(
-                    title: const SizedBox.shrink(),
-                    hint: _selectedCategory?.name ==
-                            SystemCategories.savingsCategoryName
-                        ? _descriptionController.text
-                        : 'Ajouter une description (optionnel)',
-                    controller: _descriptionController,
-                    keyboardType: TextInputType.text,
-                    textAlign: TextAlign.center,
-                    maxLines: null,
-                    isReadOnly: _selectedCategory?.name ==
-                        SystemCategories.savingsCategoryName,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  if (isEditMode) ...[
-                    SizedBox(height: 16),
-                    TransactionDatePickerField(
-                      selectedDate: _selectedDate,
-                      isReadOnly: _selectedCategory?.name ==
-                          SystemCategories.savingsCategoryName,
-                      onDateSelected: (date) =>
-                          setState(() => _selectedDate = date),
-                    ),
-                  ],
-                  SizedBox(height: 16),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAddButton() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-      child: CustomButton(
-        text: isEditMode ? 'Enregistrer' : 'Confirmer',
-        backgroundColor: Theme.of(context).primaryColor,
-        isLoading: _isLoading,
-        onPressed: () async {
-          setState(() => _isLoading = true);
-          final result = await _module.submitTransaction(
-            formKey: _formKey,
-            selectedCategory: _selectedCategory,
-            isMultipleAmounts: _isMultipleAmounts,
-            subcategoryAmounts: _subcategoryAmounts,
-            montantController: _montantController,
-            descriptionController: _descriptionController,
-            transactionType: transactionType,
-            ref: ref,
-            transactionId: widget.transaction?.id,
-            transactionDate: isEditMode ? _selectedDate : null,
-            originalTransaction: widget.transaction,
-          );
-          if (!mounted) return;
-          setState(() => _isLoading = false);
-          showAppToast(context, result.message,
-              type: result.success ? AppToastType.success : AppToastType.error);
-          if (result.success) context.pop();
-        },
+        style: AppTextStyle(AppTextRole.sheetTitle),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/features/categories/domain/models/subcategories.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -68,10 +70,7 @@ class _AddSubcategoryDialogState extends State<AddSubcategoryDialog> {
                     Expanded(
                       child: Text(
                         'Nouvelle sous-catégorie',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                        ),
+                        style: AppTextStyle(AppTextRole.sheetTitle),
                       ),
                     ),
                     Container(

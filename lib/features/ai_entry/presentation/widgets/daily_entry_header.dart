@@ -1,4 +1,5 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -59,20 +60,14 @@ class DailyEntryHeader extends SliverPersistentHeaderDelegate {
                   key: const Key('daily-entry-date-label'),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: AppTypography.supporting,
-                    fontWeight: FontWeight.w800,
-                  ),
+                  style: const AppTextStyle(AppTextRole.supporting),
                 ),
               ),
               const SizedBox(width: 10),
               Text(
                 summary,
                 key: const Key('daily-entry-summary-label'),
-                style: const TextStyle(
-                  fontSize: AppTypography.supporting,
-                  fontWeight: FontWeight.w800,
-                ),
+                style: const AppTextStyle(AppTextRole.supporting),
               ),
             ],
           ),

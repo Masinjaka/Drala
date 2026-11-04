@@ -1,3 +1,4 @@
+import '../../../../support/soft_shadow_test_binding.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/features/home/presentation/widgets/home_bottom_navigation_bar.dart';
 import 'package:budgets/features/notifications/domain/models/finance_notification.dart';
@@ -17,6 +18,7 @@ import '../../../../support/load_app_fonts.dart';
 import '../../../notifications/support/fake_finance_notification_repository.dart';
 
 void main() {
+  SoftShadowTestBinding();
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
@@ -76,7 +78,6 @@ void main() {
                       onChangePassword: () {},
                       onNotifications: () {},
                       onCurrency: () {},
-                      onDefaultWallet: () {},
                       onTheme: () {},
                       onLanguage: () {},
                       onScannedReceipts: () {},

@@ -1,5 +1,5 @@
 import 'package:budgets/core/theme.dart';
-import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
 import 'package:flutter/material.dart';
 
 class CategoryBubble extends StatelessWidget {
@@ -29,11 +29,7 @@ class CategoryBubble extends StatelessWidget {
           color: dark ? colors[kind].withValues(alpha: .68) : colors[kind],
         ),
         child: Center(
-          child: Text(
-            emoji,
-            textAlign: TextAlign.center,
-            style: AppTextTheme.onboardingEmoji(context, size),
-          ),
+          child: CategoryIcon(emoji: emoji, size: size * .55),
         ),
       ),
     );

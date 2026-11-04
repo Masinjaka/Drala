@@ -1,10 +1,18 @@
 import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_home_overview_theme.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppSettingsTheme {
+  static Color background(BuildContext context) =>
+      AppHomeOverviewTheme.background(context);
+  static Color summaryIcon(BuildContext context) =>
+      AppHomeOverviewTheme.accent(context);
+  static Color surface(BuildContext context) =>
+      AppHomeOverviewTheme.surface(context);
+  static const outerRadius = AppHomeOverviewTheme.transactionOuterRadius;
+  static const innerRadius = AppHomeOverviewTheme.transactionInnerRadius;
   static const _categoryLight = Color(0xFFF0F9AF);
   static const _walletLight = Color(0xFFFAAA6C);
-  static const _logoutLight = Color(0xFFF25959);
   static const _iconSurfaceLight = Color(0xFFF4F4F4);
 
   static Color categoryCard(BuildContext context) =>
@@ -36,50 +44,55 @@ abstract final class AppSettingsTheme {
           : foreground(context);
 
   static Color logout(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.light
-          ? _logoutLight
-          : Theme.of(context).colorScheme.error;
+      Theme.of(context).colorScheme.error;
 
-  static TextStyle pageTitle(BuildContext context) =>
-      Theme.of(context).textTheme.titleLarge!;
+  static TextStyle pageTitle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .bodyMedium!
+      .copyWith(fontSize: AppTypography.headline);
 
   static TextStyle profileName(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: 12,
+            fontSize: AppTypography.profile,
             fontWeight: FontWeight.normal,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          );
+
+  static TextStyle supportingLabel(BuildContext context) =>
+      Theme.of(context).textTheme.bodySmall!.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           );
 
   static TextStyle menuLabel(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: 12,
+            fontSize: AppTypography.body,
             fontWeight: FontWeight.normal,
           );
 
   static TextStyle summaryTitle(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
+            fontSize: AppTypography.body,
+            fontWeight: FontWeight.normal,
           );
 
   static TextStyle summaryCount(BuildContext context) =>
       Theme.of(context).textTheme.titleLarge!.copyWith(
             fontFamily: AppTypography.amountFontFamily,
-            fontSize: 20,
+            fontSize: AppTypography.headline,
             fontWeight: FontWeight.w600,
           );
 
   static TextStyle logoutLabel(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: logout(context),
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
+            fontSize: AppTypography.button,
+            fontWeight: FontWeight.normal,
           );
 
   static TextStyle badge(BuildContext context) =>
-      Theme.of(context).textTheme.labelSmall!.copyWith(
+      Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: Theme.of(context).colorScheme.onError,
-            fontSize: 10,
+            fontSize: AppTypography.caption,
             fontWeight: FontWeight.w600,
           );
 }

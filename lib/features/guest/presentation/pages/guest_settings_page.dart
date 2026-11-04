@@ -1,3 +1,5 @@
+import 'package:budgets/core/navigation/app_modal_page_route.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
@@ -9,7 +11,6 @@ import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/features/guest/presentation/pages/guest_notification_settings_page.dart';
 import 'package:budgets/features/notifications/presentation/controllers/notification_controller.dart';
 import 'package:budgets/features/settings/presentation/pages/currency_selection_page.dart';
-import 'package:budgets/features/settings/presentation/pages/default_wallet_page.dart';
 import 'package:budgets/features/settings/presentation/pages/language_settings_page.dart';
 import 'package:budgets/features/settings/presentation/pages/theme_settings_page.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
@@ -45,7 +46,7 @@ class _GuestSettingsPageState extends ConsumerState<GuestSettingsPage> {
   bool _syncing = false;
 
   Future<void> _open(BuildContext context, Widget page) =>
-      Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => page));
+      Navigator.of(context).push(AppModalPageRoute<void>(builder: (_) => page));
 
   Future<void> _sync() async {
     if (_syncing) return;
@@ -89,7 +90,8 @@ class _GuestSettingsPageState extends ConsumerState<GuestSettingsPage> {
                 ),
                 Expanded(
                   child: ListView(
-                    padding: const EdgeInsets.fromLTRB(28, 24, 28, 32),
+                    padding:
+                        AppPageSpacing.insets(context, top: 24, bottom: 32),
                     children: [
                       GuestSyncCard(
                         signedIn: widget.isSignedIn?.call() ??
@@ -126,12 +128,6 @@ class _GuestSettingsPageState extends ConsumerState<GuestSettingsPage> {
                         onCurrency: () => _open(
                           context,
                           const CurrencySelectionPage(),
-                        ),
-                        onDefaultWallet: () => _open(
-                          context,
-                          DefaultWalletPage(
-                            service: guest.repositories.wallets,
-                          ),
                         ),
                         onTheme: () => _open(
                           context,

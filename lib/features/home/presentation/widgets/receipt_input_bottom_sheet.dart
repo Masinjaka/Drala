@@ -1,4 +1,6 @@
-import 'package:budgets/features/home/presentation/widgets/bottom_sheet_drag_handle.dart';
+import 'package:budgets/core/ui/app_sheet_route.dart';
+import 'package:budgets/core/ui/app_sheet_surface.dart';
+import 'package:budgets/core/ui/app_sheet_header.dart';
 import 'package:budgets/features/home/presentation/widgets/receipt_input_option.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -7,78 +9,36 @@ enum ReceiptInputAction { manualEntry, importFile, scanReceipt }
 
 class ReceiptInputBottomSheet extends StatelessWidget {
   const ReceiptInputBottomSheet({super.key});
-
-  static Future<ReceiptInputAction?> show(BuildContext context) {
-    return showModalBottomSheet<ReceiptInputAction>(
-      context: context,
-      useRootNavigator: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => const ReceiptInputBottomSheet(),
-    );
-  }
-
+  static Future<ReceiptInputAction?> show(BuildContext context) =>
+      showAppSheet<ReceiptInputAction>(context,
+          builder: (_) => const ReceiptInputBottomSheet());
   @override
-  Widget build(BuildContext context) {
-    final availableWidth = MediaQuery.sizeOf(context).width;
-    final sheetWidth = availableWidth > 480 ? 480.0 : availableWidth;
-
-    return Align(
-      alignment: Alignment.bottomCenter,
-      heightFactor: 1,
-      child: Container(
-        width: sheetWidth,
-        height: 222,
-        padding: const EdgeInsets.fromLTRB(28, 13, 28, 0),
-        decoration: BoxDecoration(
-          color: Theme.of(context).bottomSheetTheme.backgroundColor,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(19)),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor.withValues(alpha: .1),
-              blurRadius: 10,
-              offset: Offset(0, -3),
-            ),
-          ],
-        ),
-        child: SafeArea(
-          top: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const BottomSheetDragHandle(),
-              const SizedBox(height: 28),
-              ReceiptInputOption(
-                icon: Icons.edit_note_rounded,
-                label: context.l10n.enterManually,
-                onTap: () => Navigator.pop(
-                  context,
-                  ReceiptInputAction.manualEntry,
-                ),
-              ),
-              const SizedBox(height: 12),
-              ReceiptInputOption(
-                icon: Icons.note_add_outlined,
-                label: context.l10n.importFile,
-                onTap: () => Navigator.pop(
-                  context,
-                  ReceiptInputAction.importFile,
-                ),
-              ),
-              const SizedBox(height: 12),
-              ReceiptInputOption(
-                icon: Icons.document_scanner_outlined,
-                label: context.l10n.scanReceipt,
-                onTap: () => Navigator.pop(
-                  context,
-                  ReceiptInputAction.scanReceipt,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => AppSheetSurface(
+      height: 320,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(32, 20, 32, 24),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          AppSheetHeader(
+              title: context.l10n.chooseSource,
+              onClose: () => Navigator.pop(context)),
+          const SizedBox(height: 24),
+          ReceiptInputOption(
+              icon: Icons.edit_note_rounded,
+              label: context.l10n.enterManually,
+              onTap: () =>
+                  Navigator.pop(context, ReceiptInputAction.manualEntry)),
+          const SizedBox(height: 20),
+          ReceiptInputOption(
+              icon: Icons.note_add_outlined,
+              label: context.l10n.importFile,
+              onTap: () =>
+                  Navigator.pop(context, ReceiptInputAction.importFile)),
+          const SizedBox(height: 20),
+          ReceiptInputOption(
+              icon: Icons.document_scanner_outlined,
+              label: context.l10n.scanReceipt,
+              onTap: () =>
+                  Navigator.pop(context, ReceiptInputAction.scanReceipt)),
+        ]),
+      ));
 }

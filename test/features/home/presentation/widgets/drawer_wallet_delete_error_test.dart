@@ -41,6 +41,7 @@ void main() {
     await tester.tap(find.byKey(const Key('wallet-card-action-bank')));
     await tester.pumpAndSettle();
     await tester.ensureVisible(find.byKey(const Key('delete-wallet')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('delete-wallet')));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Supprimer'));
@@ -49,8 +50,7 @@ void main() {
 
     expect(
       find.text(
-        'Ce portefeuille contient un historique de transactions '
-        'et ne peut pas être supprimé.',
+        'Ce portefeuille est utilisé par une enveloppe ou un historique de transactions et ne peut pas être supprimé.',
       ),
       findsOneWidget,
     );

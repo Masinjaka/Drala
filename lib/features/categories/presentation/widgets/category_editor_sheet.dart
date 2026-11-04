@@ -1,12 +1,15 @@
+import 'package:budgets/core/forms/submit_validated_form.dart';
+import 'package:budgets/core/ui/category_icons.dart';
+import 'package:budgets/core/forms/field_validators.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
 import 'package:budgets/features/categories/presentation/widgets/category_appearance_field.dart';
-import 'package:budgets/features/categories/presentation/widgets/category_emoji_picker.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_icon_picker.dart';
 import 'package:budgets/features/categories/presentation/widgets/category_delete_error_toast.dart';
-import 'package:budgets/features/transactions/presentation/widgets/transaction_edit_scroll_view.dart';
+import 'package:budgets/features/transactions/presentation/widgets/transaction_reference_layout.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_actions.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_header.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_sheet_route.dart';
@@ -14,8 +17,7 @@ import 'package:budgets/features/transactions/presentation/widgets/transaction_s
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_surface.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/delete_confirmation_dialog.dart';
-import 'package:budgets/widgets/custom_button.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
+import 'category_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,15 +39,17 @@ class CategoryEditorSheet extends ConsumerStatefulWidget {
 
 class _CategoryEditorSheetState extends ConsumerState<CategoryEditorSheet> {
   final _pages = PageController();
+  final _formKey = GlobalKey<FormState>();
   late final _name = TextEditingController(text: widget.category?.name);
-  String? _emoji;
+  late String _iconKey;
   late Color _color;
   bool _saving = false;
 
   @override
   void initState() {
     super.initState();
-    _emoji = widget.category?.emoji;
+    _iconKey = CategoryIcons.resolve(
+        iconKey: widget.category?.iconKey, emoji: widget.category?.emoji);
     _color = widget.category?.color == null
         ? AppTheme.primaryGreen
         : Color(int.parse(widget.category!.color!, radix: 16));
@@ -58,50 +62,28 @@ class _CategoryEditorSheetState extends ConsumerState<CategoryEditorSheet> {
     super.dispose();
   }
 
-  Future<void> _pickEmoji() async {
-    final selected = await CategoryEmojiPicker.show(context);
-    if (mounted && selected != null) setState(() => _emoji = selected);
+  Future<void> _pickIcon() async {
+    final selected = await CategoryIconPicker.show(context,
+        selected: _iconKey, colorHex: _color.toARGB32().toRadixString(16));
+    if (mounted && selected != null) setState(() => _iconKey = selected);
   }
 
   Future<void> _pickColor() async {
-    var selected = _color;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        content: SingleChildScrollView(
-          child: ColorPicker(
-            color: selected,
-            onColorChanged: (value) => selected = value,
-            wheelDiameter: 200,
-            pickersEnabled: const {ColorPickerType.wheel: true},
-          ),
-        ),
-        actions: [
-          CustomButton.text(
-            text: context.l10n.save,
-            width: 80,
-            height: 40,
-            onPressed: () => Navigator.pop(dialogContext, true),
-          ),
-        ],
-      ),
-    );
-    if (mounted && confirmed == true) setState(() => _color = selected);
+    final selected = await CategoryColorPicker.show(context, _color);
+    if (mounted && selected != null) setState(() => _color = selected);
   }
 
   Future<void> _save() async {
     if (_saving) return;
     final name = _name.text.trim();
-    if (name.isEmpty || _emoji == null || _emoji!.isEmpty) {
-      showInfoToast(context, context.l10n.name);
-      return;
-    }
+    if (!(_formKey.currentState?.validate() ?? false)) return;
     setState(() => _saving = true);
     try {
       final value = Category(
         id: widget.category?.id,
         name: name,
-        emoji: _emoji,
+        emoji: '',
+        iconKey: _iconKey,
         color: _color.toARGB32().toRadixString(16).padLeft(8, '0'),
         transactionType: widget.category?.transactionType ?? widget.type,
       );
@@ -142,42 +124,40 @@ class _CategoryEditorSheetState extends ConsumerState<CategoryEditorSheet> {
   }
 
   @override
-  Widget build(BuildContext context) => TransactionSheetSurface(
-        pageController: _pages,
-        pages: [
-          TransactionEditScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TransactionFormHeader(
-                    title: context.l10n.categories,
-                    onClose: () => Navigator.of(context).pop(),
-                  ),
-                  const SizedBox(height: 37),
-                  TransactionSheetField(
-                    label: context.l10n.name,
-                    controller: _name,
-                    textInputAction: TextInputAction.done,
-                  ),
-                  const SizedBox(height: 20),
-                  CategoryAppearanceField(
-                    emoji: _emoji,
-                    color: _color,
-                    onEmojiTap: _pickEmoji,
-                    onColorTap: _pickColor,
-                  ),
-                  const Spacer(),
-                  TransactionFormActions(
+  Widget build(BuildContext context) => SubmitValidatedForm(
+      formKey: _formKey,
+      child: TransactionSheetSurface(
+          referenceStyle: true,
+          pageController: _pages,
+          pages: [
+            TransactionReferenceLayout(
+                actions: TransactionFormActions(
                     saving: _saving,
                     onSave: _save,
-                    onDelete: widget.category == null ? null : _delete,
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      );
+                    onCancel: widget.category == null
+                        ? null
+                        : () => Navigator.pop(context)),
+                children: [
+                  TransactionFormHeader(
+                      title: context.l10n.categories,
+                      onClose: () => Navigator.pop(context),
+                      showDelete: widget.category != null,
+                      onDelete:
+                          widget.category == null || _saving ? null : _delete),
+                  const SizedBox(height: 40),
+                  TransactionSheetField(
+                      label: context.l10n.name,
+                      controller: _name,
+                      validator: (value) => FieldValidators.required(
+                          context, value,
+                          message: context.l10n.categoryNameRequired),
+                      textInputAction: TextInputAction.done),
+                  const SizedBox(height: 24),
+                  CategoryAppearanceField(
+                      iconKey: _iconKey,
+                      color: _color,
+                      onIconTap: _pickIcon,
+                      onColorTap: _pickColor),
+                ]),
+          ]));
 }

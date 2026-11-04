@@ -8,6 +8,27 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../support/fake_finance_notification_repository.dart';
 
 void main() {
+  testWidgets('friendly empty inbox offers notification settings',
+      (tester) async {
+    final viewModel =
+        FinanceNotificationViewModel(FakeFinanceNotificationRepository([]));
+    addTearDown(viewModel.dispose);
+    var opened = false;
+    await tester.pumpWidget(MaterialApp(
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: FinanceNotificationsPage(
+          viewModel: viewModel,
+          onSelected: (_, __) async {},
+          onSettings: () => opened = true),
+    ));
+    await tester.pumpAndSettle();
+    expect(find.text('You’re all caught up! We’ll keep you posted here.'),
+        findsOneWidget);
+    await tester.tap(find.text('Manage notifications'));
+    expect(opened, isTrue);
+  });
+
   testWidgets('marks a warning read and opens its envelope', (tester) async {
     final repository = FakeFinanceNotificationRepository([_notification]);
     final viewModel = FinanceNotificationViewModel(repository);

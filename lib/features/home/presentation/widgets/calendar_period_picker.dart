@@ -1,4 +1,6 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_button_theme.dart';
 import 'package:budgets/features/home/presentation/widgets/calendar_label_formatter.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +24,7 @@ class CalendarPeriodPicker extends StatelessWidget {
         child: InkWell(
           key: const Key('calendar-period-picker'),
           onTap: onTap,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: AppButtonTheme.borderRadius,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
             child: Row(
@@ -33,11 +35,8 @@ class CalendarPeriodPicker extends StatelessWidget {
                     focusedDay,
                     Localizations.localeOf(context).toLanguageTag(),
                   ),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.inverseSurface,
-                    fontSize: AppTypography.body,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: AppTextStyle(AppTextRole.body,
+                      color: Theme.of(context).colorScheme.inverseSurface),
                 ),
                 const SizedBox(width: 4),
                 Icon(

@@ -33,7 +33,7 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 600));
 
-    expect(find.text('Enter manually'), findsOneWidget);
+    expect(find.byKey(const Key('close-transaction-sheet')), findsOneWidget);
     await tester.ensureVisible(
         find.byKey(const ValueKey('transaction-category-field')));
     await tester.pump();
@@ -60,7 +60,13 @@ void main() {
                 onPressed: () async {
                   result = await ManualEntrySheet.show(
                     context,
-                    categories: Future.value(const []),
+                    categories: Future.value(const [
+                      ManualEntryCategory(
+                          id: 'salary',
+                          name: 'Salary',
+                          emoji: '💵',
+                          transactionType: 'income')
+                    ]),
                     targetDate: DateTime(2026, 7, 12),
                   );
                 },
@@ -74,10 +80,14 @@ void main() {
 
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
-    expect(find.byType(TextFormField), findsNWidgets(3));
-    expect(find.text('MGA'), findsOneWidget);
+    expect(find.byType(TextFormField), findsNWidgets(2));
+    expect(find.text('Ar'), findsOneWidget);
     expect(find.byKey(const ValueKey('delete-transaction')), findsNothing);
     await tester.tap(find.byKey(const Key('transaction-type-income')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('transaction-category-field')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('category-salary')));
     await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextFormField).at(1), 'Salary');
     await tester.enterText(find.byType(TextFormField).at(0), '500000');

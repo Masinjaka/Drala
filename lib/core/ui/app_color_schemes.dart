@@ -1,0 +1,48 @@
+part of '../theme.dart';
+
+class _AppColorSchemes {
+  static const light = ColorScheme.light(
+    primary: AppTheme.primaryGreen,
+    onPrimary: AppTheme.interactiveTextColor,
+    secondary: AppTheme.paletteTaupe,
+    onSecondary: AppTheme.interactiveTextColor,
+    error: AppTheme.errorLight,
+    onError: AppDangerTheme.lightForeground,
+    errorContainer: AppDangerTheme.lightContainer,
+    onErrorContainer: AppDangerTheme.lightContainerForeground,
+    surface: AppTheme.secondaryLight,
+    surfaceDim: AppTheme.backgroundLight,
+    surfaceContainer: AppTheme.secondaryLight,
+    surfaceContainerLowest: AppTheme.raisedSurfaceLight,
+    surfaceBright: AppTheme.skeletonBaseLight,
+    surfaceContainerHigh: AppTheme.skeletonHighlightLight,
+    onSurface: AppTheme.textLight,
+    onSurfaceVariant: AppTheme.mutedTextLight,
+    outline: AppTheme.borderColorLight,
+    inverseSurface: Colors.black,
+    onInverseSurface: AppTheme.raisedSurfaceLight,
+    tertiary: AppTheme.borderColorDark,
+  );
+  static const dark = ColorScheme.dark(
+    primary: AppTheme.primaryGreen,
+    onPrimary: AppTheme.interactiveTextColor,
+    secondary: AppTheme.paletteTaupe,
+    onSecondary: AppTheme.interactiveTextColor,
+    error: AppTheme.errorDark,
+    onError: AppDangerTheme.darkForeground,
+    errorContainer: AppDangerTheme.darkContainer,
+    onErrorContainer: AppDangerTheme.darkContainerForeground,
+    surface: AppTheme.secondaryDark,
+    surfaceDim: AppTheme.backgroundDark,
+    surfaceContainer: AppTheme.secondaryDark,
+    surfaceContainerLowest: AppTheme.raisedSurfaceDark,
+    surfaceBright: AppTheme.skeletonBaseDark,
+    surfaceContainerHigh: AppTheme.skeletonHighlightDark,
+    onSurface: AppTheme.textDark,
+    onSurfaceVariant: AppTheme.mutedTextDark,
+    outline: AppTheme.borderColorDark,
+    inverseSurface: Colors.white,
+    onInverseSurface: Colors.black,
+    tertiary: Color.fromARGB(255, 126, 126, 126),
+  );
+}

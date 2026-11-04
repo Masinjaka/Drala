@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/selectable_item.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_card.dart';
@@ -10,16 +11,24 @@ class EnvelopeListPanel extends StatefulWidget {
     required this.envelopes,
     required this.onDelete,
     this.displayCurrency,
+    this.selectedIds,
+    this.onToggleSelection,
+    this.selectionEnabled = true,
+    this.onAdd,
     this.onEdit,
     this.loading = false,
     this.targetEnvelopeId,
     super.key,
   });
 
+  final VoidCallback? onAdd;
   final List<Envelope> envelopes;
   final bool loading;
   final ValueChanged<String> onDelete;
   final CurrencyState? displayCurrency;
+  final Set<String>? selectedIds;
+  final ValueChanged<String>? onToggleSelection;
+  final bool selectionEnabled;
   final ValueChanged<Envelope>? onEdit;
   final String? targetEnvelopeId;
 
@@ -42,27 +51,44 @@ class _EnvelopeListPanelState extends State<EnvelopeListPanel> {
   @override
   Widget build(BuildContext context) {
     _scheduleReveal();
-    if (widget.envelopes.isEmpty) return const EnvelopeEmptyState();
+    if (widget.envelopes.isEmpty) {
+      return EnvelopeEmptyState(onAdd: widget.onAdd);
+    }
     return Column(
       children: [
         for (var index = 0; index < widget.envelopes.length; index++) ...[
           KeyedSubtree(
             key: Key('envelope-${widget.envelopes[index].id}'),
-            child: EnvelopeCard(
-              key: widget.envelopes[index].id == widget.targetEnvelopeId
-                  ? _targetKey
-                  : null,
-              envelope: widget.envelopes[index],
-              loading: widget.loading,
-              onTap: () => widget.onEdit?.call(widget.envelopes[index]),
-              onDelete: () => widget.onDelete(widget.envelopes[index].id),
-              displayCurrency: widget.displayCurrency,
-            ),
+            child: SelectableItem(
+                selecting: widget.selectedIds != null,
+                selected:
+                    widget.selectedIds?.contains(widget.envelopes[index].id) ??
+                        false,
+                enabled: !widget.loading && widget.selectionEnabled,
+                selectionKey:
+                    Key('select-envelope-${widget.envelopes[index].id}'),
+                onToggle: () =>
+                    widget.onToggleSelection?.call(widget.envelopes[index].id),
+                child: EnvelopeCard(
+                  key: widget.envelopes[index].id == widget.targetEnvelopeId
+                      ? _targetKey
+                      : null,
+                  envelope: widget.envelopes[index],
+                  isFirst: index == 0,
+                  isLast: index == widget.envelopes.length - 1,
+                  loading: widget.loading,
+                  onTap: () => widget.selectedIds == null
+                      ? widget.onEdit?.call(widget.envelopes[index])
+                      : widget.onToggleSelection
+                          ?.call(widget.envelopes[index].id),
+                  onDelete: () => widget.onDelete(widget.envelopes[index].id),
+                  displayCurrency: widget.displayCurrency,
+                )),
           )
               .animate(delay: (50 * index).ms)
               .fadeIn(duration: 200.ms)
               .slideY(begin: .5, duration: 200.ms, curve: Curves.easeOut),
-          if (index < widget.envelopes.length - 1) const SizedBox(height: 10),
+          if (index < widget.envelopes.length - 1) const SizedBox(height: 5),
         ],
       ],
     );

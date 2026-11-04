@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:flutter/material.dart';
 
@@ -30,21 +33,25 @@ class CategoryPill extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(category.emoji ?? '📁', style: TextStyle(fontSize: 14)),
+            CategoryIcon(
+                iconKey: category.iconKey,
+                emoji: category.emoji,
+                colorHex: category.color,
+                size: 18,
+                backgroundColor: isSelected
+                    ? Theme.of(context).colorScheme.inverseSurface
+                    : Theme.of(context).colorScheme.surface),
             SizedBox(width: 6),
             Text(
               category.name ?? '',
-              style: TextStyle(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.onInverseSurface
-                    : Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.color
-                        ?.withAlpha(200),
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
+              style: AppTextStyle(AppTextRole.body,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onInverseSurface
+                      : Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.color
+                          ?.withAlpha(200)),
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_card_surface.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class GuestSyncCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Material(
+    return AppCardSurface(
       color: theme.colorScheme.surfaceContainer,
       borderRadius: BorderRadius.circular(12),
       child: Padding(
@@ -42,7 +43,6 @@ class GuestSyncCard extends StatelessWidget {
               onPressed: onSignIn,
               isLoading: isLoading,
               height: 44,
-              borderRadius: BorderRadius.circular(9),
             ),
           ],
         ),

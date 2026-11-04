@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 const _transactionSelect =
     'id, title, description, amount, date, invoice_file, transaction_type, '
-    'category:categories!expenses_category_id_fkey(id, name, emoji, color)';
+    'category:categories!expenses_category_id_fkey(id, name, emoji, icon_key, color)';
 
 class PaginatedTransactions {
   const PaginatedTransactions({

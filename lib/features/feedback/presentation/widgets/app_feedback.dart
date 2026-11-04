@@ -39,8 +39,8 @@ class AppFeedback extends StatelessWidget {
       feedbackSheetColor: sheetColor,
       feedbackSheetHeight: .38,
       activeFeedbackModeColor: AppTheme.primaryGreen,
-      drawColors: const [
-        AppTheme.dangerColor,
+      drawColors: [
+        theme.colorScheme.error,
         AppTheme.primaryGreen,
         Colors.blue,
         Colors.black,

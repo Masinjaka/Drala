@@ -9,7 +9,7 @@ class TransactionFormScrollPhysics extends ScrollPhysics {
   }
 
   @override
-  bool get allowUserScrolling => false;
+  bool get allowUserScrolling => true;
 
   @override
   bool get allowImplicitScrolling => true;

@@ -1,10 +1,12 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/ui/month_scroll_layout.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/core/currency/currency_state.dart';
-import 'package:budgets/core/ui/detail_page_header.dart';
-import 'package:budgets/core/ui/month_picker_header.dart';
+import 'envelope_page_header.dart';
+import 'envelope_month_controls.dart';
 import 'package:budgets/features/envelopes/presentation/view_models/envelope_view_model.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_month_page.dart';
-import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
 class EnvelopePageContent extends StatelessWidget {
@@ -19,6 +21,10 @@ class EnvelopePageContent extends StatelessWidget {
     required this.onPageChanged,
     required this.onRefresh,
     this.initialEnvelopeId,
+    this.selectionBar,
+    this.onSelect,
+    this.selectedIds,
+    this.onToggleSelection,
     this.displayCurrency,
     this.onEdit,
     this.showBackButton = true,
@@ -36,6 +42,10 @@ class EnvelopePageContent extends StatelessWidget {
   final ValueChanged<int> onPageChanged;
   final Future<void> Function() onRefresh;
   final String? initialEnvelopeId;
+  final Widget? selectionBar;
+  final VoidCallback? onSelect;
+  final Set<String>? selectedIds;
+  final ValueChanged<String>? onToggleSelection;
   final CurrencyState? displayCurrency;
   final ValueChanged<Envelope>? onEdit;
 
@@ -44,54 +54,55 @@ class EnvelopePageContent extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: const EdgeInsets.only(top: 15),
-        child: Column(
-          children: [
+        padding: const EdgeInsets.only(top: AppHeaderMetrics.topPadding),
+        child: MonthScrollLayout(
+          scrollKey: const Key('envelope-page-scroll'),
+          carouselBottomPadding: 46,
+          headerBuilder: (showMonth) => Column(children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: DetailPageHeader(
-                title: context.l10n.envelope,
+              padding: AppPageSpacing.insets(context),
+              child: EnvelopePageHeader(
+                showMonth: showMonth,
                 showBackButton: showBackButton,
-                onAdd: onAdd,
-                addTooltip: context.l10n.addEnvelope,
-              ),
-            ),
-            const SizedBox(height: 32),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 29),
-              child: MonthPickerHeader(
                 month: viewModel.month,
-                onChanged: onMonthChanged,
-                canGoNext: _canGoForward,
                 onPickMonth: onPickMonth,
-                pickerKey: const Key('envelope-pick-month'),
+                onAdd: onAdd,
+                onSelect: onSelect,
               ),
             ),
-            const SizedBox(height: 48),
-            Expanded(
-              child: PageView.builder(
-                key: const Key('envelope-month-pages'),
-                controller: pageController,
-                itemCount: _pageForMonth(DateTime.now()) + 1,
-                onPageChanged: onPageChanged,
-                itemBuilder: (context, page) {
-                  final month = _monthForPage(page);
-                  return EnvelopeMonthPage(
-                    key: ValueKey('envelope-page-${month.year}-${month.month}'),
-                    envelopes: viewModel.envelopesForMonth(month),
-                    isLoading: viewModel.isMonthLoading(month),
-                    onRefresh: onRefresh,
-                    onDelete: viewModel.delete,
-                    onEdit: onEdit,
-                    displayCurrency: displayCurrency,
-                    targetEnvelopeId: _sameMonth(month, pageOrigin)
-                        ? initialEnvelopeId
-                        : null,
-                  );
-                },
-              ),
-            ),
-          ],
+            if (selectionBar != null)
+              Padding(
+                  padding: AppPageSpacing.insets(context),
+                  child: selectionBar!),
+          ]),
+          carousel: EnvelopeMonthControls(
+              month: viewModel.month,
+              onChanged: onMonthChanged,
+              canGoNext: _canGoForward),
+          child: PageView.builder(
+            key: const Key('envelope-month-pages'),
+            controller: pageController,
+            itemCount: _pageForMonth(DateTime.now()) + 1,
+            onPageChanged: onPageChanged,
+            itemBuilder: (context, page) {
+              final month = _monthForPage(page);
+              return EnvelopeMonthPage(
+                onAdd: onAdd,
+                key: ValueKey('envelope-page-${month.year}-${month.month}'),
+                envelopes: viewModel.envelopesForMonth(month),
+                selectedIds: selectedIds,
+                onToggleSelection: onToggleSelection,
+                selectionEnabled: !viewModel.isSaving,
+                isLoading: viewModel.isMonthLoading(month),
+                onRefresh: onRefresh,
+                onDelete: viewModel.delete,
+                onEdit: onEdit,
+                displayCurrency: displayCurrency,
+                targetEnvelopeId:
+                    _sameMonth(month, pageOrigin) ? initialEnvelopeId : null,
+              );
+            },
+          ),
         ),
       ),
     );

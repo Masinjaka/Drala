@@ -65,6 +65,7 @@ void main() {
       '750000',
     );
     await tester.ensureVisible(find.byKey(const Key('save-wallet')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('save-wallet')));
     await tester.pumpAndSettle();
 
@@ -73,6 +74,7 @@ void main() {
 
     await _showWalletEditor(tester, 'bank');
     await tester.ensureVisible(find.byKey(const Key('delete-wallet')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('delete-wallet')));
     await tester.pumpAndSettle();
     expect(find.text('Delete this wallet?'), findsOneWidget);
@@ -107,7 +109,13 @@ void main() {
     );
 
     await _showWalletEditor(tester, 'cash');
-    expect(find.byKey(const Key('delete-wallet')), findsNothing);
+    expect(
+        tester
+            .widget<IconButton>(find.descendant(
+                of: find.byKey(const Key('delete-wallet')),
+                matching: find.byType(IconButton)))
+            .onPressed,
+        isNull);
   });
 }
 

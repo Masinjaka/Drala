@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -38,6 +41,7 @@ class NewBalanceCard extends ConsumerWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       decoration: BoxDecoration(
+        boxShadow: AppCardTheme.shadows(context),
         color: cardColor,
         borderRadius: BorderRadius.circular(16),
       ),
@@ -62,21 +66,15 @@ class NewBalanceCard extends ConsumerWidget {
           SizedBox(height: 16),
           Text(
             formattedAmount,
-            style: AppTextTheme.amount(TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            )),
+            style: AppTextTheme.amount(
+                AppTextStyle(AppTextRole.body, color: textColor)),
             overflow: TextOverflow.ellipsis,
           ),
           SizedBox(height: 8),
           Text(
             title,
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: textColor?.withValues(alpha: 0.7),
-            ),
+            style: AppTextStyle(AppTextRole.body,
+                color: textColor?.withValues(alpha: 0.7)),
           ),
         ],
       ),

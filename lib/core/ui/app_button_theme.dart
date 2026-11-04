@@ -1,8 +1,12 @@
 import 'package:budgets/core/ui/app_control_metrics.dart';
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppButtonTheme {
+  static const shape = StadiumBorder();
+  static const borderRadius = BorderRadius.all(Radius.circular(999));
+
   static ElevatedButtonThemeData elevated(
     Brightness brightness, {
     required Color background,
@@ -51,12 +55,9 @@ abstract final class AppButtonTheme {
         ),
         foregroundColor: WidgetStatePropertyAll(_foreground(brightness)),
         textStyle: const WidgetStatePropertyAll(
-          TextStyle(
-            fontSize: AppTypography.body,
-            fontWeight: FontWeight.w800,
-          ),
+          AppTextStyle(AppTextRole.button),
         ),
-        shape: const WidgetStatePropertyAll(StadiumBorder()),
+        shape: const WidgetStatePropertyAll(shape),
       );
 
   static Color _foreground(Brightness brightness) =>

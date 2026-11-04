@@ -1,49 +1,29 @@
+import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
 import 'package:flutter/material.dart';
 
 class FinanceEntryIcon extends StatelessWidget {
   const FinanceEntryIcon({
     required this.emoji,
     required this.iconKey,
+    this.colorHex,
     super.key,
   });
 
   final String emoji;
   final String iconKey;
+  final String? colorHex;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 42,
       height: 42,
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        shape: BoxShape.circle,
-      ),
       alignment: Alignment.center,
-      child: Text(
-        _resolvedEmoji,
-        key: const Key('finance-entry-emoji'),
-        style: Theme.of(context).textTheme.titleMedium?.copyWith(fontSize: 22),
-      ),
+      child: CategoryIcon(
+          iconKey: iconKey,
+          emoji: emoji,
+          colorHex: colorHex,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor),
     );
-  }
-
-  String get _resolvedEmoji {
-    if (emoji.trim().isNotEmpty) return emoji;
-    return switch (iconKey) {
-      'food' => '🍔',
-      'shopping' => '🛒',
-      'transport' => '🚗',
-      'housing' => '🏠',
-      'health' => '🩺',
-      'entertainment' => '🎬',
-      'education' => '🎓',
-      'utilities' => '💡',
-      'salary' => '💼',
-      'freelance' => '💻',
-      'income' => '💰',
-      'transfer' => '🔄',
-      _ => '🧾',
-    };
   }
 }

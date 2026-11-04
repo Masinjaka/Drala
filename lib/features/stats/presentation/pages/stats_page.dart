@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/stats/domain/providers/selected_date_provider.dart';
 import 'package:budgets/features/stats/presentation/widgets/month_year_picker.dart';
 import 'package:budgets/features/stats/presentation/widgets/stats_page_content.dart';
@@ -94,10 +96,7 @@ class _StatsPageState extends ConsumerState<StatsPage> {
         titleSpacing: 32,
         title: Text(
           'Rapports',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+          style: AppTextStyle(AppTextRole.pageTitle),
         ),
         centerTitle: false,
       ),

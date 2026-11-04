@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/ui/app_grid_background.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/ui/outlined_square_button.dart';
 import 'package:budgets/features/guest/domain/guest_session.dart';
@@ -17,12 +20,14 @@ class GuestAccountChoicePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l = context.l10n;
     return Scaffold(
-      body: SafeArea(
+      body: AppGridBackground(
+          child: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 560),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(29, 20, 29, 30),
+              padding: AppPageSpacing.insets(context,
+                  top: AppHeaderMetrics.topPadding, bottom: 30),
               child: Column(
                 children: [
                   if (!showGuestOption)
@@ -64,7 +69,6 @@ class GuestAccountChoicePage extends ConsumerWidget {
                         if (context.mounted) context.go('/home');
                       },
                       height: 44,
-                      borderRadius: BorderRadius.circular(9),
                     ),
                     const SizedBox(height: 12),
                   ],
@@ -72,7 +76,6 @@ class GuestAccountChoicePage extends ConsumerWidget {
                     text: l.authSignUp,
                     onPressed: () => context.push('/signup'),
                     height: 44,
-                    borderRadius: BorderRadius.circular(9),
                   ),
                   const SizedBox(height: 12),
                   CustomButton.text(
@@ -85,7 +88,7 @@ class GuestAccountChoicePage extends ConsumerWidget {
             ),
           ),
         ),
-      ),
+      )),
     );
   }
 }

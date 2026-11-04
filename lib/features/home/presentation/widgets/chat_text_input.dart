@@ -1,5 +1,6 @@
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/core/ui/app_activities_theme.dart';
 
 import 'chat_typing_hint.dart';
 
@@ -11,6 +12,7 @@ class ChatTextInput extends StatelessWidget {
     required this.hints,
     required this.cursorColor,
     required this.hintColor,
+    this.compact = false,
     super.key,
   });
 
@@ -20,19 +22,21 @@ class ChatTextInput extends StatelessWidget {
   final List<String> hints;
   final Color cursorColor;
   final Color hintColor;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final inputStyle = theme.textTheme.bodyMedium!.copyWith(
-      fontSize: 14,
-      fontWeight: FontWeight.w400,
-      height: 1.35,
-    );
-    final hintStyle = inputStyle.copyWith(
-      color: hintColor.withValues(alpha: 0.78),
-      fontWeight: FontWeight.w400,
-    );
+    final inputStyle = compact
+        ? AppActivitiesTheme.composerText(context)
+        : theme.textTheme.bodyLarge!.copyWith(
+            height: 1.35,
+          );
+    final hintStyle = compact
+        ? AppActivitiesTheme.composerHint(context)
+        : inputStyle.copyWith(
+            color: hintColor.withValues(alpha: 0.78),
+          );
     return ListenableBuilder(
       listenable: focusNode,
       builder: (context, _) => Stack(
@@ -48,7 +52,7 @@ class ChatTextInput extends StatelessWidget {
                       suggestions: focusNode.hasFocus
                           ? [context.l10n.startTyping]
                           : hints,
-                      animate: enabled && !focusNode.hasFocus,
+                      animate: enabled && !focusNode.hasFocus && !compact,
                       style: hintStyle,
                     ),
                   ),

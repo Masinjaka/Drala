@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
@@ -32,11 +34,7 @@ class AddCategoryPill extends StatelessWidget {
             SizedBox(width: 4),
             Text(
               'Ajouter une catégorie',
-              style: TextStyle(
-                color: textColor,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
+              style: AppTextStyle(AppTextRole.body, color: textColor),
             ),
           ],
         ),

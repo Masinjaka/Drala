@@ -19,7 +19,7 @@ class GuestMonthlyStatsRepository implements MonthlyStatsRepository {
       DateTime(month.year, month.month + 1, 0).day,
       0,
     );
-    final byCategory = <String, (String, int)>{};
+    final byCategory = <String, (String, int, String, int, String?)>{};
     for (final entry in expenses) {
       final day = entry.occurredAt.day - 1;
       daily[day] += entry.amount.round();
@@ -27,6 +27,9 @@ class GuestMonthlyStatsRepository implements MonthlyStatsRepository {
       byCategory[entry.categoryName] = (
         entry.emoji,
         (prior?.$2 ?? 0) + entry.amount.round(),
+        entry.iconKey,
+        (prior?.$4 ?? 0) + 1,
+        entry.categoryColor,
       );
     }
     return MonthlyStats(
@@ -44,7 +47,10 @@ class GuestMonthlyStatsRepository implements MonthlyStatsRepository {
           CategoryStat(
             name: category.key,
             emoji: category.value.$1,
+            iconKey: category.value.$3,
             amount: category.value.$2,
+            transactionCount: category.value.$4,
+            colorHex: category.value.$5,
           ),
       ]..sort((a, b) => b.amount.compareTo(a.amount)),
       dailyExpenses: daily,

@@ -1,3 +1,4 @@
+import 'app_finance_surface_theme.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:budgets/core/ui/app_sheet_header.dart';
 import 'package:budgets/core/ui/app_sheet_route.dart';
@@ -15,7 +16,7 @@ class AppWheelPicker {
     required DateTime initialDate,
     required DateTime firstDate,
     required DateTime lastDate,
-    String title = 'Select a date',
+    String? title,
   }) {
     return _showDateTime(
       context,
@@ -30,7 +31,8 @@ class AppWheelPicker {
           itemExtent: 44,
           backgroundColor: _background(sheetContext),
           pickerTextStyle: _pickerTextStyle(sheetContext),
-          headerBuilder: (_) => _header(sheetContext, title),
+          headerBuilder: (_) =>
+              _header(sheetContext, title ?? context.l10n.selectDate),
           buttonBuilder: (instance, _) => _doneButton(
             sheetContext,
             () => Navigator.pop(sheetContext, instance.currentValue),
@@ -45,7 +47,7 @@ class AppWheelPicker {
     required DateTime initialDate,
     required DateTime firstDate,
     required DateTime lastDate,
-    String title = 'Select a month',
+    String? title,
   }) {
     return _showDateTime(
       context,
@@ -59,7 +61,8 @@ class AppWheelPicker {
           itemExtent: 44,
           backgroundColor: _background(sheetContext),
           pickerTextStyle: _pickerTextStyle(sheetContext),
-          headerBuilder: (_) => _header(sheetContext, title),
+          headerBuilder: (_) =>
+              _header(sheetContext, title ?? context.l10n.selectDate),
           buttonBuilder: (instance, _) => _doneButton(
             sheetContext,
             () => Navigator.pop(sheetContext, instance.currentValue),
@@ -119,7 +122,7 @@ class AppWheelPicker {
   }
 
   static TextStyle _pickerTextStyle(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 18);
+      Theme.of(context).textTheme.titleMedium!;
 
   static Widget _header(BuildContext context, String title) {
     return AppSheetHeader(
@@ -136,15 +139,16 @@ class AppWheelPicker {
       child: CustomButton(
         key: const Key('app-wheel-picker-done'),
         text: context.l10n.done,
-        height: 40,
-        borderRadius: BorderRadius.circular(6),
+        height: 48,
+        backgroundColor: AppFinanceSurfaceTheme.action(context),
+        foregroundColor: AppFinanceSurfaceTheme.onAction(context),
         onPressed: onPressed,
       ),
     );
   }
 
   static Color _background(BuildContext context) =>
-      Theme.of(context).colorScheme.surfaceContainerLowest;
+      AppFinanceSurfaceTheme.background(context);
 
   static DateTime _clamp(DateTime value, DateTime min, DateTime max) {
     if (value.isBefore(min)) return min;

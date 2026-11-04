@@ -9,6 +9,8 @@ class SettingsTransactionField extends StatelessWidget {
     this.hint,
     this.isPassword = false,
     this.validator,
+    this.fieldValidator,
+    this.fillColor,
     super.key,
   });
 
@@ -17,20 +19,24 @@ class SettingsTransactionField extends StatelessWidget {
   final TextEditingController controller;
   final bool isPassword;
   final Map<String, String>? validator;
+  final FormFieldValidator<String>? fieldValidator;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) => CustomTextField(
-        title: Text(label, style: Theme.of(context).textTheme.labelSmall),
+        title: Text(label, style: Theme.of(context).textTheme.bodyMedium),
         hint: hint,
         controller: controller,
         isPassword: isPassword,
         keyboardType: isPassword ? TextInputType.visiblePassword : null,
         validator: validator,
-        height: 40,
-        fontSize: AppTypography.supporting,
-        borderRadius: BorderRadius.circular(6),
+        fieldValidator: fieldValidator,
+        height: 48,
+        fontSize: AppTypography.input,
+        borderRadius: BorderRadius.circular(24),
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        fillColor: Theme.of(context).colorScheme.surfaceContainer,
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        fillColor:
+            fillColor ?? Theme.of(context).colorScheme.surfaceContainerLowest,
       );
 }

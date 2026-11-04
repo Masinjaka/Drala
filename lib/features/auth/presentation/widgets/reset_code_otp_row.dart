@@ -1,3 +1,5 @@
+import 'package:budgets/core/forms/validated_selection.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,35 +17,44 @@ class ResetCodeOtpRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    return Row(
-      children: List.generate(controllers.length, (index) {
-        return Expanded(
-          child: Padding(
-            padding:
-                EdgeInsets.only(right: index == controllers.length - 1 ? 0 : 8),
-            child: TextFormField(
-              controller: controllers[index],
-              focusNode: focusNodes[index],
-              keyboardType: TextInputType.number,
-              textAlign: TextAlign.center,
-              maxLength: 1,
-              style: AppTextTheme.authBody(context),
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              decoration: InputDecoration(
-                counterText: '',
-                isDense: true,
-                filled: true,
-                fillColor: colors.surfaceContainer,
-                contentPadding: const EdgeInsets.symmetric(vertical: 11.5),
-                enabledBorder: _border(colors.surfaceContainer),
-                focusedBorder: _border(colors.primary),
-              ),
-              onChanged: (value) => _moveFocus(value, index),
-            ),
-          ),
-        );
-      }),
-    );
+    return ListenableBuilder(
+        listenable: Listenable.merge(controllers),
+        builder: (_, __) => ValidatedSelection(
+            value: controllers.map((c) => c.text).join(),
+            validator: () => RegExp(r'^\d{6}$')
+                    .hasMatch(controllers.map((c) => c.text).join())
+                ? null
+                : context.l10n.authEnterSixDigitCode,
+            child: Row(
+              children: List.generate(controllers.length, (index) {
+                return Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        right: index == controllers.length - 1 ? 0 : 8),
+                    child: TextFormField(
+                      controller: controllers[index],
+                      focusNode: focusNodes[index],
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      maxLength: 1,
+                      style: AppTextTheme.authBody(context),
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      decoration: InputDecoration(
+                        counterText: '',
+                        isDense: true,
+                        filled: true,
+                        fillColor: colors.surfaceContainer,
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 11.5),
+                        enabledBorder: _border(colors.surfaceContainer),
+                        focusedBorder: _border(colors.primary),
+                      ),
+                      onChanged: (value) => _moveFocus(value, index),
+                    ),
+                  ),
+                );
+              }),
+            )));
   }
 
   OutlineInputBorder _border(Color color) => OutlineInputBorder(

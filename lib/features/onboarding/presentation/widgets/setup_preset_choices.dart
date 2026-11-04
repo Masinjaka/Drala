@@ -67,15 +67,15 @@ class SetupPresetChoices extends ConsumerWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 32),
                     Text(context.l10n.expenses,
-                        style: AppTextTheme.onboardingLabel(context)),
-                    const SizedBox(height: 27),
+                        style: AppTextTheme.setupSection(context)),
+                    const SizedBox(height: 11),
                     _grid(context, expenses, cardHeight),
                     const SizedBox(height: 24),
                     Text(context.l10n.income,
-                        style: AppTextTheme.onboardingLabel(context)),
-                    const SizedBox(height: 27),
+                        style: AppTextTheme.setupSection(context)),
+                    const SizedBox(height: 8),
                     _grid(context, incomes, cardHeight),
                   ],
                 );
@@ -90,8 +90,8 @@ class SetupPresetChoices extends ConsumerWidget {
     List<OnboardingPreset> presets,
     double cardWidth,
   ) {
-    final textWidth = (cardWidth - 74).clamp(1.0, double.infinity).toDouble();
-    final style = AppTextTheme.onboardingLabel(context);
+    final textWidth = (cardWidth - 72).clamp(1.0, double.infinity).toDouble();
+    final style = AppTextTheme.setupLabel(context);
     final textScaler = MediaQuery.textScalerOf(context);
     var maxTextHeight = 0.0;
     for (final preset in presets) {
@@ -101,8 +101,9 @@ class SetupPresetChoices extends ConsumerWidget {
         textScaler: textScaler,
       )..layout(maxWidth: textWidth);
       if (painter.height > maxTextHeight) maxTextHeight = painter.height;
+      painter.dispose();
     }
-    return (maxTextHeight + 16).clamp(40.0, double.infinity).toDouble();
+    return (maxTextHeight + 16).clamp(50.0, double.infinity).toDouble();
   }
 
   Widget _grid(
@@ -114,7 +115,7 @@ class SetupPresetChoices extends ConsumerWidget {
         final width = (constraints.maxWidth - 10) / 2;
         return Wrap(
           spacing: 10,
-          runSpacing: 10,
+          runSpacing: 7,
           children: [
             for (var index = 0; index < presets.length; index++)
               SizedBox(

@@ -23,13 +23,16 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('save-envelope-button')));
     await tester.pumpAndSettle();
-    expect(find.text('🍔 Renamed budget'), findsOneWidget);
+    expect(find.text('Renamed budget'), findsOneWidget);
     await tester.tap(find.byKey(const Key('envelope-food')));
     await tester.pumpAndSettle();
     await tester
         .ensureVisible(find.byKey(const ValueKey('delete-transaction')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('delete-transaction')));
+    await tester.pumpAndSettle();
+    expect(repository.deleted, isFalse);
+    await tester.tap(find.byKey(const ValueKey('confirm-delete')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('envelope-food')), findsNothing);
     expect(repository.deleted, isTrue);

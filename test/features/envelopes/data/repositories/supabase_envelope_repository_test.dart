@@ -52,6 +52,7 @@ void main() {
             'category_id': 'food',
             'amount': 100000,
             'remaining_amount': 90000,
+            'funding_wallet_id': 'bank',
             'overspent_amount': 0,
             'currency_code': 'MGA',
             'categories': {
@@ -64,6 +65,8 @@ void main() {
       );
       final result = await repository.envelopesForMonth(DateTime(2026, 7));
 
+      expect(result.single.fundingWalletId, 'bank');
+      expect(result.single.copyWith(spent: 20000).fundingWalletId, 'bank');
       expect(result.single.spent, 10000);
       expect(result.single.remaining, 90000);
       expect(result.single.progress, 0.1);

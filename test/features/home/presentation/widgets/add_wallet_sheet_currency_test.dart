@@ -36,7 +36,7 @@ void main() {
     expect(find.byType(AlertDialog), findsNothing);
     expect(find.byType(TransactionSheetSurface), findsOneWidget);
     expect(find.byType(TransactionAmountField), findsOneWidget);
-    expect(find.text('USD'), findsOneWidget);
+    expect(find.text(r'$'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).at(1), 'Savings');
     await tester.enterText(find.byType(TextFormField).at(0), '200');
     await tester.ensureVisible(find.byKey(const Key('confirm-add-wallet')));
@@ -70,7 +70,7 @@ void main() {
     expect(find.text('Ajouter un portefeuille'), findsOneWidget);
     expect(find.text('Nom du portefeuille'), findsOneWidget);
     expect(find.text('ex. Épargne'), findsOneWidget);
-    expect(find.text('MGA'), findsOneWidget);
+    expect(find.text('Ar'), findsOneWidget);
     expect(find.text('Wallet name'), findsNothing);
     expect(find.text('Current balance'), findsNothing);
   });

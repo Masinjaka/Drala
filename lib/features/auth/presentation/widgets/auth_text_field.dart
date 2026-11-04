@@ -1,4 +1,3 @@
-import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/ui/app_control_metrics.dart';
 import 'package:budgets/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ class AuthTextField extends StatelessWidget {
       this.isPassword = false,
       this.keyboardType,
       this.validator,
+      this.fieldValidator,
       this.focusNode,
       this.onChanged,
       super.key});
@@ -20,6 +20,7 @@ class AuthTextField extends StatelessWidget {
   final bool isPassword;
   final TextInputType? keyboardType;
   final Map<String, String>? validator;
+  final FormFieldValidator<String>? fieldValidator;
   final FocusNode? focusNode;
   final ValueChanged<String>? onChanged;
   @override
@@ -30,11 +31,15 @@ class AuthTextField extends StatelessWidget {
       isPassword: isPassword,
       keyboardType: keyboardType,
       validator: validator,
+      fieldValidator: fieldValidator,
       focusNode: focusNode,
       onChanged: onChanged,
-      textStyle: AppTextTheme.authBody(context),
-      hintTextStyle: AppTextTheme.authHint(context),
-      fontSize: AppTextTheme.authBody(context).fontSize,
+      textStyle: Theme.of(context).textTheme.bodyLarge,
+      hintTextStyle: Theme.of(context)
+          .textTheme
+          .bodyLarge!
+          .copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+      fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
       height: AppControlMetrics.height,
       labelSpacing: 6,
       borderRadius: BorderRadius.circular(8),

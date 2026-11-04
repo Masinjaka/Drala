@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/transactions/presentation/modules/transaction_module.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
@@ -57,8 +59,7 @@ class _TransactionFilterPageState extends ConsumerState<TransactionFilterPage> {
         automaticallyImplyLeading: false,
         title: Padding(
             padding: EdgeInsets.symmetric(horizontal: 32),
-            child: Text('Filtrer',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 19.5))),
+            child: Text('Filtrer', style: AppTextStyle(AppTextRole.pageTitle))),
         actions: [
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
@@ -78,8 +79,7 @@ class _TransactionFilterPageState extends ConsumerState<TransactionFilterPage> {
               children: [
                 Text('Filtrer par catégorie',
                     textAlign: TextAlign.left,
-                    style:
-                        TextStyle(fontWeight: FontWeight.w900, fontSize: 15.5)),
+                    style: AppTextStyle(AppTextRole.body)),
                 SizedBox(height: 24),
                 switch (asyncCategories) {
                   AsyncData(:final value) => TransactionFilterCategoryChips(
@@ -94,8 +94,7 @@ class _TransactionFilterPageState extends ConsumerState<TransactionFilterPage> {
                 SizedBox(height: 24),
                 Text('Filtrer par date',
                     textAlign: TextAlign.left,
-                    style:
-                        TextStyle(fontWeight: FontWeight.w900, fontSize: 15.5)),
+                    style: AppTextStyle(AppTextRole.body)),
                 SizedBox(height: 24),
                 SizedBox(
                   height: 48,

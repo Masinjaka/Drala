@@ -106,7 +106,11 @@ class _AppToastOverlayState extends State<AppToastOverlay> {
               CircleAvatar(
                 radius: 11,
                 backgroundColor: accent,
-                child: Icon(icon, color: colors.iconForeground, size: 16),
+                child: Icon(icon,
+                    color: widget.type == AppToastType.error
+                        ? colors.errorForeground
+                        : colors.iconForeground,
+                    size: 16),
               ),
               const SizedBox(width: 20),
               Expanded(

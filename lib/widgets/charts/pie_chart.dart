@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -17,7 +19,7 @@ Widget categoryPieChart(
     return Center(
       child: Text(
         type == TransactionType.expense ? 'Aucune dépense' : 'Aucun revenu',
-        style: const TextStyle(fontSize: 14),
+        style: const AppTextStyle(AppTextRole.body),
       ),
     );
   }
@@ -105,10 +107,7 @@ Widget categoryPieChart(
                       SizedBox(width: 8),
                       Text(
                         entry.key,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: AppTextStyle(AppTextRole.body),
                       ),
                     ],
                   ),
@@ -119,17 +118,14 @@ Widget categoryPieChart(
                           entry.value * currencyRate,
                           currencyCode,
                         ),
-                        style: AppTextTheme.amount(const TextStyle()),
+                        style: AppTextTheme.amount(
+                            const AppTextStyle(AppTextRole.body)),
                       ),
                       TextSpan(
                         text: ' (${percentage.toStringAsFixed(1)}%)',
                       ),
                     ]),
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: color,
-                    ),
+                    style: AppTextStyle(AppTextRole.body, color: color),
                   ),
                 ],
               ),

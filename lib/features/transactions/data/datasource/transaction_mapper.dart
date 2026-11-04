@@ -22,6 +22,7 @@ class TransactionMapper {
               id: category['id'] as String?,
               name: category['name'] as String?,
               emoji: category['emoji'] as String?,
+              iconKey: category['icon_key'] as String?,
               color: category['color'] as String?,
             ),
     );

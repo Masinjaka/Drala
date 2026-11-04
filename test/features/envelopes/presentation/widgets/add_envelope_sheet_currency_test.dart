@@ -36,7 +36,7 @@ void main() {
 
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
-    expect(find.text('USD'), findsOneWidget);
+    expect(find.text(r'$'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).at(1), 'Food budget');
     await tester.enterText(find.byType(TextFormField).at(0), '200');
     await tester
@@ -45,7 +45,6 @@ void main() {
     await tester.tap(find.byKey(const Key('transaction-category-field')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('category-food')));
-    await tester.tap(find.byKey(const Key('category-done')));
     await tester.pumpAndSettle();
     await tester
         .ensureVisible(find.byKey(const Key('envelope-repeat-monthly')));

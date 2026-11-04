@@ -1,9 +1,13 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_selection_toolbar.dart';
 import 'package:budgets/core/ui/detail_enter_transition.dart';
-import 'package:budgets/core/ui/scroll_edge_fade.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/detail_page_header.dart';
-import 'package:budgets/core/widgets/empty_state_phrase.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_page_header.dart';
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'package:budgets/widgets/custom_button.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_empty_state.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_editor_result.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
@@ -13,14 +17,18 @@ import 'package:budgets/features/home/presentation/widgets/wallet_overview_card.
 import 'package:budgets/features/home/presentation/widgets/wallet_card_skeleton.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/widgets/delete_confirmation_dialog.dart';
 
-class WalletsPage extends StatelessWidget {
+part 'wallets_page_actions.dart';
+
+class WalletsPage extends StatefulWidget {
   const WalletsPage({
     required this.wallets,
     required this.onAddWallet,
     required this.onUpdateWallet,
     required this.onDeleteWallet,
     this.currencyState,
+    this.onDeleteWallets,
     this.walletsListenable,
     this.walletReader,
     this.loadingReader,
@@ -32,29 +40,79 @@ class WalletsPage extends StatelessWidget {
   final Future<void> Function(String, AddWalletInput) onUpdateWallet;
   final Future<void> Function(String) onDeleteWallet;
   final CurrencyState? currencyState;
+  final Future<void> Function(List<String>)? onDeleteWallets;
   final Listenable? walletsListenable;
   final List<WalletSummary> Function()? walletReader;
   final bool Function()? loadingReader;
 
   @override
-  Widget build(BuildContext context) {
+  State<WalletsPage> createState() => _WalletsPageState();
+}
+
+class _WalletsPageState extends State<WalletsPage> {
+  bool _selecting = false;
+  bool _deleting = false;
+  final Set<String> _selected = {};
+  void _update(VoidCallback change) => setState(change);
+  @override
+  Widget build(BuildContext context) => widget.walletsListenable == null
+      ? _buildPage(context)
+      : ListenableBuilder(
+          listenable: widget.walletsListenable!,
+          builder: (context, _) => _buildPage(context));
+
+  Widget _buildPage(BuildContext context) {
+    final selectable = _selectableWalletIds;
+    final selected = _selected.intersection(selectable);
     return Scaffold(
+      backgroundColor: AppFinanceSurfaceTheme.background(context),
+      bottomNavigationBar: SafeArea(
+          child: Padding(
+              padding: AppPageSpacing.insets(context, top: 12, bottom: 16),
+              child: CustomButton(
+                  key: Key(_selecting ? 'cancel-selection' : 'wallet-create'),
+                  text:
+                      _selecting ? context.l10n.cancel : context.l10n.addWallet,
+                  backgroundColor: AppFinanceSurfaceTheme.action(context),
+                  foregroundColor: AppFinanceSurfaceTheme.onAction(context),
+                  height: 48,
+                  onPressed: _deleting
+                      ? null
+                      : _selecting
+                          ? _cancelSelection
+                          : () => _add(context)))),
       body: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.only(top: AppHeaderMetrics.topPadding),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 29),
-                child: DetailPageHeader(
-                  title: context.l10n.wallets,
-                  onAdd: () => _add(context),
-                  addTooltip: context.l10n.addWallet,
-                ),
+                padding: AppPageSpacing.insets(context),
+                child: WalletPageHeader(
+                    selecting: _selecting,
+                    busy: _deleting,
+                    onDelete:
+                        _deleting || selected.isEmpty ? null : _deleteSelected,
+                    onSelect: widget.onDeleteWallets != null && !_selecting
+                        ? () => _update(() => _selecting = true)
+                        : null),
               ),
+              if (widget.onDeleteWallets != null && _selecting)
+                Padding(
+                    padding: AppPageSpacing.insets(context),
+                    child: WalletSelectionToolbar(
+                        value: selected.isEmpty
+                            ? false
+                            : selected.length == selectable.length
+                                ? true
+                                : null,
+                        count: selected.length,
+                        onToggleAll: _deleting || selectable.isEmpty
+                            ? null
+                            : _toggleAllWallets)),
               const SizedBox(height: 19),
-              Expanded(child: ScrollEdgeFade(child: _walletList())),
+              Expanded(child: _cards()),
             ],
           ),
         ),
@@ -62,69 +120,47 @@ class WalletsPage extends StatelessWidget {
     );
   }
 
-  Widget _walletList() {
-    final listenable = walletsListenable;
-    if (listenable == null) return _cards();
-    return ListenableBuilder(
-        listenable: listenable, builder: (_, __) => _cards());
-  }
-
   Widget _cards() {
-    final currentWallets = walletReader?.call() ?? wallets;
-    if (loadingReader?.call() == true && currentWallets.isEmpty) {
+    final currentWallets = widget.walletReader?.call() ?? widget.wallets;
+    if (widget.loadingReader?.call() == true && currentWallets.isEmpty) {
       return ListView.separated(
-        padding: const EdgeInsets.fromLTRB(29, 0, 29, 32),
+        padding: AppPageSpacing.insets(context, top: 0, bottom: 32),
         itemCount: 3,
         separatorBuilder: (_, __) => const SizedBox(height: 10),
         itemBuilder: (_, __) => const WalletCardSkeleton(),
       );
     }
     if (currentWallets.isEmpty) {
-      return Builder(
-        builder: (context) => EmptyStatePhrase(
-          title: context.l10n.wallets,
-          brief: true,
-          illustrationAsset: 'assets/illustrations/empty_states/wallets.png',
-        ),
-      );
+      return WalletEmptyState(onAdd: () => _add(context));
     }
-    return ListView.separated(
-      padding: const EdgeInsets.fromLTRB(29, 0, 29, 32),
-      itemCount: currentWallets.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 10),
-      itemBuilder: (context, index) => DetailEnterTransition(
-          child: WalletOverviewCard(
-        wallet: currentWallets[index],
-        index: index,
-        currencyState: currencyState,
-        onPressed: () => _edit(context, currentWallets[index]),
-      )),
-    );
-  }
-
-  Future<void> _add(BuildContext context) async {
-    final input =
-        await AddWalletSheet.show(context, currencyState: currencyState);
-    if (input == null || !context.mounted) return;
-    try {
-      await onAddWallet(input);
-    } catch (error) {
-      if (context.mounted) showErrorToast(context, error);
-    }
-  }
-
-  Future<void> _edit(BuildContext context, WalletSummary wallet) async {
-    final result = await EditWalletSheet.show(context,
-        wallet: wallet, currencyState: currencyState);
-    if (result == null || !context.mounted) return;
-    try {
-      if (result.action == WalletEditorAction.delete) {
-        await onDeleteWallet(wallet.id);
-      } else {
-        await onUpdateWallet(wallet.id, result.input!);
-      }
-    } catch (error) {
-      if (context.mounted) showErrorToast(context, error);
-    }
+    return LayoutBuilder(
+        builder: (context, constraints) => GridView.builder(
+              padding: AppPageSpacing.insets(context, top: 0, bottom: 32),
+              itemCount: currentWallets.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount:
+                      (constraints.maxWidth / 240).floor().clamp(2, 4),
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 14,
+                  mainAxisExtent: 180 +
+                      (MediaQuery.textScalerOf(context).scale(12) - 12)
+                              .clamp(0.0, 48.0) *
+                          5),
+              itemBuilder: (context, index) => DetailEnterTransition(
+                  child: WalletOverviewCard(
+                selecting: _selecting,
+                selected: _selected.contains(currentWallets[index].id),
+                selectionEnabled:
+                    !_deleting && !currentWallets[index].isDefault,
+                wallet: currentWallets[index],
+                index: index,
+                currencyState: widget.currencyState,
+                onPressed: _deleting
+                    ? null
+                    : () => _selecting
+                        ? _toggleWallet(currentWallets[index])
+                        : _edit(context, currentWallets[index]),
+              )),
+            ));
   }
 }

@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:budgets/core/auth/auth_state_error_handler.dart';
 import 'package:budgets/main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +34,7 @@ class SplashModule {
           // ignore other events, including initialSession (already handled)
           break;
       }
-    });
+    }, onError: AuthStateErrorHandler.handle);
   }
 
   void dispose() {

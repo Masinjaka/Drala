@@ -29,15 +29,11 @@ class CategoryModule {
     required GlobalKey<FormState> formKey,
   }) async {
     if (formKey.currentState!.validate()) {
-      if (emoji == null || emoji.isEmpty) {
-        showInfoToast(context, "L'emoticon est requis");
-        return;
-      }
       try {
         await ref.read(categoriesProvider.notifier).addSomeCategory(
               Category(
                 name: name,
-                emoji: emoji,
+                emoji: emoji?.isNotEmpty == true ? emoji : '😀',
                 color: color,
                 transactionType: transactionType,
               ),
@@ -63,16 +59,12 @@ class CategoryModule {
     required GlobalKey<FormState> formKey,
   }) async {
     if (formKey.currentState!.validate()) {
-      if (emoji == null || emoji.isEmpty) {
-        showInfoToast(context, "L'emoticon est requis");
-        return;
-      }
       try {
         await ref.read(categoriesProvider.notifier).editSomeCategory(
               Category(
                 id: id,
                 name: name,
-                emoji: emoji,
+                emoji: emoji?.isNotEmpty == true ? emoji : '😀',
                 color: color,
                 // transactionType: transactionType,
               ),

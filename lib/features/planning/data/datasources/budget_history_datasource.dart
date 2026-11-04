@@ -10,7 +10,7 @@ const _uuid = Uuid();
 const _historySelect =
     'id, created_at, budget_id, user_id, amount, amount_spent, period_month, '
     'category_data:categories!budget_history_category_fkey'
-    '(id, name, emoji, color)';
+    '(id, name, emoji, icon_key, color)';
 const _supportedPeriods = {
   'weekly',
   'biweekly',
@@ -32,6 +32,7 @@ BudgetHistory _fromRow(Map<String, dynamic> row) {
             id: category['id'] as String?,
             name: category['name'] as String?,
             emoji: category['emoji'] as String?,
+            iconKey: category['icon_key'] as String?,
             color: category['color'] as String?,
           ),
     amount: row['amount'] as String?,

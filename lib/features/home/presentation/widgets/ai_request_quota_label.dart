@@ -1,4 +1,5 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 
@@ -35,16 +36,13 @@ class AiRequestQuotaLabel extends StatelessWidget {
     }
     return Text.rich(
       TextSpan(
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-          fontSize: AppTypography.supporting,
-          fontWeight: FontWeight.w600,
-        ),
+        style: AppTextStyle(AppTextRole.supporting,
+            color: Theme.of(context).colorScheme.onSurfaceVariant),
         children: [
           TextSpan(text: message.substring(0, countIndex)),
           TextSpan(
             text: countText,
-            style: const TextStyle(fontWeight: FontWeight.w800),
+            style: const AppTextStyle(AppTextRole.body),
           ),
           TextSpan(text: message.substring(countIndex + countText.length)),
         ],

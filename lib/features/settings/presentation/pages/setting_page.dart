@@ -1,3 +1,7 @@
+import 'package:budgets/core/navigation/app_modal_page_route.dart';
+import 'package:budgets/core/ui/app_settings_theme.dart';
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
+import 'package:budgets/features/guest/data/guest_preference_store.dart';
 import 'package:budgets/core/legal/legal_document_launcher.dart';
 import 'package:budgets/features/ads/data/admob_configuration.dart';
 import 'package:budgets/features/ads/data/admob_consent_service.dart';
@@ -70,6 +74,7 @@ class _SettingPageState extends ConsumerState<SettingPage> {
   Widget build(BuildContext context) {
     final categoryCount = ref.watch(categoriesProvider).value?.length ?? 0;
     return Scaffold(
+      backgroundColor: AppSettingsTheme.background(context),
       body: SafeArea(
         bottom: false,
         child: Center(
@@ -119,7 +124,6 @@ class _SettingPageState extends ConsumerState<SettingPage> {
             onChangePassword: () => EditPasswordPage.show(context),
             onNotifications: () => _open(const NotificationSettingsPage()),
             onCurrency: () => _open(const CurrencySelectionPage()),
-            onDefaultWallet: () => _open(const DefaultWalletPage()),
             onTheme: () => _open(ThemeSettingsPage(
               onSelected: (mode) => _saveAppearance('theme_mode', mode),
             )),
@@ -140,13 +144,19 @@ class _SettingPageState extends ConsumerState<SettingPage> {
       );
 
   Future<void> _open(Widget page) => Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (_) => page),
+        AppModalPageRoute<void>(builder: (_) => page),
       );
 
   Future<void> _saveAppearance(String key, String value) async {
     try {
-      await CloudAppearancePreferences(Supabase.instance.client)
-          .save(key, value);
+      final account = ref.read(offlineAccountProvider);
+      if (account == null) {
+        await CloudAppearancePreferences(Supabase.instance.client)
+            .save(key, value);
+      } else {
+        await GuestPreferenceStore(account.database, account.id)
+            .setProfile(key, value);
+      }
     } catch (error) {
       if (mounted) showErrorToast(context, error);
     }

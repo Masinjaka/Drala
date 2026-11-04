@@ -35,89 +35,92 @@ class SettingsChoiceTile extends StatelessWidget {
     final subtitleText = customSubtitle ??
         (subtitle == null
             ? null
-            : Text(subtitle!, style: theme.textTheme.bodySmall));
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(8),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        splashFactory: NoSplash.splashFactory,
-        overlayColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
-        child: ConstrainedBox(
-          constraints:
-              BoxConstraints(minHeight: subtitleText == null ? 51 : 62),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 6),
-            child: Row(
-              children: [
-                SizedBox.square(
-                  dimension: 35,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: AppSettingsTheme.iconSurface(context),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: IconTheme.merge(
-                        data: IconThemeData(
-                          color: AppSettingsTheme.iconForeground(context),
-                          size: 19,
+            : Text(subtitle!,
+                style: AppSettingsTheme.supportingLabel(context)));
+    return Semantics(
+      button: onTap != null,
+      selected: showSelectionIndicator ? selected : null,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(8),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          splashFactory: NoSplash.splashFactory,
+          overlayColor: const WidgetStatePropertyAll<Color>(Colors.transparent),
+          child: ConstrainedBox(
+            constraints:
+                BoxConstraints(minHeight: subtitleText == null ? 56 : 76),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  SizedBox.square(
+                    dimension: 35,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppSettingsTheme.iconSurface(context),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: IconTheme.merge(
+                          data: IconThemeData(
+                            color: AppSettingsTheme.iconForeground(context),
+                            size: 19,
+                          ),
+                          child: DefaultTextStyle.merge(
+                            style: theme.textTheme.titleMedium!.copyWith(
+                              color: foreground,
+                            ),
+                            child: leading,
+                          ),
                         ),
-                        child: DefaultTextStyle.merge(
-                          style: theme.textTheme.titleMedium!.copyWith(
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          title,
+                          style: AppSettingsTheme.menuLabel(context).copyWith(
                             color: foreground,
                           ),
-                          child: leading,
                         ),
-                      ),
+                        if (subtitleText != null) ...[
+                          const SizedBox(height: 2),
+                          DefaultTextStyle.merge(
+                            style: AppSettingsTheme.supportingLabel(context),
+                            child: subtitleText,
+                          ),
+                        ],
+                      ],
                     ),
                   ),
-                ),
-                const SizedBox(width: 17),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        title,
-                        style: AppSettingsTheme.menuLabel(context).copyWith(
+                  if (trailing != null || showSelectionIndicator) ...[
+                    const SizedBox(width: 12),
+                    IconTheme.merge(
+                      data: IconThemeData(
+                        color: AppSettingsTheme.iconForeground(context),
+                      ),
+                      child: DefaultTextStyle.merge(
+                        style: theme.textTheme.bodySmall!.copyWith(
                           color: foreground,
                         ),
+                        child: trailing ??
+                            SettingsSelectionIndicator(
+                              selected: selected,
+                              loading: loading,
+                            ),
                       ),
-                      if (subtitleText != null) ...[
-                        const SizedBox(height: 2),
-                        DefaultTextStyle.merge(
-                          style: theme.textTheme.bodySmall!.copyWith(
-                            color: foreground.withValues(alpha: .78),
-                          ),
-                          child: subtitleText,
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                if (trailing != null || showSelectionIndicator) ...[
-                  const SizedBox(width: 12),
-                  IconTheme.merge(
-                    data: IconThemeData(
-                      color: AppSettingsTheme.iconForeground(context),
                     ),
-                    child: DefaultTextStyle.merge(
-                      style: theme.textTheme.bodySmall!.copyWith(
-                        color: foreground,
-                      ),
-                      child: trailing ??
-                          SettingsSelectionIndicator(
-                            selected: selected,
-                            loading: loading,
-                          ),
-                    ),
-                  ),
+                  ],
                 ],
-              ],
+              ),
             ),
           ),
         ),

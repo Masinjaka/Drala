@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/value_skeleton.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +7,7 @@ class DetailListSkeleton extends StatelessWidget {
   final int count;
   @override
   Widget build(BuildContext context) => ListView.separated(
-      padding: const EdgeInsets.all(29),
+      padding: AppPageSpacing.insets(context, top: 29, bottom: 29),
       itemCount: count,
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) => Container(

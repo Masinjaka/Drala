@@ -1,7 +1,10 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/features/home/presentation/widgets/home_notification_button.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/core/ui/app_activities_theme.dart';
 
 class HomeDashboardHeader extends StatelessWidget {
   const HomeDashboardHeader({
@@ -15,21 +18,25 @@ class HomeDashboardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: AppPageSpacing.insets(context),
         child: Row(
           children: [
-            const SizedBox(width: 48),
             Expanded(
               child: Text(
-                context.l10n.homeWelcome,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineSmall,
+                context.l10n.activities,
+                textAlign: TextAlign.start,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppActivitiesTheme.title(context),
               ),
             ),
-            HomeNotificationButton(
-              viewModel: notificationViewModel,
-              onPressed: onNotificationsPressed,
-            ),
+            const SizedBox(width: AppHeaderMetrics.titleGap),
+            Theme(
+                data: Theme.of(context)
+                    .copyWith(cardColor: AppActivitiesTheme.card(context)),
+                child: HomeNotificationButton(
+                    viewModel: notificationViewModel,
+                    onPressed: onNotificationsPressed)),
           ],
         ),
       );

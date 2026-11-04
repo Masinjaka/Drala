@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
 
 abstract final class AppTextTheme {
   static TextStyle onboardingWordmark(BuildContext context) =>
-      Theme.of(context).textTheme.titleLarge!.copyWith(
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
-            color: Theme.of(context).colorScheme.onPrimary,
-          );
+      AppTextStyle(AppTextRole.display,
+          color: Theme.of(context).colorScheme.onPrimary);
 
+  // Emoji is artwork, sized to its illustration rather than the text scale.
   static TextStyle onboardingEmoji(BuildContext context, double size) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
             fontSize: size * .45,
@@ -22,131 +22,75 @@ abstract final class AppTextTheme {
       );
 
   static TextStyle authTitle(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: AppTypography.display,
-            fontWeight: FontWeight.w700,
-          );
-  static TextStyle onboardingTitle(BuildContext context) => authTitle(context);
-  static TextStyle onboardingBody(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: 12,
-            height: 16 / 12,
-          );
-  static TextStyle onboardingLabel(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: 13,
-            height: 1,
-          );
-  static TextStyle authBody(BuildContext context) => Theme.of(context)
-      .textTheme
-      .bodyMedium!
-      .copyWith(fontSize: AppTypography.supporting);
+      Theme.of(context).textTheme.titleLarge!;
+  static TextStyle onboardingTitle(BuildContext context) =>
+      Theme.of(context).textTheme.headlineMedium!;
+  static TextStyle setupTitle(BuildContext context) =>
+      Theme.of(context).textTheme.displaySmall!.copyWith(height: 1.25);
+  static TextStyle setupBody(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium!.copyWith(height: 16 / 12);
+  static TextStyle setupLabel(BuildContext context) =>
+      setupBody(context).copyWith(height: 1);
+  static TextStyle setupSelectionBody(BuildContext context) =>
+      setupBody(context);
+  static TextStyle setupSection(BuildContext context) => setupBody(context);
+  static TextStyle setupAction(BuildContext context) =>
+      Theme.of(context).textTheme.labelLarge!;
+  static TextStyle onboardingBody(BuildContext context) => setupBody(context);
+  static TextStyle onboardingLabel(BuildContext context) => setupLabel(context);
+  static TextStyle authBody(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium!;
   static TextStyle authHint(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: AppTypography.caption,
+      Theme.of(context).textTheme.bodySmall!.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           );
-  static TextStyle authLabel(BuildContext context) => Theme.of(context)
-      .textTheme
-      .bodyMedium!
-      .copyWith(fontSize: AppTypography.supporting);
+  static TextStyle authLabel(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium!;
   static TextStyle legalLink(BuildContext context) =>
       authLabel(context).copyWith(decoration: TextDecoration.underline);
-
-  static TextStyle envelopeAmount(BuildContext context) => amount(
-        Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16),
-      );
-
+  static TextStyle envelopeAmount(BuildContext context) =>
+      amount(Theme.of(context).textTheme.bodyMedium!);
   static TextStyle currencyLabel(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+      Theme.of(context).textTheme.bodyLarge!.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           );
-
   static TextStyle envelopeWarning(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontSize: 9,
+      Theme.of(context).textTheme.bodySmall!.copyWith(
             color: Theme.of(context).colorScheme.error,
           );
-
   static Color envelopeWarningBackground(BuildContext context) =>
       Theme.of(context).colorScheme.error.withValues(alpha: .18);
-
   static TextStyle monthCarousel(BuildContext context,
       {required bool selected}) {
     final theme = Theme.of(context);
-    return theme.textTheme.bodyMedium!.copyWith(
+    return theme.textTheme.bodyLarge!.copyWith(
       color: selected
           ? theme.colorScheme.onSurface
           : theme.colorScheme.onSurfaceVariant.withValues(alpha: .68),
-      fontSize: selected ? AppTypography.body : AppTypography.caption,
-      fontWeight: selected ? FontWeight.w700 : FontWeight.normal,
     );
   }
 
   static TextStyle drawerMenu(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            fontWeight: FontWeight.normal,
-          );
-
+      Theme.of(context).textTheme.bodyMedium!;
   static TextStyle notificationBadge(BuildContext context) =>
-      Theme.of(context).textTheme.labelSmall!.copyWith(
-            color: Theme.of(context).colorScheme.onError,
-            fontSize: 8,
-          );
+      AppTextStyle(AppTextRole.badge,
+          color: Theme.of(context).colorScheme.onError);
 
   static TextTheme create(Color foreground) => TextTheme(
-        headlineMedium: TextStyle(
-            color: foreground,
-            fontSize: 29,
-            fontWeight: FontWeight.w500,
-            height: 1),
-        displaySmall: TextStyle(
-          color: foreground,
-          fontSize: 36,
-          fontWeight: FontWeight.w600,
-          height: 38 / 36,
-        ),
-        bodyLarge: TextStyle(
-          color: foreground,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w500,
-        ),
-        bodyMedium: TextStyle(
-          color: foreground,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.normal,
-        ),
-        titleLarge: TextStyle(
-          color: foreground,
-          fontSize: AppTypography.headline,
-          fontWeight: FontWeight.w700,
-        ),
-        titleMedium: TextStyle(
-          color: foreground,
-          fontSize: AppTypography.title,
-          fontWeight: FontWeight.w700,
-        ),
-        titleSmall: TextStyle(
-          color: foreground,
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w500,
-        ),
-        bodySmall: TextStyle(
-          color: foreground,
-          fontSize: AppTypography.supporting,
-          fontWeight: FontWeight.w500,
-        ),
-        labelLarge: TextStyle(
-          fontSize: AppTypography.body,
-          fontWeight: FontWeight.w500,
-        ),
-        labelMedium: TextStyle(
-          fontWeight: FontWeight.w500,
-        ),
-        labelSmall: TextStyle(
-          fontSize: AppTypography.caption,
-          fontWeight: FontWeight.w300,
-        ),
+        displayLarge: AppTextStyle(AppTextRole.hero, color: foreground),
+        displayMedium: AppTextStyle(AppTextRole.hero, color: foreground),
+        displaySmall: AppTextStyle(AppTextRole.hero, color: foreground),
+        headlineLarge: AppTextStyle(AppTextRole.display, color: foreground),
+        headlineMedium: AppTextStyle(AppTextRole.display, color: foreground),
+        headlineSmall: AppTextStyle(AppTextRole.pageTitle, color: foreground),
+        titleLarge: AppTextStyle(AppTextRole.pageTitle, color: foreground),
+        titleMedium: AppTextStyle(AppTextRole.sheetTitle, color: foreground),
+        titleSmall: AppTextStyle(AppTextRole.sectionTitle, color: foreground),
+        bodyLarge: AppTextStyle(AppTextRole.input, color: foreground),
+        bodyMedium: AppTextStyle(AppTextRole.body, color: foreground),
+        bodySmall: AppTextStyle(AppTextRole.supporting, color: foreground),
+        labelLarge: AppTextStyle(AppTextRole.button, color: foreground),
+        labelMedium: AppTextStyle(AppTextRole.body, color: foreground),
+        labelSmall: AppTextStyle(AppTextRole.caption, color: foreground),
       );
 }

@@ -1,5 +1,5 @@
-import 'package:budgets/core/theme.dart';
-import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/ui/app_setup_theme.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
 import 'package:flutter/material.dart';
 
 class SetupCategoryIcon extends StatelessWidget {
@@ -9,33 +9,15 @@ class SetupCategoryIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appearance = switch (iconKey) {
-      'shopping' => ('🛒', AppTheme.onboardingYellow),
-      'transport' => ('🚕', AppTheme.onboardingLavender),
-      'housing' => ('🏠', AppTheme.onboardingPaleBlue),
-      'health' => ('🏥', AppTheme.onboardingBlue),
-      'utilities' => ('🛠️', AppTheme.onboardingYellow),
-      'food' => ('🍔', AppTheme.onboardingPink),
-      'entertainment' => ('🍴', AppTheme.onboardingPalePink),
-      'education' => ('🎓', AppTheme.onboardingBlue),
-      'salary' => ('💼', AppTheme.onboardingPalePink),
-      'freelance' => ('💰', AppTheme.onboardingPink),
-      'income' => ('💰', AppTheme.onboardingYellow),
-      _ => ('🧾', AppTheme.onboardingPaleBlue),
-    };
-    final dark = Theme.of(context).brightness == Brightness.dark;
     return Container(
-      width: 24,
-      height: 24,
+      width: 30,
+      height: 30,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: dark ? appearance.$2.withValues(alpha: .7) : appearance.$2,
+        color: AppSetupTheme.categoryBadge(context, iconKey),
       ),
-      child: Text(
-        appearance.$1,
-        style: AppTextTheme.onboardingEmoji(context, 24),
-      ),
+      child: CategoryIcon(iconKey: iconKey, size: 22),
     );
   }
 }

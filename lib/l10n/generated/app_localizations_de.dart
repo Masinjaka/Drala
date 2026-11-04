@@ -171,7 +171,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get walletInUseCannotBeDeleted =>
-      'Diese Wallet enthält Transaktionen und kann nicht gelöscht werden.';
+      'Diese Geldbörse wird von einem Umschlag oder Transaktionsverlauf verwendet und kann nicht gelöscht werden.';
 
   @override
   String get allTime => 'Gesamter Zeitraum';
@@ -194,7 +194,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get notifications => 'Benachrichtigungen';
 
   @override
-  String get noNotifications => 'Keine Benachrichtigungen';
+  String get noNotifications =>
+      'Du bist auf dem Laufenden! Neuigkeiten findest du hier.';
 
   @override
   String get noNotificationsDescription =>
@@ -734,7 +735,8 @@ class AppLocalizationsDe extends AppLocalizations {
   String get create => 'Erstellen';
 
   @override
-  String get noEnvelopesYet => 'Noch keine Umschläge';
+  String get noEnvelopesYet =>
+      'Gib deinen Plänen Raum mit deinem ersten Umschlag.';
 
   @override
   String get envelopeEmptyDescription =>
@@ -818,7 +820,8 @@ class AppLocalizationsDe extends AppLocalizations {
       'Diese Kategorie kann nicht gelöscht werden, da sie noch verwendet wird.';
 
   @override
-  String get noActivitiesForDay => 'Keine Aktivitäten an diesem Tag';
+  String get noActivitiesForDay =>
+      'Heute ist es noch ruhig. Möchtest du etwas erfassen?';
 
   @override
   String get editTransaction => 'Transaktion bearbeiten';
@@ -993,4 +996,435 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get guestCurrencyRateStillUnavailable =>
       'Wechselkurse sind noch nicht verfügbar. Versuche es online erneut.';
+
+  @override
+  String get deleteEnvelopeDescription =>
+      'Beim Löschen wird das Restguthaben auf die Geldbörse zurückgebucht. Der Transaktionsverlauf bleibt erhalten.';
+
+  @override
+  String get insufficientWalletFunds =>
+      'Die ausgewählte Geldbörse hat nicht genug Guthaben. Wähle eine Geldbörse mit ausreichendem Guthaben.';
+
+  @override
+  String get envelopeAmountBelowSpent =>
+      'Der Umschlagbetrag darf nicht unter dem bereits ausgegebenen Betrag liegen.';
+
+  @override
+  String get monthlyScheduleNotLatest =>
+      'Nur beim neuesten monatlichen Umschlag können die Erneuerungseinstellungen geändert werden.';
+
+  @override
+  String get selectDate => 'Datum auswählen';
+
+  @override
+  String get transfer => 'Überweisung';
+
+  @override
+  String get fromWallet => 'Von Geldbörse';
+
+  @override
+  String get toWallet => 'An Geldbörse';
+
+  @override
+  String get transferNeedsWallets =>
+      'Füge eine zweite Geldbörse hinzu, um Geld zu übertragen.';
+
+  @override
+  String get transferSaved => 'Überweisung gespeichert.';
+
+  @override
+  String get differentTransferWallets => 'Wähle zwei verschiedene Geldbörsen.';
+
+  @override
+  String get walletCurrencyMismatch =>
+      'Überweisungen erfordern zwei Geldbörsen in MGA.';
+
+  @override
+  String get walletUnavailable =>
+      'Eine ausgewählte Geldbörse ist nicht mehr verfügbar. Wähle eine andere.';
+
+  @override
+  String get transferConflict =>
+      'Diese Überweisung wurde bereits mit anderen Angaben übermittelt. Öffne eine neue Überweisung.';
+
+  @override
+  String get selectItems => 'Auswählen';
+
+  @override
+  String selectedItemCount(int count) {
+    return '$count ausgewählt';
+  }
+
+  @override
+  String get deleteSelectedItems => 'Auswahl löschen';
+
+  @override
+  String deleteSelectedWalletsDescription(int count) {
+    return '$count ausgewählte Geldbörsen löschen? Dies kann nicht rückgängig gemacht werden.';
+  }
+
+  @override
+  String deleteSelectedEnvelopesDescription(int count) {
+    return '$count ausgewählte Umschläge löschen? Restguthaben wird zurückgebucht. Der Verlauf bleibt erhalten.';
+  }
+
+  @override
+  String get defaultWalletCannotDelete =>
+      'Die Standardgeldbörse kann nicht gelöscht werden. Wähle zuerst eine andere Standardgeldbörse.';
+
+  @override
+  String get envelopeUnavailable =>
+      'Ein ausgewählter Umschlag ist nicht mehr verfügbar. Aktualisiere die Liste.';
+
+  @override
+  String get operationInProgress =>
+      'Bitte warte, bis der aktuelle Vorgang abgeschlossen ist.';
+
+  @override
+  String get dailyReminderNotificationTitle => 'Tägliche Erinnerung';
+
+  @override
+  String get dailyReminderNotificationBody =>
+      'Denke daran, heute deine Ausgaben oder Einnahmen einzutragen.';
+
+  @override
+  String get categoryNameRequired => 'Gib einen Kategorienamen ein.';
+
+  @override
+  String get envelopeNameRequired => 'Gib einen Umschlagnamen ein.';
+
+  @override
+  String get envelopeCategoryRequired =>
+      'Wähle eine Kategorie für diesen Umschlag.';
+
+  @override
+  String get fieldRequired => 'Dieses Feld ist erforderlich.';
+
+  @override
+  String get positiveAmountRequired => 'Gib einen Betrag größer als null ein.';
+
+  @override
+  String get nonNegativeAmountRequired =>
+      'Gib einen Kontostand von null oder mehr ein.';
+
+  @override
+  String get envelopeFundingWalletFixed =>
+      'Ein bestehender Umschlag behält sein ursprüngliches Finanzierungskonto.';
+
+  @override
+  String get envelopeFundingWalletUnavailable =>
+      'Finanzierungskonto nicht verfügbar';
+
+  @override
+  String get home => 'Start';
+
+  @override
+  String get seeMore => 'Mehr anzeigen';
+
+  @override
+  String get recentTransactions => 'Letzte Transaktionen';
+
+  @override
+  String get envelopes => 'Umschläge';
+
+  @override
+  String get noRecentTransactions =>
+      'Füge eine Buchung hinzu, um dein Budget zu verfolgen.';
+
+  @override
+  String get overviewLoadFailed =>
+      'Aktualisieren fehlgeschlagen. Erneut versuchen.';
+
+  @override
+  String get homeHello => 'Hallo';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Hallo, $name';
+  }
+
+  @override
+  String get networkUnavailable =>
+      'Der Server ist nicht erreichbar. Prüfe deine Internetverbindung und versuche es erneut.';
+
+  @override
+  String get offlineModeToast =>
+      'Verbindung verloren. Offline-Modus ist aktiv. Änderungen werden beim Wiederverbinden synchronisiert.';
+
+  @override
+  String get onlineModeToast =>
+      'Verbindung wiederhergestellt. Änderungen sind synchronisiert.';
+
+  @override
+  String get onlinePendingToast =>
+      'Verbindung wiederhergestellt. Einige Änderungen müssen geprüft werden.';
+
+  @override
+  String get offlineStatus =>
+      'Offline · Änderungen auf diesem Gerät gespeichert';
+
+  @override
+  String get syncingStatus => 'Änderungen werden synchronisiert…';
+
+  @override
+  String pendingStatus(int count) {
+    return '$count Änderungen warten auf Synchronisierung';
+  }
+
+  @override
+  String get offlineInitial =>
+      'Verbinde dich, um deine Kontodaten für die Offline-Nutzung herunterzuladen.';
+
+  @override
+  String get offlineSetupUnavailable =>
+      'Synchronisierung nicht verfügbar. Lokale Änderungen bleiben gespeichert.';
+
+  @override
+  String get syncConflictTitle => 'Änderungen vor dem Synchronisieren prüfen';
+
+  @override
+  String get syncConflictMessage =>
+      'Deine Cloud-Daten wurden geändert. Prüfe deine ausstehenden Änderungen oder verwende die Cloud-Version.';
+
+  @override
+  String get offlineRetry => 'Erneut versuchen';
+
+  @override
+  String get offlineReview => 'Prüfen';
+
+  @override
+  String get offlineKeepCloud => 'Cloud-Daten verwenden';
+
+  @override
+  String get offlineRetryChanges => 'Diese Änderungen synchronisieren';
+
+  @override
+  String get offlineDiscardTitle => 'Änderungen auf diesem Gerät verwerfen?';
+
+  @override
+  String get offlineDiscardBody =>
+      'Diese Änderungen wurden noch nicht hochgeladen. Sie werden auf diesem Gerät gelöscht und durch die Cloud-Version ersetzt.';
+
+  @override
+  String get onlineRequired =>
+      'Diese Aktion erfordert eine Internetverbindung.';
+
+  @override
+  String get signInSyncRequired =>
+      'Melde dich erneut an, um zu synchronisieren. Lokale Änderungen bleiben erhalten.';
+
+  @override
+  String get categoryIconFood => 'Essen & Trinken';
+
+  @override
+  String get categoryIconShopping => 'Lebensmittel';
+
+  @override
+  String get categoryIconTransport => 'Transport';
+
+  @override
+  String get categoryIconHousing => 'Wohnen';
+
+  @override
+  String get categoryIconHealth => 'Gesundheit';
+
+  @override
+  String get categoryIconUtilities => 'Nebenkosten';
+
+  @override
+  String get categoryIconEntertainment => 'Unterhaltung';
+
+  @override
+  String get categoryIconEducation => 'Bildung';
+
+  @override
+  String get categoryIconSalary => 'Gehalt';
+
+  @override
+  String get categoryIconFreelance => 'Freiberuflich';
+
+  @override
+  String get categoryIconIncome => 'Einnahmen';
+
+  @override
+  String get categoryIconOther => 'Sonstiges';
+
+  @override
+  String get categoryIconCoffee => 'Kaffee';
+
+  @override
+  String get categoryIconDining => 'Restaurants';
+
+  @override
+  String get categoryIconTravel => 'Reisen';
+
+  @override
+  String get categoryIconGifts => 'Geschenke';
+
+  @override
+  String get categoryIconPets => 'Haustiere';
+
+  @override
+  String get categoryIconFamily => 'Familie';
+
+  @override
+  String get categoryIconSubscriptions => 'Abonnements';
+
+  @override
+  String get categoryIconPhone => 'Telefon';
+
+  @override
+  String get categoryIconInternet => 'Internet';
+
+  @override
+  String get categoryIconSavings => 'Ersparnisse';
+
+  @override
+  String get categoryIconInvestment => 'Investitionen';
+
+  @override
+  String get categoryIconInsurance => 'Versicherung';
+
+  @override
+  String get categoryIconTaxes => 'Steuern';
+
+  @override
+  String get categoryIconFitness => 'Fitness';
+
+  @override
+  String get categoryIconBeauty => 'Körperpflege';
+
+  @override
+  String get categoryIconClothing => 'Kleidung';
+
+  @override
+  String get categoryIconRepairs => 'Reparaturen';
+
+  @override
+  String get categoryIconFuel => 'Kraftstoff';
+
+  @override
+  String get categoryIconBicycle => 'Radfahren';
+
+  @override
+  String get categoryIconBus => 'Öffentlicher Verkehr';
+
+  @override
+  String get categoryIconRain => 'Notfallfonds';
+
+  @override
+  String get categoryIconCharity => 'Spenden';
+
+  @override
+  String get categoryIconMusic => 'Musik';
+
+  @override
+  String get categoryIconBooks => 'Bücher';
+
+  @override
+  String get categoryIconTransfer => 'Überweisungen';
+
+  @override
+  String get chooseCategoryIcon => 'Symbol auswählen';
+
+  @override
+  String get searchCategoryIcons => 'Symbole suchen';
+
+  @override
+  String get activitiesComposerHint => 'Sag mir, was du ausgegeben hast…';
+
+  @override
+  String get createEnvelope => 'Budgetumschlag erstellen';
+
+  @override
+  String get trackYourBudget => 'Budget verfolgen';
+
+  @override
+  String get emptyCategories => 'Schaffe Platz für das, was dir wichtig ist.';
+
+  @override
+  String get emptyWallets => 'Hier bekommt dein Geld ein Zuhause.';
+
+  @override
+  String get createCategory => 'Kategorie erstellen';
+
+  @override
+  String get emptyExpenses =>
+      'Kleine Schritte bringen Klarheit. Erfasse deine erste Ausgabe.';
+
+  @override
+  String get emptyIncomes =>
+      'Jede Einnahme ist ein neuer Anfang. Trage deine hier ein.';
+
+  @override
+  String get emptySearch =>
+      'Versuchen wir eine andere Suche, um das Richtige zu finden.';
+
+  @override
+  String get createExpense => 'Ausgabe hinzufügen';
+
+  @override
+  String get createIncome => 'Einnahme hinzufügen';
+
+  @override
+  String get resetSearch => 'Suche zurücksetzen';
+
+  @override
+  String get emptyBudgets =>
+      'Gib deinen Ausgaben mit deinem ersten Budget eine Richtung.';
+
+  @override
+  String get emptyGoals =>
+      'Große Pläne beginnen mit kleinen Ersparnissen. Was ist dein Ziel?';
+
+  @override
+  String get createBudget => 'Budget erstellen';
+
+  @override
+  String get createGoal => 'Ziel erstellen';
+
+  @override
+  String get manageNotifications => 'Benachrichtigungen verwalten';
+
+  @override
+  String get envelopeRemaining => 'Übrig';
+
+  @override
+  String get envelopeBudgetOf => 'von';
+
+  @override
+  String get statsNet => 'Netto';
+
+  @override
+  String get statsNetDescription => 'Einnahmen minus Ausgaben';
+
+  @override
+  String get statsNumbers => 'Die Zahlen';
+
+  @override
+  String get statsCategories => 'Die Kategorien';
+
+  @override
+  String get statsOnAverage => 'im Durchschnitt';
+
+  @override
+  String get statsPreviousMonth => 'zum Vormonat';
+
+  @override
+  String get statsEmptyCategories =>
+      'Erfasse eine Ausgabe, um deine Ausgaben nach Kategorien zu sehen.';
+
+  @override
+  String statsActivityCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Aktivitäten',
+      one: '1 Aktivität',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get chooseCategoryColor => 'Farbe wählen';
 }

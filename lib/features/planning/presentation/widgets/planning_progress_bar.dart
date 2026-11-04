@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'package:flutter/material.dart';
 
 class PlanningProgressBar extends StatelessWidget {
@@ -15,10 +16,10 @@ class PlanningProgressBar extends StatelessWidget {
       return Theme.of(context).primaryColor;
     }
     if (progress > 0.9) {
-      return Colors.red;
+      return Theme.of(context).colorScheme.error;
     }
     if (progress > 0.7) {
-      return Colors.orange;
+      return AppDangerTheme.warning(context);
     }
     return Theme.of(context).primaryColor;
   }

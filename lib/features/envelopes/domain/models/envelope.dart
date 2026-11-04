@@ -5,10 +5,12 @@ class Envelope {
     required this.categoryId,
     required this.categoryName,
     required this.emoji,
+    this.iconKey = '',
     required this.color,
     required this.amount,
     required this.spent,
     required this.currencyCode,
+    this.fundingWalletId,
     this.overspentAmount = 0,
     this.repeatsMonthly = false,
   });
@@ -18,10 +20,12 @@ class Envelope {
   final String categoryId;
   final String categoryName;
   final String emoji;
+  final String iconKey;
   final String color;
   final int amount;
   final int spent;
   final String currencyCode;
+  final String? fundingWalletId;
   final int overspentAmount;
   final bool repeatsMonthly;
 
@@ -35,10 +39,12 @@ class Envelope {
         categoryId: categoryId,
         categoryName: categoryName,
         emoji: emoji,
+        iconKey: iconKey,
         color: color,
         amount: amount,
         spent: spent ?? this.spent,
         currencyCode: currencyCode,
+        fundingWalletId: fundingWalletId,
         overspentAmount: overspentAmount,
         repeatsMonthly: repeatsMonthly,
       );

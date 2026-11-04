@@ -18,14 +18,14 @@ void main() {
       ),
     );
 
-    expect(find.text('Solde net du mois'), findsOneWidget);
     expect(find.text('Dépenses'), findsOneWidget);
     expect(find.text('Revenus'), findsOneWidget);
-    expect(find.byKey(const Key('stats-net-card')), findsOneWidget);
-    expect(find.text('🙂'), findsOneWidget);
-    expect(find.text('😟'), findsOneWidget);
-    expect(find.text('🔁'), findsOneWidget);
-    expect(find.text('🌑'), findsOneWidget);
+    expect(find.byKey(const Key('stats-expenses-card')), findsOneWidget);
+    expect(find.byKey(const Key('stats-income-card')), findsOneWidget);
+    expect(find.text('🙂'), findsNothing);
+    expect(find.text('😟'), findsNothing);
+    expect(find.byIcon(Icons.arrow_upward_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.arrow_downward_rounded), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }

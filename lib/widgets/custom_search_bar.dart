@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
@@ -75,7 +77,8 @@ class _ReusableSearchBarState extends State<ReusableSearchBar> {
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           hintText: widget.hintText,
-          hintStyle: TextStyle(color: Theme.of(context).hintColor),
+          hintStyle: AppTextStyle(AppTextRole.input,
+              color: Theme.of(context).hintColor),
           prefixIcon: widget.isSearchFocused
               ? IconButton(
                   icon: Icon(Icons.arrow_back,

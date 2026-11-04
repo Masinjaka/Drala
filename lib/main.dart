@@ -1,3 +1,7 @@
+import 'package:budgets/features/offline/data/services/offline_connectivity.dart';
+import 'package:budgets/features/offline/data/services/offline_http_client.dart';
+import 'package:budgets/features/offline/data/services/offline_sync_manager.dart';
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/app.dart';
 import 'package:budgets/core/monitoring/sentry_bootstrap.dart';
 import 'package:budgets/core/navigation/app_navigation.dart';
@@ -29,7 +33,11 @@ Future<void> _startApplication() async {
     );
   }
   await FirebaseMessagingBootstrap.initialize();
-  await Supabase.initialize(url: url, anonKey: anonKey);
+  final connectivity = OfflineConnectivity();
+  await Supabase.initialize(
+      url: url, anonKey: anonKey, httpClient: OfflineHttpClient(connectivity));
+  final offline = OfflineSyncManager(supabase, connectivity);
+  await offline.start();
   final guestDatabase = GuestDatabase();
   final guestSession = await GuestSession.load(guestDatabase);
   final navigation = AppNavigation.supabase(
@@ -39,7 +47,10 @@ Future<void> _startApplication() async {
   runApp(
     SentryWidget(
       child: ProviderScope(
-        overrides: [guestSessionProvider.overrideWithValue(guestSession)],
+        overrides: [
+          guestSessionProvider.overrideWithValue(guestSession),
+          offlineSyncManagerProvider.overrideWithValue(offline)
+        ],
         child: MyApp(
           navigation: navigation,
           guestSession: guestSession,

@@ -1,3 +1,4 @@
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/core/ui/month_carousel.dart';
 import 'package:budgets/core/ui/outlined_square_button.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class MonthPickerHeader extends StatelessWidget {
           OutlinedSquareButton(
               key: pickerKey,
               icon: Icons.calendar_month_outlined,
-              tooltip: MaterialLocalizations.of(context).datePickerHelpText,
+              tooltip: context.l10n.selectDate,
               onPressed: onPickMonth),
         ]),
       ]);

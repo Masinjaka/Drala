@@ -71,6 +71,7 @@ class SignUpPasswordFieldsState extends State<SignUpPasswordFields> {
           onChanged: _refresh,
           keyboardType: TextInputType.visiblePassword,
           isPassword: true,
+          validator: const {'type': 'password'},
         ),
         PasswordAnimatedSection(
           isVisible: _showRequirements,
@@ -90,10 +91,11 @@ class SignUpPasswordFieldsState extends State<SignUpPasswordFields> {
             controller: widget.confirmPasswordController,
             keyboardType: TextInputType.visiblePassword,
             isPassword: true,
-            validator: <String, String>{
-              'type': 'required',
-              'error': context.l10n.enterPassword,
-            },
+            fieldValidator: (value) => value == null || value.isEmpty
+                ? context.l10n.enterPassword
+                : value != widget.passwordController.text
+                    ? context.l10n.passwordsDoNotMatch
+                    : null,
           ),
         ),
       ],

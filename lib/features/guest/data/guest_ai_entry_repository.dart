@@ -1,3 +1,8 @@
+import 'package:budgets/features/ai_entry/domain/repositories/recent_transaction_repository.dart';
+import 'package:budgets/features/home/domain/repositories/bulk_wallet_repository.dart';
+import 'package:budgets/features/guest/data/guest_transfer_store.dart';
+import 'package:budgets/features/ai_entry/domain/models/manual_transfer_input.dart';
+import 'package:budgets/features/ai_entry/domain/repositories/manual_transfer_repository.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_entry_result.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_quota.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
@@ -13,12 +18,30 @@ import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 
 class GuestAiEntryRepository
-    implements AiEntryRepository, PagedAiEntryRepository {
+    implements
+        AiEntryRepository,
+        RecentTransactionRepository,
+        PagedAiEntryRepository,
+        ManualTransferRepository,
+        BulkWalletRepository {
   const GuestAiEntryRepository(this.queries, this.mutations, this.walletStore);
 
   final GuestEntryQueries queries;
   final GuestEntryMutations mutations;
   final GuestWalletStore walletStore;
+
+  @override
+  Future<void> deleteWallets(List<String> ids) => walletStore.deleteMany(ids);
+
+  @override
+  Future<FinanceEntry> addManualTransfer(ManualTransferInput input) =>
+      GuestTransferStore(queries.database, queries.userId).add(
+          transferId: input.id,
+          fromWalletId: input.fromWalletId,
+          toWalletId: input.toWalletId,
+          amount: input.amount,
+          occurredAt: input.occurredAt,
+          description: input.description);
 
   @override
   Future<List<FinanceEntry>> entriesForDate(DateTime date) =>
@@ -37,6 +60,10 @@ class GuestAiEntryRepository
           limit: limit,
           transactionOffset: transactionOffset,
           transferOffset: transferOffset);
+
+  @override
+  Future<List<FinanceEntry>> recentTransactions({int limit = 3}) =>
+      queries.recentTransactions(limit: limit);
 
   @override
   Future<bool> hasAnyEntries() => queries.hasAnyEntries();

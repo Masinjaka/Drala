@@ -17,6 +17,7 @@ final _symbolCounts = () {
 
 String setupCurrencySymbol(String code) {
   if (code == 'MGA') return code;
+  if (code == 'USD') return r'$';
   final symbol = _symbolsByCode[code] ??
       NumberFormat.simpleCurrency(name: code).currencySymbol;
   if (symbol == code || (_symbolCounts[symbol] ?? 0) == 1) return symbol;

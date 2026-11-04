@@ -1,3 +1,5 @@
+import 'package:budgets/core/navigation/app_modal_page_route.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
@@ -5,13 +7,14 @@ import 'package:budgets/widgets/custom_button.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_transaction_field.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/widgets/custom_textfield_validator.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EditPasswordPage extends ConsumerStatefulWidget {
   const EditPasswordPage({super.key});
 
   static Future<void> show(BuildContext context) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(
+      Navigator.of(context).push<void>(AppModalPageRoute(
         builder: (_) => const EditPasswordPage(),
       ));
 
@@ -42,7 +45,7 @@ class _EditPasswordPageState extends ConsumerState<EditPasswordPage> {
     final form = Form(
       key: _formKey,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(28, 24, 28, 32),
+        padding: AppPageSpacing.insets(context, top: 24, bottom: 32),
         children: [
           _field(
             title: context.l10n.currentPassword,
@@ -65,7 +68,6 @@ class _EditPasswordPageState extends ConsumerState<EditPasswordPage> {
           CustomButton(
             text: context.l10n.save,
             height: 40,
-            borderRadius: BorderRadius.circular(6),
             isLoading: _isLoading,
             onPressed: _isLoading ? null : _save,
           ),
@@ -88,20 +90,29 @@ class _EditPasswordPageState extends ConsumerState<EditPasswordPage> {
       hint: hint,
       controller: controller,
       isPassword: true,
-      validator: const {'type': 'password'},
+      fieldValidator: (value) {
+        final missing = CustomTextFieldValidator(context)
+            .validate('required', context.l10n.enterPassword, value);
+        if (missing != null) return missing;
+        if (controller == _confirmController) {
+          return value != _newController.text
+              ? context.l10n.passwordsDoNotMatch
+              : null;
+        }
+        if (controller == _newController) {
+          return CustomTextFieldValidator(context)
+                  .validate('password', null, value) ??
+              (value == _currentController.text
+                  ? context.l10n.passwordMustDiffer
+                  : null);
+        }
+        return null;
+      },
     );
   }
 
   Future<void> _save() async {
     if (_formKey.currentState?.validate() != true) return;
-    if (_newController.text != _confirmController.text) {
-      showInfoToast(context, context.l10n.passwordsDoNotMatch);
-      return;
-    }
-    if (_currentController.text == _newController.text) {
-      showInfoToast(context, context.l10n.passwordMustDiffer);
-      return;
-    }
     setState(() => _isLoading = true);
     try {
       await ref.read(authControllerProvider.notifier).changePassword(

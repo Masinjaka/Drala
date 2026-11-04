@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:flutter/material.dart';
 
 class SettingsSectionTitle extends StatelessWidget {
@@ -6,8 +7,11 @@ class SettingsSectionTitle extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) => Text(
-        text,
-        style: Theme.of(context).textTheme.bodySmall,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(left: 4, bottom: 12),
+        child: Semantics(
+          header: true,
+          child: Text(text, style: AppSettingsTheme.menuLabel(context)),
+        ),
       );
 }

@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../support/home_test_window.dart';
 
 void main() {
-  testWidgets('home uses the four destination bottom bar', (tester) async {
+  testWidgets('home uses the five destination bottom bar', (tester) async {
     usePhoneWindow(tester);
     await tester.pumpWidget(
       MaterialApp(home: ChatHomePage(today: DateTime(2026, 7, 16))),
@@ -15,6 +15,7 @@ void main() {
     expect(find.byKey(const ValueKey('home-navigation-1')), findsOneWidget);
     expect(find.byKey(const ValueKey('home-navigation-2')), findsOneWidget);
     expect(find.byKey(const ValueKey('home-navigation-3')), findsOneWidget);
+    expect(find.byKey(const ValueKey('home-navigation-4')), findsOneWidget);
     expect(find.byKey(const Key('home-menu-button')), findsNothing);
     expect(find.byKey(const Key('drawer-panel')), findsNothing);
   });

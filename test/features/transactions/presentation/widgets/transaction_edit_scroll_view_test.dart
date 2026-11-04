@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('transaction forms do not respond to vertical drags',
+  testWidgets('transaction forms scroll to keep growing validation content reachable',
       (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
@@ -29,6 +29,6 @@ void main() {
     expect(position.position.pixels, 0);
     await tester.drag(scrollable, const Offset(0, -120));
     await tester.pumpAndSettle();
-    expect(position.position.pixels, 0);
+    expect(position.position.pixels, greaterThan(0));
   });
 }

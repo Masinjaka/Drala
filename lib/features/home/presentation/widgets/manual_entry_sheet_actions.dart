@@ -1,4 +1,3 @@
-import 'package:budgets/core/theme.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -29,8 +28,8 @@ class ManualEntrySheetActions extends StatelessWidget {
             key: const Key('delete-manual-entry-button'),
             text: 'Delete entry',
             onPressed: onDelete,
-            foregroundColor: AppTheme.dangerColor,
-            borderColor: AppTheme.dangerColor,
+            foregroundColor: Theme.of(context).colorScheme.error,
+            borderColor: Theme.of(context).colorScheme.error,
           ),
         ],
       ],

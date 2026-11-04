@@ -1,4 +1,5 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:flutter/material.dart';
 
 class FileOption extends StatefulWidget {
@@ -34,10 +35,8 @@ class _FileOptionState extends State<FileOption> {
             SizedBox(height: 8),
             Text(
               widget.title,
-              style: TextStyle(
-                fontSize: AppTypography.body,
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-              ),
+              style: AppTextStyle(AppTextRole.body,
+                  color: Theme.of(context).textTheme.bodyLarge?.color),
             ),
           ],
         ),

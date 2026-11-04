@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -26,14 +29,11 @@ class TransactionDetailHeader extends StatelessWidget {
         Container(
           width: 40,
           height: 40,
-          decoration: BoxDecoration(
-            color: categoryColor,
-            borderRadius: BorderRadius.circular(8),
-          ),
           child: Center(
-            child: Text(
-              transaction.category?.emoji ?? '',
-              style: TextStyle(fontSize: 18),
+            child: CategoryIcon(
+              iconKey: transaction.category?.iconKey,
+              emoji: transaction.category?.emoji,
+              colorHex: transaction.category?.color,
             ),
           ),
         ),
@@ -44,11 +44,8 @@ class TransactionDetailHeader extends StatelessWidget {
             children: [
               Text(
                 transaction.category?.name ?? '',
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+                style: AppTextStyle(AppTextRole.body,
+                    color: Theme.of(context).textTheme.bodyLarge?.color),
               ),
               SizedBox(height: 4),
               Row(
@@ -70,14 +67,12 @@ class TransactionDetailHeader extends StatelessWidget {
                         ? DateFormat.yMMMMd('fr_FR')
                             .format(transaction.date!.toLocal())
                         : '',
-                    style: TextStyle(
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.color
-                          ?.withAlpha(179),
-                      fontSize: 14,
-                    ),
+                    style: AppTextStyle(AppTextRole.body,
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.color
+                            ?.withAlpha(179)),
                   ),
                   if (transaction.date != null) ...[
                     SizedBox(width: 12),
@@ -96,14 +91,12 @@ class TransactionDetailHeader extends StatelessWidget {
                     Text(
                       DateFormat.Hm('fr_FR')
                           .format(transaction.date!.toLocal()),
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.color
-                            ?.withAlpha(179),
-                        fontSize: 14,
-                      ),
+                      style: AppTextStyle(AppTextRole.body,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.color
+                              ?.withAlpha(179)),
                     ),
                   ],
                 ],
@@ -117,11 +110,12 @@ class TransactionDetailHeader extends StatelessWidget {
             currencyCode,
             preserveFraction: true,
           ),
-          style: AppTextTheme.amount(TextStyle(
-            color: Theme.of(context).textTheme.bodyLarge?.color?.withAlpha(128),
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          )),
+          style: AppTextTheme.amount(AppTextStyle(AppTextRole.body,
+              color: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.color
+                  ?.withAlpha(128))),
         ),
       ],
     );

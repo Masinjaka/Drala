@@ -26,6 +26,7 @@ class EnvelopeCategoryField extends StatelessWidget {
               id: category.id,
               name: category.name,
               emoji: category.emoji,
+              iconKey: category.iconKey,
               transactionType: 'expense',
               colorHex: category.color,
             ),

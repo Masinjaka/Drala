@@ -1,3 +1,4 @@
+import { measureFinancePhase } from "./performance.ts";
 import { ApiError } from "./errors.ts";
 import { callGemini } from "./gemini_provider.ts";
 import { callQwen } from "./qwen_provider.ts";
@@ -9,8 +10,14 @@ export async function callModel(
   media: ModelMedia[] = [],
 ): Promise<ModelResult> {
   const model = activeModel();
-  if (model.provider === "gemini") return callGemini(model, system, user, media);
-  if (model.provider === "qwen") return callQwen(model, system, user, media);
+  if (model.provider === "gemini") {
+    return measureFinancePhase("provider", () =>
+      callGemini(model, system, user, media));
+  }
+  if (model.provider === "qwen") {
+    return measureFinancePhase("provider", () =>
+      callQwen(model, system, user, media));
+  }
   throw new ApiError(
     "provider_not_configured",
     `Unsupported AI provider: ${model.provider}`,

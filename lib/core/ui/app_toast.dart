@@ -1,7 +1,10 @@
+import 'package:budgets/features/offline/domain/models/offline_unavailable_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/core/monitoring/development_log.dart';
 
 import '../utils/error_messages.dart';
+import '../utils/finance_error_message.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'app_toast_overlay.dart';
 import 'app_toast_type.dart';
 
@@ -51,7 +54,14 @@ void showErrorToast(BuildContext context, Object error) {
   DevelopmentLog.error('toast error', error);
   showAppToast(
     context,
-    friendlyErrorMessage(error),
+    (error is OfflineUnavailableException
+            ? error.needsDownload
+                ? context.l10n.offlineInitial
+                : context.l10n.onlineRequired
+            : null) ??
+        financeErrorMessage(error, context.l10n) ??
+        friendlyErrorMessage(error,
+            networkMessage: context.l10n.networkUnavailable),
     type: AppToastType.error,
   );
 }

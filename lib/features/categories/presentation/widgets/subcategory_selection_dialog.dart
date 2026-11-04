@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/features/categories/domain/models/subcategories.dart';
@@ -58,10 +60,7 @@ class SubcategorySelectionDialog extends StatelessWidget {
                 Expanded(
                   child: Text(
                     'Choisir une sous-catégorie',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
+                    style: AppTextStyle(AppTextRole.sheetTitle),
                   ),
                 ),
                 Container(
@@ -118,13 +117,14 @@ class SubcategorySelectionDialog extends StatelessWidget {
         ),
         child: Text(
           subcategory.name ?? '',
-          style: TextStyle(
-            color: isSelected
-                ? Theme.of(context).colorScheme.onInverseSurface
-                : Theme.of(context).textTheme.bodyMedium?.color?.withAlpha(200),
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          style: AppTextStyle(AppTextRole.body,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.onInverseSurface
+                  : Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.color
+                      ?.withAlpha(200)),
         ),
       ),
     );
@@ -167,11 +167,8 @@ class SubcategorySelectionDialog extends StatelessWidget {
             SizedBox(width: 8),
             Text(
               'Ajouter une sous-catégorie',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-              ),
+              style: AppTextStyle(AppTextRole.body,
+                  color: Theme.of(context).textTheme.bodyMedium?.color),
             ),
           ],
         ),

@@ -1,7 +1,9 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/guest/data/guest_preference_store.dart';
 import 'package:budgets/features/guest/domain/guest_session.dart';
+import 'package:budgets/features/guest/presentation/services/guest_notification_gateway.dart';
 import 'package:budgets/features/notifications/domain/models/notification_settings.dart';
 import 'package:budgets/features/notifications/presentation/widgets/notification_reminder_time_tile.dart';
 import 'package:budgets/features/notifications/presentation/widgets/notification_settings_toggle.dart';
@@ -52,6 +54,20 @@ class _GuestNotificationSettingsPageState
       _saving = true;
     });
     try {
+      final enabling = next.notificationsEnabled &&
+          (!previous.notificationsEnabled ||
+              (next.remindersEnabled && !previous.remindersEnabled) ||
+              (next.warningsEnabled && !previous.warningsEnabled));
+      if (enabling &&
+          !await ref
+              .read(guestNotificationGatewayProvider)
+              .requestPermission()) {
+        if (mounted) {
+          setState(() => _settings = previous);
+          showInfoToast(context, context.l10n.notificationsBlockedMessage);
+        }
+        return false;
+      }
       await _store.setNotifications(next);
       return true;
     } catch (error) {
@@ -92,7 +108,7 @@ class _GuestNotificationSettingsPageState
       child: settings == null
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
+              padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
               children: [
                 SettingsMenuGroup(flat: true, items: [
                   NotificationSettingsToggle(

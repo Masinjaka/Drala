@@ -1,3 +1,5 @@
+import 'package:budgets/features/envelopes/domain/models/envelope_save_cancelled.dart';
+import 'package:budgets/core/forms/submit_validated_form.dart';
 import 'package:budgets/core/currency/currency_amount_input.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -9,7 +11,13 @@ import 'package:budgets/features/transactions/presentation/widgets/transaction_f
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_motion.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_surface.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/core/enums/transaction_type.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_editor_sheet.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/widgets/delete_confirmation_dialog.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
+
+part 'add_envelope_sheet_submission.dart';
 
 class AddEnvelopeSheet extends StatefulWidget {
   const AddEnvelopeSheet({
@@ -17,6 +25,7 @@ class AddEnvelopeSheet extends StatefulWidget {
     required this.month,
     required this.onSave,
     this.currencyState,
+    this.fundingField,
     this.envelope,
     this.onDelete,
     super.key,
@@ -26,6 +35,7 @@ class AddEnvelopeSheet extends StatefulWidget {
   final DateTime month;
   final Future<void> Function(String, String, int, bool) onSave;
   final CurrencyState? currencyState;
+  final Widget? fundingField;
   final Envelope? envelope;
   final Future<void> Function()? onDelete;
 
@@ -35,6 +45,7 @@ class AddEnvelopeSheet extends StatefulWidget {
     required DateTime month,
     required Future<void> Function(String, String, int, bool) onSave,
     CurrencyState? currencyState,
+    Widget? fundingField,
     Envelope? envelope,
     Future<void> Function()? onDelete,
   }) =>
@@ -45,6 +56,7 @@ class AddEnvelopeSheet extends StatefulWidget {
           month: month,
           onSave: onSave,
           currencyState: currencyState,
+          fundingField: fundingField,
           envelope: envelope,
           onDelete: onDelete,
         ),
@@ -58,9 +70,13 @@ class _AddEnvelopeSheetState extends State<AddEnvelopeSheet> {
   final _nameController = TextEditingController();
   final _amountController = TextEditingController();
   final _pages = PageController();
+  final _formKey = GlobalKey<FormState>();
   Category? _category;
+  final List<Category> _createdCategories = [];
   bool _saving = false;
   bool _repeatsMonthly = false;
+
+  void _setSaving(bool value) => setState(() => _saving = value);
 
   @override
   void initState() {
@@ -74,18 +90,26 @@ class _AddEnvelopeSheetState extends State<AddEnvelopeSheet> {
         id: envelope.categoryId,
         name: envelope.categoryName,
         emoji: envelope.emoji,
+        iconKey: envelope.iconKey,
         color: envelope.color);
     _repeatsMonthly = envelope.repeatsMonthly;
   }
 
   Future<void> _delete() async {
     if (_saving || widget.onDelete == null) return;
+    final confirmed = await showDeleteConfirmationDialog(
+        context: context,
+        title: context.l10n.deleteEnvelope,
+        message: context.l10n.deleteEnvelopeDescription);
+    if (!mounted || !confirmed) return;
     setState(() => _saving = true);
     try {
       await widget.onDelete!();
       if (mounted) Navigator.of(context).pop();
     } catch (error) {
-      if (mounted) showErrorToast(context, error);
+      if (mounted && error is! EnvelopeSaveCancelled) {
+        showErrorToast(context, error);
+      }
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -103,38 +127,16 @@ class _AddEnvelopeSheetState extends State<AddEnvelopeSheet> {
       duration: const Duration(milliseconds: 420),
       curve: transactionSheetCurve);
 
-  Future<void> _save() async {
-    if (_saving) return;
-    final existing = widget.envelope;
-    final unchangedAmount = existing != null &&
-        _amountController.text ==
-            CurrencyAmountInput.fromStored(
-                existing.amount, existing.currencyCode, widget.currencyState);
-    final amount = unchangedAmount
-        ? existing.amount
-        : CurrencyAmountInput.toMga(
-            _amountController.text,
-            widget.currencyState,
-          );
-    final name = _nameController.text.trim();
-    if (name.isEmpty || amount <= 0 || _category == null) return;
-    setState(() => _saving = true);
-    try {
-      await widget.onSave(name, _category!.id!, amount, _repeatsMonthly);
-      if (mounted) Navigator.of(context).pop();
-    } catch (error) {
-      if (mounted) showErrorToast(context, error);
-    } finally {
-      if (mounted) setState(() => _saving = false);
-    }
-  }
-
   @override
-  Widget build(BuildContext context) => TransactionSheetSurface(
+  Widget build(BuildContext context) => SubmitValidatedForm(
+      formKey: _formKey,
+      child: TransactionSheetSurface(
+        referenceStyle: true,
         pageController: _pages,
         pages: [
           EnvelopeFormPage(
             editing: widget.envelope != null,
+            fundingField: widget.fundingField,
             onDelete: widget.onDelete == null ? null : _delete,
             nameController: _nameController,
             amountController: _amountController,
@@ -149,18 +151,30 @@ class _AddEnvelopeSheetState extends State<AddEnvelopeSheet> {
                 setState(() => _repeatsMonthly = value),
           ),
           TransactionCategoryPage(
-            categories: widget.categories
-                .map((value) => Category(
-                      id: value.id,
-                      name: value.name,
-                      emoji: value.emoji,
-                      color: value.color,
-                    ))
-                .toList(growable: false),
+            categories: [
+              ..._createdCategories,
+              ...widget.categories.map((value) => Category(
+                    id: value.id,
+                    name: value.name,
+                    emoji: value.emoji,
+                    iconKey: value.iconKey,
+                    color: value.color,
+                  ))
+            ],
+            onCreate: () async {
+              final created = await CategoryEditorSheet.show(context,
+                  type: TransactionType.expense);
+              if (mounted && created != null) {
+                setState(() {
+                  _createdCategories.add(created);
+                  _category = created;
+                });
+              }
+            },
             selected: _category,
             onSelected: (value) => setState(() => _category = value),
             onBack: () => _goToPage(0),
           ),
         ],
-      );
+      ));
 }

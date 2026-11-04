@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:budgets/core/ui/app_envelope_theme.dart';
 
 class EnvelopeProgress extends StatelessWidget {
   const EnvelopeProgress({
@@ -13,32 +14,22 @@ class EnvelopeProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final progress = value.clamp(0.0, 1.0);
-    return LayoutBuilder(builder: (context, constraints) {
-      final gap = progress > 0 && progress < 1 ? 6.0 : 0.0;
-      final available =
-          (constraints.maxWidth - gap).clamp(0.0, double.infinity);
-      return Row(children: [
-        if (progress > 0)
-          Container(
-            width: available * progress,
-            height: 9,
-            decoration: BoxDecoration(
-              color: foregroundColor,
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
-        if (gap > 0) SizedBox(width: gap),
-        if (progress < 1)
-          Expanded(
-            child: Container(
-              height: 9,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.outline,
-                borderRadius: BorderRadius.circular(6),
-              ),
-            ),
-          ),
-      ]);
-    });
+    return ClipRRect(
+        borderRadius: BorderRadius.circular(3),
+        child: SizedBox(
+            width: double.infinity,
+            height: 5,
+            child: Stack(children: [
+              Positioned.fill(
+                  child: ColoredBox(
+                      color: AppEnvelopeTheme.progressTrack(context))),
+              FractionallySizedBox(
+                  widthFactor: progress,
+                  child: Container(
+                      height: 5,
+                      decoration: BoxDecoration(
+                          color: foregroundColor,
+                          borderRadius: BorderRadius.circular(3)))),
+            ])));
   }
 }

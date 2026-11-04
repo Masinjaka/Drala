@@ -1,4 +1,6 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:flutter/material.dart';
 
 class HomeEmptyPromptCard extends StatelessWidget {
@@ -20,6 +22,7 @@ class HomeEmptyPromptCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       decoration: BoxDecoration(
+        boxShadow: AppCardTheme.shadows(context),
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
       ),
@@ -33,12 +36,9 @@ class HomeEmptyPromptCard extends StatelessWidget {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontSize: AppTypography.caption,
-              fontWeight: FontWeight.w600,
-              height: 1.15,
-            ),
+            style: AppTextStyle(AppTextRole.caption,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                height: 1.15),
           ),
         ],
       ),

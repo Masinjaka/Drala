@@ -1,3 +1,4 @@
+import '../../../support/load_category_icon_font.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/features/onboarding/presentation/pages/getting_started_page.dart';
 import 'package:budgets/features/onboarding/presentation/widgets/category_bubble.dart';
@@ -7,7 +8,10 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../support/load_app_fonts.dart';
 
 void main() {
-  setUpAll(loadAppFonts);
+  setUpAll(() async {
+    await loadAppFonts();
+    await loadCategoryIconFont();
+  });
 
   testWidgets('category bubbles expand from Drala into the reference layout',
       (tester) async {

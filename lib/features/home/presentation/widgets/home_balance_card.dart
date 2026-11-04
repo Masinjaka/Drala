@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/home/presentation/widgets/home_balance_primary_amount.dart';
@@ -33,6 +34,7 @@ class HomeBalanceCard extends StatelessWidget {
       key: const Key('home-balance-card'),
       height: 109,
       decoration: BoxDecoration(
+        boxShadow: AppCardTheme.shadows(context),
         color: bannerColor,
         borderRadius: BorderRadius.circular(10),
       ),

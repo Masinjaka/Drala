@@ -1,3 +1,4 @@
+import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
@@ -11,12 +12,14 @@ Future<ManualEntrySheetResult?> showFinanceEntryDetailSheet(
   required FinanceEntry entry,
   required Future<List<ManualEntryCategory>> categories,
   CurrencyState? currencyState,
+  List<WalletSummary> wallets = const [],
 }) {
   return Navigator.of(context, rootNavigator: true).push(
     _FinanceEntryDetailRoute(
       entry: entry,
       categories: categories,
       currencyState: currencyState,
+      wallets: wallets,
     ),
   );
 }
@@ -26,11 +29,13 @@ class _FinanceEntryDetailRoute extends PopupRoute<ManualEntrySheetResult> {
     required this.entry,
     required this.categories,
     required this.currencyState,
+    required this.wallets,
   });
 
   final FinanceEntry entry;
   final Future<List<ManualEntryCategory>> categories;
   final CurrencyState? currencyState;
+  final List<WalletSummary> wallets;
 
   @override
   Color get barrierColor => Colors.black.withValues(alpha: 0.46);
@@ -50,6 +55,7 @@ class _FinanceEntryDetailRoute extends PopupRoute<ManualEntrySheetResult> {
       entry: entry,
       categories: categories,
       currencyState: currencyState,
+      wallets: wallets,
     );
   }
 

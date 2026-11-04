@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:flutter/material.dart';
 
 class SettingSection extends StatelessWidget {
@@ -13,10 +15,7 @@ class SettingSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
+          style: const AppTextStyle(AppTextRole.sectionTitle),
         ),
         SizedBox(height: 8),
         Column(children: children)

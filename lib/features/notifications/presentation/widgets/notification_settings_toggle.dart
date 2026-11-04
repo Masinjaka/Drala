@@ -55,7 +55,8 @@ class _NotificationSettingsToggleState
       onTap: _enabled ? () => _change(!_value) : null,
       trailing: widget.loading
           ? const ValueSkeleton(width: 44)
-          : Switch(
+          : Switch.adaptive(
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               value: _value,
               onChanged: _enabled ? _change : null,
             ),

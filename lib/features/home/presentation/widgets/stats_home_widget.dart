@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/widgets/charts/bar_chart.dart';
@@ -31,7 +34,8 @@ class StatsHomeWidget extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildLegendItem(context, 'Dépenses', Colors.redAccent),
+              _buildLegendItem(
+                  context, 'Dépenses', AppDangerTheme.expenseSeries),
               SizedBox(width: 16),
               _buildLegendItem(context, 'Revenus', Colors.greenAccent),
             ],
@@ -71,11 +75,8 @@ class StatsHomeWidget extends ConsumerWidget {
         SizedBox(width: 8),
         Text(
           label,
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
+          style: AppTextStyle(AppTextRole.body,
+              color: Theme.of(context).textTheme.bodyLarge?.color),
         ),
       ],
     );

@@ -171,7 +171,7 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get walletInUseCannotBeDeleted =>
-      'Misy tantaran\'ny fifanakalozana ity poketra ity ka tsy azo fafana.';
+      'Ampiasain’ny valopy na ny tantaran’ny fifanakalozana ity kitapom-bola ity ka tsy azo fafana.';
 
   @override
   String get allTime => 'Fotoana rehetra';
@@ -194,7 +194,8 @@ class AppLocalizationsMg extends AppLocalizations {
   String get notifications => 'Fampandrenesana';
 
   @override
-  String get noNotifications => 'Tsy misy fampandrenesana';
+  String get noNotifications =>
+      'Efa voarainao daholo ny vaovao! Eto no hisy ny manaraka.';
 
   @override
   String get noNotificationsDescription =>
@@ -736,7 +737,8 @@ class AppLocalizationsMg extends AppLocalizations {
   String get create => 'Mamorona';
 
   @override
-  String get noEnvelopesYet => 'Tsy mbola misy valopy';
+  String get noEnvelopesYet =>
+      'Omeo toerana ny tetikasanao amin’ny valopy voalohany.';
 
   @override
   String get envelopeEmptyDescription =>
@@ -820,7 +822,8 @@ class AppLocalizationsMg extends AppLocalizations {
       'Tsy azo fafana ity sokajy ity satria mbola ampiasaina.';
 
   @override
-  String get noActivitiesForDay => 'Tsy misy hetsika amin’ity andro ity';
+  String get noActivitiesForDay =>
+      'Mbola milamina ny andro. Hanomboka hanara-maso ve isika?';
 
   @override
   String get editTransaction => 'Hanova fifanakalozana';
@@ -995,4 +998,430 @@ class AppLocalizationsMg extends AppLocalizations {
   @override
   String get guestCurrencyRateStillUnavailable =>
       'Mbola tsy misy ny tahan\'ny fifanakalozana. Andramo indray rehefa misy aterineto.';
+
+  @override
+  String get deleteEnvelopeDescription =>
+      'Haverina ao amin’ny kitapom-bola ny vola sisa amin’ity valopy ity rehefa fafana. Voatahiry ny tantaran’ny fifanakalozana.';
+
+  @override
+  String get insufficientWalletFunds =>
+      'Tsy ampy ny vola ao amin’ny kitapom-bola voafidy. Misafidiana kitapom-bola manana vola ampy.';
+
+  @override
+  String get envelopeAmountBelowSpent =>
+      'Tsy azo atao ambany noho ny vola efa lany ny tetibolan’ny valopy.';
+
+  @override
+  String get monthlyScheduleNotLatest =>
+      'Ny valopy isam-bolana farany ihany no afaka manova ny fanavaozana azy.';
+
+  @override
+  String get selectDate => 'Misafidiana daty';
+
+  @override
+  String get transfer => 'Famindram-bola';
+
+  @override
+  String get fromWallet => 'Avy amin’ny kitapom-bola';
+
+  @override
+  String get toWallet => 'Ho an’ny kitapom-bola';
+
+  @override
+  String get transferNeedsWallets =>
+      'Manampia kitapom-bola faharoa mba hamindrana vola.';
+
+  @override
+  String get transferSaved => 'Voatahiry ny famindram-bola.';
+
+  @override
+  String get differentTransferWallets =>
+      'Misafidiana kitapom-bola roa samy hafa.';
+
+  @override
+  String get walletCurrencyMismatch =>
+      'Mila kitapom-bola roa amin’ny MGA ny famindram-bola.';
+
+  @override
+  String get walletUnavailable =>
+      'Tsy misy intsony ny kitapom-bola voafidy. Misafidiana hafa.';
+
+  @override
+  String get transferConflict =>
+      'Efa nalefa tamin’ny antsipiriany hafa ity famindram-bola ity. Manomboha famindram-bola vaovao.';
+
+  @override
+  String get selectItems => 'Misafidy';
+
+  @override
+  String selectedItemCount(int count) {
+    return '$count voafidy';
+  }
+
+  @override
+  String get deleteSelectedItems => 'Fafao ny voafidy';
+
+  @override
+  String deleteSelectedWalletsDescription(int count) {
+    return 'Hofafana ve ireo kitapom-bola $count voafidy? Tsy azo averina izany.';
+  }
+
+  @override
+  String deleteSelectedEnvelopesDescription(int count) {
+    return 'Hofafana ve ireo valopy $count voafidy? Haverina ao amin’ny kitapom-bola ny vola sisa. Voatahiry ny tantara.';
+  }
+
+  @override
+  String get defaultWalletCannotDelete =>
+      'Tsy azo fafana ny kitapom-bola fototra. Misafidiana kitapom-bola fototra hafa aloha.';
+
+  @override
+  String get envelopeUnavailable =>
+      'Tsy misy intsony ny valopy voafidy. Havaozy ny lisitra.';
+
+  @override
+  String get operationInProgress =>
+      'Andraso ho vita ny asa efa mandeha azafady.';
+
+  @override
+  String get dailyReminderNotificationTitle => 'Fampahatsiahivana isan’andro';
+
+  @override
+  String get dailyReminderNotificationBody =>
+      'Aza adino ny manoratra ny fandaniana na ny vola miditra androany.';
+
+  @override
+  String get categoryNameRequired => 'Ampidiro ny anaran’ny sokajy.';
+
+  @override
+  String get envelopeNameRequired => 'Ampidiro ny anaran’ny valopy.';
+
+  @override
+  String get envelopeCategoryRequired =>
+      'Misafidiana sokajy ho an’ity valopy ity.';
+
+  @override
+  String get fieldRequired => 'Tsy maintsy fenoina ity saha ity.';
+
+  @override
+  String get positiveAmountRequired => 'Ampidiro ny vola mihoatra ny aotra.';
+
+  @override
+  String get nonNegativeAmountRequired =>
+      'Ampidiro ny ambim-bola aotra na mihoatra.';
+
+  @override
+  String get envelopeFundingWalletFixed =>
+      'Ny valopy efa misy dia mitazona ny kitapom-bola namatsiana azy tany am-boalohany.';
+
+  @override
+  String get envelopeFundingWalletUnavailable =>
+      'Tsy misy ny kitapom-bola namatsiana ny valopy';
+
+  @override
+  String get home => 'Fandraisana';
+
+  @override
+  String get seeMore => 'Hijery misimisy';
+
+  @override
+  String get recentTransactions => 'Fifanakalozana farany';
+
+  @override
+  String get envelopes => 'Valopy';
+
+  @override
+  String get noRecentTransactions =>
+      'Ampidiro ny fifanakalozana voalohany hanombohana manara-maso ny teti-bolanao.';
+
+  @override
+  String get overviewLoadFailed => 'Tsy afaka nanavao. Andramo indray.';
+
+  @override
+  String get homeHello => 'Salama';
+
+  @override
+  String homeGreeting(String name) {
+    return 'Salama, $name';
+  }
+
+  @override
+  String get networkUnavailable =>
+      'Tsy afaka mifandray amin’ny lohamilina. Hamarino ny fifandraisana internet ary andramo indray.';
+
+  @override
+  String get offlineModeToast =>
+      'Tapaka ny fifandraisana. Miasa tsy misy internet izao ny rindranasa. Halefa rehefa miverina ny fifandraisana ny fanovana nataonao.';
+
+  @override
+  String get onlineModeToast =>
+      'Tafaverina ny fifandraisana. Vita ny fampifanarahana ny fanovana nataonao.';
+
+  @override
+  String get onlinePendingToast =>
+      'Tafaverina ny fifandraisana. Misy fanovana mbola mila jerenao.';
+
+  @override
+  String get offlineStatus =>
+      'Tsy misy internet · voatahiry ato amin’ity fitaovana ity ny fanovana';
+
+  @override
+  String get syncingStatus => 'Mampifanaraka ny fanovana nataonao…';
+
+  @override
+  String pendingStatus(int count) {
+    return 'Fanovana $count miandry halefa';
+  }
+
+  @override
+  String get offlineInitial =>
+      'Mifandraisa amin’ny internet mba hisintonana ny angon-kaontinao hampiasaina tsy misy internet.';
+
+  @override
+  String get offlineSetupUnavailable =>
+      'Tsy azo ampifanarahana izao. Voatahiry ato amin’ity fitaovana ity ny fanovana nataonao.';
+
+  @override
+  String get syncConflictTitle => 'Jereo ny fanovana alohan’ny hampifanarahana';
+
+  @override
+  String get syncConflictMessage =>
+      'Niova ny angona an-tserasera raha tsy nisy internet ity fitaovana ity. Jereo ny fanovana nataonao alohan’ny hanandramana indray, na ampiasao ny angona an-tserasera.';
+
+  @override
+  String get offlineRetry => 'Andramo indray';
+
+  @override
+  String get offlineReview => 'Hijery';
+
+  @override
+  String get offlineKeepCloud => 'Ampiasao ny angona an-tserasera';
+
+  @override
+  String get offlineRetryChanges => 'Ampifanaraho ireo fanovana';
+
+  @override
+  String get offlineDiscardTitle =>
+      'Fafana ny fanovana voatahiry ato amin’ity fitaovana ity ?';
+
+  @override
+  String get offlineDiscardBody =>
+      'Mbola tsy nalefa an-tserasera ireo fanovana ireo. Hofafana ato amin’ity fitaovana ity izy ireo ary hosoloina ny angona an-tserasera.';
+
+  @override
+  String get onlineRequired => 'Mila fifandraisana internet ity asa ity.';
+
+  @override
+  String get signInSyncRequired =>
+      'Midira indray mba hampifanarahana. Voatahiry ny fanovana nataonao.';
+
+  @override
+  String get categoryIconFood => 'Sakafo sy zava-pisotro';
+
+  @override
+  String get categoryIconShopping => 'Fiantsenana';
+
+  @override
+  String get categoryIconTransport => 'Fitaterana';
+
+  @override
+  String get categoryIconHousing => 'Trano';
+
+  @override
+  String get categoryIconHealth => 'Fahasalamana';
+
+  @override
+  String get categoryIconUtilities => 'Jiro sy rano';
+
+  @override
+  String get categoryIconEntertainment => 'Fialam-boly';
+
+  @override
+  String get categoryIconEducation => 'Fanabeazana';
+
+  @override
+  String get categoryIconSalary => 'Karama';
+
+  @override
+  String get categoryIconFreelance => 'Asa mahaleo tena';
+
+  @override
+  String get categoryIconIncome => 'Vola miditra';
+
+  @override
+  String get categoryIconOther => 'Hafa';
+
+  @override
+  String get categoryIconCoffee => 'Kafe';
+
+  @override
+  String get categoryIconDining => 'Toeram-pisakafoanana';
+
+  @override
+  String get categoryIconTravel => 'Dia';
+
+  @override
+  String get categoryIconGifts => 'Fanomezana';
+
+  @override
+  String get categoryIconPets => 'Biby fiompy';
+
+  @override
+  String get categoryIconFamily => 'Fianakaviana';
+
+  @override
+  String get categoryIconSubscriptions => 'Famandrihana';
+
+  @override
+  String get categoryIconPhone => 'Finday';
+
+  @override
+  String get categoryIconInternet => 'Aterineto';
+
+  @override
+  String get categoryIconSavings => 'Tahiry';
+
+  @override
+  String get categoryIconInvestment => 'Fampiasam-bola';
+
+  @override
+  String get categoryIconInsurance => 'Fiantohana';
+
+  @override
+  String get categoryIconTaxes => 'Hetra';
+
+  @override
+  String get categoryIconFitness => 'Fanatanjahan-tena';
+
+  @override
+  String get categoryIconBeauty => 'Fikarakarana tena';
+
+  @override
+  String get categoryIconClothing => 'Akanjo';
+
+  @override
+  String get categoryIconRepairs => 'Fanamboarana';
+
+  @override
+  String get categoryIconFuel => 'Solika';
+
+  @override
+  String get categoryIconBicycle => 'Bisikileta';
+
+  @override
+  String get categoryIconBus => 'Fitateram-bahoaka';
+
+  @override
+  String get categoryIconRain => 'Tahiry vonjy taitra';
+
+  @override
+  String get categoryIconCharity => 'Fanampiana';
+
+  @override
+  String get categoryIconMusic => 'Mozika';
+
+  @override
+  String get categoryIconBooks => 'Boky';
+
+  @override
+  String get categoryIconTransfer => 'Famindram-bola';
+
+  @override
+  String get chooseCategoryIcon => 'Misafidiana kisary';
+
+  @override
+  String get searchCategoryIcons => 'Hitady kisary';
+
+  @override
+  String get activitiesComposerHint => 'Lazao izay nandanianao vola…';
+
+  @override
+  String get createEnvelope => 'Hamorona valopy';
+
+  @override
+  String get trackYourBudget => 'Araho ny tetibolanao';
+
+  @override
+  String get emptyCategories => 'Omeo toerana izay zava-dehibe aminao.';
+
+  @override
+  String get emptyWallets =>
+      'Eto no manomboka ny toerana hitehirizana ny volanao.';
+
+  @override
+  String get createCategory => 'Hamorona sokajy';
+
+  @override
+  String get emptyExpenses =>
+      'Dingana kely hanatsarana ny teti-bola: ampidiro ny fandaniana voalohany.';
+
+  @override
+  String get emptyIncomes =>
+      'Manokatra fahafahana vaovao ny vola miditra. Ampidiro ny anao!';
+
+  @override
+  String get emptySearch =>
+      'Andao hanandrana fikarohana hafa hahitana izay tadiavinao.';
+
+  @override
+  String get createExpense => 'Hanampy fandaniana';
+
+  @override
+  String get createIncome => 'Hanampy vola miditra';
+
+  @override
+  String get resetSearch => 'Hamerina ny fikarohana';
+
+  @override
+  String get emptyBudgets =>
+      'Omeo lalana ny fandanianao amin’ny teti-bola voalohany.';
+
+  @override
+  String get emptyGoals =>
+      'Manomboka amin’ny tahiry kely ny tetikasa lehibe. Inona ny tanjonao?';
+
+  @override
+  String get createBudget => 'Hamorona teti-bola';
+
+  @override
+  String get createGoal => 'Hamorona tanjona';
+
+  @override
+  String get manageNotifications => 'Hitantana fampandrenesana';
+
+  @override
+  String get envelopeRemaining => 'Ambiny';
+
+  @override
+  String get envelopeBudgetOf => 'amin’ny';
+
+  @override
+  String get statsNet => 'Ambiny';
+
+  @override
+  String get statsNetDescription => 'Vola miditra esorina ny fandaniana';
+
+  @override
+  String get statsNumbers => 'Ny isa';
+
+  @override
+  String get statsCategories => 'Ny sokajy';
+
+  @override
+  String get statsOnAverage => 'amin’ny salanisa';
+
+  @override
+  String get statsPreviousMonth => 'vs volana lasa';
+
+  @override
+  String get statsEmptyCategories =>
+      'Ampidiro ny fandaniana hahitana ny fizarana isaky ny sokajy.';
+
+  @override
+  String statsActivityCount(int count) {
+    return '$count hetsika';
+  }
+
+  @override
+  String get chooseCategoryColor => 'Misafidiana loko';
 }

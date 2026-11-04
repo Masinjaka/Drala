@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -10,10 +11,11 @@ class StatsSkeletonBalanceCard extends StatelessWidget {
 
     return Shimmer.fromColors(
       baseColor: theme.colorScheme.surfaceContainerHighest,
-      highlightColor: theme.colorScheme.onSurface.withOpacity(0.1),
+      highlightColor: theme.colorScheme.onSurface.withValues(alpha: 0.1),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         decoration: BoxDecoration(
+          boxShadow: AppCardTheme.shadows(context),
           color: theme.cardColor,
           borderRadius: BorderRadius.circular(16),
         ),

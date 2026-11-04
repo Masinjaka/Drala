@@ -26,24 +26,12 @@ class EditWalletSheet extends StatefulWidget {
 
 class _EditWalletSheetState extends State<EditWalletSheet> {
   final _pages = PageController();
+  final _formKey = GlobalKey<FormState>();
   late final _name = TextEditingController(text: widget.wallet.name);
   late final _balance = TextEditingController(
       text: CurrencyAmountInput.fromStored(widget.wallet.balance,
           widget.wallet.currencyCode, widget.currencyState));
-  bool _canSubmit = true;
   late bool _setAsDefault = widget.wallet.isDefault;
-
-  @override
-  void initState() {
-    super.initState();
-    _name.addListener(_validate);
-    _balance.addListener(_validate);
-  }
-
-  void _validate() {
-    final valid = _name.text.trim().isNotEmpty && _amount != null;
-    if (valid != _canSubmit) setState(() => _canSubmit = valid);
-  }
 
   int? get _amount {
     final value =
@@ -52,7 +40,7 @@ class _EditWalletSheetState extends State<EditWalletSheet> {
   }
 
   void _save() {
-    if (!_canSubmit) return;
+    if (!(_formKey.currentState?.validate() ?? false)) return;
     Navigator.of(context).pop(WalletEditorResult.save(AddWalletInput(
         name: _name.text.trim(),
         initialBalance: _amount ?? 0,
@@ -69,14 +57,15 @@ class _EditWalletSheetState extends State<EditWalletSheet> {
 
   @override
   Widget build(BuildContext context) => TransactionSheetSurface(
+        referenceStyle: true,
         pageController: _pages,
         pages: [
           WalletFormPage(
+            formKey: _formKey,
             editing: true,
             nameController: _name,
             balanceController: _balance,
             currencyState: widget.currencyState,
-            canSubmit: _canSubmit,
             setAsDefault: _setAsDefault,
             onDefaultChanged: (value) => setState(() => _setAsDefault = value),
             defaultOptionEnabled: !widget.wallet.isDefault,

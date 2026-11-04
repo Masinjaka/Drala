@@ -22,22 +22,10 @@ class AddWalletSheet extends StatefulWidget {
 
 class _AddWalletSheetState extends State<AddWalletSheet> {
   final _pages = PageController();
+  final _formKey = GlobalKey<FormState>();
   final _name = TextEditingController();
   final _balance = TextEditingController();
-  bool _canSubmit = false;
   bool _setAsDefault = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _name.addListener(_validate);
-    _balance.addListener(_validate);
-  }
-
-  void _validate() {
-    final valid = _name.text.trim().isNotEmpty && _initialBalance != null;
-    if (valid != _canSubmit) setState(() => _canSubmit = valid);
-  }
 
   int? get _initialBalance {
     if (_balance.text.trim().isEmpty) return 0;
@@ -47,7 +35,7 @@ class _AddWalletSheetState extends State<AddWalletSheet> {
   }
 
   void _submit() {
-    if (!_canSubmit) return;
+    if (!(_formKey.currentState?.validate() ?? false)) return;
     Navigator.of(context).pop(AddWalletInput(
         name: _name.text.trim(),
         initialBalance: _initialBalance ?? 0,
@@ -67,10 +55,10 @@ class _AddWalletSheetState extends State<AddWalletSheet> {
         pageController: _pages,
         pages: [
           WalletFormPage(
+            formKey: _formKey,
             nameController: _name,
             balanceController: _balance,
             currencyState: widget.currencyState,
-            canSubmit: _canSubmit,
             setAsDefault: _setAsDefault,
             onDefaultChanged: (value) => setState(() => _setAsDefault = value),
             onSave: _submit,

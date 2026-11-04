@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/navigation/domain/providers/sub_tab_providers.dart';
 import 'package:budgets/features/transactions/presentation/pages/expense_tab_content.dart';
 import 'package:budgets/features/transactions/presentation/pages/income_tab_content.dart';
@@ -61,10 +63,7 @@ class _TransactionPageState extends ConsumerState<TransactionPage>
           titleSpacing: 32,
           title: Text(
             'Transactions',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+            style: AppTextStyle(AppTextRole.pageTitle),
           ),
           centerTitle: false,
           actions: [
@@ -109,14 +108,8 @@ class _TransactionPageState extends ConsumerState<TransactionPage>
                     },
                   ),
                   splashFactory: NoSplash.splashFactory,
-                  labelStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  unselectedLabelStyle: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  labelStyle: AppTextStyle(AppTextRole.body),
+                  unselectedLabelStyle: AppTextStyle(AppTextRole.body),
                   tabs: const [
                     Tab(text: 'Dépenses'),
                     Tab(text: 'Revenus'),

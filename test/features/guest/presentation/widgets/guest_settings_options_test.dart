@@ -20,7 +20,6 @@ void main() {
         body: GuestSettingsOptions(
           onNotifications: () => notifications++,
           onCurrency: () => currency++,
-          onDefaultWallet: () => defaultWallet++,
           onTheme: () => theme++,
           onLanguage: () => language++,
         ),

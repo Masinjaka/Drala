@@ -13,9 +13,13 @@ import '../../../notifications/support/fake_finance_notification_repository.dart
 import '../../support/home_test_window.dart';
 
 void main() {
-  testWidgets('guest home shows a manual entry FAB instead of the composer',
+  testWidgets(
+      'guest activities shows a manual entry FAB instead of the composer',
       (tester) async {
     await _pumpLayout(tester, manualOnly: true);
+
+    await tester.tap(find.byKey(const ValueKey('home-navigation-1')));
+    await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('chat-input-container')), findsNothing);
     expect(find.byKey(const Key('guest-manual-entry-fab')), findsOneWidget);
@@ -26,22 +30,26 @@ void main() {
     expect(find.byType(ManualEntrySheet), findsOneWidget);
   });
 
-  testWidgets('signed-in home keeps the composer and has no manual FAB',
+  testWidgets('signed-in activities keeps the composer and has no manual FAB',
       (tester) async {
     await _pumpLayout(tester, manualOnly: false);
+
+    await tester.tap(find.byKey(const ValueKey('home-navigation-1')));
+    await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('chat-input-container')), findsOneWidget);
     expect(find.byKey(const Key('guest-manual-entry-fab')), findsNothing);
   });
 
-  testWidgets('guest manual FAB only appears on the home tab', (tester) async {
+  testWidgets('guest manual FAB only appears on the activities tab',
+      (tester) async {
     await _pumpLayout(tester, manualOnly: true);
 
-    await tester.tap(find.byKey(const ValueKey('home-navigation-1')));
+    await tester.tap(find.byKey(const ValueKey('home-navigation-0')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('guest-manual-entry-fab')), findsNothing);
 
-    await tester.tap(find.byKey(const ValueKey('home-navigation-0')));
+    await tester.tap(find.byKey(const ValueKey('home-navigation-1')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('guest-manual-entry-fab')), findsOneWidget);
   });

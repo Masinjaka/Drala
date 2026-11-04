@@ -1,15 +1,14 @@
+import 'package:budgets/core/ui/app_stats_theme.dart';
 import 'package:budgets/core/ui/value_skeleton.dart';
-import 'package:budgets/core/ui/app_text_theme.dart';
-import 'package:budgets/core/utils/amount_formatter.dart';
-import 'package:budgets/features/home/presentation/widgets/animated_compact_amount.dart';
-import 'package:budgets/widgets/skeleton/profile_picture_skeleton.dart';
 import 'package:flutter/material.dart';
+import 'stats_amount.dart';
 
 class StatsMetricCard extends StatelessWidget {
   const StatsMetricCard(
       {required this.label,
       required this.value,
-      required this.emoji,
+      this.emoji = '',
+      this.income = false,
       this.valueColor,
       this.loading = false,
       this.currencyCode,
@@ -18,66 +17,41 @@ class StatsMetricCard extends StatelessWidget {
   final String label;
   final num value;
   final String emoji;
+  final bool income;
   final Color? valueColor;
   final bool loading;
   final bool maskValue;
   final String? currencyCode;
   @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-        height: 160,
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-            color: theme.colorScheme.surfaceContainer,
-            borderRadius: BorderRadius.circular(10)),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceDim,
-                shape: BoxShape.circle,
-              ),
-              child: Text(emoji,
-                  style: theme.textTheme.titleMedium!.copyWith(fontSize: 22),
-                  textAlign: TextAlign.center),
-            ),
-            SizedBox(width: 10),
-            Flexible(child: Text(label, style: theme.textTheme.bodySmall)),
-          ]),
-          const Spacer(),
-          if (loading)
-            const ValueSkeleton(key: Key('stats-value-skeleton'))
-          else
-            FittedBox(
-              alignment: Alignment.centerLeft,
+  Widget build(BuildContext context) => Container(
+      height: AppStatsTheme.metricHeight(context),
+      padding: const EdgeInsets.fromLTRB(21, 18, 21, 20),
+      decoration: BoxDecoration(
+          color: AppStatsTheme.surface(context),
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: AppStatsTheme.shadows(context)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        SizedBox.square(
+            dimension: 32,
+            child: Icon(
+                income
+                    ? Icons.arrow_downward_rounded
+                    : Icons.arrow_upward_rounded,
+                size: AppStatsTheme.flowIconSize,
+                color: AppStatsTheme.flowIconColor(context, income: income))),
+        const Spacer(),
+        Text(label, style: AppStatsTheme.metricLabel(context)),
+        const SizedBox(height: 6),
+        if (loading)
+          const ValueSkeleton(
+              key: Key('stats-value-skeleton'), height: 26, width: 100)
+        else
+          FittedBox(
               fit: BoxFit.scaleDown,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  AnimatedCompactAmount(
-                    value: value,
-                    respectAmountVisibility: maskValue,
-                    amountTypography: currencyCode != null,
-                    style: theme.textTheme.headlineMedium!
-                        .copyWith(color: valueColor),
-                  ),
-                  if (currencyCode != null) ...[
-                    const SizedBox(width: 6),
-                    Text(
-                      currencySymbolForCode(currencyCode!),
-                      style: AppTextTheme.currencyLabel(context).copyWith(
-                        color: valueColor ?? theme.textTheme.labelMedium?.color,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-        ]));
-  }
+              alignment: AlignmentDirectional.centerStart,
+              child: StatsAmount(
+                  value: value,
+                  currencyCode: currencyCode,
+                  maskValue: maskValue)),
+      ]));
 }

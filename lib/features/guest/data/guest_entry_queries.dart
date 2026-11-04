@@ -33,6 +33,21 @@ class GuestEntryQueries {
     );
   }
 
+  Future<List<FinanceEntry>> recentTransactions({int limit = 3}) async {
+    final rows = await database.customSelect(
+      '''SELECT t.*, c.name AS category_name, c.emoji AS category_emoji,
+                c.icon_key AS category_icon, c.color AS category_color,
+                e.name AS envelope_name
+         FROM guest_transactions t
+         LEFT JOIN guest_categories c ON c.id = t.category_id
+         LEFT JOIN guest_envelopes e ON e.id = t.envelope_id
+         WHERE t.user_id = ?
+         ORDER BY t.date DESC, t.created_at DESC, t.id DESC LIMIT ?''',
+      variables: [Variable.withString(userId), Variable.withInt(limit)],
+    ).get();
+    return rows.map((row) => fromRow(row.data)).toList(growable: false);
+  }
+
   Future<bool> hasAnyEntries() async {
     final rows = await database.customSelect(
       '''SELECT 1 FROM guest_transactions WHERE user_id = ?
@@ -55,7 +70,7 @@ class GuestEntryQueries {
 
   Future<List<ManualEntryCategory>> categories() async {
     final rows = await database.customSelect(
-      '''SELECT id,name,emoji,color,transaction_type
+      '''SELECT id,name,emoji,icon_key,color,transaction_type
          FROM guest_categories WHERE user_id = ? ORDER BY name''',
       variables: [Variable.withString(userId)],
     ).get();
@@ -67,7 +82,8 @@ class GuestEntryQueries {
   Future<List<FinanceEntry>> _entries(DateTime start, DateTime end) async {
     final rows = await database.customSelect(
       '''SELECT t.*, c.name AS category_name, c.emoji AS category_emoji,
-                c.icon_key AS category_icon, e.name AS envelope_name
+                c.icon_key AS category_icon, c.color AS category_color,
+                e.name AS envelope_name
          FROM guest_transactions t
          LEFT JOIN guest_categories c ON c.id = t.category_id
          LEFT JOIN guest_envelopes e ON e.id = t.envelope_id
@@ -125,6 +141,7 @@ class GuestEntryQueries {
         emoji: row['category_emoji'] as String? ?? '🧾',
         entryType: row['entry_type'] as String,
         categoryId: row['category_id'] as String?,
+        categoryColor: row['category_color'] as String?,
         sourceWalletId: row['source_wallet_id'] as String?,
         envelopeName: row['envelope_name'] as String?,
       );

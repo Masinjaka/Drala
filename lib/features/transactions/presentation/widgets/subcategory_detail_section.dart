@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/categories/domain/providers/subcategory_expenses_providers.dart';
@@ -29,10 +31,8 @@ class SubcategoryDetailSection extends ConsumerWidget {
           children: [
             SizedBox(height: 16),
             Text('Détails des sous-catégories',
-                style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyLarge?.color,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14)),
+                style: AppTextStyle(AppTextRole.body,
+                    color: Theme.of(context).textTheme.bodyLarge?.color)),
             SizedBox(height: 12),
             ...items.map((sub) => Padding(
                   padding: EdgeInsets.only(bottom: 4),
@@ -46,24 +46,23 @@ class SubcategoryDetailSection extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(sub.subcategory?.name ?? 'Unknown',
-                            style: TextStyle(
+                            style: AppTextStyle(AppTextRole.body,
                                 color: Theme.of(context)
                                     .textTheme
                                     .bodyLarge
                                     ?.color
-                                    ?.withAlpha(179),
-                                fontSize: 14)),
+                                    ?.withAlpha(179))),
                         Text(
                           formatAmountWithCurrency(
                               convertFromMga(sub.amount, rate), currencyCode,
                               preserveFraction: true),
-                          style: AppTextTheme.amount(TextStyle(
+                          style: AppTextTheme.amount(AppTextStyle(
+                              AppTextRole.body,
                               color: Theme.of(context)
                                   .textTheme
                                   .bodyLarge
                                   ?.color
-                                  ?.withAlpha(179),
-                              fontSize: 14)),
+                                  ?.withAlpha(179))),
                         ),
                       ],
                     ),

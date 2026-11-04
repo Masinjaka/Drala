@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/features/stats/presentation/widgets/stats_skeleton_category_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
@@ -11,10 +12,11 @@ class StatsSkeletonCategoryBreakdown extends StatelessWidget {
 
     return Shimmer.fromColors(
       baseColor: theme.colorScheme.surfaceContainerHighest,
-      highlightColor: theme.colorScheme.onSurface.withOpacity(0.1),
+      highlightColor: theme.colorScheme.onSurface.withValues(alpha: 0.1),
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
+          boxShadow: AppCardTheme.shadows(context),
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
         ),

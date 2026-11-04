@@ -27,6 +27,8 @@ void main() {
     await tester.enterText(find.byType(TextField).last, 'Savings');
     await tester.tap(find.byKey(const Key('wallet-default-option')));
     await tester.pump();
+    await tester.ensureVisible(find.byKey(const Key('confirm-add-wallet')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('confirm-add-wallet')));
     await tester.pumpAndSettle();
     expect(find.text('true'), findsOneWidget);

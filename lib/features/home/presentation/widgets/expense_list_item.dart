@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/features/home/domain/models/home_expense.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -44,18 +46,13 @@ class ExpenseListItem extends StatelessWidget {
                 children: [
                   Text(
                     expense.title,
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: const AppTextStyle(AppTextRole.body),
                   ),
                   const SizedBox(height: 3),
                   Text(
                     expense.category,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 12,
-                    ),
+                    style: AppTextStyle(AppTextRole.body,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant),
                   ),
                 ],
               ),
@@ -66,7 +63,7 @@ class ExpenseListItem extends StatelessWidget {
             child: Text(
               expense.amount,
               style: AppTextTheme.amount(
-                const TextStyle(fontSize: 12.5),
+                const AppTextStyle(AppTextRole.body),
               ),
             ),
           ),

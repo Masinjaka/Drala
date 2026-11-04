@@ -12,6 +12,7 @@ class ReceiptPreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DetailPageShell(
+      showGrid: false,
       maxWidth: double.infinity,
       title: scan.pageCount == 1
           ? context.l10n.receipt

@@ -1,5 +1,7 @@
-import 'package:budgets/core/ui/app_control_metrics.dart';
+import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/ui/outlined_square_button.dart';
+import 'app_close_button.dart';
+import 'app_finance_surface_theme.dart';
 import 'package:flutter/material.dart';
 
 class DetailPageHeader extends StatelessWidget {
@@ -8,8 +10,8 @@ class DetailPageHeader extends StatelessWidget {
     this.onAdd,
     this.showBackButton = true,
     this.addTooltip,
-    this.buttonVisualSize = AppControlMetrics.squareButtonVisualSize,
-    this.buttonIconSize = 22,
+    this.buttonVisualSize = AppHeaderMetrics.buttonSize,
+    this.buttonIconSize = AppHeaderMetrics.iconSize,
     super.key,
   });
 
@@ -24,38 +26,34 @@ class DetailPageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        if (showBackButton)
-          OutlinedSquareButton(
-            icon: Icons.arrow_back_rounded,
-            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-            visualSize: buttonVisualSize,
-            iconSize: buttonIconSize,
-            onPressed: () => Navigator.maybePop(context),
-          ),
-        if (!showBackButton)
-          const SizedBox.square(dimension: AppControlMetrics.iconButtonSize),
-        if (showBackButton) const SizedBox(width: 15),
         Expanded(
           child: Align(
-            alignment: Alignment.center,
+            alignment: AlignmentDirectional.centerStart,
             child: Text(
               title,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: AppFinanceSurfaceTheme.title(context),
             ),
           ),
         ),
-        (onAdd != null)
-            ? OutlinedSquareButton(
-                key: const Key('detail-add-button'),
-                icon: Icons.add_rounded,
-                visualSize: buttonVisualSize,
-                iconSize: buttonIconSize,
-                onPressed: onAdd!,
-                tooltip: addTooltip,
-              )
-            : SizedBox.square(dimension: AppControlMetrics.iconButtonSize),
+        if (showBackButton) ...[
+          const SizedBox(width: 8),
+          AppCloseButton(
+              key: const Key('detail-page-close'),
+              onPressed: () => Navigator.maybePop(context)),
+        ],
+        if (onAdd != null) ...[
+          const SizedBox(width: AppHeaderMetrics.titleGap),
+          OutlinedSquareButton(
+            key: const Key('detail-add-button'),
+            icon: Icons.add_rounded,
+            visualSize: buttonVisualSize,
+            iconSize: buttonIconSize,
+            onPressed: onAdd!,
+            tooltip: addTooltip,
+          ),
+        ],
       ],
     );
   }

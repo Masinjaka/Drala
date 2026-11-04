@@ -1,13 +1,19 @@
+import 'package:budgets/features/envelopes/domain/repositories/bulk_envelope_repository.dart';
 import 'package:budgets/features/envelopes/data/services/envelope_service.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope_category.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 
-class SupabaseEnvelopeRepository implements EnvelopeRepository {
+class SupabaseEnvelopeRepository
+    implements EnvelopeRepository, BulkEnvelopeRepository {
   const SupabaseEnvelopeRepository(this._service);
 
   final EnvelopeService _service;
+
+  @override
+  Future<void> deleteEnvelopes(List<String> ids) =>
+      _service.deleteEnvelopes(ids);
 
   @override
   Future<List<Envelope>> envelopesForMonth(DateTime month) async {
@@ -18,10 +24,12 @@ class SupabaseEnvelopeRepository implements EnvelopeRepository {
       final overspent = (row['overspent_amount'] as num?)?.round() ?? 0;
       return Envelope(
         id: row['id'] as String,
+        fundingWalletId: row['funding_wallet_id'] as String?,
         name: row['name'] as String,
         categoryId: categoryId,
         categoryName: (category['name'] as String?) ?? 'Other',
-        emoji: (category['emoji'] as String?) ?? '🧾',
+        emoji: (category['emoji'] as String?) ?? '',
+        iconKey: (category['icon_key'] as String?) ?? '',
         color: (category['color'] as String?) ?? 'FF9E9E9E',
         amount: (row['amount'] as num).round(),
         spent: (row['amount'] as num).round() -

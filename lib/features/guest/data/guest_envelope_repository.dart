@@ -1,3 +1,4 @@
+import 'package:budgets/features/envelopes/domain/repositories/bulk_envelope_repository.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope_category.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
@@ -6,12 +7,16 @@ import 'package:budgets/features/guest/data/guest_envelope_queries.dart';
 import 'package:budgets/features/guest/data/guest_wallet_store.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
 
-class GuestEnvelopeRepository implements EnvelopeRepository {
+class GuestEnvelopeRepository
+    implements EnvelopeRepository, BulkEnvelopeRepository {
   const GuestEnvelopeRepository(this.queries, this.mutations, this.walletStore);
 
   final GuestEnvelopeQueries queries;
   final GuestEnvelopeMutations mutations;
   final GuestWalletStore walletStore;
+
+  @override
+  Future<void> deleteEnvelopes(List<String> ids) => mutations.deleteMany(ids);
 
   @override
   Future<List<Envelope>> envelopesForMonth(DateTime month) =>

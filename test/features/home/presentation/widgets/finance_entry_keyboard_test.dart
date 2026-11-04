@@ -48,10 +48,10 @@ void main() {
         // Focus the lowest field before opening the keyboard, then switch
         // fields while it remains open, as with keyboard Next navigation.
         for (final (index, keyboardHeight) in [
-          (2, 240.0),
+          (1, 240.0),
           (0, 320.0),
           (1, 280.0),
-          (2, 360.0),
+          (1, 360.0),
         ]) {
           final field = find.byType(TextFormField).at(index);
           await tester.showKeyboard(field);
@@ -64,16 +64,17 @@ void main() {
           expect(bounds.top, greaterThanOrEqualTo(surface.top),
               reason: 'Field $index: $bounds');
           expect(bounds.bottom, lessThanOrEqualTo(height - keyboardHeight));
-          expect(surface.size, originalSurface.size);
-          expect(surface.bottom, closeTo(height - keyboardHeight - 12, 0.1));
+          expect(surface.height, lessThanOrEqualTo(originalSurface.height));
+          expect(surface.width, originalSurface.width);
+          expect(surface.bottom, closeTo(height - keyboardHeight, 0.1));
           expect(tester.takeException(), isNull);
         }
 
-        final description = find.byType(TextFormField).at(2);
-        await tester.tap(description);
+        final title = find.byType(TextFormField).at(1);
+        await tester.tap(title);
         await tester.pumpAndSettle();
         final editable = tester.widget<EditableText>(
-          find.descendant(of: description, matching: find.byType(EditableText)),
+          find.descendant(of: title, matching: find.byType(EditableText)),
         );
         expect(editable.focusNode.hasFocus, isTrue);
 

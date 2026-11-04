@@ -1,6 +1,7 @@
+import { measureFinancePhase } from "./performance.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2.57.4";
 import { ApiError } from "./errors.ts";
-import type { AiContext, ModelResult } from "./types.ts";
+import type { ModelResult } from "./types.ts";
 
 export async function reserveRequest(
   admin: SupabaseClient,
@@ -9,57 +10,21 @@ export async function reserveRequest(
   model: string,
   prompt: string,
 ): Promise<Record<string, unknown>> {
-  const { data, error } = await admin.rpc("reserve_ai_request", {
-    p_user_id: userId,
-    p_provider: provider,
-    p_model: model,
-    p_prompt: prompt,
-    p_daily_limit: 20,
-    p_min_interval_seconds: 3,
+  return measureFinancePhase("quota_reservation", async () => {
+    const { data, error } = await admin.rpc("reserve_ai_request", {
+      p_user_id: userId,
+      p_provider: provider,
+      p_model: model,
+      p_prompt: prompt,
+      p_daily_limit: 20,
+      p_min_interval_seconds: 3,
+    });
+    if (error) throw new ApiError("database_error", error.message, 500);
+    return asRecord(data);
   });
-  if (error) throw new ApiError("database_error", error.message, 500);
-  return asRecord(data);
 }
 
-export async function loadContext(
-  admin: SupabaseClient,
-  userId: string,
-  requestId: string,
-): Promise<AiContext> {
-  const [categories, presets, profile, history, wallets] = await Promise.all([
-    admin.from("categories")
-      .select("name,emoji,color,icon_key,transaction_type")
-      .eq("user_id", userId)
-      .limit(100),
-    admin.from("category_presets")
-      .select("name,emoji,color,icon_key,transaction_type,aliases")
-      .limit(100),
-    admin.from("user")
-      .select("currency_code")
-      .eq("user_id", userId)
-      .maybeSingle(),
-    admin.from("ai_chat_messages")
-      .select("role,content,created_at")
-      .eq("user_id", userId)
-      .neq("request_id", requestId)
-      .order("created_at", { ascending: false })
-      .limit(6),
-    admin.from("wallets")
-      .select("name,balance,currency_code")
-      .eq("user_id", userId)
-      .order("created_at"),
-  ]);
-  const error = categories.error ?? presets.error ?? profile.error ??
-    history.error ?? wallets.error;
-  if (error) throw new ApiError("database_error", error.message, 500);
-  return {
-    currencyCode: profile.data?.currency_code ?? "MGA",
-    categories: categories.data ?? [],
-    presets: presets.data ?? [],
-    history: [...(history.data ?? [])].reverse(),
-    wallets: wallets.data ?? [],
-  };
-}
+export { loadContext } from "./request_context.ts";
 
 export async function completeRequest(
   admin: SupabaseClient,
@@ -70,24 +35,26 @@ export async function completeRequest(
   periodMonth?: string,
   useAllWallets = false,
 ): Promise<Record<string, unknown>> {
-  const extraction = result.extraction;
-  const { data, error } = await admin.rpc("complete_finance_request", {
-    p_request_id: requestId,
-    p_user_id: userId,
-    p_provider_response: extraction,
-    p_transactions: extraction.transactions,
-    p_transfers: extraction.transfers,
-    p_categories: extraction.categories_to_create,
-    p_input_tokens: result.inputTokens,
-    p_output_tokens: result.outputTokens,
-    p_expense_wallet_id: expenseWalletId ?? null,
-    p_period_month: periodMonth ?? new Date().toISOString().slice(0, 10),
-    p_use_all_wallets: useAllWallets,
+  return measureFinancePhase("commit", async () => {
+    const extraction = result.extraction;
+    const { data, error } = await admin.rpc("complete_finance_request", {
+      p_request_id: requestId,
+      p_user_id: userId,
+      p_provider_response: extraction,
+      p_transactions: extraction.transactions,
+      p_transfers: extraction.transfers,
+      p_categories: extraction.categories_to_create,
+      p_input_tokens: result.inputTokens,
+      p_output_tokens: result.outputTokens,
+      p_expense_wallet_id: expenseWalletId ?? null,
+      p_period_month: periodMonth ?? new Date().toISOString().slice(0, 10),
+      p_use_all_wallets: useAllWallets,
+    });
+    if (error) {
+      throw financeCommitError(error.message, requestId, result.extraction);
+    }
+    return asRecord(data);
   });
-  if (error) {
-    throw financeCommitError(error.message, requestId, result.extraction);
-  }
-  return asRecord(data);
 }
 
 export async function failRequest(

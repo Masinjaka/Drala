@@ -23,6 +23,8 @@ void main() {
 
     repository.walletItems = [_wallet(650000)];
     await viewModel.submit('I received 250000 Ar');
+    // A legacy response without a wallet snapshot refreshes after the save.
+    await Future<void>.delayed(Duration.zero);
 
     expect(viewModel.wallets.single.isDefault, isTrue);
     expect(viewModel.wallets.single.balance, 650000);

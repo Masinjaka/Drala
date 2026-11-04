@@ -10,10 +10,18 @@ export async function fetchWithRetry(
   try {
     let response = await fetch(url, { ...init, signal: controller.signal });
     if (response.status >= 500) {
-      await new Promise((resolve) => setTimeout(resolve, 250));
+      await response.body?.cancel();
+      await waitForRetry(controller.signal);
       response = await fetch(url, { ...init, signal: controller.signal });
     }
-    return response;
+    // Keep the same deadline until the complete provider payload arrives.
+    // fetch() resolves at the headers; clearing it there leaves body reads unbounded.
+    const body = response.body === null ? null : await response.arrayBuffer();
+    return new Response(body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: response.headers,
+    });
   } catch (error) {
     if (controller.signal.aborted) {
       throw new ApiError(
@@ -26,6 +34,21 @@ export async function fetchWithRetry(
   } finally {
     clearTimeout(timeout);
   }
+}
+
+function waitForRetry(signal: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    signal.throwIfAborted();
+    const abort = () => {
+      clearTimeout(timer);
+      reject(signal.reason);
+    };
+    const timer = setTimeout(() => {
+      signal.removeEventListener("abort", abort);
+      resolve();
+    }, 250);
+    signal.addEventListener("abort", abort, { once: true });
+  });
 }
 
 export async function readJson(

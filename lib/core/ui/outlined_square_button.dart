@@ -1,5 +1,5 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/theme.dart';
-import 'package:budgets/core/ui/app_control_metrics.dart';
 import 'package:budgets/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +8,10 @@ class OutlinedSquareButton extends StatefulWidget {
     required this.icon,
     required this.onPressed,
     this.tooltip,
-    this.visualSize = AppControlMetrics.squareButtonVisualSize,
-    this.iconSize = 22,
+    this.visualSize = AppHeaderMetrics.buttonSize,
+    this.iconSize = AppHeaderMetrics.iconSize,
+    this.hitTargetSize = AppHeaderMetrics.buttonSize,
+    this.backgroundColor,
     super.key,
   });
 
@@ -18,6 +20,8 @@ class OutlinedSquareButton extends StatefulWidget {
   final String? tooltip;
   final double visualSize;
   final double iconSize;
+  final double hitTargetSize;
+  final Color? backgroundColor;
 
   @override
   State<OutlinedSquareButton> createState() => _OutlinedSquareButtonState();
@@ -69,10 +73,10 @@ class _OutlinedSquareButtonState extends State<OutlinedSquareButton>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final background =
-        isDark ? theme.colorScheme.surfaceContainerLowest : theme.cardColor;
+    final background = widget.backgroundColor ??
+        (isDark ? theme.colorScheme.surfaceContainerLowest : theme.cardColor);
     return SizedBox.square(
-      dimension: AppControlMetrics.iconButtonSize,
+      dimension: widget.hitTargetSize,
       child: Center(
         child: ScaleTransition(
           scale: _scale,
@@ -84,7 +88,6 @@ class _OutlinedSquareButtonState extends State<OutlinedSquareButton>
             backgroundColor: background,
             foregroundColor:
                 isDark ? AppTheme.homeBannerText : theme.colorScheme.onSurface,
-            borderRadius: BorderRadius.circular(10),
             tooltip: widget.tooltip,
             onPressed: _handlePressed,
           ),

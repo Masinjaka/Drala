@@ -1,3 +1,7 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/ui/app_grid_background.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/forms/validated_selection.dart';
 import 'package:budgets/features/auth/domain/providers/auth_providers.dart';
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/features/auth/presentation/post_sign_up_destination.dart';
@@ -7,7 +11,6 @@ import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/auth/presentation/widgets/auth_header.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
-import 'package:budgets/features/auth/domain/models/password_validation.dart';
 import 'package:budgets/features/auth/presentation/widgets/legal_consent_checkbox.dart';
 import 'package:budgets/features/auth/presentation/widgets/sign_up_password_fields.dart';
 import 'package:budgets/features/auth/presentation/widgets/sign_up_submit_bar.dart';
@@ -51,10 +54,13 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 560),
-              child: _buildForm(context))),
+      body: AppGridBackground(
+          child: SafeArea(
+              bottom: false,
+              child: Center(
+                  child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 560),
+                      child: _buildForm(context))))),
       bottomNavigationBar: SignUpSubmitBar(
         isLoading: _isLoading,
         isEnabled: _hasAcceptedLegalTerms,
@@ -74,7 +80,8 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(29, 48, 29, 24),
+              padding: AppPageSpacing.insets(context,
+                  top: AppHeaderMetrics.topPadding, bottom: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -122,13 +129,15 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                     confirmPasswordController: _confirmPasswordController,
                   ),
                   const SizedBox(height: 28),
-                  LegalConsentCheckbox(
-                    value: _hasAcceptedLegalTerms,
-                    launcher: widget.legalLauncher,
-                    onChanged: (value) {
-                      setState(() => _hasAcceptedLegalTerms = value);
-                    },
-                  ),
+                  ValidatedSelection(
+                      value: _hasAcceptedLegalTerms ? true : null,
+                      child: LegalConsentCheckbox(
+                        value: _hasAcceptedLegalTerms,
+                        launcher: widget.legalLauncher,
+                        onChanged: (value) {
+                          setState(() => _hasAcceptedLegalTerms = value);
+                        },
+                      )),
                   const SizedBox(height: 16),
                 ],
               ),
@@ -140,15 +149,7 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   }
 
   Future<void> _submit() async {
-    if (!PasswordValidation(_passwordController.text).isSatisfied) {
-      _passwordFieldsKey.currentState?.focusPassword();
-      return;
-    }
     if (!_formKey.currentState!.validate()) return;
-    if (_passwordController.text != _confirmPasswordController.text) {
-      showInfoToast(context, context.l10n.passwordsDoNotMatch);
-      return;
-    }
     setState(() => _isLoading = true);
     try {
       final guest = ref.read(guestSessionProvider);

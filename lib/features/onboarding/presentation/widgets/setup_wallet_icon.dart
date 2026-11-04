@@ -15,13 +15,13 @@ class SetupWalletIcon extends StatelessWidget {
       _ => ('📱', AppTheme.onboardingBlue),
     };
     return Container(
-      width: 24,
-      height: 24,
+      width: 30,
+      height: 30,
       alignment: Alignment.center,
       decoration: BoxDecoration(color: appearance.$2, shape: BoxShape.circle),
       child: Text(
         appearance.$1,
-        style: AppTextTheme.onboardingEmoji(context, 24),
+        style: AppTextTheme.onboardingEmoji(context, 30),
       ),
     );
   }

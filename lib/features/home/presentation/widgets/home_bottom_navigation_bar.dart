@@ -1,120 +1,100 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/ui/app_interaction_theme.dart';
 import 'package:budgets/core/ui/app_navigation_theme.dart';
-import 'package:budgets/l10n/app_localizations_context.dart';
+import 'package:budgets/features/home/presentation/widgets/home_navigation_row.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeBottomNavigationBar extends StatelessWidget {
-  const HomeBottomNavigationBar({
-    required this.selectedIndex,
-    required this.onSelected,
-    super.key,
-  });
-
+  const HomeBottomNavigationBar(
+      {required this.selectedIndex,
+      required this.onSelected,
+      this.composer,
+      super.key});
   final int selectedIndex;
   final ValueChanged<int> onSelected;
+  final Widget? composer;
 
   @override
   Widget build(BuildContext context) {
-    final animationDuration = MediaQuery.disableAnimationsOf(context)
-        ? Duration.zero
-        : const Duration(milliseconds: 180);
-    final labels = [
-      context.l10n.activities,
-      context.l10n.envelope,
-      context.l10n.reports,
-      context.l10n.profile
-    ];
-    const assets = ['activities', 'envelope', 'reports', 'profile'];
-    // Figma 795:42: label centers at 58, 160, 254.5 and 347 on a 412px frame.
-    const centers = [58.0, 160.0, 254.5, 347.0];
-    const widths = [56.0, 56.0, 49.0, 58.0];
-    const iconOffsets = [12.67, 12.25, 11.25, 11.25];
-    return Material(
-      color: AppNavigationTheme.background(context),
-      child: SafeArea(
-        top: false,
-        minimum: const EdgeInsets.only(bottom: 16),
-        child: SizedBox(
-          height: 57,
-          child: LayoutBuilder(
-              builder: (context, constraints) => Stack(
-                    children: List.generate(4, (index) {
-                      final selected = index == selectedIndex;
-                      return Positioned(
-                        left: centers[index] / 412 * constraints.maxWidth -
-                            widths[index] / 2,
-                        top: 0,
-                        bottom: 0,
-                        width: widths[index],
-                        child: Semantics(
-                          button: true,
-                          selected: selected,
-                          label: labels[index],
-                          excludeSemantics: true,
-                          child: GestureDetector(
-                            key: ValueKey('home-navigation-$index'),
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () => onSelected(index),
-                            child: Stack(
-                                alignment: Alignment.topCenter,
+    final expanded = selectedIndex == 1 && composer != null;
+    final reducedMotion = MediaQuery.disableAnimationsOf(context);
+    final duration =
+        reducedMotion ? Duration.zero : const Duration(milliseconds: 360);
+    return Theme(
+        data: AppInteractionTheme.withoutInkFeedback(context),
+        child: Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+          child: SafeArea(
+            top: false,
+            minimum: const EdgeInsets.only(top: 8, bottom: 16),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: expanded ? 1 : 0),
+              duration: duration,
+              curve: Curves.easeInOutCubic,
+              child: composer,
+              builder: (context, progress, child) {
+                final inset = AppPageSpacing.horizontal(context);
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: inset - (inset - 16) * progress),
+                  child: Center(
+                      heightFactor: 1,
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 520),
+                        child: DecoratedBox(
+                          key: const Key('home-navigation-surface'),
+                          decoration: BoxDecoration(
+                              color: AppNavigationTheme.barBackground(context),
+                              borderRadius:
+                                  BorderRadius.circular(32 - 10 * progress)),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(6 + 8 * progress,
+                                6 + 4 * progress, 6 + 8 * progress, 6),
+                            child: Column(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Positioned(
-                                    top: iconOffsets[index],
-                                    child: AnimatedScale(
-                                      key: ValueKey(
-                                          'home-navigation-icon-$index'),
-                                      scale: selected ? 1.18 : 1,
-                                      duration: animationDuration,
-                                      curve: Curves.easeOutBack,
-                                      child: AnimatedSwitcher(
-                                        duration: animationDuration,
-                                        switchInCurve: Curves.easeOut,
-                                        switchOutCurve: Curves.easeIn,
-                                        transitionBuilder: (child, animation) =>
-                                            FadeTransition(
-                                          opacity: animation,
-                                          child: ScaleTransition(
-                                            scale: Tween<double>(
-                                              begin: .92,
-                                              end: 1,
-                                            ).animate(animation),
-                                            child: child,
-                                          ),
-                                        ),
-                                        child: SvgPicture.asset(
-                                          'assets/navigation/${assets[index]}${selected ? '_filled' : ''}.svg',
-                                          key: ValueKey(
-                                              'home-navigation-icon-$index-$selected'),
-                                          colorFilter: ColorFilter.mode(
-                                            AppNavigationTheme.icon(context,
-                                                selected: selected),
-                                            BlendMode.srcIn,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 34,
-                                    left: 0,
-                                    right: 0,
-                                    child: Text(
-                                      labels[index],
-                                      textAlign: TextAlign.center,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppNavigationTheme.label(context,
-                                          index: index, selected: selected),
-                                    ),
-                                  ),
+                                  if (child != null)
+                                    ClipRect(
+                                        child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      heightFactor: progress,
+                                      child: Offstage(
+                                          offstage: progress == 0,
+                                          child: ExcludeFocus(
+                                              excluding: !expanded,
+                                              child: ExcludeSemantics(
+                                                  excluding: !expanded,
+                                                  child: IgnorePointer(
+                                                      ignoring: !expanded,
+                                                      child: TickerMode(
+                                                          enabled: expanded,
+                                                          child: Opacity(
+                                                              opacity: progress,
+                                                              child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          bottom:
+                                                                              16),
+                                                                  child:
+                                                                      child))))))),
+                                    )),
+                                  Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 14 * progress),
+                                      child: HomeNavigationRow(
+                                          selectedIndex: selectedIndex,
+                                          onSelected: onSelected,
+                                          duration: duration)),
                                 ]),
                           ),
                         ),
-                      );
-                    }),
-                  )),
-        ),
-      ),
-    );
+                      )),
+                );
+              },
+            ),
+          ),
+        ));
   }
 }

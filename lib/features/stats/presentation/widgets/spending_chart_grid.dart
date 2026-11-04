@@ -7,12 +7,12 @@ class SpendingChartGrid extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = color
-      ..strokeWidth = 1;
-    for (var row = 0; row < 4; row++) {
-      final y = size.height * row / 3;
-      for (double x = 0; x < size.width; x += 12) {
+      ..strokeWidth = .7;
+    for (var row = 0; row < 3; row++) {
+      final y = 3 + (size.height - 9) * row / 2;
+      for (double x = 0; x < size.width; x += 6) {
         canvas.drawLine(
-            Offset(x, y), Offset((x + 6).clamp(0, size.width), y), paint);
+            Offset(x, y), Offset((x + 3).clamp(0, size.width), y), paint);
       }
     }
   }

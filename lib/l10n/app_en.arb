@@ -66,7 +66,7 @@
   "deleteWalletDescription": "This wallet will be removed permanently. Its transaction history will remain intact.",
   "walletUpdated": "Wallet updated.",
   "walletDeleted": "Wallet deleted.",
-  "walletInUseCannotBeDeleted": "This wallet has transaction history and cannot be deleted.",
+  "walletInUseCannotBeDeleted": "This wallet is used by an envelope or transaction history and cannot be deleted.",
   "allTime": "All time",
   "showBalance": "Show balance",
   "hideBalance": "Hide balance",
@@ -80,7 +80,7 @@
     }
   },
   "notifications": "Notifications",
-  "noNotifications": "No notifications",
+  "noNotifications": "You’re all caught up! We’ll keep you posted here.",
   "noNotificationsDescription": "Budget warnings and important finance updates will appear here.",
   "envelopeBudgetExceeded": "You went over your budget for the {name} envelope.",
   "envelopeBudgetAlmostReached": "The {name} envelope is almost spent.",
@@ -161,7 +161,13 @@
   "defaultWalletDescription": "Expenses and new envelopes use this wallet by default.",
   "walletSourceChooseAnother": "Choose another wallet",
   "walletSourceAmountNeeded": "The transaction needs {amount}.",
-  "@walletSourceAmountNeeded": {"placeholders": {"amount": {"type": "String"}}},
+  "@walletSourceAmountNeeded": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "walletSourceUseWallet": "Use this wallet",
   "walletSourceSaveWallet": "Save wallet",
   "walletSourceDefaultWallet": "Default wallet",
@@ -230,7 +236,7 @@
   "expenses": "Expenses",
   "income": "Income",
   "largestExpense": "Largest expense",
-  "dailySpending": "Daily spending",
+  "dailySpending": "Daily Spending",
   "topSpending": "Top spending",
   "noExpensesThisMonth": "No expenses this month",
   "moreThanLastMonth": "{percentage}% more than last month",
@@ -262,7 +268,7 @@
   "expenseCategory": "Expense category",
   "saving": "Saving…",
   "create": "Create",
-  "noEnvelopesYet": "No envelopes yet",
+  "noEnvelopesYet": "Give your plans a little room to grow.",
   "envelopeEmptyDescription": "Set a monthly amount for an expense category. Chat expenses will update it automatically.",
   "deleteEnvelope": "Delete envelope",
   "overBudgetBy": "Over budget by {amount}",
@@ -307,7 +313,7 @@
   "deleteCategoryQuestion": "Delete category?",
   "deleteCategoryDescription": "Are you sure you want to delete this category? This action is irreversible.",
   "categoryInUse": "The category cannot be deleted because it is currently in use.",
-  "noActivitiesForDay": "No activity on this day",
+  "noActivitiesForDay": "A little quiet today. Ready to track something?",
   "editTransaction": "Edit transaction",
   "expense": "Expense",
   "title": "Title",
@@ -361,6 +367,183 @@
   "guestContinue": "Continue as guest",
   "guestSyncNow": "Sync now",
   "guestCurrencyRatePending": "{preferred} is saved. Amounts stay in {displayed} until exchange rates are available.",
-  "@guestCurrencyRatePending": {"placeholders": {"preferred": {"type": "String"}, "displayed": {"type": "String"}}},
-  "guestCurrencyRateStillUnavailable": "Exchange rates are still unavailable. Try again when you're online."
+  "@guestCurrencyRatePending": {
+    "placeholders": {
+      "preferred": {
+        "type": "String"
+      },
+      "displayed": {
+        "type": "String"
+      }
+    }
+  },
+  "guestCurrencyRateStillUnavailable": "Exchange rates are still unavailable. Try again when you're online.",
+  "deleteEnvelopeDescription": "Deleting this envelope returns its remaining funds to its wallet. Transaction history is preserved.",
+  "insufficientWalletFunds": "The selected wallet does not have enough funds. Choose a wallet with a sufficient balance.",
+  "envelopeAmountBelowSpent": "The envelope amount cannot be lower than the amount already spent.",
+  "monthlyScheduleNotLatest": "Only the latest monthly envelope can change its renewal settings.",
+  "selectDate": "Select a date",
+  "transfer": "Transfer",
+  "fromWallet": "From wallet",
+  "toWallet": "To wallet",
+  "transferNeedsWallets": "Add a second wallet to transfer money between wallets.",
+  "transferSaved": "Transfer saved.",
+  "differentTransferWallets": "Choose two different wallets.",
+  "walletCurrencyMismatch": "Transfers require two wallets in MGA.",
+  "walletUnavailable": "A selected wallet is no longer available. Choose another wallet.",
+  "transferConflict": "This transfer was already submitted with different details. Open a new transfer.",
+  "selectItems": "Select",
+  "selectedItemCount": "{count} selected",
+  "deleteSelectedItems": "Delete selected",
+  "deleteSelectedWalletsDescription": "Delete {count} selected wallets? This cannot be undone.",
+  "deleteSelectedEnvelopesDescription": "Delete {count} selected envelopes? Remaining funds return to their wallets. Transaction history is preserved.",
+  "defaultWalletCannotDelete": "The default wallet cannot be deleted. Choose another default wallet first.",
+  "envelopeUnavailable": "A selected envelope is no longer available. Refresh the list.",
+  "@selectedItemCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@deleteSelectedWalletsDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@deleteSelectedEnvelopesDescription": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "operationInProgress": "Please wait for the current operation to finish.",
+  "dailyReminderNotificationTitle": "Daily reminder",
+  "dailyReminderNotificationBody": "Remember to record your expenses or income today.",
+  "categoryNameRequired": "Enter a category name.",
+  "envelopeNameRequired": "Enter an envelope name.",
+  "envelopeCategoryRequired": "Choose a category for this envelope.",
+  "fieldRequired": "This field is required.",
+  "positiveAmountRequired": "Enter an amount greater than zero.",
+  "nonNegativeAmountRequired": "Enter a balance of zero or more.",
+  "envelopeFundingWalletFixed": "An existing envelope keeps its original funding wallet.",
+  "envelopeFundingWalletUnavailable": "Funding wallet unavailable",
+  "home": "Home",
+  "seeMore": "See more",
+  "recentTransactions": "Recent transactions",
+  "envelopes": "Envelopes",
+  "noRecentTransactions": "Add a transaction to start tracking your budget.",
+  "overviewLoadFailed": "Unable to refresh. Tap to retry.",
+  "homeHello": "Hi",
+  "homeGreeting": "Hi, {name}",
+  "@homeGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "networkUnavailable": "Unable to reach the server. Check your internet connection and try again.",
+  "offlineModeToast": "Connection lost. Offline mode is on. Your changes will sync when you reconnect.",
+  "onlineModeToast": "Connection restored. Your changes are synced.",
+  "onlinePendingToast": "Connection restored. Some changes still need your attention.",
+  "offlineStatus": "Offline · changes saved on this device",
+  "syncingStatus": "Syncing your changes…",
+  "pendingStatus": "{count} changes waiting to sync",
+  "offlineInitial": "Connect to download your account data for offline use.",
+  "offlineSetupUnavailable": "Sync is unavailable. Your local changes are safely stored on this device.",
+  "syncConflictTitle": "Review changes before syncing",
+  "syncConflictMessage": "Your cloud data changed while this device was offline. Review your pending changes before retrying, or use the cloud version.",
+  "offlineRetry": "Retry",
+  "offlineReview": "Review",
+  "offlineKeepCloud": "Use cloud data",
+  "offlineRetryChanges": "Sync these changes",
+  "offlineDiscardTitle": "Discard changes saved on this device?",
+  "offlineDiscardBody": "These changes have not reached the cloud. This removes them from this device and downloads the cloud version.",
+  "onlineRequired": "This action needs an internet connection.",
+  "signInSyncRequired": "Sign in again to continue syncing. Your local changes are kept.",
+  "@pendingStatus": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "categoryIconFood": "Food & drinks",
+  "categoryIconShopping": "Groceries",
+  "categoryIconTransport": "Transport",
+  "categoryIconHousing": "Housing",
+  "categoryIconHealth": "Health",
+  "categoryIconUtilities": "Utilities",
+  "categoryIconEntertainment": "Entertainment",
+  "categoryIconEducation": "Education",
+  "categoryIconSalary": "Salary",
+  "categoryIconFreelance": "Freelance",
+  "categoryIconIncome": "Income",
+  "categoryIconOther": "Other",
+  "categoryIconCoffee": "Coffee",
+  "categoryIconDining": "Restaurants",
+  "categoryIconTravel": "Travel",
+  "categoryIconGifts": "Gifts",
+  "categoryIconPets": "Pets",
+  "categoryIconFamily": "Family",
+  "categoryIconSubscriptions": "Subscriptions",
+  "categoryIconPhone": "Phone",
+  "categoryIconInternet": "Internet",
+  "categoryIconSavings": "Savings",
+  "categoryIconInvestment": "Investments",
+  "categoryIconInsurance": "Insurance",
+  "categoryIconTaxes": "Taxes",
+  "categoryIconFitness": "Fitness",
+  "categoryIconBeauty": "Personal care",
+  "categoryIconClothing": "Clothing",
+  "categoryIconRepairs": "Repairs",
+  "categoryIconFuel": "Fuel",
+  "categoryIconBicycle": "Cycling",
+  "categoryIconBus": "Public transport",
+  "categoryIconRain": "Rainy day fund",
+  "categoryIconCharity": "Donations",
+  "categoryIconMusic": "Music",
+  "categoryIconBooks": "Books",
+  "categoryIconTransfer": "Transfers",
+  "chooseCategoryIcon": "Choose an icon",
+  "searchCategoryIcons": "Search icons",
+  "activitiesComposerHint": "Tell me what you spent...",
+  "createEnvelope": "Create envelope",
+  "trackYourBudget": "Track your budget",
+  "emptyCategories": "Make room for the things that matter to you.",
+  "emptyWallets": "A home for your money starts here.",
+  "createCategory": "Create a category",
+  "emptyExpenses": "Small steps make a clearer budget. Let’s add your first expense.",
+  "emptyIncomes": "Every income is a fresh start. Add yours here.",
+  "emptySearch": "Let’s try another search to find what you’re looking for.",
+  "createExpense": "Add an expense",
+  "createIncome": "Add an income",
+  "resetSearch": "Reset search",
+  "emptyBudgets": "Give your spending a direction with your first budget.",
+  "emptyGoals": "Big plans start with a little saving. What’s your first goal?",
+  "createBudget": "Create a budget",
+  "createGoal": "Create a goal",
+  "manageNotifications": "Manage notifications",
+  "envelopeRemaining": "Remaining",
+  "envelopeBudgetOf": "of",
+  "statsNet": "Net",
+  "statsNetDescription": "Income minus expenses",
+  "statsNumbers": "The numbers",
+  "statsCategories": "The categories",
+  "statsOnAverage": "on average",
+  "statsPreviousMonth": "vs last month",
+  "statsEmptyCategories": "Track an expense to see your spending by category.",
+  "statsActivityCount": "{count, plural, one{1 activity} other{{count} activities}}",
+  "@statsActivityCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "chooseCategoryColor": "Choose a color"
 }

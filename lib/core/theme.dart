@@ -1,20 +1,25 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
+import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/ui/app_interaction_theme.dart';
 import 'package:budgets/core/ui/app_button_theme.dart';
 import 'package:budgets/core/ui/app_icon_button_theme.dart';
 import 'package:budgets/core/ui/app_toast_theme.dart';
 import 'package:flutter/material.dart';
+
+part 'ui/app_color_schemes.dart';
 
 class AppTheme {
   static Color foregroundFor(Color background) =>
       ThemeData.estimateBrightnessForColor(background) == Brightness.dark
           ? textDark
           : interactiveTextColor;
-
   static Color setupSelectionColor(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
           ? positiveAmountDark
           : positiveAmountLight;
-
   static Color onboardingChoiceColor(BuildContext context,
           {required bool selected}) =>
       selected
@@ -22,7 +27,6 @@ class AppTheme {
               ? homeBanner
               : raisedSurfaceLight
           : Theme.of(context).colorScheme.surfaceContainer;
-
   static Color onboardingChoiceForeground(BuildContext context,
           {required bool selected}) =>
       selected
@@ -30,9 +34,7 @@ class AppTheme {
               ? homeBannerText
               : Theme.of(context).colorScheme.onInverseSurface
           : Theme.of(context).colorScheme.onSurface;
-
-  static const String fontFamily = 'Alexandria';
-
+  static const String fontFamily = AppTypography.regularFontFamily;
   static const Color backgroundDark = Color(0xFF1E1E24);
   static const Color secondaryDark = Color(0xFF2C2B33);
   static const Color borderColorDark = Color(0xFF595862);
@@ -48,9 +50,9 @@ class AppTheme {
   static const Color onboardingPalePink = paletteTaupe;
   static const Color homeBanner = primaryGreen;
   static const Color homeBannerText = interactiveTextColor;
-  static const Color dangerColor = Color(0xFFC85E4B);
-  static const Color errorLight = Color.fromARGB(255, 233, 21, 6);
-  static const Color errorDark = Color.fromARGB(255, 233, 21, 6);
+  static const Color dangerColor = AppDangerTheme.lightError;
+  static const Color errorLight = AppDangerTheme.lightError;
+  static const Color errorDark = AppDangerTheme.darkError;
   static const Color positiveAmountLight = Color(0xFF006D4E);
   static const Color positiveAmountDark = Color(0xFF54DEAC);
   static const Color neutralSurface = Color(0xFFF3F3F3);
@@ -61,7 +63,6 @@ class AppTheme {
   static const Color skeletonHighlightDark = Color(0xFF8A8E93);
   static const Color skeletonBaseLight = Color(0xFFD9DEE3);
   static const Color skeletonHighlightLight = Color(0xFFEFF2F5);
-
   static const Color backgroundLight = Color(0xFFFEFEFE);
   static const Color secondaryLight = neutralSurface;
   static const Color raisedSurfaceLight = Colors.white;
@@ -75,7 +76,7 @@ class AppTheme {
   static const Color expenseBadgeDark = Color(0xFF583B35);
   static const Color transferBadgeDark = Color(0xFF37364F);
   static const Color interactiveTextColor = Colors.black;
-  static final ThemeData lightTheme = ThemeData(
+  static final ThemeData lightTheme = AppInteractionTheme.apply(ThemeData(
     extensions: const [AppToastTheme.light],
     brightness: Brightness.light,
     scaffoldBackgroundColor: backgroundLight,
@@ -90,6 +91,7 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: backgroundLight,
       elevation: 0,
+      titleTextStyle: AppTextStyle(AppTextRole.pageTitle, color: textLight),
       iconTheme: IconThemeData(color: textLight),
     ),
     dialogTheme: const DialogThemeData(backgroundColor: backgroundLight),
@@ -114,29 +116,9 @@ class AppTheme {
       foreground: interactiveTextColor,
     ),
     iconButtonTheme: AppIconButtonTheme.data(Brightness.light),
-    colorScheme: const ColorScheme.light(
-      primary: primaryGreen,
-      onPrimary: interactiveTextColor,
-      secondary: paletteTaupe,
-      onSecondary: interactiveTextColor,
-      error: errorLight,
-      onError: Colors.white,
-      surface: secondaryLight,
-      surfaceDim: backgroundLight,
-      surfaceContainer: secondaryLight,
-      surfaceContainerLowest: raisedSurfaceLight,
-      surfaceBright: skeletonBaseLight,
-      surfaceContainerHigh: skeletonHighlightLight,
-      onSurface: textLight,
-      onSurfaceVariant: mutedTextLight,
-      outline: borderColorLight,
-      inverseSurface: Colors.black,
-      onInverseSurface: raisedSurfaceLight,
-      tertiary: borderColorDark,
-    ),
-  );
-
-  static final ThemeData darkTheme = ThemeData(
+    colorScheme: _AppColorSchemes.light,
+  ));
+  static final ThemeData darkTheme = AppInteractionTheme.apply(ThemeData(
     extensions: const [AppToastTheme.dark],
     brightness: Brightness.dark,
     scaffoldBackgroundColor: backgroundDark,
@@ -152,6 +134,7 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: backgroundDark,
       elevation: 0,
+      titleTextStyle: AppTextStyle(AppTextRole.pageTitle, color: textDark),
       iconTheme: IconThemeData(color: Colors.white),
     ),
     dialogTheme: const DialogThemeData(backgroundColor: secondaryDark),
@@ -176,25 +159,6 @@ class AppTheme {
       foreground: interactiveTextColor,
     ),
     iconButtonTheme: AppIconButtonTheme.data(Brightness.dark),
-    colorScheme: const ColorScheme.dark(
-      primary: primaryGreen,
-      onPrimary: interactiveTextColor,
-      secondary: paletteTaupe,
-      onSecondary: interactiveTextColor,
-      error: errorDark,
-      onError: interactiveTextColor,
-      surface: secondaryDark,
-      surfaceDim: backgroundDark,
-      surfaceContainer: secondaryDark,
-      surfaceContainerLowest: raisedSurfaceDark,
-      surfaceBright: skeletonBaseDark,
-      surfaceContainerHigh: skeletonHighlightDark,
-      onSurface: textDark,
-      onSurfaceVariant: mutedTextDark,
-      outline: borderColorDark,
-      inverseSurface: Colors.white,
-      onInverseSurface: Colors.black,
-      tertiary: Color.fromARGB(255, 126, 126, 126),
-    ),
-  );
+    colorScheme: _AppColorSchemes.dark,
+  ));
 }

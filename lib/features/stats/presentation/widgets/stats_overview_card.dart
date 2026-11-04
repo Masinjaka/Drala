@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
@@ -16,29 +19,19 @@ class StatsOverviewCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.black,
         borderRadius: BorderRadius.circular(22),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x18000000),
-            blurRadius: 18,
-            offset: Offset(0, 7),
-          ),
-        ],
+        boxShadow: AppCardTheme.shadows(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Net this month',
-            style: TextStyle(color: Color(0xFFAFAFAF), fontSize: 12),
+            style: AppTextStyle(AppTextRole.body, color: Color(0xFFAFAFAF)),
           ),
           const SizedBox(height: 6),
           PrivacyText(
             formatAmountWithCurrency(stats.balance, stats.currencyCode),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.w800,
-            ),
+            style: const AppTextStyle(AppTextRole.display, color: Colors.white),
           ),
           const SizedBox(height: 19),
           Row(
@@ -69,15 +62,12 @@ class StatsOverviewCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: const TextStyle(color: Color(0xFF969696), fontSize: 11)),
+            style: const AppTextStyle(AppTextRole.supporting,
+                color: Color(0xFF969696))),
         const SizedBox(height: 4),
         PrivacyText(
           formatAmountWithCurrency(amount, stats.currencyCode),
-          style: TextStyle(
-            color: color,
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-          ),
+          style: AppTextStyle(AppTextRole.body, color: color),
         ),
       ],
     );

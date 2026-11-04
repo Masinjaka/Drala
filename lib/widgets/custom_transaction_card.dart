@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -87,10 +89,7 @@ class _TransactionTileState extends ConsumerState<TransactionTile> {
                       children: [
                         Text(
                           widget.category,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                          ),
+                          style: AppTextStyle(AppTextRole.body),
                         ),
                         SizedBox(height: 8),
                         Text(
@@ -98,14 +97,12 @@ class _TransactionTileState extends ConsumerState<TransactionTile> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           softWrap: false,
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.color
-                                ?.withAlpha(153),
-                          ),
+                          style: AppTextStyle(AppTextRole.body,
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.color
+                                  ?.withAlpha(153)),
                         ),
                       ],
                     ),
@@ -123,9 +120,7 @@ class _TransactionTileState extends ConsumerState<TransactionTile> {
                     preserveFraction: true,
                   ),
                   style: AppTextTheme.amount(
-                    Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
+                    Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: widget.transactionType == 'expense'
                               ? const Color.fromARGB(255, 215, 120, 113)
                               : const Color.fromARGB(255, 82, 149, 84),

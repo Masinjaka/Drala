@@ -14,6 +14,10 @@ void main() {
       saved = (name, amount, monthly);
     });
     expect(find.text('Edit envelope'), findsOneWidget);
+    expect(find.byKey(const Key('close-transaction-sheet')), findsNothing);
+    expect(find.byKey(const Key('delete-transaction')), findsOneWidget);
+    expect(tester.getCenter(find.byKey(const Key('cancel-transaction'))).dy,
+        tester.getCenter(find.byKey(const Key('save-envelope-button'))).dy);
     expect(find.text('Groceries'), findsOneWidget);
     expect(
         tester
@@ -27,13 +31,41 @@ void main() {
         .ensureVisible(find.byKey(const Key('envelope-repeat-monthly')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('envelope-repeat-monthly')));
-    await tester.ensureVisible(find.byKey(const Key('save-envelope-button')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('save-envelope-button')));
     await tester.pumpAndSettle();
     expect(saved, ('Weekly food', 200, false));
     expect(find.byType(AddEnvelopeSheet), findsNothing);
   });
+  testWidgets(
+      'grouped zero exposes validation and a positive amount can be saved',
+      (tester) async {
+    var saves = 0;
+    await _open(tester, onSave: (_, __, ___, ____) async {
+      saves++;
+    });
+    final save = find.byKey(const Key('save-envelope-button'));
+    final amount = find.byType(TextFormField).first;
+    for (final value in ['0', '0 000', '0,000', '']) {
+      await tester.enterText(amount, value);
+      await tester.pumpAndSettle();
+      final button =
+          find.descendant(of: save, matching: find.byType(FilledButton));
+      expect(tester.widget<FilledButton>(button).onPressed, isNotNull);
+      await tester.tap(save);
+      await tester.pumpAndSettle();
+      final feedback = tester.widget<Semantics>(
+          find.byKey(const Key('amount-validation-feedback')));
+      expect(feedback.properties.label, 'Enter an amount greater than zero.');
+      expect(saves, 0);
+    }
+    await tester.enterText(amount, '150');
+    await tester.pumpAndSettle();
+    await tester.tap(save);
+    await tester.pumpAndSettle();
+    expect(saves, 1);
+  });
+
   testWidgets('delete uses the editor action and closes only after success',
       (tester) async {
     var deleted = false;
@@ -44,6 +76,15 @@ void main() {
         .ensureVisible(find.byKey(const ValueKey('delete-transaction')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('delete-transaction')));
+    await tester.pumpAndSettle();
+    expect(deleted, isFalse);
+    expect(find.byType(AddEnvelopeSheet), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('cancel-delete')));
+    await tester.pumpAndSettle();
+    expect(deleted, isFalse);
+    await tester.tap(find.byKey(const ValueKey('delete-transaction')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('confirm-delete')));
     await tester.pumpAndSettle();
     expect(deleted, isTrue);
     expect(find.byType(AddEnvelopeSheet), findsNothing);

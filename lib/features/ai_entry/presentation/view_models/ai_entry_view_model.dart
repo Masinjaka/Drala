@@ -1,3 +1,9 @@
+import 'dart:async';
+import 'package:budgets/core/monitoring/ai_request_timing.dart';
+import 'package:budgets/core/monitoring/development_log.dart';
+import 'package:budgets/features/home/domain/repositories/bulk_wallet_repository.dart';
+import 'package:budgets/features/ai_entry/domain/models/manual_transfer_input.dart';
+import 'package:budgets/features/ai_entry/domain/repositories/manual_transfer_repository.dart';
 import 'package:budgets/features/ai_entry/domain/errors/ai_entry_exception.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_entry_result.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
@@ -20,7 +26,9 @@ part 'ai_entry_edit.dart';
 part 'ai_entry_monthly_totals.dart';
 part 'ai_entry_receipt.dart';
 part 'ai_entry_result_application.dart';
+part 'ai_entry_balance_refresh.dart';
 part 'ai_entry_wallets.dart';
+part 'ai_entry_transfer.dart';
 
 class AiEntryViewModel extends ChangeNotifier {
   AiEntryViewModel(
@@ -28,13 +36,18 @@ class AiEntryViewModel extends ChangeNotifier {
     DateTime initialDate, {
     ReceiptRepository? receiptRepository,
     Duration submissionTimeout = const Duration(seconds: 45),
-  })  : _submissionTimeout = submissionTimeout,
+    Duration balanceRefreshTimeout = const Duration(seconds: 8),
+  })  : _balanceRefreshTimeout = balanceRefreshTimeout,
+        _submissionTimeout = submissionTimeout,
         _receiptRepository = receiptRepository,
         _selectedDate = DateUtils.dateOnly(initialDate);
 
   final AiEntryRepository _repository;
   final ReceiptRepository? _receiptRepository;
   final Duration _submissionTimeout;
+  final Duration _balanceRefreshTimeout;
+  int _balanceGeneration = 0;
+  bool _disposed = false;
   DateTime _selectedDate;
   List<FinanceEntry> _entries = const [];
   List<FinanceEntry> _monthlyEntries = const [];
@@ -60,6 +73,7 @@ class AiEntryViewModel extends ChangeNotifier {
   List<FinanceEntry> get entries => _entries;
   num get monthlyIncome => _monthlyTotal((entry) => entry.isIncome);
   num get monthlyExpenses => _monthlyTotal((entry) => entry.isExpense);
+  bool get supportsManualTransfers => _repository is ManualTransferRepository;
   bool get isLoading => _isLoading;
   bool get hasMoreEntries => _hasMoreEntries;
   bool get isLoadingMoreEntries => _isLoadingMoreEntries;
@@ -92,7 +106,7 @@ class AiEntryViewModel extends ChangeNotifier {
           outputLanguage: outputLanguage,
         ),
       );
-      await _applyResult(result, targetDate);
+      _applyResult(result, targetDate);
       notifyListeners();
       return result;
     } finally {
@@ -120,7 +134,7 @@ class AiEntryViewModel extends ChangeNotifier {
           targetDate: targetDate,
         ),
       );
-      await _applyResult(result, targetDate);
+      _applyResult(result, targetDate);
       return result;
     } finally {
       _isSubmitting = false;
@@ -153,10 +167,18 @@ class AiEntryViewModel extends ChangeNotifier {
     }
   }
 
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
   int get _walletBalance =>
       _wallets.fold(0, (total, wallet) => total + wallet.balance);
 
-  void _notify() => notifyListeners();
+  void _notify() {
+    if (!_disposed) notifyListeners();
+  }
 
   void _notifyDataReset() => _notify();
 

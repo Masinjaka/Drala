@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:flutter/material.dart';
 
 class SectionTitle extends StatelessWidget {
@@ -16,11 +18,8 @@ class SectionTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-              color: Theme.of(context).textTheme.bodyLarge?.color,
-            )),
+            style: AppTextStyle(AppTextRole.sectionTitle,
+                color: Theme.of(context).textTheme.bodyLarge?.color)),
         GestureDetector(
           onTap: onTap,
           child: Container(

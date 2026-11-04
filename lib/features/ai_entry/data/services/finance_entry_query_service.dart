@@ -3,6 +3,7 @@ import 'package:budgets/features/ai_entry/domain/models/finance_entry_page.dart'
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'finance_entry_page_query.dart';
+part 'finance_recent_transaction_query.dart';
 
 class FinanceEntryQueryService {
   const FinanceEntryQueryService(this._client);
@@ -93,7 +94,7 @@ class FinanceEntryQueryService {
         .select(
           'id,title,description,amount,date,transaction_type,currency_code,'
           'source_wallet_id,envelope_amount_used,'
-          'envelope:envelopes(name),categories(id,name,emoji,icon_key),'
+          'envelope:envelopes(name),categories(id,name,emoji,icon_key,color),'
           'transaction_wallet_debits(wallet_id)',
         )
         .eq('user_id', userId)

@@ -35,6 +35,7 @@ class FinanceEntryItem extends StatelessWidget {
               FinanceEntryIcon(
                 emoji: entry.emoji,
                 iconKey: entry.iconKey,
+                colorHex: entry.isTransfer ? null : entry.categoryColor,
               ),
               const SizedBox(width: 17),
               Expanded(

@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/home/domain/models/home_expense.dart';
 import 'package:budgets/features/home/presentation/widgets/expense_list_item.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +25,11 @@ class DailyExpenseSection extends StatelessWidget {
             children: [
               Text(
                 dateLabel,
-                style: const TextStyle(
-                  fontSize: 12.5,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: const AppTextStyle(AppTextRole.body),
               ),
               Text(
                 '${expenses.length} expenses',
-                style: const TextStyle(fontSize: 12.5),
+                style: const AppTextStyle(AppTextRole.body),
               ),
             ],
           ),

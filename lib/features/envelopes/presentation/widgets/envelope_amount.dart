@@ -1,5 +1,6 @@
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
-import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/ui/app_envelope_theme.dart';
+import 'package:budgets/core/utils/amount_formatter.dart';
 import 'package:flutter/material.dart';
 
 class EnvelopeAmount extends StatelessWidget {
@@ -7,12 +8,14 @@ class EnvelopeAmount extends StatelessWidget {
     required this.value,
     required this.currencyCode,
     this.gap = true,
+    this.style,
     super.key,
   });
 
   final num value;
   final String currencyCode;
   final bool gap;
+  final TextStyle? style;
 
   static String compact(num value, {bool gap = false}) {
     final separator = gap ? ' ' : '';
@@ -32,19 +35,14 @@ class EnvelopeAmount extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => Text.rich(
-        TextSpan(children: [
-          TextSpan(
-            text: AmountVisibilityScope.isVisibleOf(context)
-                ? compact(value, gap: gap)
-                : '***',
-          ),
-          TextSpan(
-            text: ' $currencyCode',
-            style: AppTextTheme.currencyLabel(context),
-          ),
-        ]),
-        style: AppTextTheme.envelopeAmount(context),
-        maxLines: 1,
-      );
+  Widget build(BuildContext context) {
+    final symbol =
+        currencyCode == 'MGA' ? 'Ar' : currencySymbolForCode(currencyCode);
+    return Text(
+        AmountVisibilityScope.isVisibleOf(context)
+            ? '$symbol ${formatAmountForInput(value, preserveFraction: true)}'
+            : '••••',
+        style: style ?? AppEnvelopeTheme.amount(context),
+        maxLines: 1);
+  }
 }

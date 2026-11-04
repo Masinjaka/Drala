@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -49,14 +51,8 @@ class CategoryTabBarDelegate extends SliverPersistentHeaderDelegate {
                 },
               ),
               splashFactory: NoSplash.splashFactory,
-              labelStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-              unselectedLabelStyle: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-              ),
+              labelStyle: AppTextStyle(AppTextRole.body),
+              unselectedLabelStyle: AppTextStyle(AppTextRole.body),
               tabs: const [
                 Tab(text: 'Dépenses'),
                 Tab(text: 'Revenus'),

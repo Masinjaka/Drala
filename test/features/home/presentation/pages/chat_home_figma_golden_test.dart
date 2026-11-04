@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('home shows the four screenshot navigation destinations',
+  testWidgets(
+      'home shows the five navigation destinations with an active Home label',
       (tester) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = const Size(412, 917);
@@ -23,14 +24,12 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Activities'), findsOneWidget);
-    expect(find.text('Envelope'), findsOneWidget);
-    expect(find.text('Reports'), findsOneWidget);
-    expect(find.text('Profile'), findsOneWidget);
+    expect(find.text('Home'), findsOneWidget);
     expect(find.byKey(const ValueKey('home-navigation-0')), findsOneWidget);
     expect(find.byKey(const ValueKey('home-navigation-1')), findsOneWidget);
     expect(find.byKey(const ValueKey('home-navigation-2')), findsOneWidget);
     expect(find.byKey(const ValueKey('home-navigation-3')), findsOneWidget);
+    expect(find.byKey(const ValueKey('home-navigation-4')), findsOneWidget);
     expect(find.byKey(const Key('home-menu-button')), findsNothing);
   });
 }

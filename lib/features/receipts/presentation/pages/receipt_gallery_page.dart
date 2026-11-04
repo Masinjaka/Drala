@@ -1,3 +1,5 @@
+import 'package:budgets/core/navigation/app_modal_page_route.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/detail_list_skeleton.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -79,7 +81,7 @@ class _ReceiptGalleryPageState extends State<ReceiptGalleryPage> {
     if (_viewModel.scans.isEmpty) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(32),
+          padding: AppPageSpacing.insets(context, top: 32, bottom: 32),
           child: Text(
             context.l10n.receiptGalleryEmpty,
             textAlign: TextAlign.center,
@@ -93,7 +95,7 @@ class _ReceiptGalleryPageState extends State<ReceiptGalleryPage> {
         final columns =
             (constraints.maxWidth / 190).floor().clamp(2, 4).toInt();
         return GridView.builder(
-          padding: const EdgeInsets.fromLTRB(24, 20, 24, 28),
+          padding: AppPageSpacing.insets(context, top: 20, bottom: 28),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: columns,
             crossAxisSpacing: 14,
@@ -114,7 +116,7 @@ class _ReceiptGalleryPageState extends State<ReceiptGalleryPage> {
         scan: scan,
         isDeleting: _viewModel.deletingId == scan.id,
         onTap: () => Navigator.of(context).push(
-          MaterialPageRoute<void>(
+          AppModalPageRoute<void>(
             builder: (_) => ReceiptPreviewPage(scan: scan),
           ),
         ),

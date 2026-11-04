@@ -131,21 +131,22 @@ class _TransactionListItemState extends ConsumerState<TransactionListItem>
             CustomSlidableAction(
               autoClose: false,
               padding: EdgeInsets.only(left: 4),
-              backgroundColor: const Color.fromARGB(0, 190, 17, 17),
+              backgroundColor: Colors.transparent,
               onPressed: (_) => _handleDeleteAction(),
               child: SizedBox.expand(
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Flexible(
                       child: Icon(Icons.delete_outline,
-                          color: Colors.white, size: 18)),
+                          color: Theme.of(context).colorScheme.onError,
+                          size: 18)),
                 ]),
               ).animate(target: _swipeProgress).custom(
                     duration: 120.ms,
                     curve: Curves.linear,
                     builder: (context, value, child) => DecoratedBox(
                       decoration: BoxDecoration(
-                          color: Color.lerp(Colors.orange, Colors.red, value),
+                          color: Theme.of(context).colorScheme.error,
                           borderRadius: cardBorderRadius),
                       child: child,
                     ),

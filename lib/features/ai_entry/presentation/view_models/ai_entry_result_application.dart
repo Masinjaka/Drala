@@ -1,10 +1,11 @@
 part of 'ai_entry_view_model.dart';
 
 extension AiEntryResultApplication on AiEntryViewModel {
-  Future<void> _applyResult(
+  void _applyResult(
     AiEntryResult result,
     DateTime targetDate,
-  ) async {
+  ) {
+    final generation = ++_balanceGeneration;
     _quota = AiQuota(
       plan: result.plan,
       unlimited: result.unlimited,
@@ -17,7 +18,8 @@ extension AiEntryResultApplication on AiEntryViewModel {
     if (result.entries.isNotEmpty) _hasAnyEntries = true;
     final wallets = result.wallets;
     if (wallets == null) {
-      await refreshBalances();
+      _walletsLoaded = false;
+      unawaited(_refreshCommittedBalances(generation));
       return;
     }
     _wallets = List.unmodifiable(wallets);

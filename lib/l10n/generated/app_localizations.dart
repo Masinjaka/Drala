@@ -421,7 +421,7 @@ abstract class AppLocalizations {
   /// No description provided for @walletInUseCannotBeDeleted.
   ///
   /// In en, this message translates to:
-  /// **'This wallet has transaction history and cannot be deleted.'**
+  /// **'This wallet is used by an envelope or transaction history and cannot be deleted.'**
   String get walletInUseCannotBeDeleted;
 
   /// No description provided for @allTime.
@@ -463,7 +463,7 @@ abstract class AppLocalizations {
   /// No description provided for @noNotifications.
   ///
   /// In en, this message translates to:
-  /// **'No notifications'**
+  /// **'You’re all caught up! We’ll keep you posted here.'**
   String get noNotifications;
 
   /// No description provided for @noNotificationsDescription.
@@ -1231,7 +1231,7 @@ abstract class AppLocalizations {
   /// No description provided for @dailySpending.
   ///
   /// In en, this message translates to:
-  /// **'Daily spending'**
+  /// **'Daily Spending'**
   String get dailySpending;
 
   /// No description provided for @topSpending.
@@ -1339,7 +1339,7 @@ abstract class AppLocalizations {
   /// No description provided for @noEnvelopesYet.
   ///
   /// In en, this message translates to:
-  /// **'No envelopes yet'**
+  /// **'Give your plans a little room to grow.'**
   String get noEnvelopesYet;
 
   /// No description provided for @envelopeEmptyDescription.
@@ -1483,7 +1483,7 @@ abstract class AppLocalizations {
   /// No description provided for @noActivitiesForDay.
   ///
   /// In en, this message translates to:
-  /// **'No activity on this day'**
+  /// **'A little quiet today. Ready to track something?'**
   String get noActivitiesForDay;
 
   /// No description provided for @editTransaction.
@@ -1809,6 +1809,762 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Exchange rates are still unavailable. Try again when you\'re online.'**
   String get guestCurrencyRateStillUnavailable;
+
+  /// No description provided for @deleteEnvelopeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting this envelope returns its remaining funds to its wallet. Transaction history is preserved.'**
+  String get deleteEnvelopeDescription;
+
+  /// No description provided for @insufficientWalletFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'The selected wallet does not have enough funds. Choose a wallet with a sufficient balance.'**
+  String get insufficientWalletFunds;
+
+  /// No description provided for @envelopeAmountBelowSpent.
+  ///
+  /// In en, this message translates to:
+  /// **'The envelope amount cannot be lower than the amount already spent.'**
+  String get envelopeAmountBelowSpent;
+
+  /// No description provided for @monthlyScheduleNotLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the latest monthly envelope can change its renewal settings.'**
+  String get monthlyScheduleNotLatest;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a date'**
+  String get selectDate;
+
+  /// No description provided for @transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer'**
+  String get transfer;
+
+  /// No description provided for @fromWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'From wallet'**
+  String get fromWallet;
+
+  /// No description provided for @toWallet.
+  ///
+  /// In en, this message translates to:
+  /// **'To wallet'**
+  String get toWallet;
+
+  /// No description provided for @transferNeedsWallets.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a second wallet to transfer money between wallets.'**
+  String get transferNeedsWallets;
+
+  /// No description provided for @transferSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer saved.'**
+  String get transferSaved;
+
+  /// No description provided for @differentTransferWallets.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose two different wallets.'**
+  String get differentTransferWallets;
+
+  /// No description provided for @walletCurrencyMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfers require two wallets in MGA.'**
+  String get walletCurrencyMismatch;
+
+  /// No description provided for @walletUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'A selected wallet is no longer available. Choose another wallet.'**
+  String get walletUnavailable;
+
+  /// No description provided for @transferConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'This transfer was already submitted with different details. Open a new transfer.'**
+  String get transferConflict;
+
+  /// No description provided for @selectItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get selectItems;
+
+  /// No description provided for @selectedItemCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String selectedItemCount(int count);
+
+  /// No description provided for @deleteSelectedItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete selected'**
+  String get deleteSelectedItems;
+
+  /// No description provided for @deleteSelectedWalletsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {count} selected wallets? This cannot be undone.'**
+  String deleteSelectedWalletsDescription(int count);
+
+  /// No description provided for @deleteSelectedEnvelopesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {count} selected envelopes? Remaining funds return to their wallets. Transaction history is preserved.'**
+  String deleteSelectedEnvelopesDescription(int count);
+
+  /// No description provided for @defaultWalletCannotDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'The default wallet cannot be deleted. Choose another default wallet first.'**
+  String get defaultWalletCannotDelete;
+
+  /// No description provided for @envelopeUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'A selected envelope is no longer available. Refresh the list.'**
+  String get envelopeUnavailable;
+
+  /// No description provided for @operationInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait for the current operation to finish.'**
+  String get operationInProgress;
+
+  /// No description provided for @dailyReminderNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily reminder'**
+  String get dailyReminderNotificationTitle;
+
+  /// No description provided for @dailyReminderNotificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember to record your expenses or income today.'**
+  String get dailyReminderNotificationBody;
+
+  /// No description provided for @categoryNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a category name.'**
+  String get categoryNameRequired;
+
+  /// No description provided for @envelopeNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an envelope name.'**
+  String get envelopeNameRequired;
+
+  /// No description provided for @envelopeCategoryRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a category for this envelope.'**
+  String get envelopeCategoryRequired;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required.'**
+  String get fieldRequired;
+
+  /// No description provided for @positiveAmountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount greater than zero.'**
+  String get positiveAmountRequired;
+
+  /// No description provided for @nonNegativeAmountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a balance of zero or more.'**
+  String get nonNegativeAmountRequired;
+
+  /// No description provided for @envelopeFundingWalletFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'An existing envelope keeps its original funding wallet.'**
+  String get envelopeFundingWalletFixed;
+
+  /// No description provided for @envelopeFundingWalletUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Funding wallet unavailable'**
+  String get envelopeFundingWalletUnavailable;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @seeMore.
+  ///
+  /// In en, this message translates to:
+  /// **'See more'**
+  String get seeMore;
+
+  /// No description provided for @recentTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent transactions'**
+  String get recentTransactions;
+
+  /// No description provided for @envelopes.
+  ///
+  /// In en, this message translates to:
+  /// **'Envelopes'**
+  String get envelopes;
+
+  /// No description provided for @noRecentTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a transaction to start tracking your budget.'**
+  String get noRecentTransactions;
+
+  /// No description provided for @overviewLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to refresh. Tap to retry.'**
+  String get overviewLoadFailed;
+
+  /// No description provided for @homeHello.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi'**
+  String get homeHello;
+
+  /// No description provided for @homeGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, {name}'**
+  String homeGreeting(String name);
+
+  /// No description provided for @networkUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to reach the server. Check your internet connection and try again.'**
+  String get networkUnavailable;
+
+  /// No description provided for @offlineModeToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection lost. Offline mode is on. Your changes will sync when you reconnect.'**
+  String get offlineModeToast;
+
+  /// No description provided for @onlineModeToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection restored. Your changes are synced.'**
+  String get onlineModeToast;
+
+  /// No description provided for @onlinePendingToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection restored. Some changes still need your attention.'**
+  String get onlinePendingToast;
+
+  /// No description provided for @offlineStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline · changes saved on this device'**
+  String get offlineStatus;
+
+  /// No description provided for @syncingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing your changes…'**
+  String get syncingStatus;
+
+  /// No description provided for @pendingStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} changes waiting to sync'**
+  String pendingStatus(int count);
+
+  /// No description provided for @offlineInitial.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to download your account data for offline use.'**
+  String get offlineInitial;
+
+  /// No description provided for @offlineSetupUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync is unavailable. Your local changes are safely stored on this device.'**
+  String get offlineSetupUnavailable;
+
+  /// No description provided for @syncConflictTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review changes before syncing'**
+  String get syncConflictTitle;
+
+  /// No description provided for @syncConflictMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cloud data changed while this device was offline. Review your pending changes before retrying, or use the cloud version.'**
+  String get syncConflictMessage;
+
+  /// No description provided for @offlineRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get offlineRetry;
+
+  /// No description provided for @offlineReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get offlineReview;
+
+  /// No description provided for @offlineKeepCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Use cloud data'**
+  String get offlineKeepCloud;
+
+  /// No description provided for @offlineRetryChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync these changes'**
+  String get offlineRetryChanges;
+
+  /// No description provided for @offlineDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes saved on this device?'**
+  String get offlineDiscardTitle;
+
+  /// No description provided for @offlineDiscardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'These changes have not reached the cloud. This removes them from this device and downloads the cloud version.'**
+  String get offlineDiscardBody;
+
+  /// No description provided for @onlineRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This action needs an internet connection.'**
+  String get onlineRequired;
+
+  /// No description provided for @signInSyncRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to continue syncing. Your local changes are kept.'**
+  String get signInSyncRequired;
+
+  /// No description provided for @categoryIconFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food & drinks'**
+  String get categoryIconFood;
+
+  /// No description provided for @categoryIconShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Groceries'**
+  String get categoryIconShopping;
+
+  /// No description provided for @categoryIconTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get categoryIconTransport;
+
+  /// No description provided for @categoryIconHousing.
+  ///
+  /// In en, this message translates to:
+  /// **'Housing'**
+  String get categoryIconHousing;
+
+  /// No description provided for @categoryIconHealth.
+  ///
+  /// In en, this message translates to:
+  /// **'Health'**
+  String get categoryIconHealth;
+
+  /// No description provided for @categoryIconUtilities.
+  ///
+  /// In en, this message translates to:
+  /// **'Utilities'**
+  String get categoryIconUtilities;
+
+  /// No description provided for @categoryIconEntertainment.
+  ///
+  /// In en, this message translates to:
+  /// **'Entertainment'**
+  String get categoryIconEntertainment;
+
+  /// No description provided for @categoryIconEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get categoryIconEducation;
+
+  /// No description provided for @categoryIconSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
+  String get categoryIconSalary;
+
+  /// No description provided for @categoryIconFreelance.
+  ///
+  /// In en, this message translates to:
+  /// **'Freelance'**
+  String get categoryIconFreelance;
+
+  /// No description provided for @categoryIconIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Income'**
+  String get categoryIconIncome;
+
+  /// No description provided for @categoryIconOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get categoryIconOther;
+
+  /// No description provided for @categoryIconCoffee.
+  ///
+  /// In en, this message translates to:
+  /// **'Coffee'**
+  String get categoryIconCoffee;
+
+  /// No description provided for @categoryIconDining.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurants'**
+  String get categoryIconDining;
+
+  /// No description provided for @categoryIconTravel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get categoryIconTravel;
+
+  /// No description provided for @categoryIconGifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Gifts'**
+  String get categoryIconGifts;
+
+  /// No description provided for @categoryIconPets.
+  ///
+  /// In en, this message translates to:
+  /// **'Pets'**
+  String get categoryIconPets;
+
+  /// No description provided for @categoryIconFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Family'**
+  String get categoryIconFamily;
+
+  /// No description provided for @categoryIconSubscriptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions'**
+  String get categoryIconSubscriptions;
+
+  /// No description provided for @categoryIconPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get categoryIconPhone;
+
+  /// No description provided for @categoryIconInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'Internet'**
+  String get categoryIconInternet;
+
+  /// No description provided for @categoryIconSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Savings'**
+  String get categoryIconSavings;
+
+  /// No description provided for @categoryIconInvestment.
+  ///
+  /// In en, this message translates to:
+  /// **'Investments'**
+  String get categoryIconInvestment;
+
+  /// No description provided for @categoryIconInsurance.
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance'**
+  String get categoryIconInsurance;
+
+  /// No description provided for @categoryIconTaxes.
+  ///
+  /// In en, this message translates to:
+  /// **'Taxes'**
+  String get categoryIconTaxes;
+
+  /// No description provided for @categoryIconFitness.
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness'**
+  String get categoryIconFitness;
+
+  /// No description provided for @categoryIconBeauty.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal care'**
+  String get categoryIconBeauty;
+
+  /// No description provided for @categoryIconClothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Clothing'**
+  String get categoryIconClothing;
+
+  /// No description provided for @categoryIconRepairs.
+  ///
+  /// In en, this message translates to:
+  /// **'Repairs'**
+  String get categoryIconRepairs;
+
+  /// No description provided for @categoryIconFuel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel'**
+  String get categoryIconFuel;
+
+  /// No description provided for @categoryIconBicycle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cycling'**
+  String get categoryIconBicycle;
+
+  /// No description provided for @categoryIconBus.
+  ///
+  /// In en, this message translates to:
+  /// **'Public transport'**
+  String get categoryIconBus;
+
+  /// No description provided for @categoryIconRain.
+  ///
+  /// In en, this message translates to:
+  /// **'Rainy day fund'**
+  String get categoryIconRain;
+
+  /// No description provided for @categoryIconCharity.
+  ///
+  /// In en, this message translates to:
+  /// **'Donations'**
+  String get categoryIconCharity;
+
+  /// No description provided for @categoryIconMusic.
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get categoryIconMusic;
+
+  /// No description provided for @categoryIconBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Books'**
+  String get categoryIconBooks;
+
+  /// No description provided for @categoryIconTransfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfers'**
+  String get categoryIconTransfer;
+
+  /// No description provided for @chooseCategoryIcon.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an icon'**
+  String get chooseCategoryIcon;
+
+  /// No description provided for @searchCategoryIcons.
+  ///
+  /// In en, this message translates to:
+  /// **'Search icons'**
+  String get searchCategoryIcons;
+
+  /// No description provided for @activitiesComposerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me what you spent...'**
+  String get activitiesComposerHint;
+
+  /// No description provided for @createEnvelope.
+  ///
+  /// In en, this message translates to:
+  /// **'Create envelope'**
+  String get createEnvelope;
+
+  /// No description provided for @trackYourBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your budget'**
+  String get trackYourBudget;
+
+  /// No description provided for @emptyCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Make room for the things that matter to you.'**
+  String get emptyCategories;
+
+  /// No description provided for @emptyWallets.
+  ///
+  /// In en, this message translates to:
+  /// **'A home for your money starts here.'**
+  String get emptyWallets;
+
+  /// No description provided for @createCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a category'**
+  String get createCategory;
+
+  /// No description provided for @emptyExpenses.
+  ///
+  /// In en, this message translates to:
+  /// **'Small steps make a clearer budget. Let’s add your first expense.'**
+  String get emptyExpenses;
+
+  /// No description provided for @emptyIncomes.
+  ///
+  /// In en, this message translates to:
+  /// **'Every income is a fresh start. Add yours here.'**
+  String get emptyIncomes;
+
+  /// No description provided for @emptySearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Let’s try another search to find what you’re looking for.'**
+  String get emptySearch;
+
+  /// No description provided for @createExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an expense'**
+  String get createExpense;
+
+  /// No description provided for @createIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an income'**
+  String get createIncome;
+
+  /// No description provided for @resetSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset search'**
+  String get resetSearch;
+
+  /// No description provided for @emptyBudgets.
+  ///
+  /// In en, this message translates to:
+  /// **'Give your spending a direction with your first budget.'**
+  String get emptyBudgets;
+
+  /// No description provided for @emptyGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Big plans start with a little saving. What’s your first goal?'**
+  String get emptyGoals;
+
+  /// No description provided for @createBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a budget'**
+  String get createBudget;
+
+  /// No description provided for @createGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a goal'**
+  String get createGoal;
+
+  /// No description provided for @manageNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage notifications'**
+  String get manageNotifications;
+
+  /// No description provided for @envelopeRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining'**
+  String get envelopeRemaining;
+
+  /// No description provided for @envelopeBudgetOf.
+  ///
+  /// In en, this message translates to:
+  /// **'of'**
+  String get envelopeBudgetOf;
+
+  /// No description provided for @statsNet.
+  ///
+  /// In en, this message translates to:
+  /// **'Net'**
+  String get statsNet;
+
+  /// No description provided for @statsNetDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Income minus expenses'**
+  String get statsNetDescription;
+
+  /// No description provided for @statsNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'The numbers'**
+  String get statsNumbers;
+
+  /// No description provided for @statsCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'The categories'**
+  String get statsCategories;
+
+  /// No description provided for @statsOnAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'on average'**
+  String get statsOnAverage;
+
+  /// No description provided for @statsPreviousMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'vs last month'**
+  String get statsPreviousMonth;
+
+  /// No description provided for @statsEmptyCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Track an expense to see your spending by category.'**
+  String get statsEmptyCategories;
+
+  /// No description provided for @statsActivityCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 activity} other{{count} activities}}'**
+  String statsActivityCount(int count);
+
+  /// No description provided for @chooseCategoryColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a color'**
+  String get chooseCategoryColor;
 }
 
 class _AppLocalizationsDelegate

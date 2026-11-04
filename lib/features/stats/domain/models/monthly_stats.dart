@@ -2,12 +2,18 @@ class CategoryStat {
   const CategoryStat({
     required this.name,
     required this.emoji,
+    this.iconKey = '',
     required this.amount,
+    this.transactionCount = 0,
+    this.colorHex,
   });
 
   final String name;
   final String emoji;
+  final String iconKey;
   final int amount;
+  final int transactionCount;
+  final String? colorHex;
 }
 
 class MonthlyStats {

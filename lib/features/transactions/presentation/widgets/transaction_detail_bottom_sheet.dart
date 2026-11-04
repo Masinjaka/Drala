@@ -79,6 +79,7 @@ class _TransactionDetailBottomSheetState
         .toList(growable: false);
     final available = _includeSelected(categories);
     return TransactionSheetSurface(
+      referenceStyle: true,
       pageController: _pageController,
       pages: [
         TransactionDetailEditPage(

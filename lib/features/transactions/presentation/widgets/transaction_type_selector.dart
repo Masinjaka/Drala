@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/finance_sheet_scope.dart';
+import 'package:budgets/features/transactions/presentation/widgets/reference_entry_type_selector.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,11 @@ class TransactionTypeSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (FinanceSheetScope.of(context))
+      return ReferenceEntryTypeSelector(
+          value: value.value,
+          labels: {'expense': expenseLabel, 'income': incomeLabel},
+          onChanged: (value) => onChanged(TransactionType.fromValue(value)!));
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
     final labelStyle = theme.textTheme.labelSmall?.copyWith(

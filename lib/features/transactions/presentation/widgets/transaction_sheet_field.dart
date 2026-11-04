@@ -1,3 +1,6 @@
+import 'package:budgets/core/forms/submission_validation_scope.dart';
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'package:budgets/core/ui/finance_sheet_scope.dart';
 import 'package:flutter/material.dart';
 
 class TransactionSheetField extends StatelessWidget {
@@ -29,21 +32,25 @@ class TransactionSheetField extends StatelessWidget {
           controller: controller,
           cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
           validator: validator,
+          autovalidateMode: SubmissionValidationScope.mode(context),
           keyboardType: keyboardType,
           textInputAction: textInputAction,
           style: Theme.of(context).textTheme.bodySmall,
-          decoration: InputDecoration(
-            hintText: hint,
-            filled: true,
-            fillColor: Theme.of(context).colorScheme.surfaceContainer,
-            isDense: true,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(6),
-              borderSide: BorderSide.none,
-            ),
-          ),
+          decoration: FinanceSheetScope.of(context)
+              ? AppFinanceSurfaceTheme.input(context, hint: hint)
+              : InputDecoration(
+                  hintText: hint,
+                  errorMaxLines: 3,
+                  filled: true,
+                  fillColor: Theme.of(context).colorScheme.surfaceContainer,
+                  isDense: true,
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(6),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
         ),
       ],
     );

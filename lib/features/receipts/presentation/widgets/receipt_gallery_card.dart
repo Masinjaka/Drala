@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_delete_button.dart';
+import 'package:budgets/core/ui/app_card_surface.dart';
 import 'package:budgets/features/receipts/presentation/widgets/receipt_page_count.dart';
 import 'package:budgets/features/receipts/domain/models/receipt_scan.dart';
 import 'package:budgets/features/receipts/presentation/widgets/receipt_thumbnail.dart';
@@ -21,7 +23,7 @@ class ReceiptGalleryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return AppCardSurface(
       color: Theme.of(context).cardColor,
       borderRadius: BorderRadius.circular(18),
       clipBehavior: Clip.antiAlias,
@@ -47,25 +49,11 @@ class ReceiptGalleryCard extends StatelessWidget {
                   Positioned(
                     top: 3,
                     right: 3,
-                    child: IconButton.filledTonal(
-                      key: const Key('receipt-delete-button'),
-                      onPressed: isDeleting ? null : onDelete,
-                      style: IconButton.styleFrom(
-                        backgroundColor: Theme.of(context).cardColor,
-                        foregroundColor: Theme.of(context).colorScheme.error,
-                        disabledBackgroundColor: Theme.of(context).cardColor,
-                        disabledForegroundColor: Theme.of(
-                          context,
-                        ).colorScheme.error.withValues(alpha: .55),
-                      ),
-                      icon: isDeleting
-                          ? const SizedBox.square(
-                              dimension: 16,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.delete_outline_rounded, size: 20),
-                      tooltip: context.l10n.deleteReceipt,
-                    ),
+                    child: AppDeleteButton(
+                        key: const Key('receipt-delete-button'),
+                        onPressed: isDeleting ? null : onDelete,
+                        busy: isDeleting,
+                        tooltip: context.l10n.deleteReceipt),
                   ),
                 ],
               ),

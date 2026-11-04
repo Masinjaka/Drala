@@ -1,3 +1,10 @@
+import 'package:budgets/core/ui/app_grid_background.dart';
+import 'package:budgets/core/ui/app_bottom_action.dart';
+import 'package:budgets/core/ui/horizontal_page_motion.dart';
+import 'package:budgets/core/ui/bulk_selection_bar.dart';
+import 'package:budgets/core/ui/app_envelope_theme.dart';
+import 'package:budgets/widgets/delete_confirmation_dialog.dart';
+import 'package:budgets/features/envelopes/domain/models/envelope_save_cancelled.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
@@ -13,10 +20,15 @@ import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:budgets/features/envelopes/presentation/widgets/envelope_wallet_field.dart';
+
+part 'envelope_page_actions.dart';
+part 'envelope_page_selection.dart';
 
 class EnvelopePage extends StatefulWidget {
   const EnvelopePage({
     this.repository,
+    this.onManageWallets,
     this.showBackButton = true,
     this.initialMonth,
     this.initialEnvelopeId,
@@ -24,16 +36,20 @@ class EnvelopePage extends StatefulWidget {
     super.key,
   });
   final EnvelopeRepository? repository;
+  final Future<void> Function()? onManageWallets;
   final DateTime? initialMonth;
   final bool showBackButton;
   final String? initialEnvelopeId;
   final CurrencyState? displayCurrency;
   @override
-  State<EnvelopePage> createState() => _EnvelopePageState();
+  State<EnvelopePage> createState() => EnvelopePageState();
 }
 
-class _EnvelopePageState extends State<EnvelopePage> {
+class EnvelopePageState extends State<EnvelopePage> {
   static const _initialPage = 1200;
+  bool _selecting = false;
+  final Set<String> _selected = {};
+  void _update(VoidCallback change) => setState(change);
   late final EnvelopeViewModel _viewModel;
   late final PageController _pageController;
   late final DateTime _pageOrigin;
@@ -51,6 +67,9 @@ class _EnvelopePageState extends State<EnvelopePage> {
     _pageController = PageController(initialPage: _initialPage);
     WidgetsBinding.instance.addPostFrameCallback((_) => _load());
   }
+
+  Future<void> createEnvelope() => _showAddSheet();
+
   Future<void> _load() async {
     try {
       await _viewModel.load();
@@ -58,7 +77,9 @@ class _EnvelopePageState extends State<EnvelopePage> {
       if (mounted) showErrorToast(context, error);
     }
   }
+
   Future<void> _changeMonth(int offset) async {
+    _cancelSelection();
     final target = DateTime(
       _viewModel.month.year,
       _viewModel.month.month + offset,
@@ -68,94 +89,36 @@ class _EnvelopePageState extends State<EnvelopePage> {
         _viewModel.changeMonth(offset),
         _pageController.animateToPage(
           _pageForMonth(target),
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutCubic,
+          duration: horizontalPageDuration,
+          curve: horizontalPageCurve,
         ),
       ]);
     } catch (error) {
       if (mounted) showErrorToast(context, error);
     }
   }
+
   Future<void> _pickMonth() async {
     final selected = await AppWheelPicker.monthYear(
       context,
       initialDate: _viewModel.month,
       firstDate: _monthForPage(0),
       lastDate: DateTime.now(),
-      title: MaterialLocalizations.of(context).datePickerHelpText,
+      title: context.l10n.selectDate,
     );
     if (selected == null || !mounted) return;
     // Jump directly so distant selections do not load every intervening month.
     _pageController.jumpToPage(_pageForMonth(selected));
   }
+
   Future<void> _selectPage(int page) async {
+    _cancelSelection();
     try {
       await _viewModel.selectMonth(_monthForPage(page));
     } catch (error) {
       if (mounted) showErrorToast(context, error);
     }
   }
-
-  Future<void> _showAddSheet() async {
-    if (_viewModel.availableCategories.isEmpty) {
-      showInfoToast(context, context.l10n.createExpenseCategoryFirst);
-      return;
-    }
-    await AddEnvelopeSheet.show(
-      context,
-      categories: _viewModel.availableCategories,
-      month: _viewModel.month,
-      onSave: _addEnvelope,
-      currencyState: widget.displayCurrency,
-    );
-  }
-
-  Future<void> _addEnvelope(
-    String name,
-    String categoryId,
-    int amount,
-    bool repeatsMonthly,
-  ) async {
-    try {
-      await _viewModel.add(
-        name: name,
-        categoryId: categoryId,
-        amount: amount,
-        repeatsMonthly: repeatsMonthly,
-      );
-    } on WalletSelectionRequiredException catch (error) {
-      if (!mounted) rethrow;
-      final walletId = await WalletSourceSheet.show(
-        context,
-        wallets: _viewModel.wallets,
-        requiredAmount: error.requiredAmount,
-        currencyState: widget.displayCurrency,
-      );
-      if (walletId == null) rethrow;
-      await _viewModel.add(
-        name: name,
-        categoryId: categoryId,
-        amount: amount,
-        repeatsMonthly: repeatsMonthly,
-        walletId: walletId,
-      );
-    }
-  }
-
-  Future<void> _editEnvelope(Envelope envelope) => AddEnvelopeSheet.show(
-        context,
-        categories: _viewModel.categoriesForEditing(envelope),
-        month: _viewModel.month,
-        envelope: envelope,
-        currencyState: widget.displayCurrency,
-        onDelete: () => _viewModel.delete(envelope.id),
-        onSave: (name, categoryId, amount, repeatsMonthly) => _viewModel.update(
-            id: envelope.id,
-            name: name,
-            categoryId: categoryId,
-            amount: amount,
-            repeatsMonthly: repeatsMonthly),
-      );
 
   @override
   void dispose() {
@@ -167,25 +130,37 @@ class _EnvelopePageState extends State<EnvelopePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: ListenableBuilder(
-        listenable: _viewModel,
-        builder: (context, _) => EnvelopePageContent(
-          showBackButton: widget.showBackButton,
-          viewModel: _viewModel,
-          pageController: _pageController,
-          pageOrigin: _pageOrigin,
-          initialPage: _initialPage,
-          initialEnvelopeId: widget.initialEnvelopeId,
-          displayCurrency: widget.displayCurrency,
-          onAdd: _showAddSheet,
-          onEdit: _editEnvelope,
-          onMonthChanged: _changeMonth,
-          onPickMonth: _pickMonth,
-          onPageChanged: _selectPage,
-          onRefresh: _load,
-        ),
-      ),
+      bottomNavigationBar: AppBottomAction(
+          buttonKey: const Key('envelope-create'),
+          label: context.l10n.addEnvelope,
+          onPressed: _showAddSheet),
+      backgroundColor: AppEnvelopeTheme.background(context),
+      body: AppGridBackground(
+          backgroundColor: AppEnvelopeTheme.background(context),
+          child: ListenableBuilder(
+            listenable: _viewModel,
+            builder: (context, _) => EnvelopePageContent(
+              showBackButton: widget.showBackButton,
+              viewModel: _viewModel,
+              pageController: _pageController,
+              pageOrigin: _pageOrigin,
+              initialPage: _initialPage,
+              initialEnvelopeId: widget.initialEnvelopeId,
+              displayCurrency: widget.displayCurrency,
+              onAdd: _showAddSheet,
+              selectionBar: _selectionBar,
+              onSelect: _viewModel.supportsBulkDeletion && !_selecting
+                  ? () => _update(() => _selecting = true)
+                  : null,
+              selectedIds: _selecting ? _selected : null,
+              onToggleSelection: _toggleSelection,
+              onEdit: _editEnvelope,
+              onMonthChanged: _changeMonth,
+              onPickMonth: _pickMonth,
+              onPageChanged: _selectPage,
+              onRefresh: _load,
+            ),
+          )),
     );
   }
 

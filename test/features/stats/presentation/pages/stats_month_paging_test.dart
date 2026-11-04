@@ -18,10 +18,10 @@ void main() {
             repository: repository, initialMonth: DateTime(2025, 6))));
     await tester.pump();
     expect(find.text('Income'), findsOneWidget);
-    expect(find.byKey(const Key('stats-value-skeleton')), findsNWidgets(4));
+    expect(find.byKey(const Key('stats-value-skeleton')), findsNWidgets(2));
     expect(find.byKey(const Key('stats-chart-empty')), findsOneWidget);
     expect(find.byKey(const Key('stats-line-chart')), findsNothing);
-    expect(find.byType(ValueSkeleton), findsNWidgets(4));
+    expect(find.byType(ValueSkeleton), findsNWidgets(3));
     final skeletonFades = tester.widgetList<FadeTransition>(find.ancestor(
       of: find.byKey(const Key('stats-value-skeleton')).first,
       matching: find.byType(FadeTransition),

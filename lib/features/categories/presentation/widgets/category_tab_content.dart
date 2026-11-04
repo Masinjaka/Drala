@@ -1,190 +1,68 @@
-import 'package:budgets/core/ui/app_icon_foreground.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/ui/app_category_theme.dart';
 import 'package:budgets/core/ui/value_skeleton.dart';
-import 'package:budgets/core/ui/scroll_edge_fade.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
-import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/widgets/empty_state_phrase.dart';
 import 'package:budgets/core/utils/error_messages.dart';
-import 'package:budgets/l10n/app_localizations_context.dart';
-import 'package:budgets/features/categories/data/datasource/category_api.dart'
-    as category_api;
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
-import 'package:budgets/features/categories/presentation/widgets/category_editor_sheet.dart';
-import 'package:budgets/features/planning/data/datasources/goal_datasource.dart'
-    as goal_datasource;
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'category_empty_state.dart';
+import 'category_grid_card.dart';
 
 class CategoryTabContent extends ConsumerWidget {
+  const CategoryTabContent({super.key, required this.transactionType});
   final TransactionType transactionType;
-
-  const CategoryTabContent({
-    super.key,
-    required this.transactionType,
-  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoriesAsyncValue = ref.watch(categoriesProvider);
-
+    final categories = ref.watch(categoriesProvider);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 29),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: switch (categoriesAsyncValue) {
-              AsyncData(:final value) => ScrollEdgeFade(
-                  child: _categoryGrid(context, _filterCategories(value))),
-              AsyncError(:final error) => Center(
-                  child: Text(
-                    friendlyErrorMessage(error),
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              _ => _skeleton(context),
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<Category> _filterCategories(List<Category> categories) {
-    return categories
-        .where((category) => category.transactionType == transactionType)
-        .toList();
-  }
-
-  GridView _skeleton(BuildContext context) {
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: 5,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        childAspectRatio: 2.0,
-      ),
-      itemBuilder: (context, index) => Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: const Center(child: ValueSkeleton()),
-      ),
-    );
-  }
-
-  Widget _categoryGrid(BuildContext context, List<Category> categories) {
-    if (categories.isEmpty) {
-      return EmptyStatePhrase(
-        title: context.l10n.categories,
-        brief: true,
-        illustrationAsset: 'assets/illustrations/empty_states/categories.png',
-      );
-    }
-    return GridView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: categories.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 16,
-        childAspectRatio: 2.0,
-      ),
-      itemBuilder: (context, index) {
-        final category = categories[index];
-        final isSavingsCategory = category_api.isSavingsCategory(category);
-
-        return Material(
-                color: Theme.of(context).colorScheme.surfaceContainer,
-                borderRadius: BorderRadius.circular(10),
-                clipBehavior: Clip.antiAlias,
-                child: InkWell(
-                  onTap: () async {
-                    if (isSavingsCategory) {
-                      final hasGoals = await goal_datasource.hasAnyGoals();
-                      if (hasGoals) {
-                        if (context.mounted) {
-                          showInfoToast(
-                            context,
-                            'Cette catégorie est utilisée pour vos objectifs d\'épargne et ne peut pas être modifiée.',
-                          );
-                        }
-                        return;
-                      }
-                    }
-                    if (context.mounted) {
-                      CategoryEditorSheet.show(context,
-                          type: transactionType, category: category);
-                    }
-                  },
-                  child: Ink(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainer,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        if (isSavingsCategory)
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: FutureBuilder<bool>(
-                              future: goal_datasource.hasAnyGoals(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data == true) {
-                                  return Icon(
-                                    Icons.lock_outline,
-                                    color: AppIconForeground.resolve(
-                                        context,
-                                        Theme.of(context)
-                                            .colorScheme
-                                            .onSurfaceVariant),
-                                    size: 14,
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ),
-                        Positioned.fill(
-                          right: 4,
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: RotationTransition(
-                              turns: const AlwaysStoppedAnimation(-25 / 360),
-                              child: Text(
-                                '${category.emoji}',
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned.fill(
-                          left: 0,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              '${category.name}',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ))
-            .animate(delay: (50 * index).ms)
-            .fade(duration: 200.ms)
-            .slideY(begin: 0.5, duration: 200.ms, curve: Curves.easeOut);
+      padding: AppPageSpacing.insets(context, bottom: 24),
+      child: switch (categories) {
+        AsyncData(:final value) => _grid(
+            context,
+            value
+                .where((item) => item.transactionType == transactionType)
+                .toList()),
+        AsyncError(:final error) => Center(
+            child: Text(friendlyErrorMessage(error),
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center)),
+        _ => _grid(context, null),
       },
     );
+  }
+
+  Widget _grid(BuildContext context, List<Category>? categories) {
+    if (categories != null && categories.isEmpty) {
+      return CategoryEmptyState(type: transactionType);
+    }
+    return LayoutBuilder(builder: (context, constraints) {
+      final columns = (constraints.maxWidth / 180).floor().clamp(2, 4);
+      final scaled = MediaQuery.textScalerOf(context).scale(12);
+      final height = 144 + (scaled - 12).clamp(0.0, double.infinity) * 4;
+      return GridView.builder(
+        key: PageStorageKey(transactionType),
+        padding: EdgeInsets.zero,
+        itemCount: categories?.length ?? 6,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: columns,
+          crossAxisSpacing: 16,
+          mainAxisSpacing: 16,
+          mainAxisExtent: height,
+        ),
+        itemBuilder: (context, index) => categories == null
+            ? Container(
+                decoration: BoxDecoration(
+                    color: AppCategoryTheme.surface(context),
+                    borderRadius: AppCategoryTheme.cardRadius),
+                child: const Center(child: ValueSkeleton()))
+            : CategoryGridCard(
+                key: ValueKey(categories[index].id),
+                category: categories[index],
+                type: transactionType),
+      );
+    });
   }
 }

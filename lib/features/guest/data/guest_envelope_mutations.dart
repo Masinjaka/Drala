@@ -101,6 +101,12 @@ class GuestEnvelopeMutations {
     });
   }
 
+  Future<void> deleteMany(List<String> ids) => database.transaction(() async {
+        for (final id in ids.toSet().toList()..sort()) {
+          await delete(id);
+        }
+      });
+
   Future<void> delete(String id) async {
     await database.transaction(() async {
       final row = await _envelope(id);

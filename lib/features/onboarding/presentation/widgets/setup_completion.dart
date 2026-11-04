@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/onboarding/presentation/widgets/category_explosion.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class SetupCompletion extends StatelessWidget {
       builder: (context, constraints) {
         final compact = constraints.maxHeight < 600;
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 29),
+          padding: AppPageSpacing.insets(context),
           child: Column(
             children: [
               SizedBox(height: compact ? 21 : 29),

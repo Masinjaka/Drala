@@ -1,4 +1,5 @@
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,10 @@ void main() {
       ),
     );
     expect(title.style?.color, AppTheme.lightTheme.colorScheme.onSurface);
-    expect(done.style?.backgroundColor?.resolve({}), Colors.black);
+    expect(
+        done.style?.backgroundColor?.resolve({}),
+        AppFinanceSurfaceTheme.action(
+            tester.element(find.byKey(const Key('app-wheel-picker-done')))));
 
     await tester.tap(find.byKey(const Key('app-wheel-picker-done')));
     await tester.pumpAndSettle();

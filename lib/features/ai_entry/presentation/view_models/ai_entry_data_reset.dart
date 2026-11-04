@@ -3,6 +3,7 @@ part of 'ai_entry_view_model.dart';
 extension AiEntryDataReset on AiEntryViewModel {
   Future<void> resetAfterDataDeletion() async {
     _loadGeneration++;
+    ++_balanceGeneration;
     _entries = const [];
     _hasMoreEntries = false;
     _isLoadingMoreEntries = false;

@@ -15,29 +15,27 @@ class SettingsProfileHeader extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 60,
-          height: 60,
+          width: 80,
+          height: 80,
           child: user.when(
             data: (value) => value == null ||
                     value.profilePhoto == null ||
                     value.profilePhoto!.isEmpty
                 ? _placeholder(context)
-                : avatar(context, value.profilePhoto, 60),
-            loading: () => avatarSkeleton(context, 60),
+                : avatar(context, value.profilePhoto, 80),
+            loading: () => avatarSkeleton(context, 80),
             error: (_, __) => _placeholder(context),
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         SizedBox(
-          width: 120,
+          width: 200,
           child: user.when(
             data: (value) => Text(
               value?.name?.trim().isNotEmpty == true
                   ? value!.name!.trim()
                   : context.l10n.user,
               textAlign: TextAlign.center,
-              // maxLines: 1,
-              // overflow: TextOverflow.ellipsis,
               style: AppSettingsTheme.profileName(context),
             ),
             loading: () => textSkeleton(context, 72, 12),

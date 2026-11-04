@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
@@ -34,13 +35,7 @@ class DrawerWalletCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surfaceContainerLowest,
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor.withValues(alpha: .07),
-                blurRadius: 16,
-                offset: Offset(0, 6),
-              ),
-            ],
+            boxShadow: AppCardTheme.shadows(context),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -74,7 +74,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byKey(const ValueKey('home-navigation-1')));
+    await tester.tap(find.byKey(const ValueKey('home-navigation-2')));
     await tester.pumpAndSettle();
 
     expect(find.byType(EnvelopePage), findsOneWidget);
@@ -96,7 +96,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byKey(const ValueKey('home-navigation-2')));
+    await tester.tap(find.byKey(const ValueKey('home-navigation-3')));
     await tester.pumpAndSettle();
 
     expect(find.byType(FinanceStatsPage), findsOneWidget);

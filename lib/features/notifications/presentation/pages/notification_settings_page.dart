@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/notifications/domain/models/notification_settings.dart';
@@ -26,7 +27,7 @@ class NotificationSettingsPage extends ConsumerWidget {
     return SettingsPageShell(
       title: context.l10n.notification,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
+        padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
         children: [
           SettingsMenuGroup(
             flat: true,

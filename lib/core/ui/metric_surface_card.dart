@@ -1,5 +1,6 @@
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
 import 'package:flutter/material.dart';
 
@@ -23,15 +24,16 @@ class MetricSurfaceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final valueStyle = TextStyle(
-      color: valueColor ?? Theme.of(context).colorScheme.onSurface,
-      fontSize: AppTypography.body,
-      fontWeight: FontWeight.w800,
+    final valueStyle = AppTextTheme.amount(
+      Theme.of(context).textTheme.titleLarge!.copyWith(
+            color: valueColor ?? Theme.of(context).colorScheme.onSurface,
+          ),
     );
     return Container(
       height: height,
       padding: const EdgeInsets.fromLTRB(14, 11, 12, 11),
       decoration: BoxDecoration(
+        boxShadow: AppCardTheme.shadows(context),
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
       ),
@@ -75,11 +77,9 @@ class MetricSurfaceCard extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontSize: AppTypography.caption,
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
           ),
         ],
       ),

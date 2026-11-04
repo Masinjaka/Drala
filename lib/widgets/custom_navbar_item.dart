@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,11 +52,7 @@ class _CustomNavItemState extends ConsumerState<CustomNavItem> {
           ),
           Text(
             widget.title,
-            style: TextStyle(
-              fontSize: 14,
-              color: textColor,
-              fontWeight: FontWeight.bold,
-            ),
+            style: AppTextStyle(AppTextRole.body, color: textColor),
           ),
         ],
       ),

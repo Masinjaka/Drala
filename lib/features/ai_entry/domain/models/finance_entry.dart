@@ -12,6 +12,7 @@ class FinanceEntry {
     this.entryType = 'transaction',
     this.description = '',
     this.categoryId,
+    this.categoryColor,
     this.sourceWalletId,
     this.envelopeName,
     this.usedMultipleWallets = false,
@@ -39,6 +40,7 @@ class FinanceEntry {
       emoji: isTransfer ? '🔄' : (categoryJson['emoji'] as String?) ?? '🧾',
       entryType: entryType,
       categoryId: categoryJson['id'] as String?,
+      categoryColor: categoryJson['color'] as String?,
       sourceWalletId: json['source_wallet_id'] as String?,
       envelopeName: _envelopeName(json),
       usedMultipleWallets: _hasWalletDebits(json),
@@ -57,6 +59,7 @@ class FinanceEntry {
   final String emoji;
   final String entryType;
   final String? categoryId;
+  final String? categoryColor;
   final String? sourceWalletId;
   final String? envelopeName;
   final bool usedMultipleWallets;

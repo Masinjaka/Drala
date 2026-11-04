@@ -1,5 +1,9 @@
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
+import 'package:budgets/features/offline/data/services/offline_sync_manager.dart';
+import 'package:budgets/features/offline/presentation/widgets/offline_sync_feedback.dart';
 import 'dart:async';
 
+import 'package:budgets/core/auth/auth_state_error_handler.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/localization/fallback_localization_delegates.dart';
 import 'package:budgets/core/navigation/app_navigation.dart';
@@ -11,6 +15,7 @@ import 'package:budgets/features/categories/domain/providers/category_provider.d
 import 'package:budgets/features/feedback/presentation/widgets/app_feedback.dart';
 import 'package:budgets/features/guest/data/guest_cloud_sync_service.dart';
 import 'package:budgets/features/guest/domain/guest_session.dart';
+import 'package:budgets/features/guest/presentation/widgets/guest_notification_coordinator.dart';
 import 'package:budgets/features/notifications/presentation/controllers/notification_controller.dart';
 import 'package:budgets/features/settings/data/services/cloud_appearance_preferences.dart';
 import 'package:budgets/features/settings/domain/providers/locale_provider.dart';
@@ -42,10 +47,12 @@ class _MyAppState extends ConsumerState<MyApp> {
   final _amountVisibilityController = AmountVisibilityController();
   StreamSubscription<AuthState>? _authSubscription;
   String? _lastCloudAppearance;
+  OfflineSyncManager? _offlineManager;
 
   @override
   void initState() {
     super.initState();
+    _offlineManager = ref.read(offlineSyncManagerProvider);
     final client = widget.authClient;
     if (client == null) return;
     _authSubscription = client.auth.onAuthStateChange.listen((state) {
@@ -58,7 +65,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           unawaited(_resumeGuestSync(guest));
         }
       }
-    });
+    }, onError: AuthStateErrorHandler.handle);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       unawaited(_restoreCloudAppearance());
     });
@@ -107,6 +114,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       await GuestCloudSyncService(widget.authClient!, guest).sync();
       if (!mounted) return;
       ref.invalidate(guestSessionProvider);
+      await ref.read(offlineSyncManagerProvider)?.account?.retry();
       ref.invalidate(categoriesProvider);
       ref.invalidate(currencyControllerProvider);
       ref.invalidate(userModelProvider);
@@ -120,6 +128,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void dispose() {
     _authSubscription?.cancel();
+    unawaited(_offlineManager?.close());
     _amountVisibilityController.dispose();
     widget.navigation.dispose();
     super.dispose();
@@ -145,17 +154,21 @@ class _MyAppState extends ConsumerState<MyApp> {
         darkTheme: AppTheme.darkTheme,
         themeMode: themeMode,
         builder: (context, child) {
-          final content = AmountVisibilityScope(
-            controller: _amountVisibilityController,
-            child: AppResponsiveScope(
-              child: child ?? const SizedBox.shrink(),
-            ),
-          );
+          final content = OfflineSyncFeedback(
+              manager: ref.read(offlineSyncManagerProvider),
+              navigatorKey:
+                  widget.navigation.router.routerDelegate.navigatorKey,
+              child: AmountVisibilityScope(
+                controller: _amountVisibilityController,
+                child: AppResponsiveScope(
+                  child: child ?? const SizedBox.shrink(),
+                ),
+              ));
           final guest = widget.guestSession;
           if (guest == null) return content;
           return AnimatedBuilder(
             animation: guest,
-            child: content,
+            child: GuestNotificationCoordinator(guest: guest, child: content),
             builder: (context, child) => Stack(children: [
               AbsorbPointer(absorbing: guest.isSyncing, child: child!),
               if (guest.isSyncing)

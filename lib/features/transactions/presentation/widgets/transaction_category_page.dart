@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/finance_sheet_scope.dart';
+import 'reference_category_selection.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_category_chip.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -36,19 +38,37 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
     super.dispose();
   }
 
+  void _return() {
+    FocusScope.of(context).unfocus();
+    widget.onBack();
+  }
+
   @override
   Widget build(BuildContext context) {
     final query = _searchController.text.trim().toLowerCase();
     final filtered = widget.categories.where((category) {
       return (category.name ?? '').toLowerCase().contains(query);
     }).toList(growable: false);
+    if (FinanceSheetScope.of(context))
+      return ReferenceCategorySelection(
+          controller: _searchController,
+          categories: filtered,
+          selected: widget.selected,
+          onSearch: (_) => setState(() {}),
+          onSelected: (category) {
+            widget.onSelected(category);
+            _return();
+          },
+          onBack: _return,
+          onCreate: widget.onCreate,
+          loading: widget.isLoading);
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
           IconButton(
             key: const ValueKey('category-back'),
-            onPressed: widget.onBack,
+            onPressed: _return,
             visualDensity: VisualDensity.compact,
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints.tightFor(width: 32, height: 32),
@@ -94,7 +114,10 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
                       return TransactionCategoryChip(
                         category: category,
                         selected: selected,
-                        onTap: () => widget.onSelected(category),
+                        onTap: () {
+                          widget.onSelected(category);
+                          _return();
+                        },
                       );
                     }).toList(growable: false),
                   ))),
@@ -106,18 +129,8 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
             onPressed: widget.onCreate!,
             height: 40,
             borderColor: Theme.of(context).colorScheme.outlineVariant,
-            borderRadius: BorderRadius.circular(6),
           ),
         ],
-        const SizedBox(height: 12),
-        CustomButton.outlined(
-          key: const ValueKey('category-done'),
-          text: context.l10n.done,
-          onPressed: widget.onBack,
-          height: 40,
-          borderColor: Theme.of(context).colorScheme.outlineVariant,
-          borderRadius: BorderRadius.circular(6),
-        ),
       ]),
     );
   }

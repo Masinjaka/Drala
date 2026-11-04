@@ -21,7 +21,6 @@ void main() {
             onChangePassword: () {},
             onNotifications: () {},
             onCurrency: () {},
-            onDefaultWallet: () {},
             onTheme: () {},
             onLanguage: () {},
             onScannedReceipts: () {},

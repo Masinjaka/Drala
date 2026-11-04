@@ -26,7 +26,6 @@ void main() {
             onChangePassword: () => taps.add('password'),
             onNotifications: () => taps.add('notifications'),
             onCurrency: () => taps.add('currency'),
-            onDefaultWallet: () => taps.add('wallet'),
             onTheme: () => taps.add('theme'),
             onLanguage: () => taps.add('language'),
             onScannedReceipts: () => taps.add('receipts'),
@@ -48,7 +47,7 @@ void main() {
     expect(find.text('Version 2.0.2'), findsOneWidget);
     expect(find.byType(OutlinedButton), findsOneWidget);
     expect(find.byType(SettingsSummaryCard), findsNWidgets(2));
-    expect(find.byType(SettingsMenuIcon), findsNWidgets(10));
+    expect(find.byType(SettingsMenuIcon), findsNWidgets(9));
     expect(
       tester
           .widget<SettingsMenuItem>(
@@ -79,7 +78,6 @@ void main() {
       'Change password',
       'Notification',
       'Currency',
-      'Set default wallet',
       'Theme',
       'Language',
       'Scanned receipts',
@@ -101,7 +99,6 @@ void main() {
         'password',
         'notifications',
         'currency',
-        'wallet',
         'theme',
         'language',
         'receipts',

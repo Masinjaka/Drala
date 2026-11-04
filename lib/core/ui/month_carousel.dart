@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/ui/app_envelope_theme.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,12 +9,14 @@ class MonthCarousel extends StatefulWidget {
     required this.month,
     required this.onChanged,
     required this.canGoNext,
+    this.pillStyle = false,
     super.key,
   });
 
   final DateTime month;
   final ValueChanged<int> onChanged;
   final bool canGoNext;
+  final bool pillStyle;
 
   @override
   State<MonthCarousel> createState() => _MonthCarouselState();
@@ -60,13 +63,20 @@ class _MonthCarouselState extends State<MonthCarousel> {
     return Center(
       child: Container(
         key: const Key('month-carousel'),
-        width: 294,
-        height: 40,
+        width: widget.pillStyle ? 281 : 294,
+        height: widget.pillStyle ? 50 : 40,
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          border: Border.all(color: Theme.of(context).colorScheme.outline),
-          borderRadius: BorderRadius.circular(10),
-        ),
+        decoration: widget.pillStyle
+            ? BoxDecoration(
+                color: AppEnvelopeTheme.surface(context),
+                borderRadius: AppEnvelopeTheme.radius,
+                boxShadow: AppEnvelopeTheme.shadows(context),
+              )
+            : BoxDecoration(
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.outline),
+                borderRadius: BorderRadius.circular(10),
+              ),
         child: PageView.builder(
           controller: _controller,
           physics: const BouncingScrollPhysics(),
@@ -83,8 +93,9 @@ class _MonthCarouselState extends State<MonthCarousel> {
               child: Center(
                 child: AnimatedDefaultTextStyle(
                   duration: const Duration(milliseconds: 180),
-                  style:
-                      AppTextTheme.monthCarousel(context, selected: selected),
+                  style: widget.pillStyle
+                      ? AppEnvelopeTheme.month(context, selected: selected)
+                      : AppTextTheme.monthCarousel(context, selected: selected),
                   child: Text(
                     DateFormat.MMMM(locale).format(_monthAt(index)).capitalize,
                     maxLines: 1,

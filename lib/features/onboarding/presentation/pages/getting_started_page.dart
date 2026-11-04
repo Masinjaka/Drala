@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_grid_background.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/features/onboarding/domain/providers/onboarding_providers.dart';
@@ -35,12 +37,13 @@ class _GettingStartedPageState extends ConsumerState<GettingStartedPage> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     return Scaffold(
-      body: SafeArea(
+      body: AppGridBackground(
+          child: SafeArea(
         child: Center(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 560),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(29, 20, 29, 30),
+              padding: AppPageSpacing.insets(context, top: 20, bottom: 30),
               child: Column(
                 children: [
                   const Expanded(
@@ -69,7 +72,6 @@ class _GettingStartedPageState extends ConsumerState<GettingStartedPage> {
                     onPressed: _start,
                     isLoading: _starting,
                     height: 44,
-                    borderRadius: BorderRadius.circular(9),
                   ),
                   const SizedBox(height: 12),
                   CustomButton.text(
@@ -82,7 +84,7 @@ class _GettingStartedPageState extends ConsumerState<GettingStartedPage> {
             ),
           ),
         ),
-      ),
+      )),
     );
   }
 }

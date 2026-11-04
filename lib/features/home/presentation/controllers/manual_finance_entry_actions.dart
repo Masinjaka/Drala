@@ -26,6 +26,14 @@ class ManualFinanceEntryActions {
   Future<void> add(BuildContext context) async {
     try {
       final result = await _showSheet(context);
+      final transfer = result?.transferInput;
+      if (transfer != null && context.mounted) {
+        await viewModel.addManualTransfer(transfer);
+        if (context.mounted) {
+          showSuccessToast(context, context.l10n.transferSaved);
+        }
+        return;
+      }
       final input = result?.input;
       if (input == null || !context.mounted) return;
       final saved = await _saveWithFunding(
@@ -84,12 +92,15 @@ class ManualFinanceEntryActions {
         entry: entry,
         categories: categories,
         currencyState: currencyState,
+        wallets: viewModel.wallets,
       );
     }
     return ManualEntrySheet.show(
       context,
       categories: categories,
       targetDate: viewModel.selectedDate,
+      wallets: viewModel.wallets,
+      allowTransfers: viewModel.supportsManualTransfers,
       currencyState: currencyState,
     );
   }

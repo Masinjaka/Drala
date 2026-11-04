@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:budgets/core/ui/list_item_entrance.dart';
 
 class SetupListChoiceEntrance extends StatelessWidget {
   const SetupListChoiceEntrance({
@@ -12,11 +12,6 @@ class SetupListChoiceEntrance extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) {
-    if (MediaQuery.disableAnimationsOf(context)) return child;
-    return child
-        .animate(delay: (index < 3 ? 25 * index : 0).ms)
-        .fadeIn(duration: 180.ms)
-        .slideY(begin: 0.15, duration: 180.ms, curve: Curves.easeOutCubic);
-  }
+  Widget build(BuildContext context) =>
+      ListItemEntrance(index: index, child: child);
 }

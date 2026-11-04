@@ -1,3 +1,7 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'package:budgets/core/ui/finance_sheet_scope.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_icon_label.dart';
+import 'package:budgets/core/ui/app_button_theme.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:flutter/material.dart';
 
@@ -49,6 +53,11 @@ class _TransactionCategoryChipState extends State<TransactionCategoryChip>
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final background = widget.selected
+        ? colors.inverseSurface
+        : FinanceSheetScope.of(context)
+            ? AppFinanceSurfaceTheme.background(context)
+            : colors.surfaceContainerLowest;
     return ScaleTransition(
       scale: _scale,
       child: GestureDetector(
@@ -59,28 +68,41 @@ class _TransactionCategoryChipState extends State<TransactionCategoryChip>
         onTapCancel: _controller.reverse,
         onTap: widget.onTap,
         child: Material(
-          color: widget.selected
-              ? colors.inverseSurface
-              : colors.surfaceContainerLowest,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(7),
-            side: BorderSide(
-              color: widget.selected
-                  ? colors.inverseSurface
-                  : colors.outlineVariant,
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
-            child: Text(
-              '${widget.category.emoji ?? '❓'} ${widget.category.name ?? ''}',
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: background,
+          shape: AppButtonTheme.shape.copyWith(
+            side: FinanceSheetScope.of(context)
+                ? BorderSide.none
+                : BorderSide(
                     color: widget.selected
-                        ? colors.onInverseSurface
-                        : colors.onSurface,
+                        ? colors.inverseSurface
+                        : colors.outlineVariant,
                   ),
-            ),
           ),
+          child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  minHeight: FinanceSheetScope.of(context)
+                      ? AppFinanceSurfaceTheme.selectionHeight
+                      : 0),
+              child: Padding(
+                padding: FinanceSheetScope.of(context)
+                    ? AppFinanceSurfaceTheme.selectionPadding
+                    : const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+                child: CategoryIconLabel(
+                  name: widget.category.name ?? '',
+                  iconKey: widget.category.iconKey,
+                  emoji: widget.category.emoji,
+                  colorHex: widget.category.color,
+                  backgroundColor: background,
+                  color: widget.selected
+                      ? colors.onInverseSurface
+                      : colors.onSurface,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        color: widget.selected
+                            ? colors.onInverseSurface
+                            : colors.onSurface,
+                      ),
+                ),
+              )),
         ),
       ),
     );

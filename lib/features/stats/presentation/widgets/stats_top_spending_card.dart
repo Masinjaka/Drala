@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_card_theme.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/stats/domain/models/monthly_stats.dart';
 import 'package:budgets/features/stats/presentation/widgets/category_spending_list.dart';
@@ -22,20 +25,14 @@ class StatsTopSpendingCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceContainerLowest,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x16000000),
-            blurRadius: 14,
-            offset: Offset(0, 5),
-          ),
-        ],
+        boxShadow: AppCardTheme.shadows(context),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             context.l10n.topSpending,
-            style: const TextStyle(fontWeight: FontWeight.w700),
+            style: const AppTextStyle(AppTextRole.body),
           ),
           const SizedBox(height: 18),
           CategorySpendingList(

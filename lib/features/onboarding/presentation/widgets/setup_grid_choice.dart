@@ -1,5 +1,4 @@
-import 'package:budgets/core/theme.dart';
-import 'package:budgets/core/ui/app_icon_foreground.dart';
+import 'package:budgets/core/ui/app_card_surface.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +9,7 @@ class SetupGridChoice extends StatefulWidget {
     required this.selected,
     required this.onTap,
     required this.leading,
-    this.height = 40,
+    this.height = 50,
     super.key,
   });
 
@@ -62,24 +61,23 @@ class _SetupGridChoiceState extends State<SetupGridChoice>
         child: Semantics(
           selected: widget.selected,
           button: true,
-          child: Material(
+          child: AppCardSurface(
             color: colors.surfaceContainer,
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(999),
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: widget.height),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     widget.leading,
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 4),
                     Expanded(
                       child: Text(
                         widget.title,
                         softWrap: true,
-                        style: AppTextTheme.onboardingLabel(context),
+                        style: AppTextTheme.setupLabel(context),
                       ),
                     ),
                     const SizedBox(width: 4),
@@ -100,12 +98,9 @@ class _SetupGridChoiceState extends State<SetupGridChoice>
                             : Icons.circle_outlined,
                         key: ValueKey(widget.selected),
                         size: 18,
-                        color: AppIconForeground.resolve(
-                          context,
-                          widget.selected
-                              ? AppTheme.homeBanner
-                              : colors.onSurfaceVariant,
-                        ),
+                        color: widget.selected
+                            ? colors.onSurface
+                            : colors.onSurfaceVariant,
                       ),
                     ),
                   ],

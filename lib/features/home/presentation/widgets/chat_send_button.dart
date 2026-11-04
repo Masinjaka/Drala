@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_interaction_theme.dart';
+import 'package:budgets/core/ui/app_button_theme.dart';
 import 'package:budgets/features/home/presentation/widgets/chat_loading_dots.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
@@ -89,7 +91,7 @@ class _ChatSendButtonState extends State<ChatSendButton>
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   color: background,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: AppButtonTheme.borderRadius,
                   boxShadow: [
                     BoxShadow(
                       color: theme.shadowColor.withValues(alpha: 0.18),
@@ -103,15 +105,14 @@ class _ChatSendButtonState extends State<ChatSendButton>
                   child: IconButton(
                     onPressed: widget.onPressed == null ? null : _handlePressed,
                     padding: EdgeInsets.zero,
-                    style: IconButton.styleFrom(
+                    style: AppInteractionTheme.withoutPressFeedback(
+                        IconButton.styleFrom(
                       minimumSize: const Size.square(_buttonSize),
                       maximumSize: const Size.square(_buttonSize),
                       foregroundColor: iconColor,
                       disabledForegroundColor: iconColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
+                      shape: AppButtonTheme.shape,
+                    )),
                     icon: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 160),
                       child: widget.isBusy

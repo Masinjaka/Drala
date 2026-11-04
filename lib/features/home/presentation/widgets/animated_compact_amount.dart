@@ -15,6 +15,7 @@ class AnimatedCompactAmount extends StatefulWidget {
     this.beginNearTarget = false,
     this.respectAmountVisibility = true,
     this.amountTypography = true,
+    this.compact = true,
     super.key,
   });
 
@@ -26,6 +27,7 @@ class AnimatedCompactAmount extends StatefulWidget {
   final bool beginNearTarget;
   final bool respectAmountVisibility;
   final bool amountTypography;
+  final bool compact;
 
   @override
   State<AnimatedCompactAmount> createState() => _AnimatedCompactAmountState();
@@ -51,7 +53,8 @@ class _AnimatedCompactAmountState extends State<AnimatedCompactAmount> {
   @override
   void didUpdateWidget(AnimatedCompactAmount oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.value == widget.value) {
+    if (oldWidget.value == widget.value &&
+        oldWidget.compact == widget.compact) {
       if (oldWidget.prefix != widget.prefix ||
           oldWidget.style != widget.style ||
           oldWidget.duration != widget.duration ||
@@ -87,14 +90,17 @@ class _AnimatedCompactAmountState extends State<AnimatedCompactAmount> {
     if (!mounted) return;
     _controller.resetValue(widget.value / _display.divisor);
     _completionTimer?.cancel();
-    _completionTimer = Timer(widget.duration, () {
-      if (mounted) widget.onCompleted?.call();
-    });
+    if (widget.onCompleted != null) {
+      _completionTimer = Timer(widget.duration, () {
+        if (mounted) widget.onCompleted?.call();
+      });
+    }
   }
 
   ({double divisor, String suffix, int fractionDigits}) _displayFor(
     num value,
   ) {
+    if (!widget.compact) return (divisor: 1.0, suffix: '', fractionDigits: 0);
     final absolute = value.abs();
     final (divisor, suffix) = absolute >= 1000000
         ? (1000000.0, 'M')
@@ -139,6 +145,8 @@ class _AnimatedCompactAmountState extends State<AnimatedCompactAmount> {
         duration: widget.duration,
         curve: Curves.easeOutCubic,
         fractionDigits: _display.fractionDigits,
+        enableSeparator: !widget.compact,
+        separateSymbol: ',',
         loop: false,
         firstScrollAnimate: false,
       ),

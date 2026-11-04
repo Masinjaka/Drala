@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_transaction_field.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -58,61 +59,62 @@ class _DestructiveConfirmationDialogState
       insetPadding: const EdgeInsets.symmetric(horizontal: 29),
       backgroundColor: colors.surfaceContainerLowest,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: widget.title,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  TextSpan(
-                    text: '\n\n${widget.description}',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w100,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            SettingsTransactionField(
-              key: const Key('danger-confirmation-field'),
-              controller: _controller,
-              label: widget.instruction,
-              hint: context.l10n.confirmation,
-            ),
-            const SizedBox(height: 20),
-            Row(children: [
-              Expanded(
-                child: CustomButton.outlined(
-                  text: context.l10n.cancel,
-                  onPressed: () => Navigator.pop(context),
-                  height: 40,
-                  borderRadius: BorderRadius.circular(6),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: widget.title,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    TextSpan(
+                      text: '\n\n${widget.description}',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: CustomButton(
-                  key: const Key('danger-confirm-button'),
-                  text: context.l10n.delete,
-                  onPressed: _matches ? _confirm : null,
-                  height: 40,
-                  backgroundColor: colors.error,
-                  foregroundColor: colors.onError,
-                  borderRadius: BorderRadius.circular(6),
-                ),
+              const SizedBox(height: 16),
+              SettingsTransactionField(
+                key: const Key('danger-confirmation-field'),
+                fillColor: colors.surfaceContainer,
+                controller: _controller,
+                label: widget.instruction,
+                hint: context.l10n.confirmation,
               ),
-            ]),
-          ],
+              const SizedBox(height: 20),
+              Row(children: [
+                Expanded(
+                  child: CustomButton.outlined(
+                    text: context.l10n.cancel,
+                    onPressed: () => Navigator.pop(context),
+                    height: 40,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: CustomButton(
+                    key: const Key('danger-confirm-button'),
+                    text: context.l10n.delete,
+                    onPressed: _matches ? _confirm : null,
+                    height: 40,
+                    backgroundColor:
+                        AppFinanceSurfaceTheme.destructive(context),
+                    foregroundColor: colors.onError,
+                  ),
+                ),
+              ]),
+            ],
+          ),
         ),
       ),
     );

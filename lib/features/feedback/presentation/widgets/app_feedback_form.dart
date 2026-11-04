@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'dart:async';
 
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -57,7 +59,7 @@ class _AppFeedbackFormState extends State<AppFeedbackForm> {
                     key: const Key('feedback-text-field'),
                     title: Text(
                       context.l10n.feedbackPrompt,
-                      style: const TextStyle(fontWeight: FontWeight.w700),
+                      style: const AppTextStyle(AppTextRole.body),
                     ),
                     hint: context.l10n.feedbackHint,
                     controller: _controller,

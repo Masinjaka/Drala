@@ -1,5 +1,4 @@
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
-import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/features/home/presentation/pages/wallets_page.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_card_skeleton.dart';
 import 'package:flutter/material.dart';
@@ -51,12 +50,7 @@ void main() {
     expect(find.text('Cash'), findsOneWidget);
     expect(find.text('Default'), findsOneWidget);
     expect(find.byKey(const Key('default-wallet-badge')), findsOneWidget);
-    expect(find.text('250 k MGA'), findsOneWidget);
-    final amount = tester.widget<Text>(find.text('250 k MGA'));
-    final suffix = (amount.textSpan! as TextSpan).children!.last as TextSpan;
-    expect(suffix.style,
-        AppTextTheme.currencyLabel(tester.element(find.text('250 k MGA'))));
-    expect(suffix.style!.fontSize, lessThan(amount.style!.fontSize!));
+    expect(find.text('Ar 250,000'), findsOneWidget);
     expect(find.text('Bank'), findsNothing);
 
     wallets.value = [_wallet('cash', 'Cash'), _wallet('bank', 'Bank')];

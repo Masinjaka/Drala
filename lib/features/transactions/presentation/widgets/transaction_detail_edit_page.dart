@@ -1,8 +1,10 @@
+import 'package:budgets/core/forms/submit_validated_form.dart';
+import 'package:budgets/core/forms/field_validators.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_actions.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_amount_field.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_form_header.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
-import 'package:budgets/features/transactions/presentation/widgets/transaction_edit_scroll_view.dart';
+import 'transaction_reference_layout.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_category_field.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_field.dart';
@@ -27,6 +29,10 @@ class TransactionDetailEditPage extends StatelessWidget {
     required this.onClose,
     this.onDelete,
     this.heading,
+    this.typeSelector,
+    this.walletField,
+    this.animateEntrance = true,
+    this.showControls = true,
     required this.onSave,
   });
 
@@ -44,60 +50,56 @@ class TransactionDetailEditPage extends StatelessWidget {
   final VoidCallback onClose;
   final VoidCallback? onDelete;
   final String? heading;
+  final Widget? typeSelector;
+  final Widget? walletField;
+  final bool animateEntrance;
+  final bool showControls;
   final VoidCallback onSave;
 
   @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: TransactionEditScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            TransactionFormHeader(
-              title: heading ?? context.l10n.editTransaction,
-              onClose: onClose,
-            ),
-            const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: TransactionTypeSelector(
-                value: type,
-                incomeLabel: context.l10n.income,
-                expenseLabel: context.l10n.expense,
-                onChanged: onTypeChanged,
-              ),
-            ),
-            const SizedBox(height: 37),
+  Widget build(BuildContext context) => SubmitValidatedForm(
+      formKey: formKey,
+      child: TransactionReferenceLayout(
+          entranceKey: animateEntrance ? type : null,
+          actions: TransactionFormActions(
+              saving: saving,
+              onSave: onSave,
+              onCancel: onDelete == null ? null : onClose),
+          children: [
+            if (showControls) ...[
+              TransactionFormHeader(
+                  title: heading ?? context.l10n.editTransaction,
+                  onClose: onClose,
+                  showTitle: false,
+                  showDelete: onDelete != null,
+                  onDelete: saving ? null : onDelete),
+              const SizedBox(height: 20),
+              typeSelector ??
+                  TransactionTypeSelector(
+                      value: type,
+                      incomeLabel: context.l10n.income,
+                      expenseLabel: context.l10n.expense,
+                      onChanged: onTypeChanged),
+              const SizedBox(height: 48),
+            ] else
+              const SizedBox(height: 28),
             TransactionAmountField(
                 controller: amountController, currencyCode: currencyCode),
-            const SizedBox(height: 25),
+            const SizedBox(height: 48),
             TransactionSheetField(
-              label: context.l10n.title,
-              controller: titleController,
-              textInputAction: TextInputAction.next,
-            ),
-            const SizedBox(height: 12),
+                label: context.l10n.title,
+                controller: titleController,
+                validator: (value) => FieldValidators.required(context, value),
+                textInputAction: TextInputAction.next),
+            const SizedBox(height: 24),
             TransactionCategoryField(
-              label: context.l10n.categories,
-              category: category,
-              onTap: onCategoryTap,
-              onClear: onCategoryClear,
-            ),
-            const SizedBox(height: 12),
-            TransactionSheetField(
-              label: context.l10n.description,
-              controller: descriptionController,
-              textInputAction: TextInputAction.done,
-            ),
-            const Spacer(),
-            const SizedBox(height: 12),
-            TransactionFormActions(
-                saving: saving, onDelete: onDelete, onSave: onSave),
-          ]),
-        ),
-      ),
-    );
-  }
+                label: context.l10n.categories,
+                category: category,
+                onTap: onCategoryTap,
+                onClear: onCategoryClear),
+            if (walletField != null) ...[
+              const SizedBox(height: 24),
+              walletField!
+            ],
+          ]));
 }

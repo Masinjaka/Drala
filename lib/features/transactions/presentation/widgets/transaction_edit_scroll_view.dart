@@ -9,8 +9,6 @@ class TransactionEditScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CustomScrollView(
         physics: const TransactionFormScrollPhysics(),
-        slivers: [
-          SliverFillRemaining(hasScrollBody: false, child: child),
-        ],
+        slivers: [SliverToBoxAdapter(child: child)],
       );
 }

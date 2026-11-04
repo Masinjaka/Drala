@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:flutter/material.dart';
 
@@ -25,12 +26,12 @@ class DangerActionCard extends StatelessWidget {
       key: actionKey,
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 13),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
             Container(
-              width: 40,
-              height: 40,
+              width: 35,
+              height: 35,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainer,
                 shape: BoxShape.circle,
@@ -38,28 +39,25 @@ class DangerActionCard extends StatelessWidget {
               child: Icon(icon,
                   color: AppIconForeground.resolve(
                     context,
-                    Theme.of(context).colorScheme.error,
+                    AppFinanceSurfaceTheme.destructive(context),
                   ),
-                  size: 21),
+                  size: 20),
             ),
-            const SizedBox(width: 13),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     title,
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context).colorScheme.error,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: AppFinanceSurfaceTheme.destructive(context),
                         ),
                   ),
                   const SizedBox(height: 5),
                   Text(
                     description,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w100,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                   ),

@@ -1,8 +1,12 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/planning/domain/models/budget_model.dart';
 import 'package:budgets/features/planning/domain/providers/budget_provider.dart';
 import 'package:budgets/features/planning/presentation/widgets/budget_list_item.dart';
 import 'package:budgets/features/planning/presentation/widgets/planning_common_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
+import 'add_budget_bottom_sheet.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -66,8 +70,8 @@ class _BudgetsTabContentState extends ConsumerState<BudgetsTabContent> {
               AsyncError(:final error) => Center(
                   child: Text(
                     'Erreur: $error',
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.error),
+                    style: AppTextStyle(AppTextRole.body,
+                        color: Theme.of(context).colorScheme.error),
                   ),
                 ),
               _ => const BudgetListSkeleton(),
@@ -91,10 +95,11 @@ class _BudgetsTabContentState extends ConsumerState<BudgetsTabContent> {
         });
       }
       return PlanningEmptyState(
-        title: 'Donnez un cap à vos dépenses',
-        subtitle:
-            'Créez votre premier budget et gardez le contrôle facilement.',
+        title: context.l10n.emptyBudgets,
+        subtitle: '',
         icon: FontAwesomeIcons.wallet,
+        actionLabel: context.l10n.createBudget,
+        onAction: () => AddBudgetBottomSheet.show(context),
       );
     }
 

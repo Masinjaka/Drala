@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:flutter/material.dart';
 
 class DetailedTransactionSwitch extends StatelessWidget {
@@ -20,19 +22,13 @@ class DetailedTransactionSwitch extends StatelessWidget {
             children: [
               Text(
                 'Transaction détaillée',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 15,
-                  color: Theme.of(context).textTheme.bodyMedium?.color,
-                ),
+                style: AppTextStyle(AppTextRole.body,
+                    color: Theme.of(context).textTheme.bodyMedium?.color),
               ),
               Text(
                 'Activer pour répartir le montant entre plusieurs sous-catégories',
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: Theme.of(context).textTheme.bodySmall?.color,
-                ),
+                style: AppTextStyle(AppTextRole.body,
+                    color: Theme.of(context).textTheme.bodySmall?.color),
               ),
             ],
           ),

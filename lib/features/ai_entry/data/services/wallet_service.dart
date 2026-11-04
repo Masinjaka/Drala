@@ -1,3 +1,6 @@
+import 'package:budgets/features/ai_entry/data/services/manual_transfer_service.dart';
+import 'package:budgets/features/ai_entry/domain/models/manual_transfer_input.dart';
+import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/envelopes/data/services/monthly_envelope_renewal.dart';
 import 'package:budgets/features/home/domain/errors/wallet_deletion_exception.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
@@ -69,6 +72,12 @@ class WalletService {
         .single();
     return _wallet(row);
   }
+
+  Future<FinanceEntry> transfer(ManualTransferInput input) =>
+      ManualTransferService(_client).add(input);
+
+  Future<void> deleteMany(List<String> ids) =>
+      _client.rpc('delete_wallets', params: {'p_wallet_ids': ids});
 
   Future<void> delete(String walletId) async {
     try {

@@ -1,3 +1,6 @@
+import 'package:budgets/core/navigation/app_modal_page_route.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'dart:io';
 
 import 'package:budgets/core/functions/pick_image_with_permissions.dart';
@@ -28,7 +31,7 @@ class EditProfilePage extends ConsumerStatefulWidget {
 
   static Future<void> show(BuildContext context,
           {VoidCallback? onDataDeleted}) =>
-      Navigator.of(context).push<void>(MaterialPageRoute(
+      Navigator.of(context).push<void>(AppModalPageRoute(
         builder: (_) => EditProfilePage(onDataDeleted: onDataDeleted),
       ));
 
@@ -77,7 +80,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     final form = Form(
       key: _formKey,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(28, 24, 28, 32),
+        padding: AppPageSpacing.insets(context, top: 24, bottom: 32),
         children: [
           EditableProfileAvatar(
             selectedImage: _selectedImage,
@@ -90,12 +93,12 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
             label: context.l10n.username,
             hint: context.l10n.enterUsername,
             controller: _usernameController,
+            validator: const {'type': 'required'},
           ),
           const SizedBox(height: 24),
           CustomButton(
             text: context.l10n.save,
             height: 40,
-            borderRadius: BorderRadius.circular(6),
             isLoading: _updating,
             onPressed: _updating ? null : _save,
           ),
@@ -153,7 +156,8 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   AccountDataRepository _repository() {
     try {
       return SupabaseAccountDataRepository(
-        AccountDataService(Supabase.instance.client),
+        AccountDataService(Supabase.instance.client,
+            offline: ref.read(offlineAccountProvider)),
       );
     } catch (_) {
       return const UnavailableAccountDataRepository();

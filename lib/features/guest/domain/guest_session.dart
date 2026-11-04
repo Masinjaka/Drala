@@ -27,6 +27,7 @@ class GuestSession extends ChangeNotifier {
   bool isActive;
   bool onboardingComplete;
   bool accountChoiceSeen;
+  bool completionPending = false;
   bool isSyncing = false;
   bool isSigningOut = false;
 
@@ -61,6 +62,8 @@ class GuestSession extends ChangeNotifier {
       rows.isNotEmpty && rows.single.read<int>('onboarding_complete') == 1,
       preferences.getBool('guest_account_choice_seen') ?? false,
     );
+    session.completionPending =
+        preferences.getBool('guest_completion_pending') ?? false;
     await session.onboarding.loadDraft();
     return session;
   }
@@ -80,6 +83,8 @@ class GuestSession extends ChangeNotifier {
          VALUES(?,'MGA','en','system',0,?)''',
       variables: [Variable.withString(userId), Variable.withString(now)],
     );
+    await _preferences.setBool('guest_completion_pending', false);
+    completionPending = false;
     await _preferences.setBool('guest_active', true);
     await _preferences.setBool('guest_account_choice_seen', false);
     isActive = true;
@@ -89,6 +94,18 @@ class GuestSession extends ChangeNotifier {
 
   void markOnboardingComplete() {
     onboardingComplete = true;
+    notifyListeners();
+  }
+
+  Future<void> prepareCompletion() async {
+    await _preferences.setBool('guest_completion_pending', true);
+    completionPending = true;
+    markOnboardingComplete();
+  }
+
+  Future<void> markCompletionSeen() async {
+    await _preferences.setBool('guest_completion_pending', false);
+    completionPending = false;
     notifyListeners();
   }
 

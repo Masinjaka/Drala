@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:flutter/material.dart';
 
@@ -58,12 +60,10 @@ class _TransactionFilterCategoryChipsState
             ),
             child: Text(
               category.name ?? 'Inconnu',
-              style: TextStyle(
-                color: isSelected
-                    ? Theme.of(context).colorScheme.onPrimary
-                    : Theme.of(context).textTheme.bodyLarge?.color,
-                fontSize: 15,
-              ),
+              style: AppTextStyle(AppTextRole.body,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(context).textTheme.bodyLarge?.color),
             ),
           ),
         );

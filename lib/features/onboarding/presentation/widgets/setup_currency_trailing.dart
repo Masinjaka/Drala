@@ -22,25 +22,26 @@ class SetupCurrencyTrailing extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(symbol),
-          ClipRect(
-            child: Align(
-              alignment: Alignment.centerRight,
-              widthFactor: progress,
-              child: Opacity(
-                opacity: progress,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 2),
-                  child: SizedBox.square(
-                    dimension: 13,
-                    child: CircularProgressIndicator(
-                      color: DefaultTextStyle.of(context).style.color,
-                      strokeWidth: 1.5,
+          if (progress > 0)
+            ClipRect(
+              child: Align(
+                alignment: Alignment.centerRight,
+                widthFactor: progress,
+                child: Opacity(
+                  opacity: progress,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 2),
+                    child: SizedBox.square(
+                      dimension: 13,
+                      child: CircularProgressIndicator(
+                        color: DefaultTextStyle.of(context).style.color,
+                        strokeWidth: 1.5,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );

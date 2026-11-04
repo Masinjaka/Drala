@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:budgets/core/ui/app_text_theme.dart';
 
 class CurrencySearchField extends StatelessWidget {
   const CurrencySearchField({
     required this.controller,
     required this.hint,
+    this.onboarding = false,
     super.key,
   });
 
   final TextEditingController controller;
   final String hint;
+  final bool onboarding;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SizedBox(
-      height: 40,
+      height: 50,
       child: TextField(
         controller: controller,
-        style: theme.textTheme.bodySmall,
+        style: onboarding
+            ? AppTextTheme.setupLabel(context)
+            : theme.textTheme.bodyLarge,
         decoration: InputDecoration(
+          constraints:
+              onboarding ? const BoxConstraints.tightFor(height: 50) : null,
           hintText: hint,
-          hintStyle: theme.textTheme.bodySmall?.copyWith(
+          hintStyle: (onboarding
+                  ? AppTextTheme.setupBody(context)
+                  : theme.textTheme.bodyLarge)
+              ?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),
           prefixIcon: const Icon(Icons.search_rounded, size: 20),
@@ -36,10 +46,10 @@ class CurrencySearchField extends StatelessWidget {
                   ),
           ),
           filled: true,
-          fillColor: theme.colorScheme.surfaceContainer,
+          fillColor: theme.colorScheme.surfaceContainerLowest,
           contentPadding: const EdgeInsets.symmetric(horizontal: 14),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(6),
+            borderRadius: BorderRadius.circular(999),
             borderSide: BorderSide.none,
           ),
         ),

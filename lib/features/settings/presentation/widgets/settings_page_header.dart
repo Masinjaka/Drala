@@ -1,5 +1,7 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/ui/app_settings_theme.dart';
-import 'package:budgets/core/ui/outlined_square_button.dart';
+import 'package:budgets/core/ui/app_close_button.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_notification_button.dart';
 import 'package:flutter/material.dart';
@@ -19,41 +21,22 @@ class SettingsPageHeader extends StatelessWidget {
   final FinanceNotificationViewModel? notificationViewModel;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: 67,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              top: 20,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  title,
-                  style: AppSettingsTheme.pageTitle(context),
-                ),
-              ),
-            ),
-            if (showBackButton)
-              Positioned(
-                left: 24,
-                top: 15,
-                child: OutlinedSquareButton(
-                  icon: Icons.arrow_back_rounded,
-                  visualSize: 35,
-                  iconSize: 20,
-                  tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-                  onPressed: () => Navigator.maybePop(context),
-                ),
-              ),
-            Positioned(
-              right: 25,
-              top: 22,
-              child: SettingsNotificationButton(
-                viewModel: notificationViewModel,
-                onPressed: onNotifications,
-              ),
-            ),
+  Widget build(BuildContext context) => Padding(
+        padding: AppPageSpacing.insets(context,
+            top: AppHeaderMetrics.topPadding, bottom: 12),
+        child: Row(children: [
+          Expanded(
+              child: Text(title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppSettingsTheme.pageTitle(context))),
+          const SizedBox(width: AppHeaderMetrics.titleGap),
+          SettingsNotificationButton(
+              viewModel: notificationViewModel, onPressed: onNotifications),
+          if (showBackButton) ...[
+            const SizedBox(width: 8),
+            AppCloseButton(onPressed: () => Navigator.maybePop(context)),
           ],
-        ),
+        ]),
       );
 }

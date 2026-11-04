@@ -3,6 +3,7 @@ class EnvelopeCategory {
     required this.id,
     required this.name,
     required this.emoji,
+    this.iconKey = '',
     required this.color,
   });
 
@@ -10,7 +11,8 @@ class EnvelopeCategory {
     return EnvelopeCategory(
       id: json['id'] as String,
       name: (json['name'] as String?) ?? 'Other',
-      emoji: (json['emoji'] as String?) ?? '🧾',
+      emoji: (json['emoji'] as String?) ?? '',
+      iconKey: (json['icon_key'] as String?) ?? '',
       color: (json['color'] as String?) ?? 'FF9E9E9E',
     );
   }
@@ -18,5 +20,6 @@ class EnvelopeCategory {
   final String id;
   final String name;
   final String emoji;
+  final String iconKey;
   final String color;
 }

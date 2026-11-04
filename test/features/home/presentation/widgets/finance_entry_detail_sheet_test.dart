@@ -23,15 +23,16 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Edit transaction'), findsOneWidget);
+    expect(find.byKey(const Key('close-transaction-sheet')), findsNothing);
+    expect(find.byKey(const Key('cancel-transaction')), findsOneWidget);
     expect(find.byKey(const Key('transaction-sheet-surface')), findsOneWidget);
     expect(find.text('Lunch'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('transaction-category-field')));
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('category-search')), findsOneWidget);
-    await tester.tap(find.text('🔦 Utility'));
-    await tester.tap(find.byKey(const Key('category-done')));
+    expect(find.byKey(const Key('category-create')), findsOneWidget);
+    await tester.tap(find.text('Utility'));
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byType(TextFormField).at(1), 'Team lunch');
@@ -42,6 +43,7 @@ void main() {
     expect(result?.input?.title, 'Team lunch');
     expect(result?.input?.categoryId, 'utility');
     expect(result?.input?.sourceWalletId, 'cash');
+    expect(result?.input?.description, 'With a friend');
   });
 
   testWidgets('delete returns through the existing edit action flow',

@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:budgets/core/ui/detail_page_shell.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,8 @@ class SettingsPageShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DetailPageShell(
+        showGrid: false,
+        backgroundColor: AppSettingsTheme.background(context),
         title: title,
         maxWidth: maxWidth,
         bottomNavigationBar: bottomNavigationBar,

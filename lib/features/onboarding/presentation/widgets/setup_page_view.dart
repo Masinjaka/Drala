@@ -56,7 +56,7 @@ class SetupPageView extends StatelessWidget {
                   ? (controller.page ?? controller.initialPage).round() + 2
                   : activeStep,
               onBack: activeStep > 2 && activeStep < 6 ? onBack : null,
-              showDisabledBack: activeStep == 6,
+              showDisabledBack: activeStep == 2 || activeStep == 6,
             ),
           ),
           Expanded(
@@ -81,6 +81,8 @@ class SetupPageView extends StatelessWidget {
     }
     final pageStep = index + 2;
     return SetupPageLayout(
+      language: index == 0,
+      scrollBody: index != 1,
       title: titles[index],
       subtitle: bodies[index],
       content: activeStep != pageStep
@@ -97,9 +99,15 @@ class SetupPageView extends StatelessWidget {
       Duration(milliseconds: step == initialStep ? 400 : 100);
 
   Widget _placeholder(int index) => switch (index) {
-        0 => const SetupChoicesSkeleton.language(),
-        2 => const SetupChoicesSkeleton.categories(),
-        3 => const SetupChoicesSkeleton.wallets(),
+        0 => const SingleChildScrollView(
+            child: SetupChoicesSkeleton.language(),
+          ),
+        2 => const SingleChildScrollView(
+            child: SetupChoicesSkeleton.categories(),
+          ),
+        3 => const SingleChildScrollView(
+            child: SetupChoicesSkeleton.wallets(),
+          ),
         _ => const SizedBox.shrink(),
       };
 

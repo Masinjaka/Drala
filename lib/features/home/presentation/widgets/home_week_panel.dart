@@ -1,15 +1,12 @@
+import 'package:budgets/features/home/presentation/widgets/home_calendar_panel.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'dart:async';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/home/presentation/view_models/activity_calendar_view_model.dart';
 import 'package:budgets/features/home/presentation/widgets/calendar_view_toggle.dart';
-import 'package:budgets/features/home/presentation/widgets/home_calendar_header.dart';
-import 'package:budgets/features/home/presentation/widgets/home_calendar_top_gap.dart';
 import 'package:budgets/features/home/presentation/widgets/home_month_calendar.dart';
 import 'package:budgets/features/home/presentation/widgets/home_week_strip.dart';
-import 'package:budgets/features/home/presentation/widgets/home_week_transition.dart';
-import 'package:budgets/features/home/presentation/widgets/home_scroll_reveal.dart';
 import 'package:budgets/features/home/presentation/widgets/home_animated_calendar_sliver.dart';
-import 'package:budgets/features/home/presentation/widgets/home_calendar_transition.dart';
 import 'package:flutter/material.dart';
 
 class HomeWeekPanel extends StatefulWidget {
@@ -19,6 +16,7 @@ class HomeWeekPanel extends StatefulWidget {
       required this.onDateSelected,
       this.activityViewModel,
       this.compact = false,
+      this.activitiesStyle = false,
       this.onControlsVisibilityChanged,
       super.key});
   final DateTime today;
@@ -26,6 +24,7 @@ class HomeWeekPanel extends StatefulWidget {
   final ValueChanged<DateTime> onDateSelected;
   final ActivityCalendarViewModel? activityViewModel;
   final bool compact;
+  final bool activitiesStyle;
   final ValueChanged<double>? onControlsVisibilityChanged;
   @override
   State<HomeWeekPanel> createState() => _HomeWeekPanelState();
@@ -87,7 +86,7 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
         initialDate: _focusedDay,
         firstDate: DateTime(2000),
         lastDate: _today,
-        title: MaterialLocalizations.of(context).datePickerHelpText);
+        title: context.l10n.selectDate);
     if (date != null && mounted) _focus(DateTime(date.year, date.month));
   }
 
@@ -114,6 +113,7 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
     return HomeAnimatedCalendarSliver(
       daysHeight: daysHeight,
       compact: widget.compact,
+      activitiesStyle: widget.activitiesStyle,
       onVisibilityChanged: widget.onControlsVisibilityChanged,
       builder: (visibility, height) =>
           _panel(context, visibility, height - collapsedGap * 2),
@@ -130,66 +130,25 @@ class _HomeWeekPanelState extends State<HomeWeekPanel> {
         : _start.isAfter(DateTime(2000));
     final activity =
         widget.activityViewModel?.activityDates ?? const <DateTime>{};
-    return Container(
-      key: const Key('home-week-panel'),
-      padding: const EdgeInsets.symmetric(horizontal: 7),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        HomeScrollReveal(
-          key: const Key('home-calendar-header-reveal'),
-          visibility: visibility,
-          child: HomeCalendarHeader(
-            focusedDay: _focusedDay,
-            onPeriodPressed: _selectPeriod,
-            onPrevious: canGoBack ? () => _focus(_adjacent(-1)) : null,
-            onNext: next.isAfter(_today) ? null : () => _focus(_adjacent(1)),
-          ),
-        ),
-        HomeCalendarTopGap(
-          visibility: visibility,
-          height: CalendarViewToggle.collapsedSpacing,
-        ),
-        HomeCalendarTransition(
-          height: height,
-          compact: widget.compact,
-          child: _expanded && !widget.compact
-              ? HomeMonthCalendar(
-                  focusedDay: _focusedDay,
-                  selectedDay: widget.selectedDate,
-                  today: _today,
-                  activityDates: activity,
-                  onDaySelected: _selectDay,
-                  onPageChanged: _focus)
-              : HomeWeekTransition(
-                  focusedDate: _focusedDay,
-                  selectedDate: widget.selectedDate,
-                  today: _today,
-                  onDateSelected: _selectDay,
-                  activityDates: activity,
-                  onPreviousWeek:
-                      canGoBack ? () => _focus(_adjacent(-1)) : null,
-                  onNextWeek:
-                      next.isAfter(_today) ? null : () => _focus(_adjacent(1)),
-                ),
-        ),
-        HomeScrollReveal(
-          key: const Key('home-calendar-toggle-reveal'),
-          visibility: visibility,
-          alignment: 1,
-          minimumSizeFactor:
-              CalendarViewToggle.collapsedSpacing / CalendarViewToggle.height,
-          child: CalendarViewToggle(
-            isExpanded: _expanded,
-            onPressed: () {
-              setState(() => _expanded = !_expanded);
-              _loadActivity();
-            },
-          ),
-        ),
-      ]),
+    return HomeCalendarPanel(
+      focusedDay: _focusedDay,
+      selectedDay: widget.selectedDate,
+      today: _today,
+      activityDates: activity,
+      expanded: _expanded,
+      compact: widget.compact,
+      activitiesStyle: widget.activitiesStyle,
+      visibility: visibility,
+      height: height,
+      onPeriodPressed: _selectPeriod,
+      onPrevious: canGoBack ? () => _focus(_adjacent(-1)) : null,
+      onNext: next.isAfter(_today) ? null : () => _focus(_adjacent(1)),
+      onDaySelected: _selectDay,
+      onFocus: _focus,
+      onToggle: () {
+        setState(() => _expanded = !_expanded);
+        _loadActivity();
+      },
     );
   }
 }

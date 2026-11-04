@@ -24,7 +24,6 @@ class SignUpSubmitBar extends StatelessWidget {
           key: const Key('sign-up-submit'),
           text: context.l10n.setupContinue,
           height: 44,
-          borderRadius: BorderRadius.circular(9),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           isLoading: isLoading,

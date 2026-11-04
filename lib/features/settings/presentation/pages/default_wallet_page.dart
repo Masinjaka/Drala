@@ -1,3 +1,5 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/core/ui/detail_list_skeleton.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -24,8 +26,9 @@ class DefaultWalletPage extends ConsumerStatefulWidget {
 }
 
 class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
-  late final DefaultWalletRepository _service =
-      widget.service ?? DefaultWalletService(Supabase.instance.client);
+  late final DefaultWalletRepository _service = widget.service ??
+      ref.read(offlineAccountProvider)?.local.wallets ??
+      DefaultWalletService(Supabase.instance.client);
   List<WalletSummary>? _wallets;
   String? _pendingId;
 
@@ -90,7 +93,7 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
       child: _wallets == null
           ? const DetailListSkeleton()
           : ListView(
-              padding: const EdgeInsets.fromLTRB(28, 24, 28, 28),
+              padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
               children: [
                 Text(
                   context.l10n.defaultWalletDescription,

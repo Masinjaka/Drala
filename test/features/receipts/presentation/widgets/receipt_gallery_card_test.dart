@@ -1,4 +1,5 @@
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/features/receipts/domain/models/receipt_scan.dart';
 import 'package:budgets/features/receipts/presentation/widgets/receipt_gallery_card.dart';
 import 'package:flutter/material.dart';
@@ -34,15 +35,19 @@ void main() {
     );
 
     final button = tester.widget<IconButton>(
-      find.byKey(const Key('receipt-delete-button')),
+      find.descendant(
+          of: find.byKey(const Key('receipt-delete-button')),
+          matching: find.byType(IconButton)),
     );
     expect(
       button.style?.backgroundColor?.resolve({}),
-      AppTheme.neutralSurface,
+      AppFinanceSurfaceTheme.field(
+          tester.element(find.byKey(const Key('receipt-delete-button')))),
     );
     expect(
       button.style?.foregroundColor?.resolve({}),
-      AppTheme.lightTheme.colorScheme.error,
+      AppFinanceSurfaceTheme.destructive(
+          tester.element(find.byKey(const Key('receipt-delete-button')))),
     );
 
     await tester.tap(find.byKey(const Key('receipt-delete-button')));

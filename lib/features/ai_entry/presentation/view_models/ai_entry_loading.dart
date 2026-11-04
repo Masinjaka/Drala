@@ -1,10 +1,17 @@
 part of 'ai_entry_view_model.dart';
 
 extension AiEntryLoading on AiEntryViewModel {
+  Future<void> reloadCachedData() {
+    _monthlyEntriesMonth = null;
+    _quota = null;
+    return loadDate(_selectedDate);
+  }
+
   static const _pageSize = 20;
 
   Future<void> loadDate(DateTime date) async {
     final generation = ++_loadGeneration;
+    final balanceGeneration = ++_balanceGeneration;
     _selectedDate = DateUtils.dateOnly(date);
     final selectedDate = _selectedDate;
     final targetMonth = DateTime(selectedDate.year, selectedDate.month);
@@ -74,11 +81,14 @@ extension AiEntryLoading on AiEntryViewModel {
       _hasAnyEntries = _entries.isNotEmpty || (hasHistory ?? true);
       _quota = await quotaFuture;
       final wallets = await walletsFuture;
-      if (wallets != null) {
-        _wallets = List.unmodifiable(wallets);
-        _walletsLoaded = true;
+      final total = await totalFuture;
+      if (balanceGeneration == _balanceGeneration) {
+        if (wallets != null) {
+          _wallets = List.unmodifiable(wallets);
+          _walletsLoaded = true;
+        }
+        _totalFunds = total ?? _walletBalance;
       }
-      _totalFunds = await totalFuture ?? _walletBalance;
     } finally {
       if (generation == _loadGeneration) {
         _isLoading = false;

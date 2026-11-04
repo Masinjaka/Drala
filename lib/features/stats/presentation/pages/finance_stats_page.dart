@@ -1,7 +1,12 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/ui/month_scroll_layout.dart';
+import 'package:budgets/core/ui/app_grid_background.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/core/ui/detail_page_header.dart';
-import 'package:budgets/core/ui/month_picker_header.dart';
+import 'package:budgets/core/ui/app_stats_theme.dart';
+import 'package:budgets/core/ui/month_carousel.dart';
+import 'package:budgets/features/stats/presentation/widgets/stats_page_header.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/stats/data/repositories/supabase_monthly_stats_repository.dart';
 import 'package:budgets/features/stats/data/services/monthly_stats_service.dart';
@@ -36,6 +41,7 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
   late final DateTime _origin;
   late final PageController _pages;
   int _visit = 0;
+  bool _categories = false;
 
   @override
   void initState() {
@@ -79,7 +85,7 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
         initialDate: _viewModel.month,
         firstDate: _monthFor(0),
         lastDate: DateTime.now(),
-        title: MaterialLocalizations.of(context).datePickerHelpText);
+        title: context.l10n.selectDate);
     if (selected != null && mounted) _pages.jumpToPage(_pageFor(selected));
   }
 
@@ -101,49 +107,63 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: AppStatsTheme.background(context),
       body: ListenableBuilder(
         listenable: _viewModel,
         builder: (context, _) {
-          return SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Column(children: [
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 29),
-                      child: DetailPageHeader(
-                          title: context.l10n.stats,
-                          showBackButton: widget.showBackButton)),
-                  const SizedBox(height: 32),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 29),
-                      child: MonthPickerHeader(
+          final stats = _viewModel.stats;
+          final amount = stats == null
+              ? 0
+              : widget.displayCurrency
+                      ?.convertToSelected(stats.balance, stats.currencyCode) ??
+                  stats.balance;
+          return AppGridBackground(
+              gravity: true,
+              backgroundColor: AppStatsTheme.background(context),
+              amount: amount,
+              loading: _viewModel.isLoading,
+              builder: (amountKey) => SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: AppHeaderMetrics.topPadding),
+                    child: MonthScrollLayout(
+                      scrollKey: const Key('stats-page-scroll'),
+                      headerBuilder: (showMonth) => Padding(
+                          padding: AppPageSpacing.insets(context),
+                          child: StatsPageHeader(
+                              showMonth: showMonth,
+                              month: _viewModel.month,
+                              onPickMonth: _pickMonth,
+                              showBackButton: widget.showBackButton)),
+                      carousel: MonthCarousel(
                           month: _viewModel.month,
                           onChanged: _changeMonth,
-                          onPickMonth: _pickMonth,
-                          pickerKey: const Key('stats-pick-month'),
-                          canGoNext: _canGoForward)),
-                  const SizedBox(height: 28),
-                  Expanded(
+                          pillStyle: true,
+                          canGoNext: _canGoForward),
                       child: PageView.builder(
-                    key: const Key('stats-month-pages'),
-                    controller: _pages,
-                    itemCount: _pageFor(DateTime.now()) + 1,
-                    onPageChanged: _selectPage,
-                    itemBuilder: (context, page) {
-                      final month = _monthFor(page);
-                      return StatsMonthPage(
-                          key: ValueKey(
-                              'stats-$month-${month == _viewModel.month ? _visit : -1}'),
-                          stats: _viewModel.statsForMonth(month),
-                          loading: _viewModel.isMonthLoading(month),
-                          onRefresh: _load,
-                          displayCurrency: widget.displayCurrency);
-                    },
-                  )),
-                ]),
-              ));
+                        key: const Key('stats-month-pages'),
+                        controller: _pages,
+                        itemCount: _pageFor(DateTime.now()) + 1,
+                        onPageChanged: _selectPage,
+                        itemBuilder: (context, page) {
+                          final month = _monthFor(page);
+                          return StatsMonthPage(
+                              amountKey:
+                                  month == _viewModel.month ? amountKey : null,
+                              key: ValueKey(
+                                  'stats-$month-${month == _viewModel.month ? _visit : -1}'),
+                              categories: _categories,
+                              onTabChanged: (value) =>
+                                  setState(() => _categories = value),
+                              stats: _viewModel.statsForMonth(month),
+                              loading: _viewModel.isMonthLoading(month),
+                              onRefresh: _load,
+                              displayCurrency: widget.displayCurrency);
+                        },
+                      ),
+                    ),
+                  )));
         },
       ),
     );

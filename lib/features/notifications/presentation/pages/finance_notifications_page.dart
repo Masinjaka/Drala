@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/detail_page_shell.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:budgets/core/ui/detail_list_skeleton.dart';
@@ -13,9 +15,11 @@ class FinanceNotificationsPage extends StatefulWidget {
   const FinanceNotificationsPage({
     required this.viewModel,
     required this.onSelected,
+    this.onSettings,
     super.key,
   });
 
+  final VoidCallback? onSettings;
   final FinanceNotificationViewModel viewModel;
   final Future<void> Function(
     BuildContext context,
@@ -54,6 +58,8 @@ class _FinanceNotificationsPageState extends State<FinanceNotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return DetailPageShell(
+      showGrid: false,
+      backgroundColor: AppFinanceSurfaceTheme.background(context),
       title: context.l10n.notifications,
       child: ListenableBuilder(
         listenable: widget.viewModel,
@@ -63,12 +69,13 @@ class _FinanceNotificationsPageState extends State<FinanceNotificationsPage> {
             return const DetailListSkeleton();
           }
           if (widget.viewModel.notifications.isEmpty) {
-            return const FinanceNotificationsEmptyState();
+            return FinanceNotificationsEmptyState(
+                onSettings: widget.onSettings);
           }
           return RefreshIndicator(
             onRefresh: _load,
             child: ListView.separated(
-              padding: const EdgeInsets.fromLTRB(29, 12, 29, 32),
+              padding: AppPageSpacing.insets(context, top: 12, bottom: 32),
               itemCount: widget.viewModel.notifications.length,
               separatorBuilder: (_, __) => const SizedBox(height: 10),
               itemBuilder: (context, index) {

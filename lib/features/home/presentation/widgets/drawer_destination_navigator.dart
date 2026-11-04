@@ -1,3 +1,4 @@
+import 'package:budgets/core/navigation/app_modal_page_route.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/envelopes/domain/repositories/envelope_repository.dart';
 import 'package:budgets/features/envelopes/presentation/pages/envelope_page.dart';
@@ -29,6 +30,7 @@ class DrawerDestinationNavigator {
     this.onAddWallet,
     this.onUpdateWallet,
     this.onDeleteWallet,
+    this.onDeleteWallets,
     this.walletsListenable,
     this.walletReader,
     this.walletLoadingReader,
@@ -47,6 +49,7 @@ class DrawerDestinationNavigator {
   final Future<void> Function(AddWalletInput)? onAddWallet;
   final Future<void> Function(String, AddWalletInput)? onUpdateWallet;
   final Future<void> Function(String)? onDeleteWallet;
+  final Future<void> Function(List<String>)? onDeleteWallets;
   final Listenable? walletsListenable;
   final List<WalletSummary> Function()? walletReader;
   final bool Function()? walletLoadingReader;
@@ -60,12 +63,13 @@ class DrawerDestinationNavigator {
 
   void openCategories() => _push(const CategoryPage());
 
-  void openWallets() => _push(
+  Future<void> openWallets() => _push(
         WalletsPage(
           wallets: wallets,
           onAddWallet: onAddWallet ?? (_) async {},
           onUpdateWallet: onUpdateWallet ?? (_, __) async {},
           onDeleteWallet: onDeleteWallet ?? (_) async {},
+          onDeleteWallets: onDeleteWallets,
           currencyState: currencyState,
           walletsListenable: walletsListenable,
           walletReader: walletReader,
@@ -81,6 +85,7 @@ class DrawerDestinationNavigator {
   void openEnvelopes() => _push(
         EnvelopePage(
           repository: envelopeRepository,
+          onManageWallets: openWallets,
           displayCurrency: currencyState,
         ),
       );
@@ -89,6 +94,7 @@ class DrawerDestinationNavigator {
         FinanceNotificationsPage(
           viewModel: viewModel,
           onSelected: _openNotificationEnvelope,
+          onSettings: openSettings,
         ),
       );
 
@@ -104,11 +110,12 @@ class DrawerDestinationNavigator {
     FinanceNotification notification,
   ) {
     return Navigator.of(notificationContext).push(
-      MaterialPageRoute<void>(
+      AppModalPageRoute<void>(
         builder: (_) => EnvelopePage(
           initialMonth: notification.periodMonth,
           initialEnvelopeId: notification.envelopeId,
           repository: envelopeRepository,
+          onManageWallets: openWallets,
           displayCurrency: currencyState,
         ),
       ),
@@ -118,7 +125,7 @@ class DrawerDestinationNavigator {
   Future<void> _push(Widget page) async {
     closeDrawer();
     await Navigator.of(context).push(
-      MaterialPageRoute<void>(builder: (_) => page),
+      AppModalPageRoute<void>(builder: (_) => page),
     );
     if (shouldRunOnReturn?.call() ?? true) {
       await onReturn?.call();

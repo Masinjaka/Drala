@@ -1,3 +1,5 @@
+import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
+import 'package:budgets/core/ui/app_category_icon_theme.dart';
 import 'package:budgets/core/ui/amount_visibility_controller.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/amount_visibility_scope.dart';
@@ -84,8 +86,8 @@ void main() {
       ),
     );
 
-    expect(find.text('🔄'), findsOneWidget);
-    expect(find.byType(Icon), findsNothing);
+    expect(tester.widget<CategoryIcon>(find.byType(CategoryIcon)).iconKey,
+        'transfer');
     final amount = tester.widget<Text>(
       find.byKey(const Key('finance-entry-amount-transfer')),
     );
@@ -103,7 +105,7 @@ void main() {
     expect(find.text('-5 000 MGA'), findsNothing);
   });
 
-  testWidgets('renders the category emoji instead of a Material icon',
+  testWidgets('renders the category outline using its saved color',
       (tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -115,8 +117,15 @@ void main() {
       ),
     );
 
-    expect(find.text('🍜'), findsOneWidget);
-    expect(find.byIcon(Icons.fastfood_outlined), findsNothing);
+    final finder = find.byType(CategoryIcon);
+    expect(tester.widget<CategoryIcon>(finder).colorHex, 'FF8040C0');
+    final icon = tester
+        .widget<Icon>(find.descendant(of: finder, matching: find.byType(Icon)));
+    expect(
+        icon.color,
+        AppCategoryIconTheme.color(tester.element(finder), 'FF8040C0',
+            background:
+                Theme.of(tester.element(finder)).scaffoldBackgroundColor));
   });
 }
 
@@ -144,4 +153,5 @@ FinanceEntry _entry(
       iconKey: entryType == 'transfer' ? 'transfer' : 'other',
       emoji: emoji ?? (entryType == 'transfer' ? '🔄' : '🧾'),
       entryType: entryType,
+      categoryColor: entryType == 'transfer' ? null : 'FF8040C0',
     );

@@ -17,6 +17,7 @@ class WalletSourceSheet extends StatefulWidget {
     this.title,
     this.message,
     this.currencyState,
+    this.onManageWallets,
     super.key,
   });
 
@@ -25,6 +26,7 @@ class WalletSourceSheet extends StatefulWidget {
   final String? title;
   final String? message;
   final CurrencyState? currencyState;
+  final VoidCallback? onManageWallets;
 
   static Future<String?> show(
     BuildContext context, {
@@ -33,6 +35,7 @@ class WalletSourceSheet extends StatefulWidget {
     String? title,
     String? message,
     CurrencyState? currencyState,
+    VoidCallback? onManageWallets,
   }) {
     return showAppSheet<String>(
       context,
@@ -42,6 +45,7 @@ class WalletSourceSheet extends StatefulWidget {
         title: title,
         message: message,
         currencyState: currencyState,
+        onManageWallets: onManageWallets,
       ),
     );
   }
@@ -123,14 +127,42 @@ class _WalletSourceSheetState extends State<WalletSourceSheet> {
                 },
               ),
             ),
+            if (_selectedWalletId == null) ...[
+              const SizedBox(height: 12),
+              Text(context.l10n.insufficientWalletFunds,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Theme.of(context).colorScheme.error)),
+            ],
+            if (_selectedWalletId == null && widget.onManageWallets != null)
+              TextButton(
+                key: const Key('manage-funding-wallets'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  widget.onManageWallets!();
+                },
+                child: Text(context.l10n.wallets),
+              ),
             const SizedBox(height: 12),
             CustomButton(
               key: const Key('confirm-wallet-source'),
+              backgroundColor: _selectedWalletId == null
+                  ? Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: .12)
+                  : null,
+              foregroundColor: _selectedWalletId == null
+                  ? Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: .38)
+                  : null,
               text: widget.requiredAmount > 0
                   ? context.l10n.walletSourceUseWallet
                   : context.l10n.walletSourceSaveWallet,
               height: 40,
-              borderRadius: BorderRadius.circular(6),
               onPressed: _selectedWalletId == null
                   ? null
                   : () => Navigator.pop(context, _selectedWalletId),

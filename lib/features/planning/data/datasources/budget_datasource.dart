@@ -14,7 +14,7 @@ Future<List<Budget>> getBudgets() {
         .select(
           'id, created_at, last_reset_at, user_id, amount, amount_spent, '
           'period, category_data:categories!budgets_category_fkey'
-          '(id, name, emoji, color)',
+          '(id, name, emoji, icon_key, color)',
         )
         .eq('user_id', userId)
         .order('created_at');
@@ -37,6 +37,7 @@ Future<List<Budget>> getBudgets() {
                 id: category['id'] as String?,
                 name: category['name'] as String?,
                 emoji: category['emoji'] as String?,
+                iconKey: category['icon_key'] as String?,
                 color: category['color'] as String?,
               )
             : null,

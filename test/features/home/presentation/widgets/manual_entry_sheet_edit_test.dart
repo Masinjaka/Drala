@@ -23,16 +23,17 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Edit transaction'), findsOneWidget);
+    expect(find.byKey(const Key('close-transaction-sheet')), findsNothing);
+    expect(find.byKey(const Key('cancel-transaction')), findsOneWidget);
     expect(find.text('Lunch'), findsOneWidget);
     expect(find.text('12,000'), findsOneWidget);
-    expect(find.text('With a friend'), findsOneWidget);
+    expect(find.text('With a friend'), findsNothing);
+    expect(find.text('Description'), findsNothing);
     expect(find.byKey(const Key('delete-transaction')), findsOneWidget);
 
     await tester.enterText(find.byType(TextFormField).at(1), 'Team lunch');
-    await tester.ensureVisible(
-      find.byKey(const Key('save-transaction')),
-    );
+    expect(tester.getRect(find.byKey(const Key('save-transaction'))).bottom,
+        lessThanOrEqualTo(tester.view.physicalSize.height));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('save-transaction')));
     await tester.pumpAndSettle();
@@ -41,6 +42,7 @@ void main() {
     expect(result?.input?.title, 'Team lunch');
     expect(result?.input?.categoryId, 'food');
     expect(result?.input?.sourceWalletId, 'cash');
+    expect(result?.input?.description, 'With a friend');
     expect(result?.input?.occurredAt, _entry.occurredAt);
   });
 
@@ -56,10 +58,6 @@ void main() {
     }));
 
     await tester.tap(find.text('Open'));
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(
-      find.byKey(const Key('delete-transaction')),
-    );
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('delete-transaction')));
     await tester.pumpAndSettle();
@@ -86,9 +84,8 @@ void main() {
 
     expect(find.text('2.4'), findsOneWidget);
     await tester.enterText(find.byType(TextFormField).at(0), '200');
-    await tester.ensureVisible(
-      find.byKey(const Key('save-transaction')),
-    );
+    expect(tester.getRect(find.byKey(const Key('save-transaction'))).bottom,
+        lessThanOrEqualTo(tester.view.physicalSize.height));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('save-transaction')));
     await tester.pumpAndSettle();

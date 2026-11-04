@@ -10,6 +10,7 @@ import 'package:budgets/features/guest/data/guest_cloud_sync_service.dart';
 import 'package:budgets/features/guest/presentation/pages/guest_account_choice_page.dart';
 import 'package:budgets/features/onboarding/presentation/pages/getting_started_page.dart';
 import 'package:flutter/widgets.dart';
+import 'package:budgets/features/onboarding/presentation/pages/setup_complete_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -70,7 +71,13 @@ class AppNavigation {
         ),
         GoRoute(
           path: '/onboarding',
-          builder: (_, __) => AccountSetupPage(
+          builder: (context, __) => AccountSetupPage(
+            onConfigured: _guestSession?.isActive == true && !_isSignedIn()
+                ? () async {
+                    await _guestSession!.prepareCompletion();
+                    if (context.mounted) context.go('/account-choice');
+                  }
+                : null,
             completionRoute: _guestSession?.isActive == true && !_isSignedIn()
                 ? '/account-choice'
                 : '/home',
@@ -86,6 +93,10 @@ class AppNavigation {
                   }
                 : null,
           ),
+        ),
+        GoRoute(
+          path: '/setup-complete',
+          builder: (_, __) => const SetupCompletePage(),
         ),
         GoRoute(
           path: '/account-choice',
@@ -133,6 +144,20 @@ class AppNavigation {
     if (_guestSession?.isSigningOut == true) return null;
     final isSignedIn = _isSignedIn();
     final isPublic = _publicPaths.contains(state.matchedLocation);
+    final pending = _guestSession?.completionPending == true;
+    if (state.matchedLocation == '/setup-complete') {
+      return pending
+          ? null
+          : isSignedIn || _guestSession?.isActive == true
+              ? '/home'
+              : '/getting-started';
+    }
+    if (pending &&
+        state.matchedLocation == '/home' &&
+        (isSignedIn && _guestSession?.isActive == false ||
+            !isSignedIn && _guestSession?.accountChoiceSeen == true)) {
+      return '/setup-complete';
+    }
     if (_guestSession?.isActive == true) {
       if (!isSignedIn &&
           _guestSession!.onboardingComplete &&

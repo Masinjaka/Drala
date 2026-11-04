@@ -89,13 +89,20 @@ class GuestWalletStore implements DefaultWalletRepository {
     return _wallet(row.data);
   }
 
+  Future<void> deleteMany(List<String> ids) => database.transaction(() async {
+        for (final id in ids.toSet().toList()..sort()) {
+          await delete(id);
+        }
+      });
+
   Future<void> delete(String id) async {
     final rows = await database.customSelect(
       'SELECT is_default FROM guest_wallets WHERE id = ? AND user_id = ?',
       variables: [Variable.withString(id), Variable.withString(userId)],
     ).get();
-    if (rows.isEmpty || rows.single.read<int>('is_default') != 0) {
-      throw const WalletDeletionException.inUse();
+    if (rows.isEmpty) throw StateError('wallet_not_found');
+    if (rows.single.read<int>('is_default') != 0) {
+      throw const WalletDeletionException.defaultWallet();
     }
     final usage = await database.customSelect(
       '''SELECT 1 FROM guest_transactions

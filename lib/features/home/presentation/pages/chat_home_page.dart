@@ -1,3 +1,5 @@
+import 'package:budgets/features/offline/data/services/offline_account.dart';
+import 'package:budgets/features/home/presentation/view_models/home_overview_view_model.dart';
 import 'dart:async';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -21,10 +23,12 @@ import 'package:budgets/features/receipts/domain/repositories/receipt_repository
 import 'package:flutter/material.dart';
 
 part 'chat_home_page_actions.dart';
+part 'chat_home_page_build.dart';
 
 class ChatHomePage extends StatefulWidget {
   const ChatHomePage({
     this.today,
+    this.displayName,
     this.aiEntryRepository,
     this.envelopeRepository,
     this.statsRepository,
@@ -34,9 +38,12 @@ class ChatHomePage extends StatefulWidget {
     this.isCurrencyLoading = false,
     this.notificationRepository,
     this.isGuest = false,
+    this.manualOnly = false,
+    this.offlineAccount,
     super.key,
   });
   final DateTime? today;
+  final String? displayName;
   final AiEntryRepository? aiEntryRepository;
   final EnvelopeRepository? envelopeRepository;
   final MonthlyStatsRepository? statsRepository;
@@ -46,17 +53,23 @@ class ChatHomePage extends StatefulWidget {
   final bool isCurrencyLoading;
   final FinanceNotificationRepository? notificationRepository;
   final bool isGuest;
+  final bool manualOnly;
+  final OfflineAccount? offlineAccount;
   @override
   State<ChatHomePage> createState() => _ChatHomePageState();
 }
 
 class _ChatHomePageState extends State<ChatHomePage> {
+  final _envelopePageKey = GlobalKey<EnvelopePageState>();
   late final DateTime _today;
   late final AiEntryViewModel _aiEntryViewModel;
+  late final HomeOverviewViewModel _overviewViewModel;
   late final ActivityCalendarViewModel _activityCalendarViewModel;
   late final FinanceNotificationViewModel _notificationViewModel;
   late DateTime _selectedDate;
   DateTime? _loadedDate;
+  int _offlineDataVersion = -1;
+  bool _offlineWasOnline = false;
   @override
   void initState() {
     super.initState();
@@ -69,13 +82,18 @@ class _ChatHomePageState extends State<ChatHomePage> {
       _today,
       receiptRepository: widget.receiptRepository ?? defaults.receipts,
     );
+    _overviewViewModel = HomeOverviewViewModel(repository,
+        widget.envelopeRepository ?? HomeRepositoryFactory.envelopes(), _today);
     _activityCalendarViewModel = ActivityCalendarViewModel(repository);
     _notificationViewModel = FinanceNotificationViewModel(
       widget.notificationRepository ??
           FinanceNotificationRepositoryFactory.create(isGuest: widget.isGuest),
     );
     _aiEntryViewModel.addListener(_syncSelectedActivity);
+    _offlineDataVersion = widget.offlineAccount?.dataVersion ?? -1;
+    widget.offlineAccount?.addListener(_offlineDataChanged);
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      unawaited(_overviewViewModel.load());
       unawaited(_loadSelectedDate());
       unawaited(_activityCalendarViewModel.loadMonth(_today));
       unawaited(_refreshNotifications());
@@ -109,85 +127,15 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
   @override
   void dispose() {
+    widget.offlineAccount?.removeListener(_offlineDataChanged);
     _aiEntryViewModel.removeListener(_syncSelectedActivity);
     _activityCalendarViewModel.dispose();
     _notificationViewModel.dispose();
     _aiEntryViewModel.dispose();
+    _overviewViewModel.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    late final DrawerDestinationNavigator destinations;
-    GuestSettingsPage guestSettings() => GuestSettingsPage(
-          onCategoriesPressed: () => destinations.openCategories(),
-          onWalletsPressed: () => destinations.openWallets(),
-          walletsListenable: _aiEntryViewModel,
-          walletCountReader: () => _aiEntryViewModel.wallets.length,
-        );
-    destinations = DrawerDestinationNavigator(
-      context: context,
-      closeDrawer: () {},
-      onReturn: _aiEntryViewModel.refreshBalances,
-      shouldRunOnReturn: () =>
-          widget.isGuest || (widget.isSignedIn?.call() ?? true),
-      settingsPage: widget.isGuest ? guestSettings() : null,
-      envelopeRepository: widget.envelopeRepository,
-      statsRepository: widget.statsRepository,
-      onDataDeleted: _resetAfterDataDeletion,
-      currencyState: widget.currencyState,
-      wallets: _aiEntryViewModel.wallets,
-      onAddWallet: _aiEntryViewModel.addWallet,
-      onUpdateWallet: _aiEntryViewModel.updateWallet,
-      onDeleteWallet: _aiEntryViewModel.deleteWallet,
-      walletsListenable: _aiEntryViewModel,
-      walletReader: () => _aiEntryViewModel.wallets,
-      walletLoadingReader: () => !_aiEntryViewModel.walletsLoaded,
-    );
-    final layout = ChatHomeLayout(
-      today: _today,
-      viewModel: _aiEntryViewModel,
-      activityCalendarViewModel: _activityCalendarViewModel,
-      currencyState: widget.currencyState,
-      isCurrencyLoading: widget.isCurrencyLoading,
-      onDateSelected: _selectDate,
-      destinations: [
-        EnvelopePage(
-            repository: widget.envelopeRepository,
-            displayCurrency: widget.currencyState,
-            showBackButton: false),
-        FinanceStatsPage(
-            repository: widget.statsRepository,
-            displayCurrency: widget.currencyState,
-            showBackButton: false),
-        if (widget.isGuest)
-          guestSettings()
-        else
-          SettingPage(
-            onDataDeleted: _resetAfterDataDeletion,
-            showBackButton: false,
-            notificationViewModel: _notificationViewModel,
-            onNotificationsPressed: () =>
-                destinations.openNotifications(_notificationViewModel),
-            walletsListenable: _aiEntryViewModel,
-            walletCountReader: () => _aiEntryViewModel.wallets.length,
-            onCategoriesPressed: destinations.openCategories,
-            onWalletsPressed: destinations.openWallets,
-          ),
-      ],
-      onActivitiesSelected: () {
-        unawaited(_loadSelectedDate());
-        unawaited(_refreshNotifications());
-      },
-      notificationViewModel: _notificationViewModel,
-      onNotificationsPressed: () => destinations.openNotifications(
-        _notificationViewModel,
-      ),
-      onFinanceChanged: _refreshNotifications,
-      manualOnly: widget.isGuest,
-    );
-    return widget.isGuest
-        ? layout
-        : NotificationPermissionPrompt(child: layout);
-  }
+  Widget build(BuildContext context) => _buildHome(context);
 }

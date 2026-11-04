@@ -54,6 +54,13 @@ class _TransactionSearchPageState extends ConsumerState<TransactionSearchPage> {
     }
   }
 
+  void _resetSearch() {
+    setState(() {
+      _selectedCategories = [];
+      _searchController.clear();
+    });
+  }
+
   void _loadNextPage() {
     if (_isExpenseContext) {
       ref.read(paginatedExpensesProvider.notifier).loadNextPage();
@@ -135,8 +142,11 @@ class _TransactionSearchPageState extends ConsumerState<TransactionSearchPage> {
                         ? SliverFillRemaining(
                             hasScrollBody: false,
                             child: _isExpenseContext
-                                ? TransactionEmptyState(hasFilters: _hasFilters)
+                                ? TransactionEmptyState(
+                                    hasFilters: _hasFilters,
+                                    onReset: _resetSearch)
                                 : TransactionSearchIncomeEmptyState(
+                                    onReset: _resetSearch,
                                     hasFilters: _hasFilters,
                                   ),
                           )

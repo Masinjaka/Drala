@@ -1,3 +1,5 @@
+import '../../../support/soft_shadow_test_binding.dart';
+import '../../../support/load_category_icon_font.dart';
 import 'package:budgets/features/onboarding/presentation/pages/getting_started_page.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/theme.dart';
@@ -14,7 +16,9 @@ import '../../../support/load_app_fonts.dart';
 import '../support/fake_onboarding_repository.dart';
 
 void main() {
+  SoftShadowTestBinding();
   setUpAll(() async {
+    await loadCategoryIconFont();
     await loadAppFonts();
     await (FontLoader('MaterialIcons')
           ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf')))

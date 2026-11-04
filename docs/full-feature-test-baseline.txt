@@ -1,0 +1,45 @@
+test/core/ui/app_wheel_picker_test.dart: shows a neutral date wheel and returns the selected date
+test/core/app_theme_contrast_test.dart: text and status colors remain legible in Brightness.light
+test/core/app_theme_contrast_test.dart: text and status colors remain legible in Brightness.dark
+test/features/home/presentation/pages/chat_home_page_test.dart: shows the hard-coded dashboard and accepts chat input
+test/features/home/presentation/widgets/home_header_layout_test.dart: fits the header at the app responsive text scale
+test/features/home/presentation/pages/notification_navigation_test.dart: warning opens and reveals its envelope
+test/features/home/presentation/pages/settings_navigation_test.dart: settings opens as a root bottom-navigation destination
+test/features/home/presentation/widgets/resume_date_calendar_test.dart: starts on the current week and expands to the month
+test/features/home/presentation/widgets/home_header_test.dart: toggles balance privacy and has no subtitle
+test/features/home/presentation/widgets/home_calendar_animation_test.dart: calendar animates both directions with centered toggle
+test/features/home/presentation/widgets/home_dashboard_currency_loading_test.dart: waits for selected currency before rendering the balance
+test/features/home/presentation/widgets/home_keyboard_layout_test.dart: keyboard fits with suggestions and month view false
+test/features/home/presentation/widgets/home_keyboard_layout_test.dart: keyboard fits with suggestions and month view true
+test/features/home/presentation/widgets/home_balance_card_test.dart: shows a dash while loading then counts near the final values
+test/features/home/presentation/widgets/home_balance_card_test.dart: matches the reference balance banner
+test/features/home/presentation/widgets/home_scroll_edges_test.dart: short list with 0 entries can scroll both sections away
+test/features/home/presentation/widgets/home_scroll_edges_test.dart: short list with 1 entries can scroll both sections away
+test/features/auth/presentation/pages/reset_password_visual_test.dart: forgot password uses the login visual style
+test/features/transactions/presentation/widgets/transaction_form_actions_test.dart: save label uses button contrast in Brightness.light
+test/features/stats/presentation/pages/stats_figma_golden_test.dart: matches the Figma stats frame
+test/features/envelopes/presentation/pages/envelope_figma_golden_test.dart: matches the redesigned envelope frame
+test/features/envelopes/presentation/pages/envelope_edit_test.dart: tap edits the envelope then delete removes its card
+test/features/envelopes/presentation/widgets/envelope_card_test.dart: uses text-height skeletons for loading amounts
+test/features/onboarding/presentation/onboarding_golden_test.dart: render light step -1
+test/features/onboarding/presentation/getting_started_page_test.dart: category bubbles expand from Drala into the reference layout
+test/features/onboarding/presentation/setup_choice_press_test.dart: choice shrinks while pressed and recovers on release
+test/features/onboarding/presentation/onboarding_golden_test.dart: render light step 2
+test/features/onboarding/presentation/setup_currency_loading_test.dart: currency choices shimmer until rates finish loading
+test/features/onboarding/presentation/account_setup_page_test.dart: completes ordered setup with chosen presets and wallets
+test/features/onboarding/presentation/onboarding_golden_test.dart: render light step 3
+test/features/onboarding/presentation/onboarding_golden_test.dart: render light step 4
+test/features/onboarding/presentation/onboarding_golden_test.dart: render light step 5
+test/features/onboarding/presentation/onboarding_golden_test.dart: render light step 6
+test/features/onboarding/presentation/onboarding_golden_test.dart: render dark step -1
+test/features/onboarding/presentation/onboarding_golden_test.dart: render dark step 0
+test/features/onboarding/presentation/onboarding_golden_test.dart: render dark step 1
+test/features/onboarding/presentation/onboarding_golden_test.dart: render dark step 2
+test/features/onboarding/presentation/account_setup_page_navigation_test.dart: Continue and Back move between setup pages
+test/features/onboarding/presentation/account_setup_page_test.dart: resumes draft and keeps step after a failed save
+test/features/onboarding/presentation/onboarding_golden_test.dart: render dark step 3
+test/features/onboarding/presentation/onboarding_golden_test.dart: render dark step 4
+test/features/onboarding/presentation/onboarding_golden_test.dart: render dark step 5
+test/features/onboarding/presentation/onboarding_golden_test.dart: render dark step 6
+test/features/onboarding/presentation/account_setup_page_test.dart: currency step uses settings search and selection behavior
+test/features/onboarding/presentation/account_setup_page_test.dart: failed completion retains choices and can retry

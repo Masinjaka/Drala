@@ -7,6 +7,7 @@ import 'package:budgets/features/home/presentation/widgets/chat_send_button.dart
 import 'package:budgets/features/home/presentation/widgets/chat_text_input.dart';
 import 'package:budgets/features/home/presentation/widgets/receipt_input_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:budgets/features/home/presentation/widgets/chat_composer_surface.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 
 class ChatInputBar extends StatefulWidget {
@@ -17,6 +18,7 @@ class ChatInputBar extends StatefulWidget {
     this.onReceiptSubmit,
     this.isQuotaExhausted = false,
     this.manualOnly = false,
+    this.embedded = false,
     this.currencyCode = 'MGA',
     this.receiptInputService = const ReceiptInputService(),
     super.key,
@@ -27,6 +29,7 @@ class ChatInputBar extends StatefulWidget {
   final Future<bool> Function(ReceiptInputResult input)? onReceiptSubmit;
   final bool isQuotaExhausted;
   final bool manualOnly;
+  final bool embedded;
   final String currencyCode;
   final ReceiptInputService receiptInputService;
   @override
@@ -124,7 +127,9 @@ class _ChatInputBarState extends State<ChatInputBar> {
       controller: _controller,
       focusNode: _focusNode,
       enabled: !isBusy && !widget.manualOnly,
-      hints: suggestions,
+      hints:
+          widget.embedded ? [context.l10n.activitiesComposerHint] : suggestions,
+      compact: widget.embedded,
       cursorColor:
           theme.textSelectionTheme.cursorColor ?? theme.colorScheme.primary,
       hintColor: theme.colorScheme.onSurfaceVariant,
@@ -153,36 +158,25 @@ class _ChatInputBarState extends State<ChatInputBar> {
       tooltip: isManualEntry ? context.l10n.manualEntry : context.l10n.send,
       bottomPadding: isFocused ? 4 : 0,
     );
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        TextFieldTapRegion(
-          consumeOutsideTaps: isFocused,
-          child: AnimatedSize(
-            duration: animationDuration,
-            curve: Curves.easeInOutCubic,
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              key: const Key('chat-input-container'),
-              constraints: BoxConstraints(
-                minHeight: isExpanded ? 85 : 48,
-                maxHeight: isExpanded ? 157 : 48,
-              ),
-              margin: const EdgeInsets.symmetric(horizontal: 29),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainer,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: ChatInputComposerLayout(
-                isExpanded: isExpanded,
-                textInput: textInput,
-                addButton: addButton,
-                sendButton: sendButton,
-              ),
-            ),
-          ),
-        ),
-      ],
+    final composer = ChatComposerSurface(
+      expanded: isExpanded,
+      embedded: widget.embedded,
+      child: ChatInputComposerLayout(
+          isExpanded: isExpanded,
+          compact: widget.embedded,
+          textInput: textInput,
+          addButton: addButton,
+          sendButton: sendButton),
+    );
+    return TextFieldTapRegion(
+      consumeOutsideTaps: isFocused && !widget.embedded,
+      child: animationDuration == Duration.zero
+          ? composer
+          : AnimatedSize(
+              duration: animationDuration,
+              curve: Curves.easeInOutCubic,
+              alignment: Alignment.bottomCenter,
+              child: composer),
     );
   }
 }

@@ -13,7 +13,7 @@ class GuestEnvelopeQueries {
   Future<List<Envelope>> envelopesForMonth(DateTime month) async {
     await GuestEnvelopeRenewal(database, userId).renew(month);
     final rows = await database.customSelect(
-      '''SELECT e.*,c.name AS category_name,c.emoji,c.color
+      '''SELECT e.*,c.name AS category_name,c.emoji,c.icon_key,c.color
          FROM guest_envelopes e
          JOIN guest_categories c ON c.id=e.category_id
          WHERE e.user_id=? AND e.period_month=? ORDER BY e.created_at''',
@@ -29,10 +29,12 @@ class GuestEnvelopeQueries {
       final overspent = value['overspent_amount'] as int;
       return Envelope(
         id: value['id'] as String,
+        fundingWalletId: value['funding_wallet_id'] as String?,
         name: value['name'] as String,
         categoryId: value['category_id'] as String,
         categoryName: value['category_name'] as String,
         emoji: value['emoji'] as String,
+        iconKey: value['icon_key'] as String? ?? '',
         color: value['color'] as String? ?? 'FF9E9E9E',
         amount: amount,
         spent: amount - remaining + overspent,
@@ -45,7 +47,7 @@ class GuestEnvelopeQueries {
 
   Future<List<EnvelopeCategory>> expenseCategories() async {
     final rows = await database.customSelect(
-      '''SELECT id,name,emoji,color FROM guest_categories
+      '''SELECT id,name,emoji,icon_key,color FROM guest_categories
          WHERE user_id=? AND transaction_type='expense' ORDER BY name''',
       variables: [Variable.withString(userId)],
     ).get();

@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -59,21 +60,12 @@ class DeleteConfirmationDialog extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
-                color: colors.onSurface,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 12),
             Text(
               message,
-              style: TextStyle(
-                color: colors.onSurface,
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                height: 1.25,
-              ),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: 20),
             Row(
@@ -84,7 +76,6 @@ class DeleteConfirmationDialog extends StatelessWidget {
                     text: cancelText,
                     onPressed: onCancel,
                     height: 40,
-                    borderRadius: BorderRadius.circular(7),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -94,9 +85,9 @@ class DeleteConfirmationDialog extends StatelessWidget {
                     text: confirmText,
                     onPressed: onConfirm,
                     height: 40,
-                    backgroundColor: colors.error,
+                    backgroundColor:
+                        AppFinanceSurfaceTheme.destructive(context),
                     foregroundColor: colors.onError,
-                    borderRadius: BorderRadius.circular(7),
                   ),
                 ),
               ],

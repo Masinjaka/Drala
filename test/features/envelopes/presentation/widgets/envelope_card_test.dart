@@ -1,5 +1,6 @@
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_card.dart';
+import 'package:budgets/core/ui/app_envelope_theme.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -28,7 +29,7 @@ void main() {
       ),
     );
 
-    expect(find.text('🍔 Food'), findsOneWidget);
+    expect(find.text('Food'), findsOneWidget);
     expect(
       tester.getSize(find.byKey(const Key('envelope-spent-skeleton'))),
       const Size(64, 18),
@@ -67,7 +68,7 @@ void main() {
     );
     final decoration = surface.decoration! as BoxDecoration;
     final context = tester.element(find.byType(EnvelopeCard));
-    expect(decoration.color, Theme.of(context).colorScheme.surfaceContainer);
+    expect(decoration.color, AppEnvelopeTheme.surface(context));
     expect(decoration.border, isNull);
   });
 
@@ -105,12 +106,7 @@ void main() {
             of: find.byKey(const Key('envelope-card-surface')),
             matching: warning),
         findsOneWidget);
-    final amount =
-        tester.widget<RichText>(find.text('125 k MGA', findRichText: true));
-    final span = amount.text as TextSpan;
-    final content = span.children!.single as TextSpan;
-    final suffix = content.children!.last as TextSpan;
-    expect(suffix.style!.fontSize,
-        Theme.of(tester.element(warning)).textTheme.bodyLarge!.fontSize);
+    expect(find.text('Ar 125,000'), findsOneWidget);
+    expect(find.text('125%'), findsOneWidget);
   });
 }

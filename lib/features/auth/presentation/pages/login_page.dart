@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/ui/app_grid_background.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/auth/presentation/widgets/auth_header.dart';
@@ -32,10 +35,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 560),
-              child: _buildForm(context))),
+      body: AppGridBackground(
+          child: SafeArea(
+              bottom: false,
+              child: Center(
+                  child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 560),
+                      child: _buildForm(context))))),
       bottomNavigationBar: _buildBottomPart(),
     );
   }
@@ -51,7 +57,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(29, 48, 29, 24),
+              padding: AppPageSpacing.insets(context,
+                  top: AppHeaderMetrics.topPadding, bottom: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -118,13 +125,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     return SafeArea(
       top: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(29, 0, 29, 30),
+        padding: AppPageSpacing.insets(context, top: 0, bottom: 30),
         child: CustomButton(
           text: Localizations.localeOf(context).languageCode == 'en'
               ? 'Login'
               : context.l10n.authSignIn,
           height: 44,
-          borderRadius: BorderRadius.circular(9),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           onPressed: () async {

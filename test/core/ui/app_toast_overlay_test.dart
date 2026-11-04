@@ -34,6 +34,8 @@ void main() {
     expect(find.text('Entry added.'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('app-toast-close')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
     await tester.pumpAndSettle();
     expect(dismissed, isTrue);
   });

@@ -23,12 +23,12 @@ class SetupWalletChoices extends StatelessWidget {
       'mobile': l.setupMobile
     }.entries.toList();
     return Padding(
-      padding: const EdgeInsets.only(top: 3),
+      padding: const EdgeInsets.only(top: 32),
       child: LayoutBuilder(builder: (context, constraints) {
         final width = (constraints.maxWidth - 10) / 2;
         return Wrap(
           spacing: 10,
-          runSpacing: 10,
+          runSpacing: 7,
           children: [
             for (var index = 0; index < choices.length; index++)
               SizedBox(

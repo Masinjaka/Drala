@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_widget.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +17,8 @@ Widget buildPaginatedDateGroup(
         padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
         child: Text(
           date,
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontWeight: FontWeight.bold,
-            fontSize: 14.5,
-          ),
+          style: AppTextStyle(AppTextRole.body,
+              color: Theme.of(context).textTheme.bodyLarge?.color),
         ),
       ),
       ListView.separated(
@@ -69,10 +68,8 @@ Widget buildLoadMoreIndicator(
       child: Center(
         child: Text(
           'Plus de transactions à charger',
-          style: TextStyle(
-            color: Theme.of(context).hintColor,
-            fontSize: 14,
-          ),
+          style: AppTextStyle(AppTextRole.body,
+              color: Theme.of(context).hintColor),
         ),
       ),
     );

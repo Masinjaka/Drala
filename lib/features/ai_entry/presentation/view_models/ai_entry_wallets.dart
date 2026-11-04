@@ -41,7 +41,25 @@ extension AiEntryWallets on AiEntryViewModel {
     });
   }
 
+  Future<void> deleteWallets(List<String> ids) async {
+    if (_isAddingWallet || isSubmitting) {
+      throw StateError('operation_in_progress');
+    }
+    final repository = _repository;
+    if (repository is! BulkWalletRepository) {
+      throw UnsupportedError('Bulk wallet deletion is unavailable.');
+    }
+    await _runWalletMutation(() async {
+      await (repository as BulkWalletRepository).deleteWallets(ids);
+      final removed = ids.toSet();
+      _wallets =
+          List.unmodifiable(_wallets.where((w) => !removed.contains(w.id)));
+      await _refreshWalletTotal();
+    });
+  }
+
   Future<void> refreshBalances() async {
+    ++_balanceGeneration;
     _wallets = List.unmodifiable(await _repository.wallets());
     _walletsLoaded = true;
     _totalFunds = await _repository.totalFunds();
@@ -49,6 +67,7 @@ extension AiEntryWallets on AiEntryViewModel {
   }
 
   Future<void> _runWalletMutation(Future<void> Function() action) async {
+    ++_balanceGeneration;
     _isAddingWallet = true;
     _notify();
     try {

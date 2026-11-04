@@ -12,6 +12,7 @@ class HomeWeekTransition extends StatefulWidget {
     required this.onPreviousWeek,
     required this.onNextWeek,
     this.pageController,
+    this.filledSelection = false,
     super.key,
   });
 
@@ -23,6 +24,7 @@ class HomeWeekTransition extends StatefulWidget {
   final VoidCallback? onPreviousWeek;
   final VoidCallback? onNextWeek;
   final PageController? pageController;
+  final bool filledSelection;
 
   @override
   State<HomeWeekTransition> createState() => _HomeWeekTransitionState();
@@ -53,7 +55,8 @@ class _HomeWeekTransitionState extends State<HomeWeekTransition> {
     }
     if (!_controller.hasClients || _controller.page?.round() == target) return;
     _controllerTarget = target;
-    if ((target - previous).abs() == 1) {
+    if ((target - previous).abs() == 1 &&
+        !MediaQuery.disableAnimationsOf(context)) {
       _controller.animateToPage(
         target,
         duration: const Duration(milliseconds: 300),
@@ -104,6 +107,7 @@ class _HomeWeekTransitionState extends State<HomeWeekTransition> {
           today: widget.today,
           onDateSelected: widget.onDateSelected,
           activityDates: widget.activityDates,
+          filledSelection: widget.filledSelection,
         ),
       ),
     );

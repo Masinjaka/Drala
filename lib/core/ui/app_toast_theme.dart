@@ -1,3 +1,4 @@
+import 'app_danger_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppToastTheme extends ThemeExtension<AppToastTheme> {
@@ -8,6 +9,7 @@ class AppToastTheme extends ThemeExtension<AppToastTheme> {
     required this.error,
     required this.info,
     required this.iconForeground,
+    this.errorForeground = Colors.white,
   });
 
   final Color background;
@@ -16,12 +18,14 @@ class AppToastTheme extends ThemeExtension<AppToastTheme> {
   final Color error;
   final Color info;
   final Color iconForeground;
+  final Color errorForeground;
 
   static const light = AppToastTheme(
     background: Color(0xFF303030),
     foreground: Color(0xFFFFFFFF),
     success: Color(0xFF91E7A4),
-    error: Color(0xFFE86468),
+    error: AppDangerTheme.darkError,
+    errorForeground: AppDangerTheme.darkForeground,
     info: Color(0xFFFFCF52),
     iconForeground: Color(0xFF303030),
   );
@@ -30,7 +34,8 @@ class AppToastTheme extends ThemeExtension<AppToastTheme> {
     background: Color(0xFFFFFFFF),
     foreground: Color(0xFF333333),
     success: Color(0xFF70C485),
-    error: Color(0xFFE86468),
+    error: AppDangerTheme.lightError,
+    errorForeground: AppDangerTheme.lightForeground,
     info: Color(0xFFF0C447),
     iconForeground: Color(0xFF303030),
   );
@@ -43,6 +48,7 @@ class AppToastTheme extends ThemeExtension<AppToastTheme> {
     Color? error,
     Color? info,
     Color? iconForeground,
+    Color? errorForeground,
   }) =>
       AppToastTheme(
         background: background ?? this.background,
@@ -51,6 +57,7 @@ class AppToastTheme extends ThemeExtension<AppToastTheme> {
         error: error ?? this.error,
         info: info ?? this.info,
         iconForeground: iconForeground ?? this.iconForeground,
+        errorForeground: errorForeground ?? this.errorForeground,
       );
 
   @override
@@ -63,6 +70,7 @@ class AppToastTheme extends ThemeExtension<AppToastTheme> {
       error: Color.lerp(error, other.error, t)!,
       info: Color.lerp(info, other.info, t)!,
       iconForeground: Color.lerp(iconForeground, other.iconForeground, t)!,
+      errorForeground: Color.lerp(errorForeground, other.errorForeground, t)!,
     );
   }
 }

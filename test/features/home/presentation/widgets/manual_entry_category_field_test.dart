@@ -59,11 +59,13 @@ void main() {
     expect(decoration.border?.top.color, Colors.transparent);
     final lightLabel = tester.widget<Text>(find.text('Housing')).style!;
     final darkLabel = tester.widget<Text>(find.text('Transport')).style!;
-    expect(lightLabel.color, Colors.black);
-    expect(lightLabel.fontWeight, FontWeight.w700);
+    expect(lightLabel.color, AppTheme.lightTheme.colorScheme.onSurface);
+    expect(lightLabel.fontWeight,
+        AppTheme.lightTheme.textTheme.labelSmall!.fontWeight);
     expect(lightLabel.shadows, isNull);
-    expect(darkLabel.color, Colors.black);
-    expect(darkLabel.fontWeight, FontWeight.w700);
+    expect(darkLabel.color, AppTheme.lightTheme.colorScheme.onSurface);
+    expect(darkLabel.fontWeight,
+        AppTheme.lightTheme.textTheme.labelSmall!.fontWeight);
     expect(darkLabel.shadows, isNull);
     final iconAlignment = find
         .descendant(

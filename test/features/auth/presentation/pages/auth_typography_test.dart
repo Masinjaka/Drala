@@ -18,15 +18,15 @@ void main() {
       await tester.pump();
 
       expect(tester.widget<Text>(find.text('Login').first).style?.fontSize,
-          AppTypography.display);
+          AppTypography.headline);
       expect(tester.widget<Text>(find.text('Login').first).style?.fontWeight,
-          FontWeight.w700);
+          FontWeight.normal);
       expect(tester.widget<Text>(find.text('Email')).style?.fontSize,
-          AppTypography.supporting);
+          AppTypography.body);
       for (final field in tester.widgetList<EditableText>(
         find.byType(EditableText),
       )) {
-        expect(field.style.fontSize, AppTypography.supporting);
+        expect(field.style.fontSize, AppTypography.input);
       }
 
       await tester.pumpWidget(const SizedBox.shrink());

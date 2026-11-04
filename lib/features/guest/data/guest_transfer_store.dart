@@ -11,18 +11,35 @@ class GuestTransferStore {
   final String userId;
 
   Future<FinanceEntry> add({
+    String? transferId,
     required String fromWalletId,
     required String toWalletId,
     required int amount,
     required DateTime occurredAt,
     String description = '',
   }) async {
-    if (fromWalletId == toWalletId || amount <= 0) {
-      throw StateError('Choose two different wallets and a positive amount.');
-    }
-    final id = const Uuid().v4();
+    if (amount <= 0) throw StateError('invalid_transfer_amount');
+    if (fromWalletId == toWalletId) throw StateError('same_wallet_transfer');
+    final id = transferId ?? const Uuid().v4();
     final now = DateTime.now().toUtc().toIso8601String();
+    var storedDate = occurredAt;
     await database.transaction(() async {
+      final existing = await database.customSelect(
+        'SELECT * FROM guest_wallet_transfers WHERE id=?',
+        variables: [Variable.withString(id)],
+      ).get();
+      if (existing.isNotEmpty) {
+        final row = existing.single;
+        if (row.read<String>('user_id') != userId ||
+            row.read<String>('from_wallet_id') != fromWalletId ||
+            row.read<String>('to_wallet_id') != toWalletId ||
+            row.read<int>('amount') != amount ||
+            row.read<String>('description') != description) {
+          throw StateError('transfer_id_conflict');
+        }
+        storedDate = DateTime.parse(row.read<String>('occurred_at')).toLocal();
+        return;
+      }
       final rows = await database.customSelect(
         '''SELECT id,balance,currency_code FROM guest_wallets
            WHERE user_id=? AND id IN (?,?)''',
@@ -32,9 +49,9 @@ class GuestTransferStore {
           Variable.withString(toWalletId),
         ],
       ).get();
-      if (rows.length != 2 ||
-          rows.any((row) => row.read<String>('currency_code') != 'MGA')) {
-        throw StateError('The selected wallets are unavailable.');
+      if (rows.length != 2) throw StateError('wallet_not_found');
+      if (rows.any((row) => row.read<String>('currency_code') != 'MGA')) {
+        throw StateError('wallet_currency_mismatch');
       }
       final source = rows.singleWhere(
         (row) => row.read<String>('id') == fromWalletId,
@@ -78,7 +95,8 @@ class GuestTransferStore {
           Variable.withString(now),
         ],
       );
-      await GuestSyncJournal(database).record('wallet_transfers', id, 'upsert', {
+      await GuestSyncJournal(database)
+          .record('wallet_transfers', id, 'upsert', {
         'id': id,
         'from_wallet_id': fromWalletId,
         'to_wallet_id': toWalletId,
@@ -94,7 +112,7 @@ class GuestTransferStore {
       description: description,
       categoryName: 'Transfer',
       amount: amount.toDouble(),
-      occurredAt: occurredAt,
+      occurredAt: storedDate,
       transactionType: 'transfer',
       currencyCode: 'MGA',
       iconKey: 'transfer',

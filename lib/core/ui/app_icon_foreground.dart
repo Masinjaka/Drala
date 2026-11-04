@@ -7,6 +7,10 @@ abstract final class AppIconForeground {
     Color? background,
   }) {
     final theme = Theme.of(context);
+    if (background == theme.colorScheme.error) {
+      return theme.colorScheme.onError;
+    }
+    if (lightColor == theme.colorScheme.error) return theme.colorScheme.error;
     if (theme.brightness == Brightness.dark &&
         background == theme.colorScheme.primary) {
       return theme.colorScheme.onPrimary;

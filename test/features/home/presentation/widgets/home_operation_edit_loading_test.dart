@@ -72,7 +72,8 @@ void main() {
       await save;
       await tester.pumpAndSettle();
       expect(find.byType(Shimmer), findsNothing);
-      expect(find.text(titleOnly ? 'Dinner' : 'Other'), findsOneWidget);
+      expect(titleOnly ? find.text('Dinner') : find.textContaining('Other ·'),
+          findsOneWidget);
     });
   }
 }

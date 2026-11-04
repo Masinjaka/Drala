@@ -1,3 +1,4 @@
+import '../support/pre_offline_schema.dart';
 import 'dart:io';
 
 import 'package:budgets/features/guest/data/guest_database.dart';
@@ -25,6 +26,8 @@ void main() {
     );
     await original.customStatement('DROP TABLE guest_wallet_debits');
     await original.customStatement('DROP TABLE guest_wallet_transfers');
+    await original.customStatement('DROP TABLE guest_notifications');
+    await removeOfflineSchema(original);
     await original.customStatement('PRAGMA user_version = 1');
     await original.close();
 
@@ -37,9 +40,11 @@ void main() {
     expect(debits, hasLength(1));
     expect(debits.single.read<String>('wallet_id'), 'wallet');
     expect(debits.single.read<int>('amount'), 1000);
-    final transfers = await upgraded.customSelect(
-      'SELECT * FROM guest_wallet_transfers',
-    ).get();
+    final transfers = await upgraded
+        .customSelect(
+          'SELECT * FROM guest_wallet_transfers',
+        )
+        .get();
     expect(transfers, isEmpty);
   });
 }

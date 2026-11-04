@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +23,7 @@ class DialogHeader extends StatelessWidget {
             type == TransactionType.income
                 ? 'Nouveau revenu'
                 : 'Nouvelle dépense',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: AppTextStyle(AppTextRole.sheetTitle),
           ),
         ),
         Container(

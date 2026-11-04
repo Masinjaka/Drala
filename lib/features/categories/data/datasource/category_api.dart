@@ -15,7 +15,7 @@ Future<List<Category>> getCategories() {
     if (userId == null) return [];
     final results = await client
         .from('categories')
-        .select('id, name, emoji, color, transaction_type')
+        .select('id, name, emoji, icon_key, color, transaction_type')
         .eq('user_id', userId);
 
     if (results.isEmpty) return [];
@@ -36,7 +36,8 @@ Future<String> addCategory(Category category) {
     await Supabase.instance.client.from('categories').insert({
       'id': categoryId,
       'name': category.name,
-      'emoji': category.emoji,
+      'emoji': category.emoji ?? '',
+      'icon_key': category.iconKey ?? 'other',
       'color': category.color,
       'user_id': userId,
       'transaction_type': trType,
@@ -54,6 +55,7 @@ Future<String> editCategory(Category category) {
     final updates = <String, dynamic>{
       if (category.name != null) 'name': category.name,
       if (category.emoji != null) 'emoji': category.emoji,
+      if (category.iconKey != null) 'icon_key': category.iconKey,
       if (category.color != null) 'color': category.color,
     };
     await Supabase.instance.client

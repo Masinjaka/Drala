@@ -1,4 +1,7 @@
-import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_card_theme.dart';
+import 'package:budgets/features/home/presentation/widgets/manual_entry_category_content.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
 import 'package:flutter/material.dart';
 
@@ -27,10 +30,7 @@ class ManualEntryCategoryField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
-            fontSize: AppTypography.body,
-            fontWeight: FontWeight.w700,
-          ),
+          style: const AppTextStyle(AppTextRole.body),
         ),
         const SizedBox(height: 8),
         SizedBox(
@@ -58,10 +58,11 @@ class ManualEntryCategoryField extends StatelessWidget {
         width: cardWidth,
         height: cardHeight,
         decoration: BoxDecoration(
+          boxShadow: AppCardTheme.shadows(context),
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(17),
         ),
-        child: const _CategoryContent(
+        child: const ManualEntryCategoryContent(
           emoji: '🧾',
           name: 'Other',
           selected: false,
@@ -93,6 +94,7 @@ class ManualEntryCategoryField extends StatelessWidget {
               width: cardWidth,
               height: cardHeight,
               decoration: BoxDecoration(
+                boxShadow: AppCardTheme.shadows(context),
                 color: backgroundColor,
                 borderRadius: BorderRadius.circular(17),
                 border: Border.all(
@@ -102,8 +104,10 @@ class ManualEntryCategoryField extends StatelessWidget {
                   width: 2,
                 ),
               ),
-              child: _CategoryContent(
+              child: ManualEntryCategoryContent(
                 emoji: category.emoji,
+                iconKey: category.iconKey,
+                colorHex: category.colorHex,
                 name: category.name,
                 selected: selected,
               ),
@@ -119,55 +123,4 @@ class ManualEntryCategoryField extends StatelessWidget {
         Theme.of(context).colorScheme.inverseSurface,
         0.32,
       )!;
-}
-
-class _CategoryContent extends StatelessWidget {
-  const _CategoryContent({
-    required this.emoji,
-    required this.name,
-    required this.selected,
-  });
-
-  final String emoji;
-  final String name;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: ManualEntryCategoryField.cardWidth,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            AnimatedAlign(
-              duration: const Duration(milliseconds: 260),
-              curve: Curves.easeOutBack,
-              alignment:
-                  selected ? const Alignment(0, -0.35) : Alignment.topLeft,
-              child: Text(emoji, style: const TextStyle(fontSize: 21)),
-            ),
-            AnimatedAlign(
-              duration: const Duration(milliseconds: 260),
-              curve: Curves.easeOutBack,
-              alignment:
-                  selected ? Alignment.bottomCenter : Alignment.bottomLeft,
-              child: Text(
-                name,
-                textAlign: selected ? TextAlign.center : TextAlign.left,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.inverseSurface,
-                  fontSize: AppTypography.caption,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

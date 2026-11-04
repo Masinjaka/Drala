@@ -71,5 +71,6 @@ class GuestPreferenceStore {
         data,
       );
     });
+    database.notifyNotifications();
   }
 }

@@ -1,3 +1,7 @@
+import 'transfer_wallet_field.dart';
+import 'manual_entry_type_pages.dart';
+import 'manual_entry_form_header.dart';
+import 'package:budgets/features/transactions/presentation/widgets/transaction_type_selector.dart';
 import 'package:budgets/core/currency/currency_amount_input.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
@@ -15,6 +19,14 @@ import 'package:budgets/features/transactions/presentation/widgets/transaction_s
 import 'package:budgets/features/transactions/presentation/widgets/transaction_sheet_surface.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+import 'package:budgets/features/ai_entry/domain/models/manual_transfer_input.dart';
+import 'package:budgets/features/home/domain/models/wallet_summary.dart';
+import 'package:budgets/features/home/presentation/widgets/manual_entry_type_selector.dart';
+import 'package:budgets/features/home/presentation/widgets/manual_transfer_form_page.dart';
+
+part 'manual_entry_sheet_submission.dart';
+part 'manual_entry_sheet_body.dart';
 
 class ManualEntrySheet extends StatefulWidget {
   const ManualEntrySheet({
@@ -22,6 +34,8 @@ class ManualEntrySheet extends StatefulWidget {
     required this.targetDate,
     this.currencyState,
     this.entry,
+    this.wallets = const [],
+    this.allowTransfers = false,
     super.key,
   });
 
@@ -29,6 +43,8 @@ class ManualEntrySheet extends StatefulWidget {
   final DateTime targetDate;
   final CurrencyState? currencyState;
   final FinanceEntry? entry;
+  final List<WalletSummary> wallets;
+  final bool allowTransfers;
 
   static Future<ManualEntrySheetResult?> show(
     BuildContext context, {
@@ -36,6 +52,8 @@ class ManualEntrySheet extends StatefulWidget {
     required DateTime targetDate,
     CurrencyState? currencyState,
     FinanceEntry? entry,
+    List<WalletSummary> wallets = const [],
+    bool allowTransfers = false,
   }) =>
       showTransactionFormSheet(
         context,
@@ -44,6 +62,8 @@ class ManualEntrySheet extends StatefulWidget {
           targetDate: targetDate,
           currencyState: currencyState,
           entry: entry,
+          wallets: wallets,
+          allowTransfers: allowTransfers,
         ),
       );
 
@@ -52,7 +72,11 @@ class ManualEntrySheet extends StatefulWidget {
 }
 
 class _ManualEntrySheetState extends State<ManualEntrySheet> {
-  final _formKey = GlobalKey<FormState>();
+  final _formKeys = {
+    for (final type in TransactionType.values) type: GlobalKey<FormState>(),
+  };
+  GlobalKey<FormState> get _formKey => _formKeys[_type]!;
+  final _transferFormKey = GlobalKey<FormState>();
   final _pages = PageController();
   final _title = TextEditingController();
   final _amount = TextEditingController();
@@ -61,6 +85,16 @@ class _ManualEntrySheetState extends State<ManualEntrySheet> {
   Category? _category;
   List<Category> _categories = [];
   bool _loading = true;
+  bool _isTransfer = false;
+  String? _transactionWalletId;
+  late final String _transferId = const Uuid().v4();
+  late String? _fromWalletId =
+      widget.wallets.where((w) => w.isDefault).firstOrNull?.id ??
+          widget.wallets.firstOrNull?.id;
+  late String? _toWalletId =
+      widget.wallets.where((w) => w.id != _fromWalletId).firstOrNull?.id;
+
+  void _update(VoidCallback change) => setState(change);
 
   @override
   void initState() {
@@ -81,6 +115,8 @@ class _ManualEntrySheetState extends State<ManualEntrySheet> {
             id: entry.categoryId,
             name: entry.categoryName,
             emoji: entry.emoji,
+            iconKey: entry.iconKey,
+            color: entry.categoryColor,
             transactionType: _type);
       }
     }
@@ -92,6 +128,7 @@ class _ManualEntrySheetState extends State<ManualEntrySheet> {
                   id: value.id,
                   name: value.name,
                   emoji: value.emoji,
+                  iconKey: value.iconKey,
                   color: value.colorHex,
                   transactionType:
                       TransactionType.fromValue(value.transactionType),
@@ -115,81 +152,6 @@ class _ManualEntrySheetState extends State<ManualEntrySheet> {
     super.dispose();
   }
 
-  void _goToPage(int page) => _pages.animateToPage(page,
-      duration: const Duration(milliseconds: 420),
-      curve: transactionSheetCurve);
-
-  Future<void> _createCategory() async {
-    final created = await CategoryEditorSheet.show(context, type: _type);
-    if (!mounted || created == null) return;
-    setState(() {
-      _categories = [..._categories, created];
-      _category = created;
-    });
-  }
-
-  void _submit() {
-    final amount =
-        CurrencyAmountInput.toMga(_amount.text, widget.currencyState);
-    if (_title.text.trim().isEmpty || amount <= 0) {
-      showInfoToast(context, 'Enter a title and a positive amount.');
-      return;
-    }
-    final now = DateTime.now();
-    final date = widget.targetDate;
-    Navigator.pop(
-        context,
-        ManualEntrySheetResult.save(ManualEntryInput(
-          title: _title.text.trim(),
-          description: _description.text.trim(),
-          amount: amount,
-          transactionType: _type.value,
-          categoryId: _category?.id,
-          occurredAt: widget.entry?.occurredAt ??
-              DateTime(date.year, date.month, date.day, now.hour, now.minute,
-                  now.second),
-          sourceWalletId: widget.entry?.sourceWalletId,
-          useAllWallets: widget.entry?.usedMultipleWallets ?? false,
-        )));
-  }
-
   @override
-  Widget build(BuildContext context) => TransactionSheetSurface(
-        pageController: _pages,
-        pages: [
-          TransactionDetailEditPage(
-            heading: widget.entry == null ? context.l10n.enterManually : null,
-            formKey: _formKey,
-            amountController: _amount,
-            titleController: _title,
-            descriptionController: _description,
-            currencyCode: widget.currencyState?.code ?? 'MGA',
-            type: _type,
-            category: _category,
-            saving: false,
-            onTypeChanged: (value) => setState(() {
-              _type = value;
-              _category = null;
-            }),
-            onCategoryTap: () => _goToPage(1),
-            onCategoryClear: () => setState(() => _category = null),
-            onClose: () => Navigator.pop(context),
-            onDelete: widget.entry == null
-                ? null
-                : () => Navigator.pop(
-                    context, const ManualEntrySheetResult.delete()),
-            onSave: _submit,
-          ),
-          TransactionCategoryPage(
-            isLoading: _loading,
-            categories: _categories
-                .where((item) => item.transactionType == _type)
-                .toList(),
-            selected: _category,
-            onSelected: (value) => setState(() => _category = value),
-            onCreate: _createCategory,
-            onBack: () => _goToPage(0),
-          ),
-        ],
-      );
+  Widget build(BuildContext context) => _buildSheet(context);
 }

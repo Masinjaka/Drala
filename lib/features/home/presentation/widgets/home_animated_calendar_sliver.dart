@@ -8,11 +8,13 @@ class HomeAnimatedCalendarSliver extends StatelessWidget {
     required this.compact,
     required this.builder,
     this.onVisibilityChanged,
+    this.activitiesStyle = false,
     super.key,
   });
 
   final double daysHeight;
   final bool compact;
+  final bool activitiesStyle;
   final ValueChanged<double>? onVisibilityChanged;
   final Widget Function(Animation<double>, double) builder;
 
@@ -29,6 +31,7 @@ class HomeAnimatedCalendarSliver extends StatelessWidget {
           delegate: HomeCalendarSliverDelegate(
             daysHeight: height,
             compact: compact,
+            activitiesStyle: activitiesStyle,
             onVisibilityChanged: onVisibilityChanged,
             builder: (visibility) => builder(visibility, height),
           ),

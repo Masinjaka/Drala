@@ -1,5 +1,5 @@
+import 'package:budgets/core/ui/app_interaction_theme.dart';
 import 'package:budgets/core/ui/app_control_metrics.dart';
-import 'package:budgets/core/ui/app_typography.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -40,10 +40,7 @@ class MonthNavigation extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: AppTypography.supporting,
-              fontWeight: FontWeight.w800,
-            ),
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
         const SizedBox(width: 8),
@@ -69,10 +66,10 @@ class MonthNavigation extends StatelessWidget {
         key: key,
         onPressed: onPressed,
         padding: EdgeInsets.zero,
-        style: IconButton.styleFrom(
+        style: AppInteractionTheme.withoutPressFeedback(IconButton.styleFrom(
           backgroundColor: Theme.of(context).cardColor,
           disabledBackgroundColor: Theme.of(context).cardColor,
-        ),
+        )),
         icon: Icon(icon, size: AppControlMetrics.iconSize),
       ),
     );

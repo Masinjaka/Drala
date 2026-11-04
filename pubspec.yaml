@@ -49,6 +49,8 @@ dependencies:
   firebase_core: ^4.4.0
   firebase_messaging: ^16.1.1
   flutter_local_notifications: ^20.0.0
+  flutter_timezone: ^5.1.1
+  timezone: ^0.10.1
   fl_chart: ^1.1.1
   table_calendar: ^3.1.0
   emoji_picker_flutter: ^4.4.0
@@ -69,6 +71,7 @@ dependencies:
   shimmer: ^3.0.0
   package_info_plus: ^9.0.0
   shared_preferences: ^2.5.4
+  http: ^1.6.0
   drift: ^2.32.0
   vibration: ^3.1.5
   local_auth: ^3.0.0

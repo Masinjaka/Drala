@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/features/settings/domain/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -75,10 +77,7 @@ class _ThemeSelectionDialogState extends State<ThemeSelectionDialog>
           children: [
             Text(
               'Apparence',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const AppTextStyle(AppTextRole.sheetTitle),
             ),
             SizedBox(height: 24),
             Container(
@@ -98,14 +97,8 @@ class _ThemeSelectionDialogState extends State<ThemeSelectionDialog>
                 dividerColor: Colors.transparent,
                 labelColor: AppTheme.interactiveTextColor,
                 unselectedLabelColor: textColor,
-                labelStyle: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                ),
-                unselectedLabelStyle: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.normal,
-                ),
+                labelStyle: const AppTextStyle(AppTextRole.body),
+                unselectedLabelStyle: const AppTextStyle(AppTextRole.body),
                 splashFactory: NoSplash.splashFactory,
                 overlayColor: WidgetStateProperty.resolveWith<Color?>(
                   (Set<WidgetState> states) {

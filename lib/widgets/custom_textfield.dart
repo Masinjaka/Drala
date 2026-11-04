@@ -1,11 +1,12 @@
 import 'package:budgets/core/ui/app_control_metrics.dart';
-import 'package:budgets/core/ui/app_icon_foreground.dart';
+import 'package:budgets/core/ui/password_visibility_button.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/widgets/custom_textfield_validator.dart';
 import 'package:budgets/widgets/persistent_textfield_suffix.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
+
 class CustomTextField extends ConsumerStatefulWidget {
   const CustomTextField({
     super.key,
@@ -15,6 +16,7 @@ class CustomTextField extends ConsumerStatefulWidget {
     this.isPassword,
     this.keyboardType,
     this.validator,
+    this.fieldValidator,
     this.suffixIcon,
     this.isReadOnly,
     this.onTap,
@@ -41,6 +43,7 @@ class CustomTextField extends ConsumerStatefulWidget {
   final bool? isPassword;
   final TextInputType? keyboardType;
   final Map<String, String>? validator;
+  final FormFieldValidator<String>? fieldValidator;
   final Widget? suffixIcon;
   final bool? isReadOnly;
   final void Function()? onTap;
@@ -63,12 +66,13 @@ class CustomTextField extends ConsumerStatefulWidget {
   @override
   ConsumerState<CustomTextField> createState() => _CustomTextFieldState();
 }
+
 class _CustomTextFieldState extends ConsumerState<CustomTextField> {
   bool isObscure = true;
   @override
   Widget build(BuildContext context) {
     final isPassword = widget.isPassword == true;
-    final fontSize = widget.fontSize ?? AppTypography.body;
+    final fontSize = widget.fontSize ?? AppTypography.input;
     final fieldHeight = widget.height ?? AppControlMetrics.height;
     const textFieldRoundingCorrection = 0.2;
     final verticalPadding =
@@ -112,15 +116,18 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
               fontSize: fontSize,
               height: 1.2,
             ),
-            validator: (String? value) {
-              return CustomTextFieldValidator(context).validate(
-                widget.validator?['type'] ?? '',
-                widget.validator?['error'] ?? '',
-                value,
-              );
-            },
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: widget.fieldValidator ??
+                (String? value) {
+                  return CustomTextFieldValidator(context).validate(
+                    widget.validator?['type'] ?? '',
+                    widget.validator?['error'],
+                    value,
+                  );
+                },
             cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
             decoration: InputDecoration(
+              errorMaxLines: 3,
               isDense: true,
               filled: true,
               fillColor: widget.fillColor ?? Theme.of(context).cardColor,
@@ -154,31 +161,10 @@ class _CustomTextFieldState extends ConsumerState<CustomTextField> {
               ),
               hintText: widget.hint,
               suffixIcon: isPassword
-                  ? IconButton(
-                      constraints: BoxConstraints.tightFor(
-                        width: fieldHeight,
-                        height: fieldHeight,
-                      ),
-                      style: IconButton.styleFrom(
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                        setState(() {
-                          isObscure = !isObscure;
-                        });
-                      },
-                      icon: Icon(
-                        isObscure
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-                        color: AppIconForeground.resolve(
-                          context,
-                          Theme.of(context).textTheme.bodyLarge?.color ??
-                              Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ),
-                    )
+                  ? PasswordVisibilityButton(
+                      obscured: isObscure,
+                      size: fieldHeight,
+                      onPressed: () => setState(() => isObscure = !isObscure))
                   : widget.suffixText != null
                       ? PersistentTextFieldSuffix(
                           text: widget.suffixText!,

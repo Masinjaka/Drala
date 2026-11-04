@@ -17,6 +17,8 @@ void main() {
 
     expect(find.byTooltip('Input options'), findsNothing);
 
+    await tester.tap(find.byKey(const Key('home-navigation-1')));
+    await tester.pumpAndSettle();
     await tester.tap(find.byTooltip('Add receipt'));
     await tester.pumpAndSettle();
 

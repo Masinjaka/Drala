@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/detail_list_skeleton.dart';
@@ -31,7 +32,7 @@ class _CurrencySelectionPageState extends ConsumerState<CurrencySelectionPage> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(28, 20, 28, 0),
+          padding: AppPageSpacing.insets(context, top: 20, bottom: 0),
           child: Column(
             children: [
               if (isGuest &&
@@ -48,6 +49,7 @@ class _CurrencySelectionPageState extends ConsumerState<CurrencySelectionPage> {
               Expanded(
                 child: state.when(
                   data: (value) => SetupCurrencyChoices(
+                    settingsMode: true,
                     selected: value.preferredCode,
                     pendingCode: _pendingCode,
                     onChanged: _select,

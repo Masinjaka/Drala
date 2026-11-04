@@ -14,12 +14,12 @@ class SetupCurrencySkeleton extends StatelessWidget {
       itemCount: 7,
       separatorBuilder: (_, __) => const SizedBox(height: 10),
       itemBuilder: (_, __) => Container(
-        height: 40,
+        height: 50,
         decoration: BoxDecoration(
           color: reducedMotion
               ? colors.onSurface.withValues(alpha: .07)
               : colors.onSurface,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(999),
         ),
       ),
     );

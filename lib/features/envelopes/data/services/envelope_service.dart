@@ -16,8 +16,8 @@ class EnvelopeService {
         .from('envelopes')
         .select(
           'id,name,category_id,amount,remaining_amount,overspent_amount,'
-          'currency_code,repeats_monthly,'
-          'categories(name,emoji,color)',
+          'currency_code,repeats_monthly,funding_wallet_id,'
+          'categories(name,emoji,icon_key,color)',
         )
         .eq('period_month', _monthKey(month))
         .order('created_at');
@@ -27,7 +27,7 @@ class EnvelopeService {
   Future<List<Map<String, dynamic>>> expenseCategories() async {
     final rows = await _client
         .from('categories')
-        .select('id,name,emoji,color')
+        .select('id,name,emoji,icon_key,color')
         .eq('transaction_type', 'expense')
         .order('name');
     return rows.map(Map<String, dynamic>.from).toList(growable: false);
@@ -87,6 +87,9 @@ class EnvelopeService {
         'p_amount': amount,
         'p_repeats_monthly': repeatsMonthly,
       });
+
+  Future<void> deleteEnvelopes(List<String> ids) =>
+      _client.rpc('delete_funded_envelopes', params: {'p_envelope_ids': ids});
 
   Future<void> deleteEnvelope(String id) =>
       _client.rpc('delete_funded_envelope', params: {'p_envelope_id': id});

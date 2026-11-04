@@ -1,3 +1,4 @@
+import 'package:budgets/core/monitoring/ai_request_timing.dart';
 import 'package:budgets/features/ai_entry/data/services/ai_function_error_mapper.dart';
 import 'package:budgets/core/monitoring/development_log.dart';
 import 'package:budgets/features/ai_entry/domain/errors/ai_entry_exception.dart';
@@ -42,6 +43,8 @@ class AiEntryService {
         status: 401,
       );
     }
+    final timing = AiRequestTiming('text_request');
+    var succeeded = false;
     try {
       final response = await _client.functions.invoke(
         'process-finance-message',
@@ -53,10 +56,14 @@ class AiEntryService {
           'timezone_offset_minutes': targetDate.timeZoneOffset.inMinutes,
         },
       );
-      return AiEntryResult.fromJson(_record(response.data));
+      final result = AiEntryResult.fromJson(_record(response.data));
+      succeeded = true;
+      return result;
     } on FunctionException catch (error, stackTrace) {
       DevelopmentLog.error('process finance message', error, stackTrace);
       throw AiFunctionErrorMapper.map(error);
+    } finally {
+      timing.finish(succeeded: succeeded);
     }
   }
 
@@ -67,6 +74,8 @@ class AiEntryService {
     required bool useAllWallets,
     required DateTime targetDate,
   }) async {
+    final timing = AiRequestTiming('funding_resume');
+    var succeeded = false;
     try {
       final response = await _client.functions.invoke(
         'process-finance-message',
@@ -78,10 +87,14 @@ class AiEntryService {
           'target_date': _dateKey(targetDate),
         },
       );
-      return AiEntryResult.fromJson(_record(response.data));
+      final result = AiEntryResult.fromJson(_record(response.data));
+      succeeded = true;
+      return result;
     } on FunctionException catch (error, stackTrace) {
       DevelopmentLog.error('resume finance message', error, stackTrace);
       throw AiFunctionErrorMapper.map(error);
+    } finally {
+      timing.finish(succeeded: succeeded);
     }
   }
 
@@ -128,6 +141,10 @@ class AiEntryService {
       _client,
     ).entriesForMonth(_requireUserId(), month);
   }
+
+  Future<List<FinanceEntry>> recentTransactions({int limit = 3}) =>
+      FinanceEntryQueryService(_client)
+          .recentTransactions(_requireUserId(), limit: limit);
 
   Future<bool> hasAnyEntries() {
     return FinanceEntryQueryService(_client).hasAnyEntries(_requireUserId());

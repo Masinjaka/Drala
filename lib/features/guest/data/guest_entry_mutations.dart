@@ -1,3 +1,5 @@
+import 'package:budgets/features/guest/data/guest_income_validation.dart';
+import 'package:budgets/features/guest/data/guest_budget_alerts.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_input.dart';
 import 'package:budgets/features/guest/data/guest_database.dart';
@@ -28,9 +30,15 @@ class GuestEntryMutations {
   }) async {
     final now = DateTime.now().toUtc().toIso8601String();
     await database.transaction(() async {
+      final alerts = GuestBudgetAlerts(database, userId);
+      final before = await alerts.before(input);
       final funding = GuestEntryFunding(database, userId);
+      final validation = GuestIncomeValidation(database, userId);
+      final previousIncomeWallet =
+          replacing ? await validation.source(id) : null;
       if (replacing) await funding.reverse(id);
       final applied = await funding.apply(id, input);
+      await validation.check(previousIncomeWallet);
       if (replacing) {
         await database.customUpdate(
           '''UPDATE guest_transactions SET title=?,description=?,amount=?,
@@ -76,6 +84,7 @@ class GuestEntryMutations {
           ],
         );
       }
+      await alerts.record(id, applied.envelopeId, before);
       await GuestSyncJournal(database).record('transaction', id, 'upsert', {
         'id': id,
         'title': input.title,
@@ -88,14 +97,19 @@ class GuestEntryMutations {
         'envelope_id': applied.envelopeId,
         'envelope_amount_used': applied.envelopeUsed,
         'currency_code': 'MGA',
+        'use_all_wallets': input.useAllWallets,
       });
     });
+    database.notifyNotifications();
     return _read(id);
   }
 
   Future<void> delete(String id) async {
     await database.transaction(() async {
+      final validation = GuestIncomeValidation(database, userId);
+      final incomeWallet = await validation.source(id);
       await GuestEntryFunding(database, userId).reverse(id);
+      await validation.check(incomeWallet);
       await database.customUpdate(
         'DELETE FROM guest_transactions WHERE id=? AND user_id=?',
         variables: [Variable.withString(id), Variable.withString(userId)],

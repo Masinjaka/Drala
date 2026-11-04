@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/transactions/presentation/widgets/add_transaction/add_category_pill.dart';
 import 'package:budgets/features/transactions/presentation/widgets/add_transaction/category_pill.dart';
@@ -28,7 +30,7 @@ class CategoryPillsSection extends StatelessWidget {
         Text(
           'Catégorie${isPerSubcategory ? " principale" : ""}',
           textAlign: TextAlign.left,
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15.5),
+          style: AppTextStyle(AppTextRole.body),
         ),
         SizedBox(height: 8),
         SizedBox(

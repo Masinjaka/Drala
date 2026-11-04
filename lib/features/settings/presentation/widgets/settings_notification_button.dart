@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:budgets/core/ui/outlined_square_button.dart';
 import 'package:budgets/features/notifications/presentation/widgets/notification_count_badge.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
@@ -28,6 +29,7 @@ class SettingsNotificationButton extends StatelessWidget {
         children: [
           OutlinedSquareButton(
             key: const Key('settings-notification-button'),
+            backgroundColor: AppSettingsTheme.surface(context),
             icon: Icons.notifications_none_rounded,
             onPressed: onPressed,
           ),

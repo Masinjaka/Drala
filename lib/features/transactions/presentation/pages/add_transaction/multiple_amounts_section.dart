@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/categories/domain/models/subcategories.dart';
 import 'package:budgets/features/transactions/presentation/modules/transaction_module.dart';
 import 'package:budgets/features/transactions/presentation/pages/add_transaction/animated_subcategory_item.dart';
@@ -33,8 +35,7 @@ class MultipleAmountsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Montants par sous-catégories',
-            textAlign: TextAlign.left,
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 15.5)),
+            textAlign: TextAlign.left, style: AppTextStyle(AppTextRole.body)),
         SizedBox(height: 12),
         AnimatedList(
           key: listKey,
@@ -83,10 +84,9 @@ class MultipleAmountsSection extends StatelessWidget {
                         color: Theme.of(context).iconTheme.color, size: 16),
                     SizedBox(width: 8),
                     Text('Ajouter une sous-catégorie',
-                        style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyLarge?.color,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500)),
+                        style: AppTextStyle(AppTextRole.body,
+                            color:
+                                Theme.of(context).textTheme.bodyLarge?.color)),
                   ],
                 ),
               ),

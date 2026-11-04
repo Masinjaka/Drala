@@ -32,37 +32,39 @@ class SetupChoicesSkeleton extends StatelessWidget {
         children: [
           for (var index = 0; index < 4; index++) ...[
             _languageRow(context),
-            if (index < 3) const SizedBox(height: 18),
+            if (index < 3) const SizedBox(height: 10),
           ],
         ],
       );
 
   Widget _languageRow(BuildContext context) => Container(
-        height: 40,
+        height: 50,
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        decoration: _decoration(context),
-        alignment: Alignment.centerLeft,
+        decoration: _decoration(context).copyWith(
+          borderRadius: BorderRadius.circular(999),
+        ),
+        alignment: Alignment.center,
         child: _bar(context, width: 112, height: 12),
       );
 
   Widget _categoryGrid(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 14),
+          const SizedBox(height: 32),
           _bar(context, width: 86, height: 14),
-          const SizedBox(height: 27),
-          _grid(context, itemCount: 6, height: 56),
+          const SizedBox(height: 11),
+          _grid(context, itemCount: 6, height: 50),
           const SizedBox(height: 24),
           _bar(context, width: 64, height: 14),
-          const SizedBox(height: 27),
-          _grid(context, itemCount: 2, height: 56),
+          const SizedBox(height: 8),
+          _grid(context, itemCount: 2, height: 50),
         ],
       );
 
   Widget _walletGrid(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 3),
-        child: _grid(context, itemCount: 3, height: 40),
+        padding: const EdgeInsets.only(top: 32),
+        child: _grid(context, itemCount: 3, height: 50),
       );
 
   Widget _grid(
@@ -75,7 +77,7 @@ class SetupChoicesSkeleton extends StatelessWidget {
           final width = (constraints.maxWidth - 10) / 2;
           return Wrap(
             spacing: 10,
-            runSpacing: 10,
+            runSpacing: 7,
             children: [
               for (var index = 0; index < itemCount; index++)
                 SizedBox(
@@ -86,8 +88,8 @@ class SetupChoicesSkeleton extends StatelessWidget {
                     decoration: _decoration(context),
                     child: Row(
                       children: [
-                        _circle(context, 24),
-                        const SizedBox(width: 8),
+                        _circle(context, 30),
+                        const SizedBox(width: 4),
                         Expanded(child: _bar(context, height: 12)),
                         const SizedBox(width: 4),
                         _circle(context, 18),
@@ -102,7 +104,7 @@ class SetupChoicesSkeleton extends StatelessWidget {
 
   BoxDecoration _decoration(BuildContext context) => BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceBright,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(999),
       );
 
   Widget _bar(BuildContext context, {double? width, required double height}) =>

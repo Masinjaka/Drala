@@ -1,6 +1,5 @@
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/currency/currency_state.dart';
-import 'package:budgets/features/home/domain/errors/wallet_deletion_exception.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_editor_result.dart';
 import 'package:budgets/features/home/domain/models/wallet_summary.dart';
@@ -83,14 +82,6 @@ class DrawerWalletSection extends StatelessWidget {
       await onDeleteWallet(wallet.id);
       if (context.mounted) {
         showSuccessToast(context, context.l10n.walletDeleted);
-      }
-    } on WalletDeletionException {
-      if (context.mounted) {
-        showAppToast(
-          context,
-          context.l10n.walletInUseCannotBeDeleted,
-          type: AppToastType.error,
-        );
       }
     } catch (error) {
       if (context.mounted) showErrorToast(context, error);

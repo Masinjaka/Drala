@@ -35,16 +35,10 @@ void main() {
 
     expect(tester.widget<Text>(find.text('Coffee')).style?.color,
         AppTheme.darkTheme.colorScheme.onSurface);
-    expect(tester.widget<Text>(find.text('Food')).style?.color,
+    expect(tester.widget<Text>(find.textContaining('Food ·')).style?.color,
         AppTheme.darkTheme.colorScheme.onSurfaceVariant);
-    final badge = tester.widget<Container>(find
-        .ancestor(
-          of: find.text('-5 000 MGA'),
-          matching: find.byType(Container),
-        )
-        .first);
-    expect(
-        (badge.decoration as BoxDecoration).color, AppTheme.expenseBadgeDark);
+    expect(tester.widget<Text>(find.text('- Ar 5,000')).style?.color,
+        AppTheme.darkTheme.colorScheme.onSurface);
     expect(find.byType(HomeOperationSkeleton), findsOneWidget);
     final shimmer = tester.widget<Shimmer>(find.byType(Shimmer));
     final gradient = shimmer.gradient as LinearGradient;

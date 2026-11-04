@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_grid_background.dart';
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'dart:io';
 
 import 'package:budgets/core/ui/app_icon_foreground.dart';
@@ -29,7 +31,7 @@ class _UploadProfilePhotoPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: _buildForm(context)),
+      body: AppGridBackground(child: SafeArea(child: _buildForm(context))),
       bottomNavigationBar: _buildBottomPart(context),
     );
   }
@@ -39,7 +41,7 @@ class _UploadProfilePhotoPageState
       height: double.infinity,
       width: double.infinity,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 32),
+        padding: AppPageSpacing.insets(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -105,7 +107,7 @@ class _UploadProfilePhotoPageState
 
   Widget _buildBottomPart(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+      padding: AppPageSpacing.insets(context, top: 32, bottom: 32),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

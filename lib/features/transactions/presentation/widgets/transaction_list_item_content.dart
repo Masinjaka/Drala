@@ -1,3 +1,7 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
+import 'package:budgets/core/ui/app_card_surface.dart';
+import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:budgets/core/utils/amount_formatter.dart';
@@ -21,7 +25,7 @@ class TransactionListItemContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return AppCardSurface(
       color: Theme.of(context).cardColor,
       borderRadius: borderRadius,
       clipBehavior: Clip.antiAlias,
@@ -34,15 +38,11 @@ class TransactionListItemContent extends StatelessWidget {
             Container(
               width: 40,
               height: 40,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceDim,
-                borderRadius: BorderRadius.circular(8),
-              ),
               alignment: Alignment.center,
-              child: Text(
-                transaction.category?.emoji ?? '❓',
-                style: const TextStyle(fontSize: 18),
-              ),
+              child: CategoryIcon(
+                  iconKey: transaction.category?.iconKey,
+                  emoji: transaction.category?.emoji,
+                  colorHex: transaction.category?.color),
             ),
             const SizedBox(width: 12.8),
             Expanded(
@@ -51,19 +51,14 @@ class TransactionListItemContent extends StatelessWidget {
                 children: [
                   Text(
                     transaction.category?.name ?? 'Uncategorized',
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                    ),
+                    style: AppTextStyle(AppTextRole.body,
+                        color: Theme.of(context).textTheme.bodyLarge?.color),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     transaction.description ?? '',
-                    style: TextStyle(
-                      color: Theme.of(context).hintColor,
-                      fontSize: 14,
-                    ),
+                    style: AppTextStyle(AppTextRole.body,
+                        color: Theme.of(context).hintColor),
                   ),
                 ],
               ),
@@ -84,7 +79,6 @@ class TransactionListItemContent extends StatelessWidget {
                 style: AppTextTheme.amount(
                   Theme.of(context).textTheme.labelMedium!.copyWith(
                         color: Theme.of(context).colorScheme.tertiary,
-                        fontSize: 14,
                       ),
                 ),
               ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('uses transaction field shape and clears the search',
+  testWidgets('uses the rounded settings search shape and clears the search',
       (tester) async {
     final controller = TextEditingController();
     addTearDown(controller.dispose);
@@ -15,7 +15,7 @@ void main() {
 
     final field = tester.widget<TextField>(find.byType(TextField));
     final border = field.decoration!.border! as OutlineInputBorder;
-    expect(border.borderRadius, BorderRadius.circular(6));
+    expect(border.borderRadius, BorderRadius.circular(999));
 
     await tester.enterText(find.byType(TextField), 'MGA');
     await tester.pump();

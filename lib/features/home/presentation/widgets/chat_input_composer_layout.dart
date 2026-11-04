@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class ChatInputComposerLayout extends StatelessWidget {
   const ChatInputComposerLayout({
     required this.isExpanded,
+    this.compact = false,
     required this.textInput,
     required this.addButton,
     required this.sendButton,
@@ -10,6 +11,7 @@ class ChatInputComposerLayout extends StatelessWidget {
   });
 
   final bool isExpanded;
+  final bool compact;
   final Widget textInput;
   final Widget addButton;
   final Widget sendButton;
@@ -18,13 +20,13 @@ class ChatInputComposerLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isExpanded) {
       return SizedBox(
-        height: 48,
+        height: compact ? 46 : 48,
         child: Row(
           children: [
             addButton,
             Expanded(
               child: Transform.translate(
-                offset: const Offset(-8, 0),
+                offset: Offset(compact ? 0 : -8, 0),
                 child: textInput,
               ),
             ),
@@ -44,7 +46,7 @@ class ChatInputComposerLayout extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 48,
+          height: compact ? 46 : 48,
           child: Row(
             children: [addButton, const Spacer(), sendButton],
           ),

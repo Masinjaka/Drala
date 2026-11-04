@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/plans/domain/models/plan_tier.dart';
 import 'package:budgets/features/plans/domain/plan_feature_catalog.dart';
@@ -58,7 +59,7 @@ class _PlanPageState extends State<PlanPage> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(22, 14, 22, 24),
+                padding: AppPageSpacing.insets(context, top: 14, bottom: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -105,7 +106,7 @@ class _PlanPageState extends State<PlanPage> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(22, 12, 22, 14),
+              padding: AppPageSpacing.insets(context, top: 12, bottom: 14),
               child: CustomButton(
                 key: const Key('plan-continue-button'),
                 text: _selectedTier == PlanTier.free

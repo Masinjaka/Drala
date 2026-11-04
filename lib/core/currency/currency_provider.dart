@@ -1,8 +1,10 @@
+import 'package:budgets/core/currency/guest_exchange_rate_loader.dart';
+import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
+import 'package:budgets/core/currency/offline_exchange_rates_source.dart';
 import 'dart:async';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/currency/currency_defaults.dart';
 import 'package:budgets/core/currency/exchange_rates.dart';
-import 'package:budgets/core/currency/exchange_rates_datasource.dart';
 import 'package:budgets/features/user/domain/provider/user_providers.dart';
 import 'package:budgets/features/guest/data/guest_sync_journal.dart';
 import 'package:budgets/features/guest/data/guest_exchange_rate_cache.dart';
@@ -14,12 +16,13 @@ part 'currency_provider.g.dart';
 
 @riverpod
 Future<ExchangeRates?> exchangeRates(Ref ref) =>
-    const ExchangeRatesDataSource().fetchLatest();
+    OfflineExchangeRatesSource(ref.watch(offlineAccountProvider)).fetch();
 
 @Riverpod(keepAlive: true)
 class CurrencyController extends _$CurrencyController {
   @override
   Future<CurrencyState> build() async {
+    ref.watch(offlineDataVersionProvider);
     final guest = ref.read(guestSessionProvider);
     if (guest?.isActive == true) {
       final row = await guest!.database.customSelect(
@@ -31,7 +34,8 @@ class CurrencyController extends _$CurrencyController {
       var rates = await cache.load();
       if (rates == null && selected != 'MGA') {
         try {
-          rates = await _fetchGuestRates(selected, guest);
+          rates = await GuestExchangeRateLoader(guest)
+              .fetch(currencyCode: selected);
         } catch (_) {
           // Offline guests can still use the MGA ledger safely.
         }
@@ -56,6 +60,11 @@ class CurrencyController extends _$CurrencyController {
         fetchedAt: rates?.fetchedAt,
       );
     }
+    final account = ref.watch(offlineAccountProvider);
+    if (account != null && !account.hydrated) {
+      return const CurrencyState(
+          code: 'MGA', baseCode: 'MGA', rates: {'MGA': 1.0});
+    }
     final rates = await ref.watch(exchangeRatesProvider.future);
     final user = await ref.watch(userModelProvider.future);
     if (user == null) {
@@ -63,20 +72,27 @@ class CurrencyController extends _$CurrencyController {
     }
 
     final defaultCode = defaultCurrencyCode();
-    final code = user.currencyCode ?? defaultCode;
+    final preferred = user.currencyCode ?? defaultCode;
+    final code = account != null &&
+            preferred != (rates?.baseCode ?? 'MGA') &&
+            rates?.rates.containsKey(preferred) != true
+        ? 'MGA'
+        : preferred;
 
     if (user.currencyCode == null) {
       await ref.read(userRepositoryProvider).updateCurrencyCode(code);
     }
 
     final rateMap = Map<String, double>.from(rates?.rates ?? {});
-    for (final currencyCode in fallbackCurrencyCodes) {
+    for (final currencyCode
+        in account == null ? fallbackCurrencyCodes : <String>[]) {
       rateMap.putIfAbsent(currencyCode, () => 1.0);
     }
     rateMap.putIfAbsent(code, () => 1.0);
 
     return CurrencyState(
       code: code,
+      preferredCode: preferred,
       baseCode: rates?.baseCode ?? 'MGA',
       rates: rateMap,
       fetchedAt: rates?.fetchedAt,
@@ -91,7 +107,8 @@ class CurrencyController extends _$CurrencyController {
       var available = current;
       if (code != current.baseCode && !current.rates.containsKey(code)) {
         try {
-          final latest = await _fetchGuestRates(code, guest!);
+          final latest =
+              await GuestExchangeRateLoader(guest!).fetch(currencyCode: code);
           if (latest != null) {
             available = current.copyWith(
               baseCode: latest.baseCode,
@@ -127,7 +144,10 @@ class CurrencyController extends _$CurrencyController {
       return;
     }
     await ref.read(userRepositoryProvider).updateCurrencyCode(code);
-    state = AsyncData(current.copyWith(code: code, preferredCode: code));
+    final available =
+        code == current.baseCode || current.rates.containsKey(code);
+    state = AsyncData(
+        current.copyWith(code: available ? code : 'MGA', preferredCode: code));
   }
 
   Future<bool> retryGuestRates() async {
@@ -136,7 +156,8 @@ class CurrencyController extends _$CurrencyController {
     if (guest?.isActive != true || current == null) return false;
     if (current.preferredCode == current.code) return true;
     try {
-      final latest = await _fetchGuestRates(current.preferredCode, guest!);
+      final latest = await GuestExchangeRateLoader(guest!)
+          .fetch(currencyCode: current.preferredCode);
       if (latest == null) return false;
       state = AsyncData(current.copyWith(
         code: current.preferredCode,
@@ -150,30 +171,10 @@ class CurrencyController extends _$CurrencyController {
     }
   }
 
-  Future<ExchangeRates?> _fetchGuestRates(
-      String code, GuestSession guest) async {
-    final latest = await const ExchangeRatesDataSource()
-        .fetchLatest()
-        .timeout(const Duration(seconds: 5));
-    if (latest == null ||
-        (latest.baseCode != 'MGA' && !latest.rates.containsKey('MGA')) ||
-        (latest.baseCode != code && !latest.rates.containsKey(code))) {
-      return null;
-    }
-    await GuestExchangeRateCache(guest.database).save(latest);
-    return latest;
-  }
-
   Future<void> _refreshGuestRates(GuestSession guest) async {
     try {
-      final latest = await const ExchangeRatesDataSource()
-          .fetchLatest()
-          .timeout(const Duration(seconds: 5));
-      if (latest == null ||
-          (latest.baseCode != 'MGA' && !latest.rates.containsKey('MGA'))) {
-        return;
-      }
-      await GuestExchangeRateCache(guest.database).save(latest);
+      final latest = await GuestExchangeRateLoader(guest).fetch();
+      if (latest == null) return;
       if (!ref.mounted) return;
       final activeGuest = ref.read(guestSessionProvider);
       if (activeGuest?.isActive != true ||

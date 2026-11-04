@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_text_style.dart';
+import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
 import 'package:budgets/features/stats/domain/providers/stats_provider.dart';
 import 'package:budgets/features/stats/presentation/widgets/budget_history_card.dart';
@@ -131,10 +133,8 @@ class StatsPageContent extends ConsumerWidget {
           child: Center(
             child: Text(
               'Erreur lors du chargement des données',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.red,
-              ),
+              style: AppTextStyle(AppTextRole.body,
+                  color: Theme.of(context).colorScheme.error),
             ),
           ),
         ),

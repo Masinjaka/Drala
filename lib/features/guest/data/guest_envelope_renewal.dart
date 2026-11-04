@@ -10,6 +10,9 @@ class GuestEnvelopeRenewal {
   final String userId;
 
   Future<void> renew(DateTime month) async {
+    if (database.accountId != null) {
+      return; // Cloud owns recurring ledger events.
+    }
     final today = DateTime.now();
     if (month.year != today.year || month.month != today.month) return;
     final key = '${month.year}-${month.month.toString().padLeft(2, '0')}-01';
