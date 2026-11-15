@@ -24,7 +24,7 @@ class TransactionErrorState extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.error_outline,
+            Icons.error,
             size: 48,
             color: Theme.of(context).colorScheme.error,
           ),

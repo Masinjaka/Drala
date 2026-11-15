@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/features/notifications/presentation/services/notification_permission_service.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -9,6 +10,7 @@ class NotificationPermissionCoordinator {
   const NotificationPermissionCoordinator._();
 
   static Future<bool> ensure(BuildContext context) async {
+    if (!kReleaseMode) return false;
     final status = await Permission.notification.status;
     if (status.isGranted) return true;
     if (!context.mounted) return false;

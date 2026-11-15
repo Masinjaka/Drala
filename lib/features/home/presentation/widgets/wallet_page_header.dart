@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_header_button_shadow.dart';
 import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +25,13 @@ class WalletPageHeader extends StatelessWidget {
           child: Text(context.l10n.wallets,
               style: AppFinanceSurfaceTheme.title(context))),
       if (onSelect != null) ...[
-        IconButton.filledTonal(
-            key: const Key('select-items'),
-            onPressed: onSelect,
-            tooltip: context.l10n.selectItems,
-            style: buttonStyle,
-            icon: const Icon(Icons.checklist_rounded, size: 20)),
+        AppHeaderButtonShadow(
+            child: IconButton.filledTonal(
+                key: const Key('select-items'),
+                onPressed: onSelect,
+                tooltip: context.l10n.selectItems,
+                style: buttonStyle,
+                icon: const Icon(Icons.checklist_rounded, size: 20))),
         const SizedBox(width: 8),
       ],
       if (selecting) ...[

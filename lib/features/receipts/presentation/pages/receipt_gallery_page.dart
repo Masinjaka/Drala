@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/navigation/app_modal_page_route.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/detail_list_skeleton.dart';
@@ -95,7 +96,7 @@ class _ReceiptGalleryPageState extends State<ReceiptGalleryPage> {
         final columns =
             (constraints.maxWidth / 190).floor().clamp(2, 4).toInt();
         return GridView.builder(
-          padding: AppPageSpacing.insets(context, top: 20, bottom: 28),
+          padding: AppScrollPadding.insets(context, top: 20, bottom: 28),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: columns,
             crossAxisSpacing: 14,

@@ -30,7 +30,7 @@ class SettingsNotificationButton extends StatelessWidget {
           OutlinedSquareButton(
             key: const Key('settings-notification-button'),
             backgroundColor: AppSettingsTheme.surface(context),
-            icon: Icons.notifications_none_rounded,
+            icon: Icons.notifications_rounded,
             onPressed: onPressed,
           ),
           if (unreadCount > 0)

@@ -18,14 +18,14 @@ void main() {
             SwitchListTile.adaptive(value: value, onChanged: (_) {}),
             NotificationSettingsToggle(
               title: 'Notifications',
-              icon: Icons.notifications_outlined,
+              icon: Icons.notifications,
               value: value,
               onChanged: (_) async => true,
             ),
             SwitchListTile.adaptive(value: value, onChanged: null),
             NotificationSettingsToggle(
               title: 'Disabled',
-              icon: Icons.alarm_outlined,
+              icon: Icons.alarm,
               value: value,
               enabled: false,
               onChanged: (_) async => true,

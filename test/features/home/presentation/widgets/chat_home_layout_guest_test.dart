@@ -41,6 +41,29 @@ void main() {
     expect(find.byKey(const Key('guest-manual-entry-fab')), findsNothing);
   });
 
+  testWidgets(
+      'exhausted credits show manual entry and restore the composer after reset',
+      (tester) async {
+    final repository = FakeAiEntryRepository()..remaining = 5;
+    final model =
+        await _pumpLayout(tester, manualOnly: false, repository: repository);
+    await tester.tap(find.byKey(const ValueKey('home-navigation-1')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('activity-ai-credits')), findsOneWidget);
+    expect(find.byKey(const Key('chat-input-container')), findsOneWidget);
+    repository.remaining = 0;
+    await model.refreshAiQuota();
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('chat-input-container')), findsNothing);
+    expect(find.byKey(const Key('guest-manual-entry-fab')), findsOneWidget);
+    expect(find.byKey(const Key('ai-credit-exhausted-notice')), findsOneWidget);
+    repository.remaining = 5;
+    await model.refreshAiQuota();
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('chat-input-container')), findsOneWidget);
+    expect(find.byKey(const Key('ai-credit-exhausted-notice')), findsNothing);
+  });
+
   testWidgets('guest manual FAB only appears on the activities tab',
       (tester) async {
     await _pumpLayout(tester, manualOnly: true);
@@ -55,13 +78,15 @@ void main() {
   });
 }
 
-Future<void> _pumpLayout(
+Future<AiEntryViewModel> _pumpLayout(
   WidgetTester tester, {
   required bool manualOnly,
+  FakeAiEntryRepository? repository,
 }) async {
   usePhoneWindow(tester);
-  final repository = FakeAiEntryRepository();
+  repository ??= FakeAiEntryRepository();
   final viewModel = AiEntryViewModel(repository, DateTime(2026, 7, 25));
+  await viewModel.loadDate(DateTime(2026, 7, 25));
   final activity = ActivityCalendarViewModel(repository);
   final notifications = FinanceNotificationViewModel(
     FakeFinanceNotificationRepository(),
@@ -92,4 +117,5 @@ Future<void> _pumpLayout(
     ),
   ));
   await tester.pumpAndSettle();
+  return viewModel;
 }

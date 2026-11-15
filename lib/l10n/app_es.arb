@@ -169,7 +169,7 @@
   "termsIntro": "Estas condiciones explican las reglas de uso de Drala.",
   "termsDetails": "Usa Drala solo para gestionar tus finanzas personales de forma legal. Eres responsable de revisar las entradas creadas por la IA antes de confiar en ellas. La disponibilidad del servicio puede cambiar a medida que evoluciona la aplicación.",
   "privacyIntro": "Tu información financiera te pertenece.",
-  "privacyDetails": "Drala almacena datos de cuenta y transacciones para proporcionar la aplicación. Los recibos escaneados se guardan en un almacenamiento privado por usuario y se envían al proveedor de IA configurado a través del servidor para su extracción. Puedes eliminar recibos individuales desde Recibos escaneados, o eliminar todos los datos almacenados o tu cuenta completa desde Editar perfil.",
+  "privacyDetails": "Drala almacena datos de cuenta y transacciones para proporcionar la aplicación. Los recibos escaneados se guardan en un almacenamiento privado por usuario y se envían al proveedor de IA configurado a través del servidor para su extracción. Puedes eliminar recibos individuales desde Recibos escaneados, o eliminar todos los datos almacenados o tu cuenta completa desde la sección Cuenta de Ajustes.",
   "legalLastUpdated": "Última actualización: 21 de julio de 2026",
   "allowNotifications": "Permitir notificaciones",
   "dailyReminders": "Recordatorios diarios",
@@ -184,6 +184,7 @@
   "notificationsBlocked": "Notificaciones bloqueadas",
   "notificationsBlockedMessage": "Permite las notificaciones en los ajustes del dispositivo para recibir recordatorios y alertas.",
   "openSettings": "Abrir ajustes",
+  "accountActions": "Cuenta",
   "dangerZone": "Zona de peligro",
   "deleteAllData": "Eliminar todos mis datos",
   "deleteAllDataSummary": "Elimina los datos y archivos de la aplicación, pero conserva tu cuenta de acceso.",
@@ -397,6 +398,11 @@
   "seeMore": "Ver más",
   "recentTransactions": "Transacciones recientes",
   "envelopes": "Sobres",
+  "activityEmptyWithAction": "Hoy está tranquilo. {action} para empezar.",
+  "homeEmptyEnvelopeMessage": "Dale espacio a tus planes con tu {action}.",
+  "homeEmptyEnvelopeAction": "primer sobre",
+  "homeEmptyTransactionMessage": "{action} para empezar a seguir tu presupuesto.",
+  "homeEmptyTransactionAction": "Añade una transacción",
   "noRecentTransactions": "Añade una transacción para empezar a seguir tu presupuesto.",
   "overviewLoadFailed": "No se pudo actualizar. Reintentar.",
   "homeHello": "Hola",
@@ -507,5 +513,7 @@
       }
     }
   },
-  "chooseCategoryColor": "Elegir un color"
+  "chooseCategoryColor": "Elegir un color",
+  "settingsGuestSyncPrompt": "Inicia sesión para sincronizar tu presupuesto.",
+  "dailyAiCreditsExhausted": "Has agotado los créditos de IA de hoy. Se renuevan mañana. Descubre Drala Plus para usar la IA sin límites."
 }

@@ -44,7 +44,7 @@ extension _GoalListItemStateBuildHeader on _GoalListItemState {
             currencyCode,
           ),
           child: Icon(
-            Icons.add_circle_outline_rounded,
+            Icons.add_circle_rounded,
             color: AppIconForeground.resolve(
                 context, Theme.of(context).textTheme.bodyMedium?.color),
             size: 20,

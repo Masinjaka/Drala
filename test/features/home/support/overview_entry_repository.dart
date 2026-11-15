@@ -6,10 +6,12 @@ class OverviewEntryRepository extends FakeAiEntryRepository
     implements RecentTransactionRepository {
   List<FinanceEntry> recent = [];
   bool fail = false;
+  Future<void>? loadGate;
   int recentLoads = 0;
   @override
   Future<List<FinanceEntry>> recentTransactions({int limit = 3}) async {
     recentLoads++;
+    if (loadGate case final gate?) await gate;
     if (fail) throw StateError('offline');
     return recent.take(limit).toList();
   }

@@ -1,17 +1,10 @@
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/navigation/app_modal_page_route.dart';
-import 'package:budgets/core/layout/app_page_spacing.dart';
-import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'dart:io';
 
 import 'package:budgets/core/functions/pick_image_with_permissions.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/features/settings/data/repositories/supabase_account_data_repository.dart';
-import 'package:budgets/features/settings/data/repositories/unavailable_account_data_repository.dart';
-import 'package:budgets/features/settings/data/services/account_data_service.dart';
-import 'package:budgets/features/settings/domain/repositories/account_data_repository.dart';
 import 'package:budgets/features/settings/presentation/modules/edit_profile_module.dart';
-import 'package:budgets/features/settings/presentation/view_models/danger_zone_view_model.dart';
-import 'package:budgets/features/settings/presentation/widgets/danger_zone.dart';
 import 'package:budgets/features/settings/presentation/widgets/editable_profile_avatar.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -21,18 +14,13 @@ import 'package:budgets/features/user/presentation/controllers/username_controll
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class EditProfilePage extends ConsumerStatefulWidget {
-  const EditProfilePage({this.onDataDeleted, super.key});
+  const EditProfilePage({super.key});
 
-  final VoidCallback? onDataDeleted;
-
-  static Future<void> show(BuildContext context,
-          {VoidCallback? onDataDeleted}) =>
+  static Future<void> show(BuildContext context) =>
       Navigator.of(context).push<void>(AppModalPageRoute(
-        builder: (_) => EditProfilePage(onDataDeleted: onDataDeleted),
+        builder: (_) => const EditProfilePage(),
       ));
 
   @override
@@ -43,7 +31,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _module = EditProfileModule();
-  late final DangerZoneViewModel _dangerViewModel;
   File? _selectedImage;
   String? _profilePhotoUrl;
   bool _loadingPhoto = true;
@@ -52,7 +39,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   @override
   void initState() {
     super.initState();
-    _dangerViewModel = DangerZoneViewModel(_repository());
     ref.read(userModelProvider.future).then((user) {
       if (!mounted) return;
       setState(() {
@@ -68,7 +54,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   @override
   void dispose() {
     _usernameController.dispose();
-    _dangerViewModel.dispose();
     super.dispose();
   }
 
@@ -80,7 +65,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
     final form = Form(
       key: _formKey,
       child: ListView(
-        padding: AppPageSpacing.insets(context, top: 24, bottom: 32),
+        padding: AppScrollPadding.insets(context, top: 24, bottom: 32),
         children: [
           EditableProfileAvatar(
             selectedImage: _selectedImage,
@@ -101,13 +86,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
             height: 40,
             isLoading: _updating,
             onPressed: _updating ? null : _save,
-          ),
-          const SizedBox(height: 42),
-          DangerZone(
-            viewModel: _dangerViewModel,
-            accountEmail: _accountEmail(),
-            onDataDeleted: _dataDeleted,
-            onAccountDeleted: () => context.go('/getting-started'),
           ),
         ],
       ),
@@ -137,30 +115,6 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
       );
     } finally {
       if (mounted) setState(() => _updating = false);
-    }
-  }
-
-  void _dataDeleted() {
-    widget.onDataDeleted?.call();
-    if (!mounted) return;
-    if (widget.onDataDeleted == null) {
-      context.go('/home');
-    } else {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-    }
-  }
-
-  String _accountEmail() =>
-      Supabase.instance.client.auth.currentUser?.email ?? '';
-
-  AccountDataRepository _repository() {
-    try {
-      return SupabaseAccountDataRepository(
-        AccountDataService(Supabase.instance.client,
-            offline: ref.read(offlineAccountProvider)),
-      );
-    } catch (_) {
-      return const UnavailableAccountDataRepository();
     }
   }
 }

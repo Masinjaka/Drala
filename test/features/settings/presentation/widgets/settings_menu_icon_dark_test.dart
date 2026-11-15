@@ -11,21 +11,19 @@ void main() {
     await tester.pumpWidget(MaterialApp(
       theme: AppTheme.darkTheme,
       home: const Scaffold(
-        body: SettingsMenuIcon(asset: 'assets/settings/language.svg'),
+        body: SettingsMenuIcon(icon: Icons.language_rounded),
       ),
     ));
 
     final context = tester.element(find.byType(SettingsMenuIcon));
     final pictures =
         tester.widgetList<SvgPicture>(find.byType(SvgPicture)).toList();
-    expect(pictures, hasLength(2));
+    expect(pictures, hasLength(1));
     expect(
       pictures.first.colorFilter,
       ColorFilter.mode(AppSettingsTheme.iconSurface(context), BlendMode.srcIn),
     );
-    expect(
-      pictures.last.colorFilter,
-      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-    );
+    expect(tester.widget<Icon>(find.byIcon(Icons.language_rounded)).color,
+        Colors.white);
   });
 }

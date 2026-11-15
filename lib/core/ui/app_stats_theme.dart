@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'app_header_theme.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_home_overview_theme.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -42,7 +44,7 @@ abstract final class AppStatsTheme {
   static Color flowIconColor(BuildContext context, {required bool income}) =>
       income
           ? Theme.of(context).colorScheme.onSurface
-          : Theme.of(context).colorScheme.error;
+          : AppFinanceSurfaceTheme.expenseAccent(context);
   static Color grid(BuildContext context) =>
       Theme.of(context).colorScheme.outline;
   static List<BoxShadow> shadows(BuildContext context) => [
@@ -66,8 +68,10 @@ abstract final class AppStatsTheme {
           .colorScheme
           .onSurfaceVariant
           .withValues(alpha: .75));
-  static TextStyle title(BuildContext context) =>
-      label(context).copyWith(fontSize: AppTypography.headline, height: 1.3);
+  static TextStyle title(BuildContext context) => label(context).copyWith(
+      shadows: AppHeaderTheme.titleShadows(context),
+      fontSize: AppTypography.headline,
+      height: 1.3);
   static TextStyle metricLabel(BuildContext context) =>
       caption(context).copyWith(fontSize: AppTypography.body);
   static TextStyle amount(BuildContext context, double size) =>

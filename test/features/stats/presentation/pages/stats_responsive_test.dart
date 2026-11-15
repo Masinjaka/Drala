@@ -33,8 +33,9 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.byKey(const Key('stats-numbers-content')), findsOneWidget);
         expect(tester.takeException(), isNull);
-        await tester
-            .ensureVisible(find.byKey(const Key('stats-categories-tab')));
+        await Scrollable.ensureVisible(
+            tester.element(find.byKey(const Key('stats-categories-tab'))),
+            alignment: .5);
         await tester.pumpAndSettle();
         await tester.tap(find.byKey(const Key('stats-categories-tab')));
         await tester.pumpAndSettle();

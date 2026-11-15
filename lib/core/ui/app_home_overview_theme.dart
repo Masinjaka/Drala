@@ -1,10 +1,21 @@
+import 'app_header_theme.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppHomeOverviewTheme {
+  static const envelopeCardHeight = 170.0;
+  static const transactionMinHeight = 60.0;
   static const transactionOuterRadius = Radius.circular(24);
   static const transactionInnerRadius = Radius.circular(10);
+
+  static RoundedRectangleBorder transactionShape(
+          {required bool isFirst, required bool isLast}) =>
+      RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+              top: isFirst ? transactionOuterRadius : transactionInnerRadius,
+              bottom:
+                  isLast ? transactionOuterRadius : transactionInnerRadius));
 
   static Color background(BuildContext context) =>
       Theme.of(context).brightness == Brightness.light
@@ -15,10 +26,10 @@ abstract final class AppHomeOverviewTheme {
   static Color iconBackground(BuildContext context) => background(context);
   static Color accent(BuildContext context) =>
       Theme.of(context).colorScheme.primary;
-  static TextStyle welcome(BuildContext context) => Theme.of(context)
-      .textTheme
-      .bodyMedium!
-      .copyWith(fontSize: AppTypography.headline);
+  static TextStyle welcome(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium!.copyWith(
+          shadows: AppHeaderTheme.titleShadows(context),
+          fontSize: AppTypography.headline);
   static TextStyle date(BuildContext context) => label(context).copyWith(
       fontSize: AppTypography.input,
       color: Theme.of(context).colorScheme.onSurfaceVariant);

@@ -1,5 +1,6 @@
+import 'package:budgets/core/widgets/delayed_skeleton.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_finance_surface_theme.dart';
-import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/detail_page_shell.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:budgets/core/ui/detail_list_skeleton.dart';
@@ -15,11 +16,9 @@ class FinanceNotificationsPage extends StatefulWidget {
   const FinanceNotificationsPage({
     required this.viewModel,
     required this.onSelected,
-    this.onSettings,
     super.key,
   });
 
-  final VoidCallback? onSettings;
   final FinanceNotificationViewModel viewModel;
   final Future<void> Function(
     BuildContext context,
@@ -57,39 +56,49 @@ class _FinanceNotificationsPageState extends State<FinanceNotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return DetailPageShell(
-      showGrid: false,
-      backgroundColor: AppFinanceSurfaceTheme.background(context),
-      title: context.l10n.notifications,
-      child: ListenableBuilder(
-        listenable: widget.viewModel,
-        builder: (context, _) {
-          if (widget.viewModel.isLoading &&
-              widget.viewModel.notifications.isEmpty) {
-            return const DetailListSkeleton();
-          }
-          if (widget.viewModel.notifications.isEmpty) {
-            return FinanceNotificationsEmptyState(
-                onSettings: widget.onSettings);
-          }
-          return RefreshIndicator(
-            onRefresh: _load,
-            child: ListView.separated(
-              padding: AppPageSpacing.insets(context, top: 12, bottom: 32),
-              itemCount: widget.viewModel.notifications.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 10),
-              itemBuilder: (context, index) {
-                final notification = widget.viewModel.notifications[index];
-                return FinanceNotificationListItem(
-                  notification: notification,
-                  onTap: () => _select(notification),
+    return ListenableBuilder(
+      listenable: widget.viewModel,
+      builder: (context, _) {
+        final empty = widget.viewModel.notifications.isEmpty;
+        return DetailPageShell(
+          showGrid: false,
+          scrollUnderHeader: !empty,
+          backgroundColor: AppFinanceSurfaceTheme.background(context),
+          title: context.l10n.notifications,
+          child: empty
+              ? DelayedSkeleton(
+                  pending: widget.viewModel.awaitingFirstResult,
+                  builder: (_, show) {
+                    if (widget.viewModel.resolved) {
+                      return const FinanceNotificationsEmptyState();
+                    }
+                    return show
+                        ? const DetailListSkeleton()
+                        : const SizedBox.shrink();
+                  },
                 )
-                    .animate(delay: (50 * index.clamp(0, 6)).ms)
-                    .fadeIn(duration: 200.ms)
-                    .slideY(begin: .15, duration: 200.ms);
-              },
-            ),
-          );
+              : _inbox(),
+        );
+      },
+    );
+  }
+
+  Widget _inbox() {
+    return RefreshIndicator(
+      onRefresh: _load,
+      child: ListView.separated(
+        padding: AppScrollPadding.insets(context, top: 12, bottom: 32),
+        itemCount: widget.viewModel.notifications.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 10),
+        itemBuilder: (context, index) {
+          final notification = widget.viewModel.notifications[index];
+          return FinanceNotificationListItem(
+            notification: notification,
+            onTap: () => _select(notification),
+          )
+              .animate(delay: (50 * index.clamp(0, 6)).ms)
+              .fadeIn(duration: 200.ms)
+              .slideY(begin: .15, duration: 200.ms);
         },
       ),
     );

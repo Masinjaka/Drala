@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SettingsMenuIcon extends StatelessWidget {
-  const SettingsMenuIcon({required this.asset, super.key});
+  const SettingsMenuIcon({required this.icon, super.key});
 
-  final String asset;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) => SizedBox.square(
@@ -20,12 +20,10 @@ class SettingsMenuIcon extends StatelessWidget {
                 BlendMode.srcIn,
               ),
             ),
-            SvgPicture.asset(
-              asset,
-              colorFilter: ColorFilter.mode(
-                AppSettingsTheme.iconForeground(context),
-                BlendMode.srcIn,
-              ),
+            Icon(
+              icon,
+              size: 20,
+              color: AppSettingsTheme.iconForeground(context),
             ),
           ],
         ),

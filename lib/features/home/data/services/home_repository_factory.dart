@@ -24,6 +24,14 @@ class HomeRepositories {
 class HomeRepositoryFactory {
   const HomeRepositoryFactory._();
 
+  static String? get signedInAccountId {
+    try {
+      return Supabase.instance.client.auth.currentUser?.id;
+    } catch (_) {
+      return null;
+    }
+  }
+
   static EnvelopeRepository? envelopes() {
     try {
       return SupabaseEnvelopeRepository(

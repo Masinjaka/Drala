@@ -1,4 +1,4 @@
-import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/notifications/domain/models/notification_settings.dart';
@@ -27,7 +27,7 @@ class NotificationSettingsPage extends ConsumerWidget {
     return SettingsPageShell(
       title: context.l10n.notification,
       child: ListView(
-        padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
+        padding: AppScrollPadding.insets(context, top: 24, bottom: 28),
         children: [
           SettingsMenuGroup(
             flat: true,
@@ -35,7 +35,7 @@ class NotificationSettingsPage extends ConsumerWidget {
               NotificationSettingsToggle(
                 loading: state.isLoading,
                 title: context.l10n.allowNotifications,
-                icon: Icons.notifications_outlined,
+                icon: Icons.notifications,
                 value: settings.notificationsEnabled,
                 enabled: pending == null && !state.isLoading,
                 onChanged: (value) => _setMaster(context, ref, value),
@@ -44,7 +44,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                 NotificationSettingsToggle(
                   loading: state.isLoading,
                   title: context.l10n.dailyReminders,
-                  icon: Icons.alarm_outlined,
+                  icon: Icons.alarm,
                   value: settings.remindersEnabled,
                   enabled: pending == null && !state.isLoading,
                   onChanged: (value) => _setReminder(context, ref, value),
@@ -62,7 +62,7 @@ class NotificationSettingsPage extends ConsumerWidget {
                 NotificationSettingsToggle(
                   loading: state.isLoading,
                   title: context.l10n.budgetAlerts,
-                  icon: Icons.warning_amber_outlined,
+                  icon: Icons.warning_rounded,
                   value: settings.warningsEnabled,
                   enabled: pending == null && !state.isLoading,
                   onChanged: (value) => _setWarning(context, ref, value),

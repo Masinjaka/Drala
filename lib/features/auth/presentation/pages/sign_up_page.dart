@@ -1,3 +1,6 @@
+import 'package:budgets/core/layout/app_scroll_padding.dart';
+import 'package:budgets/core/ui/app_scroll_under_header.dart';
+import 'package:budgets/core/ui/app_glass_surface.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/ui/app_grid_background.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
@@ -54,18 +57,36 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: AppGridBackground(
           child: SafeArea(
               bottom: false,
               child: Center(
                   child: ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 560),
-                      child: _buildForm(context))))),
-      bottomNavigationBar: SignUpSubmitBar(
-        isLoading: _isLoading,
-        isEnabled: _hasAcceptedLegalTerms,
-        onPressed: _submit,
-      ),
+                      child: AppScrollUnderHeader(
+                          safeTop: false,
+                          header: Padding(
+                              padding: AppPageSpacing.insets(context,
+                                  top: AppHeaderMetrics.topPadding, bottom: 12),
+                              child: AuthHeader(
+                                title: Localizations.localeOf(context)
+                                            .languageCode ==
+                                        'en'
+                                    ? 'Sign up'
+                                    : context.l10n.authSignUp,
+                                onBack: () => context.canPop()
+                                    ? context.pop()
+                                    : context.go('/getting-started'),
+                              )),
+                          child: _buildForm(context)))))),
+      bottomNavigationBar: AppGlassSurface(
+          edge: AppGlassEdge.top,
+          child: SignUpSubmitBar(
+            isLoading: _isLoading,
+            isEnabled: _hasAcceptedLegalTerms,
+            onPressed: _submit,
+          )),
     );
   }
 
@@ -80,19 +101,10 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: AppPageSpacing.insets(context,
-                  top: AppHeaderMetrics.topPadding, bottom: 24),
+              padding: AppScrollPadding.insets(context, top: 0, bottom: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AuthHeader(
-                    title: Localizations.localeOf(context).languageCode == 'en'
-                        ? 'Sign up'
-                        : context.l10n.authSignUp,
-                    onBack: () => context.canPop()
-                        ? context.pop()
-                        : context.go('/getting-started'),
-                  ),
                   AuthTextField(
                     title: Text(
                       context.l10n.username,

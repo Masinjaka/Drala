@@ -871,7 +871,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyDetails.
   ///
   /// In en, this message translates to:
-  /// **'Drala stores account and transaction data to provide the app. Scanned receipts are kept in private per-user storage and are sent to the configured AI provider through the backend for extraction. You can delete individual receipts from Scanned receipts, or delete all stored data or your complete account from Edit profile.'**
+  /// **'Drala stores account and transaction data to provide the app. Scanned receipts are kept in private per-user storage and are sent to the configured AI provider through the backend for extraction. You can delete individual receipts from Scanned receipts, or delete all stored data or your complete account from the Account section in Settings.'**
   String get privacyDetails;
 
   /// No description provided for @legalLastUpdated.
@@ -957,6 +957,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open settings'**
   String get openSettings;
+
+  /// No description provided for @accountActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountActions;
 
   /// No description provided for @dangerZone.
   ///
@@ -2026,6 +2032,36 @@ abstract class AppLocalizations {
   /// **'Envelopes'**
   String get envelopes;
 
+  /// No description provided for @activityEmptyWithAction.
+  ///
+  /// In en, this message translates to:
+  /// **'A little quiet today. {action} to get started.'**
+  String activityEmptyWithAction(String action);
+
+  /// Home empty-state sentence. Keep {action} where the tappable phrase belongs.
+  ///
+  /// In en, this message translates to:
+  /// **'Give your plans a little room to grow with your {action}.'**
+  String homeEmptyEnvelopeMessage(String action);
+
+  /// No description provided for @homeEmptyEnvelopeAction.
+  ///
+  /// In en, this message translates to:
+  /// **'first envelope'**
+  String get homeEmptyEnvelopeAction;
+
+  /// Home empty-state sentence. Keep {action} where the tappable phrase belongs.
+  ///
+  /// In en, this message translates to:
+  /// **'{action} to start tracking your budget.'**
+  String homeEmptyTransactionMessage(String action);
+
+  /// No description provided for @homeEmptyTransactionAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a transaction'**
+  String get homeEmptyTransactionAction;
+
   /// No description provided for @noRecentTransactions.
   ///
   /// In en, this message translates to:
@@ -2565,6 +2601,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose a color'**
   String get chooseCategoryColor;
+
+  /// No description provided for @settingsGuestSyncPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to sync your budget.'**
+  String get settingsGuestSyncPrompt;
+
+  /// No description provided for @dailyAiCreditsExhausted.
+  ///
+  /// In en, this message translates to:
+  /// **'You’ve used today’s AI credits. They reset tomorrow. Explore Drala Plus for unlimited AI.'**
+  String get dailyAiCreditsExhausted;
 }
 
 class _AppLocalizationsDelegate

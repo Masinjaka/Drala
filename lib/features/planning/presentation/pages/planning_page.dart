@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_scroll_under_header.dart';
 import 'package:budgets/core/ui/app_text_style.dart';
 import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/navigation/domain/providers/sub_tab_providers.dart';
@@ -52,19 +53,16 @@ class _PlanningPageState extends ConsumerState<PlanningPage>
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: theme.scaffoldBackgroundColor,
-          scrolledUnderElevation: 0,
-          titleSpacing: 32,
-          title: Text(
-            'Planification',
-            style: AppTextStyle(AppTextRole.pageTitle),
-          ),
-          centerTitle: false,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(64),
-            child: Padding(
+        body: AppScrollUnderHeader(
+          header: Column(mainAxisSize: MainAxisSize.min, children: [
+            Padding(
+                padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
+                child: Row(children: [
+                  Expanded(
+                      child: Text('Planification',
+                          style: AppTextStyle(AppTextRole.pageTitle)))
+                ])),
+            Padding(
               padding: EdgeInsets.fromLTRB(32, 0, 32, 8),
               child: Container(
                 decoration: BoxDecoration(
@@ -97,15 +95,15 @@ class _PlanningPageState extends ConsumerState<PlanningPage>
                 ),
               ),
             ),
+          ]),
+          child: TabBarView(
+            controller: _tabController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: const [
+              BudgetsTabContent(),
+              GoalsTabContent(),
+            ],
           ),
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: const [
-            BudgetsTabContent(),
-            GoalsTabContent(),
-          ],
         ),
       ),
     );

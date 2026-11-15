@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/app_envelope_theme.dart';
+import 'package:budgets/core/ui/app_header_button_shadow.dart';
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/ui/month_calendar_button.dart';
 import 'package:budgets/core/ui/app_close_button.dart';
@@ -34,6 +37,19 @@ class EnvelopePageHeader extends StatelessWidget {
                 onPressed: onPickMonth,
                 buttonKey: const Key('envelope-pick-month'),
                 yearKey: const Key('month-year')),
+            const SizedBox(width: AppHeaderMetrics.actionGap),
+            AppHeaderButtonShadow(
+              child: Tooltip(
+                message: context.l10n.addEnvelope,
+                child: TextButton(
+                  key: const Key('envelope-create'),
+                  onPressed: onAdd,
+                  style: AppEnvelopeTheme.headerActionButton(context),
+                  child: const Icon(Icons.add_rounded,
+                      size: AppHeaderMetrics.iconSize),
+                ),
+              ),
+            ),
             if (showBackButton) ...[
               const SizedBox(width: AppHeaderMetrics.actionGap),
               AppCloseButton(onPressed: () => Navigator.maybePop(context)),

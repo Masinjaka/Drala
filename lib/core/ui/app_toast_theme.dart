@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'app_button_theme.dart';
+import 'app_typography.dart';
 import 'app_danger_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +43,23 @@ class AppToastTheme extends ThemeExtension<AppToastTheme> {
     info: Color(0xFFF0C447),
     iconForeground: Color(0xFF303030),
   );
+
+  static const shape = AppButtonTheme.shape;
+  static final blur = ImageFilter.blur(sigmaX: 16, sigmaY: 16);
+
+  Color tint(BuildContext context) => background.withValues(
+      alpha: MediaQuery.highContrastOf(context) ? .96 : .84);
+
+  Color border(BuildContext context) => foreground.withValues(
+      alpha: MediaQuery.highContrastOf(context) ? .32 : .18);
+
+  TextStyle? messageStyle(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: foreground,
+            fontSize: AppTypography.input,
+            fontWeight: FontWeight.normal,
+            height: 1.35,
+          );
 
   @override
   AppToastTheme copyWith({

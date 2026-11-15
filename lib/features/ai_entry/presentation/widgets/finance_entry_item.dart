@@ -73,7 +73,7 @@ class FinanceEntryItem extends StatelessWidget {
                             message:
                                 context.l10n.takenFromEnvelope(envelopeName),
                             child: Icon(
-                              Icons.mail_outline_rounded,
+                              Icons.mail_rounded,
                               size: 14,
                               color: AppIconForeground.resolve(
                                   context,

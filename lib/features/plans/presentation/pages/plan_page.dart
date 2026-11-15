@@ -1,3 +1,6 @@
+import 'package:budgets/core/ui/detail_page_shell.dart';
+import 'package:budgets/core/ui/app_glass_surface.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/plans/domain/models/plan_tier.dart';
@@ -43,79 +46,63 @@ class _PlanPageState extends State<PlanPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return DetailPageShell(
+      title: 'Plans',
+      showGrid: false,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        surfaceTintColor: Colors.transparent,
-        title: Text(
-          'Plans',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ),
-      body: SafeArea(
-        top: false,
+      bottomNavigationBar: AppGlassSurface(
+          edge: AppGlassEdge.top,
+          child: SafeArea(
+              child: Padding(
+                  padding: AppPageSpacing.insets(context, top: 12, bottom: 14),
+                  child: CustomButton(
+                    key: const Key('plan-continue-button'),
+                    text: _selectedTier == PlanTier.free
+                        ? 'Stay on Free'
+                        : 'Subscribe to Drala Plus',
+                    onPressed: _continue,
+                    isLoading: _isSubmitting,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                  )))),
+      child: SingleChildScrollView(
+        padding: AppScrollPadding.insets(context, top: 14, bottom: 24),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: AppPageSpacing.insets(context, top: 14, bottom: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Choose what works for you',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Stay on Free or unlock more ways to manage your money.',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                    ),
-                    const SizedBox(height: 22),
-                    Row(
-                      children: [
-                        PlanChoiceCard(
-                          title: 'Free',
-                          subtitle: 'Your current plan',
-                          icon: Icons.check_circle_outline_rounded,
-                          isSelected: _selectedTier == PlanTier.free,
-                          onTap: () =>
-                              setState(() => _selectedTier = PlanTier.free),
-                        ),
-                        const SizedBox(width: 12),
-                        PlanChoiceCard(
-                          title: 'Drala Plus',
-                          subtitle: 'More power and flexibility',
-                          icon: Icons.auto_awesome_outlined,
-                          isSelected: _selectedTier == PlanTier.plus,
-                          onTap: () =>
-                              setState(() => _selectedTier = PlanTier.plus),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    const PlanComparisonTable(
-                      features: PlanFeatureCatalog.features,
-                    ),
-                  ],
-                ),
-              ),
+            Text(
+              'Choose what works for you',
+              style: Theme.of(context).textTheme.titleLarge,
             ),
-            Padding(
-              padding: AppPageSpacing.insets(context, top: 12, bottom: 14),
-              child: CustomButton(
-                key: const Key('plan-continue-button'),
-                text: _selectedTier == PlanTier.free
-                    ? 'Stay on Free'
-                    : 'Subscribe to Drala Plus',
-                onPressed: _continue,
-                isLoading: _isSubmitting,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-              ),
+            const SizedBox(height: 6),
+            Text(
+              'Stay on Free or unlock more ways to manage your money.',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            ),
+            const SizedBox(height: 22),
+            Row(
+              children: [
+                PlanChoiceCard(
+                  title: 'Free',
+                  subtitle: 'Your current plan',
+                  icon: Icons.check_circle_rounded,
+                  isSelected: _selectedTier == PlanTier.free,
+                  onTap: () => setState(() => _selectedTier = PlanTier.free),
+                ),
+                const SizedBox(width: 12),
+                PlanChoiceCard(
+                  title: 'Drala Plus',
+                  subtitle: 'More power and flexibility',
+                  icon: Icons.auto_awesome,
+                  isSelected: _selectedTier == PlanTier.plus,
+                  onTap: () => setState(() => _selectedTier = PlanTier.plus),
+                ),
+              ],
+            ),
+            const SizedBox(height: 30),
+            const PlanComparisonTable(
+              features: PlanFeatureCatalog.features,
             ),
           ],
         ),

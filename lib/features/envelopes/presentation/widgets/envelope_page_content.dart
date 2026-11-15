@@ -51,12 +51,15 @@ class EnvelopePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canScroll = viewModel.envelopes.isNotEmpty ||
+        viewModel.isMonthLoading(viewModel.month);
     return SafeArea(
       bottom: false,
       child: Padding(
         padding: const EdgeInsets.only(top: AppHeaderMetrics.topPadding),
         child: MonthScrollLayout(
           scrollKey: const Key('envelope-page-scroll'),
+          canScroll: canScroll,
           carouselBottomPadding: 46,
           headerBuilder: (showMonth) => Column(children: [
             Padding(
@@ -87,13 +90,13 @@ class EnvelopePageContent extends StatelessWidget {
             itemBuilder: (context, page) {
               final month = _monthForPage(page);
               return EnvelopeMonthPage(
-                onAdd: onAdd,
                 key: ValueKey('envelope-page-${month.year}-${month.month}'),
                 envelopes: viewModel.envelopesForMonth(month),
                 selectedIds: selectedIds,
                 onToggleSelection: onToggleSelection,
                 selectionEnabled: !viewModel.isSaving,
                 isLoading: viewModel.isMonthLoading(month),
+                resolved: viewModel.hasMonthData(month),
                 onRefresh: onRefresh,
                 onDelete: viewModel.delete,
                 onEdit: onEdit,

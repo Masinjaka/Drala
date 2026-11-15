@@ -28,19 +28,14 @@ class HomeOverviewTransactionTile extends StatelessWidget {
             .format(entry.occurredAt);
     return AppCardSurface(
       color: AppHomeOverviewTheme.surface(context),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-              top: isFirst
-                  ? AppHomeOverviewTheme.transactionOuterRadius
-                  : AppHomeOverviewTheme.transactionInnerRadius,
-              bottom: isLast
-                  ? AppHomeOverviewTheme.transactionOuterRadius
-                  : AppHomeOverviewTheme.transactionInnerRadius)),
+      shape: AppHomeOverviewTheme.transactionShape(
+          isFirst: isFirst, isLast: isLast),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
           onTap: onPressed,
           child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 60),
+              constraints: const BoxConstraints(
+                  minHeight: AppHomeOverviewTheme.transactionMinHeight),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

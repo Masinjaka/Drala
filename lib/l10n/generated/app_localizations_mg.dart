@@ -481,7 +481,7 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get privacyDetails =>
-      'Mitahiry angona momba ny kaonty sy ny fifanakalozana i Drala mba hampandeha ny fampiharana. Ny rosia noskenina dia tehirizina amin\'ny toerana manokana ho an\'ny mpampiasa tsirairay ary alefa amin\'ny mpamatsy AI voafantina amin\'ny alalan\'ny lohamilina mba hakana ny angona. Afaka mamafa rosia tsirairay ao amin\'ny Rosia noskenina ianao, na mamafa ny angona rehetra na ny kaontinao manontolo ao amin\'ny Hanova ny mombamomba.';
+      'Mitahiry angona momba ny kaonty sy ny fifanakalozana i Drala mba hampandeha ny fampiharana. Ny rosia noskenina dia tehirizina amin\'ny toerana manokana ho an\'ny mpampiasa tsirairay ary alefa amin\'ny mpamatsy AI voafantina amin\'ny alalan\'ny lohamilina mba hakana ny angona. Afaka mamafa rosia tsirairay ao amin\'ny Rosia noskenina ianao, na mamafa ny angona rehetra na ny kaontinao manontolo ao amin\'ny fizarana Kaonty ao amin\'ny Fikirana.';
 
   @override
   String get legalLastUpdated => 'Nohavaozina farany: 21 Jolay 2026';
@@ -527,6 +527,9 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get openSettings => 'Sokafy ny fikirana';
+
+  @override
+  String get accountActions => 'Kaonty';
 
   @override
   String get dangerZone => 'Faritra mampidi-doza';
@@ -1131,6 +1134,28 @@ class AppLocalizationsMg extends AppLocalizations {
   String get envelopes => 'Valopy';
 
   @override
+  String activityEmptyWithAction(String action) {
+    return 'Somary mangina androany. $action mba hanombohana.';
+  }
+
+  @override
+  String homeEmptyEnvelopeMessage(String action) {
+    return 'Omeo toerana ny tetikasanao amin’ny $action.';
+  }
+
+  @override
+  String get homeEmptyEnvelopeAction => 'valopy voalohany';
+
+  @override
+  String homeEmptyTransactionMessage(String action) {
+    return '$action hanombohana manara-maso ny teti-bolanao.';
+  }
+
+  @override
+  String get homeEmptyTransactionAction =>
+      'Ampidiro ny fifanakalozana voalohany';
+
+  @override
   String get noRecentTransactions =>
       'Ampidiro ny fifanakalozana voalohany hanombohana manara-maso ny teti-bolanao.';
 
@@ -1424,4 +1449,12 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get chooseCategoryColor => 'Misafidiana loko';
+
+  @override
+  String get settingsGuestSyncPrompt =>
+      'Midira mba hampifanarahana ny teti-bolanao.';
+
+  @override
+  String get dailyAiCreditsExhausted =>
+      'Lany ny crédit AI androany. Hiverina rahampitso izy ireo. Jereo ny Drala Plus hahazoana AI tsy voafetra.';
 }

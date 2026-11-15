@@ -1,5 +1,6 @@
 import 'package:budgets/features/home/presentation/pages/chat_home_page.dart';
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
 import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:budgets/features/settings/presentation/pages/setting_page.dart';
 import 'package:budgets/features/settings/presentation/pages/edit_password_page.dart';
@@ -51,5 +52,21 @@ void main() {
 
     expect(find.byType(SettingPage), findsOneWidget);
     expect(find.byType(ChatHomePage), findsOneWidget);
+
+    final rows = find.byKey(const Key('settings-content'));
+    final logout = find.byKey(const Key('settings-logout-button'));
+    await tester.scrollUntilVisible(logout, 400,
+        scrollable:
+            find.descendant(of: rows, matching: find.byType(Scrollable)));
+    await tester.pumpAndSettle();
+    final accountGroup =
+        find.ancestor(of: logout, matching: find.byType(SettingsMenuGroup));
+    expect(accountGroup, findsOneWidget);
+    for (final key in ['delete-all-data-button', 'delete-account-button']) {
+      expect(find.descendant(of: accountGroup, matching: find.byKey(Key(key))),
+          findsOneWidget);
+    }
+    expect(tester.getTopLeft(find.text('Account')).dy,
+        greaterThan(tester.getBottomLeft(find.text('Privacy policy')).dy));
   });
 }

@@ -12,7 +12,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class AiEntryService {
   const AiEntryService(this._client);
 
-  static const dailyRequestLimit = 20;
+  static const dailyRequestLimit = 5;
   final SupabaseClient _client;
 
   Future<AiQuota> aiQuota() async {

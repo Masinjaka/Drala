@@ -14,6 +14,7 @@ class NotificationService {
   StreamSubscription<String>? _tokenSub;
 
   Future<void> bootstrapIfEnabled() async {
+    if (!kReleaseMode) return;
     final settings = await _dataSource.fetchSettings();
     if (!settings.anyEnabled) {
       return;
@@ -26,6 +27,7 @@ class NotificationService {
   }
 
   Future<bool> registerDevice() async {
+    if (!kReleaseMode) return false;
     final hasPermission = await NotificationPermissionService().isGranted();
     if (!hasPermission) {
       return false;

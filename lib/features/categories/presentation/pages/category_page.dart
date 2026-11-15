@@ -45,16 +45,15 @@ class _CategoryPageState extends State<CategoryPage>
                 type: _tabs.index == 0
                     ? TransactionType.expense
                     : TransactionType.income)),
-        child: Column(children: [
+        headerBottom: Column(children: [
           Padding(
               padding: AppPageSpacing.insets(context),
               child: CategoryTypeCarousel(controller: _tabs)),
           const SizedBox(height: 24),
-          Expanded(
-              child: TabBarView(controller: _tabs, children: const [
-            CategoryTabContent(transactionType: TransactionType.expense),
-            CategoryTabContent(transactionType: TransactionType.income),
-          ])),
+        ]),
+        child: TabBarView(controller: _tabs, children: const [
+          CategoryTabContent(transactionType: TransactionType.expense),
+          CategoryTabContent(transactionType: TransactionType.income),
         ]));
   }
 }

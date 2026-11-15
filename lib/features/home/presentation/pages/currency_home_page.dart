@@ -1,3 +1,4 @@
+import 'package:budgets/features/home/data/services/home_repository_factory.dart';
 import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/features/offline/presentation/widgets/offline_account_home.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -58,6 +59,7 @@ class CurrencyHomePage extends ConsumerWidget {
                         child: Text(context.l10n.offlineInitial))));
       }
       return ChatHomePage(
+        key: ValueKey(('remote', HomeRepositoryFactory.signedInAccountId)),
         displayName: displayName,
         isSignedIn: isSignedIn,
         currencyState: currency.value,

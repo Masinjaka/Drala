@@ -1,4 +1,6 @@
-import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/widgets/delayed_skeleton.dart';
+import 'envelope_empty_state.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/envelopes/domain/models/envelope.dart';
 import 'package:budgets/features/envelopes/presentation/widgets/envelope_list_panel.dart';
@@ -9,21 +11,21 @@ class EnvelopeMonthPage extends StatelessWidget {
   const EnvelopeMonthPage({
     required this.envelopes,
     required this.isLoading,
+    this.resolved = true,
     required this.onRefresh,
     required this.onDelete,
     this.displayCurrency,
     this.selectedIds,
     this.onToggleSelection,
     this.selectionEnabled = true,
-    this.onAdd,
     this.onEdit,
     this.targetEnvelopeId,
     super.key,
   });
 
-  final VoidCallback? onAdd;
   final List<Envelope> envelopes;
   final bool isLoading;
+  final bool resolved;
   final Future<void> Function() onRefresh;
   final ValueChanged<String> onDelete;
   final CurrencyState? displayCurrency;
@@ -34,41 +36,55 @@ class EnvelopeMonthPage extends StatelessWidget {
   final String? targetEnvelopeId;
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) => RefreshIndicator(
-        onRefresh: onRefresh,
-        child: ListView(
-          key: const Key('envelope-month-list'),
-          primary: true,
-          padding: AppPageSpacing.insets(context, top: 0, bottom: 32),
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            if (isLoading && envelopes.isEmpty)
-              const EnvelopeListSkeleton()
-            else
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                    minHeight: envelopes.isEmpty
-                        ? (constraints.maxHeight > 32
-                            ? constraints.maxHeight - 32
-                            : 0)
-                        : 0),
-                child: EnvelopeListPanel(
-                  onAdd: onAdd,
-                  envelopes: envelopes,
-                  selectedIds: selectedIds,
-                  onToggleSelection: onToggleSelection,
-                  selectionEnabled: selectionEnabled,
-                  onDelete: onDelete,
-                  onEdit: onEdit,
-                  loading: isLoading,
-                  displayCurrency: displayCurrency,
-                  targetEnvelopeId: targetEnvelopeId,
-                ),
+  Widget build(BuildContext context) => DelayedSkeleton(
+        pending: isLoading && envelopes.isEmpty,
+        builder: _buildMonth,
+      );
+
+  Widget _buildMonth(BuildContext context, bool showSkeleton) {
+    if (resolved && !isLoading && envelopes.isEmpty) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final bottomInset = MediaQuery.paddingOf(context).bottom;
+          return SingleChildScrollView(
+            key: const Key('envelope-month-list'),
+            primary: false,
+            physics: const ClampingScrollPhysics(),
+            padding: EdgeInsets.only(bottom: bottomInset),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: (constraints.maxHeight - bottomInset)
+                    .clamp(0.0, double.infinity),
               ),
-          ],
-        ),
+              child: const Center(child: EnvelopeEmptyState()),
+            ),
+          );
+        },
+      );
+    }
+    return RefreshIndicator(
+      onRefresh: onRefresh,
+      child: ListView(
+        key: const Key('envelope-month-list'),
+        primary: true,
+        padding: AppScrollPadding.insets(context, top: 0, bottom: 32),
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: [
+          if (showSkeleton)
+            const EnvelopeListSkeleton()
+          else if (envelopes.isNotEmpty)
+            EnvelopeListPanel(
+              envelopes: envelopes,
+              selectedIds: selectedIds,
+              onToggleSelection: onToggleSelection,
+              selectionEnabled: selectionEnabled,
+              onDelete: onDelete,
+              onEdit: onEdit,
+              loading: isLoading,
+              displayCurrency: displayCurrency,
+              targetEnvelopeId: targetEnvelopeId,
+            ),
+        ],
       ),
     );
   }

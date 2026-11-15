@@ -56,9 +56,8 @@ void main() {
         ]))),
       ));
       expect(find.byIcon(Icons.keyboard_arrow_down), findsNothing);
-      expect(find.byIcon(Icons.account_balance_outlined), findsOneWidget);
-      expect(
-          find.byIcon(Icons.account_balance_wallet_outlined), findsOneWidget);
+      expect(find.byIcon(Icons.account_balance), findsOneWidget);
+      expect(find.byIcon(Icons.account_balance_wallet), findsOneWidget);
       expect(find.byIcon(Icons.close), findsNothing);
       expect(find.byType(CategoryIcon), findsOneWidget);
       await tester.tap(find.byKey(const Key('transaction-category-field')));

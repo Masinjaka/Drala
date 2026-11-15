@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_scroll_under_header.dart';
+import 'package:budgets/core/ui/app_glass_surface.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/ui/app_grid_background.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
@@ -49,96 +51,115 @@ class _VerifyResetCodePageState extends ConsumerState<VerifyResetCodePage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        extendBody: true,
         body: AppGridBackground(
             child: SafeArea(
                 bottom: false,
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 560),
-                    child: GestureDetector(
-                      onTap: () =>
-                          FocusManager.instance.primaryFocus?.unfocus(),
-                      child: SizedBox.expand(
-                        child: SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(),
-                          child: Form(
-                            key: _formKey,
-                            child: Padding(
-                              padding: AppPageSpacing.insets(context,
-                                  top: AppHeaderMetrics.topPadding, bottom: 24),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AuthHeader(
-                                    title: context.l10n.newPassword,
-                                    onBack: () => context.canPop()
-                                        ? context.pop()
-                                        : context.go('/reset-password'),
+                    child: AppScrollUnderHeader(
+                        safeTop: false,
+                        header: Padding(
+                            padding: AppPageSpacing.insets(context,
+                                top: AppHeaderMetrics.topPadding, bottom: 12),
+                            child: AuthHeader(
+                              title: context.l10n.newPassword,
+                              onBack: () => context.canPop()
+                                  ? context.pop()
+                                  : context.go('/reset-password'),
+                            )),
+                        child: GestureDetector(
+                          onTap: () =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
+                          child: SizedBox.expand(
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Form(
+                                key: _formKey,
+                                child: Padding(
+                                  padding: AppPageSpacing.insets(context,
+                                      top: 0, bottom: 24),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(context.l10n.authCodeSentTo,
+                                          style:
+                                              AppTextTheme.authBody(context)),
+                                      const SizedBox(height: 4),
+                                      Text(widget.email,
+                                          style:
+                                              AppTextTheme.authBody(context)),
+                                      const SizedBox(height: 28),
+                                      Text(context.l10n.authVerificationCode,
+                                          style:
+                                              AppTextTheme.authBody(context)),
+                                      const SizedBox(height: 6),
+                                      ResetCodeOtpRow(
+                                        controllers: _otpControllers,
+                                        focusNodes: _otpFocusNodes,
+                                      ),
+                                      const SizedBox(height: 28),
+                                      AuthTextField(
+                                        title: Text(context.l10n.newPassword,
+                                            style:
+                                                AppTextTheme.authBody(context)),
+                                        hint: 'xxxxxxxx',
+                                        controller: _newPasswordController,
+                                        keyboardType:
+                                            TextInputType.visiblePassword,
+                                        isPassword: true,
+                                        validator: const {'type': 'password'},
+                                      ),
+                                      const SizedBox(height: 28),
+                                      AuthTextField(
+                                        title: Text(
+                                            context.l10n.confirmPassword,
+                                            style:
+                                                AppTextTheme.authBody(context)),
+                                        hint: 'xxxxxxxx',
+                                        controller: _confirmPasswordController,
+                                        keyboardType:
+                                            TextInputType.visiblePassword,
+                                        isPassword: true,
+                                        fieldValidator: (value) =>
+                                            CustomTextFieldValidator(context)
+                                                .validate(
+                                                    'required',
+                                                    context.l10n.enterPassword,
+                                                    value) ??
+                                            (value !=
+                                                    _newPasswordController.text
+                                                ? context
+                                                    .l10n.passwordsDoNotMatch
+                                                : null),
+                                      ),
+                                    ],
                                   ),
-                                  Text(context.l10n.authCodeSentTo,
-                                      style: AppTextTheme.authBody(context)),
-                                  const SizedBox(height: 4),
-                                  Text(widget.email,
-                                      style: AppTextTheme.authBody(context)),
-                                  const SizedBox(height: 28),
-                                  Text(context.l10n.authVerificationCode,
-                                      style: AppTextTheme.authBody(context)),
-                                  const SizedBox(height: 6),
-                                  ResetCodeOtpRow(
-                                    controllers: _otpControllers,
-                                    focusNodes: _otpFocusNodes,
-                                  ),
-                                  const SizedBox(height: 28),
-                                  AuthTextField(
-                                    title: Text(context.l10n.newPassword,
-                                        style: AppTextTheme.authBody(context)),
-                                    hint: 'xxxxxxxx',
-                                    controller: _newPasswordController,
-                                    keyboardType: TextInputType.visiblePassword,
-                                    isPassword: true,
-                                    validator: const {'type': 'password'},
-                                  ),
-                                  const SizedBox(height: 28),
-                                  AuthTextField(
-                                    title: Text(context.l10n.confirmPassword,
-                                        style: AppTextTheme.authBody(context)),
-                                    hint: 'xxxxxxxx',
-                                    controller: _confirmPasswordController,
-                                    keyboardType: TextInputType.visiblePassword,
-                                    isPassword: true,
-                                    fieldValidator: (value) =>
-                                        CustomTextFieldValidator(context)
-                                            .validate(
-                                                'required',
-                                                context.l10n.enterPassword,
-                                                value) ??
-                                        (value != _newPasswordController.text
-                                            ? context.l10n.passwordsDoNotMatch
-                                            : null),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
+                        )),
                   ),
                 ))),
-        bottomNavigationBar: SafeArea(
-          top: false,
-          child: Padding(
-            padding: AppPageSpacing.insets(context, top: 0, bottom: 30),
-            child: CustomButton(
-              text: context.l10n.authResetButton,
-              height: 44,
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              isLoading: _isLoading,
-              onPressed: _submit,
-            ),
-          ),
-        ),
+        bottomNavigationBar: AppGlassSurface(
+            edge: AppGlassEdge.top,
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: AppPageSpacing.insets(context, top: 0, bottom: 30),
+                child: CustomButton(
+                  text: context.l10n.authResetButton,
+                  height: 44,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  isLoading: _isLoading,
+                  onPressed: _submit,
+                ),
+              ),
+            )),
       );
 
   Future<void> _submit() async {

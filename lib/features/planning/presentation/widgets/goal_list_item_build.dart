@@ -43,8 +43,8 @@ extension _GoalListItemStateBuild on _GoalListItemState {
                     children: [
                       Flexible(
                         child: Icon(
-                          Icons.delete_outline,
-                          color: Theme.of(context).colorScheme.onError,
+                          Icons.delete,
+                          color: AppDangerTheme.onFill,
                           size: 18,
                         ),
                       ),
@@ -55,7 +55,7 @@ extension _GoalListItemStateBuild on _GoalListItemState {
                       curve: Curves.linear,
                       builder: (context, value, child) => DecoratedBox(
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.error,
+                          color: AppDangerTheme.fill,
                           borderRadius: cardBorderRadius,
                         ),
                         child: child,
@@ -120,7 +120,7 @@ extension _GoalListItemStateBuild on _GoalListItemState {
                                 borderRadius: BorderRadius.circular(80),
                               ),
                               child: Icon(
-                                Icons.edit_outlined,
+                                Icons.edit,
                                 color: AppIconForeground.resolve(
                                     context,
                                     Theme.of(context)

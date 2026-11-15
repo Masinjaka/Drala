@@ -29,17 +29,17 @@ class GuestSettingsOptions extends StatelessWidget {
           items: [
             SettingsMenuItem(
               title: l.notification,
-              iconAsset: 'assets/settings/notification.svg',
+              icon: Icons.notifications_rounded,
               onTap: onNotifications,
             ),
             SettingsMenuItem(
               title: l.currency,
-              iconAsset: 'assets/settings/currency.svg',
+              icon: Icons.currency_exchange_rounded,
               onTap: onCurrency,
             ),
             SettingsMenuItem(
               title: l.theme,
-              iconAsset: 'assets/settings/wallet.svg',
+              icon: Icons.palette_rounded,
               onTap: onTheme,
             ),
           ],
@@ -57,7 +57,7 @@ class GuestSettingsOptions extends StatelessWidget {
           items: [
             SettingsMenuItem(
               title: l.language,
-              iconAsset: 'assets/settings/language.svg',
+              icon: Icons.language_rounded,
               onTap: onLanguage,
             ),
           ],

@@ -16,7 +16,7 @@ export async function reserveRequest(
       p_provider: provider,
       p_model: model,
       p_prompt: prompt,
-      p_daily_limit: 20,
+      p_daily_limit: 5,
       p_min_interval_seconds: 3,
     });
     if (error) throw new ApiError("database_error", error.message, 500);
@@ -93,7 +93,7 @@ export async function quotaSnapshot(
   return {
     plan: activePro ? "pro" : "free",
     unlimited: activePro,
-    remaining: activePro ? null : Math.max(0, 20 - (requests.count ?? 0)),
+    remaining: activePro ? null : Math.max(0, 5 - (requests.count ?? 0)),
   };
 }
 

@@ -5,10 +5,12 @@ import 'package:budgets/features/envelopes/domain/repositories/envelope_reposito
 
 class OverviewEnvelopeRepository implements EnvelopeRepository {
   bool fail = false;
+  Future<void>? loadGate;
   int loads = 0;
   @override
   Future<List<Envelope>> envelopesForMonth(DateTime month) async {
     loads++;
+    if (loadGate case final gate?) await gate;
     if (fail) throw StateError('offline');
     return List.generate(
         2,

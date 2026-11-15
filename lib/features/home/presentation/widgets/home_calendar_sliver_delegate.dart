@@ -1,4 +1,6 @@
 import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/ui/app_glass_backdrop.dart';
+import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/core/ui/app_activities_theme.dart';
 import 'calendar_view_toggle.dart';
@@ -41,8 +43,7 @@ class HomeCalendarSliverDelegate extends SliverPersistentHeaderDelegate {
     final visibility =
         compact ? 0.0 : (1 - shrinkOffset / _collapseExtent).clamp(0.0, 1.0);
     onVisibilityChanged?.call(visibility);
-    return SizedBox.expand(
-        child: ColoredBox(
+    final calendar = ColoredBox(
       key: const Key('calendar-pinned-background'),
       color: activitiesStyle
           ? AppActivitiesTheme.background(context)
@@ -55,7 +56,29 @@ class HomeCalendarSliverDelegate extends SliverPersistentHeaderDelegate {
           child: builder(AlwaysStoppedAnimation(visibility)),
         ),
       ),
-    ));
+    );
+    if (!activitiesStyle) return SizedBox.expand(child: calendar);
+    return Stack(
+      fit: StackFit.expand,
+      clipBehavior: Clip.none,
+      children: [
+        calendar,
+        if (visibility == 0 && shrinkOffset >= _collapseExtent)
+          const Positioned(
+            left: 0,
+            right: 0,
+            bottom: -AppHeaderMetrics.buttonSize,
+            height: AppHeaderMetrics.buttonSize,
+            child: IgnorePointer(
+              child: AppGlassBackdrop(
+                key: Key('activities-calendar-scroll-fade'),
+                top: false,
+                amount: 1,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 
   @override

@@ -14,7 +14,7 @@ class PreviewAiEntryRepository implements AiEntryRepository {
 
   @override
   Future<AiQuota> aiQuota() async =>
-      const AiQuota(plan: 'free', unlimited: false, remaining: 20);
+      const AiQuota(plan: 'free', unlimited: false, remaining: 5);
 
   @override
   Future<List<WalletSummary>> wallets() async => const [

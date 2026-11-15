@@ -14,14 +14,12 @@ class EnvelopeListPanel extends StatefulWidget {
     this.selectedIds,
     this.onToggleSelection,
     this.selectionEnabled = true,
-    this.onAdd,
     this.onEdit,
     this.loading = false,
     this.targetEnvelopeId,
     super.key,
   });
 
-  final VoidCallback? onAdd;
   final List<Envelope> envelopes;
   final bool loading;
   final ValueChanged<String> onDelete;
@@ -52,7 +50,7 @@ class _EnvelopeListPanelState extends State<EnvelopeListPanel> {
   Widget build(BuildContext context) {
     _scheduleReveal();
     if (widget.envelopes.isEmpty) {
-      return EnvelopeEmptyState(onAdd: widget.onAdd);
+      return const EnvelopeEmptyState();
     }
     return Column(
       children: [

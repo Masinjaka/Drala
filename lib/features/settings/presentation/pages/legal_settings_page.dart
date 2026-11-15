@@ -1,6 +1,6 @@
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_text_style.dart';
 import 'package:budgets/core/ui/app_text_role.dart';
-import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class LegalSettingsPage extends StatelessWidget {
       title:
           isTerms ? localizations.termsOfService : localizations.privacyPolicy,
       child: ListView(
-        padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
+        padding: AppScrollPadding.insets(context, top: 24, bottom: 28),
         children: [
           Text(
             isTerms ? localizations.termsIntro : localizations.privacyIntro,

@@ -9,13 +9,12 @@ import 'package:ionicons/ionicons.dart';
 
 void main() {
   test('legacy emoji categories resolve to symbols with no emoji fallback', () {
-    expect(CategoryIcons.icon(iconKey: 'other', emoji: '🌐'),
-        Ionicons.wifi_outline);
-    expect(CategoryIcons.icon(iconKey: 'food', emoji: '🚗'),
-        Ionicons.fast_food_outline);
-    expect(CategoryIcons.icon(emoji: '☔'), Ionicons.rainy_outline);
-    expect(CategoryIcons.icon(iconKey: 'unknown', emoji: '🦄'),
-        Ionicons.receipt_outline);
+    expect(CategoryIcons.icon(iconKey: 'other', emoji: '🌐'), Ionicons.wifi);
+    expect(
+        CategoryIcons.icon(iconKey: 'food', emoji: '🚗'), Ionicons.fast_food);
+    expect(CategoryIcons.icon(emoji: '☔'), Ionicons.rainy);
+    expect(
+        CategoryIcons.icon(iconKey: 'unknown', emoji: '🦄'), Ionicons.receipt);
   });
 
   for (final locale in ['en', 'fr']) {

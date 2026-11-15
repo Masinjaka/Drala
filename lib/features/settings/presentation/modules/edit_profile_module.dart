@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'dart:io';
 
 import 'package:budgets/core/ui/app_toast.dart';
@@ -28,7 +29,7 @@ class EditProfileModule {
         title: context.l10n.deleteAccountQuestion,
         allowText: context.l10n.delete,
         denyText: context.l10n.cancel,
-        backgroundColor: Theme.of(context).colorScheme.error,
+        backgroundColor: AppDangerTheme.fill,
         message: context.l10n.deleteAccountDetails,
         onAllow: () {
           Navigator.of(ctx).pop(true);

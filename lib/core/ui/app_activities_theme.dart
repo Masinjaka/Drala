@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'app_header_theme.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_home_overview_theme.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +16,10 @@ abstract final class AppActivitiesTheme {
       Theme.of(context).brightness == Brightness.light
           ? const Color(0xFFF4F4F4)
           : Theme.of(context).colorScheme.surfaceContainer;
-  static TextStyle title(BuildContext context) => Theme.of(context)
-      .textTheme
-      .bodyMedium!
-      .copyWith(fontSize: AppTypography.headline);
+  static TextStyle title(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium!.copyWith(
+          shadows: AppHeaderTheme.titleShadows(context),
+          fontSize: AppTypography.headline);
   static TextStyle label(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
           fontSize: AppTypography.body,
@@ -48,5 +50,5 @@ abstract final class AppActivitiesTheme {
       label(context).copyWith(
           color: positive
               ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.error);
+              : AppFinanceSurfaceTheme.expenseAccent(context));
 }

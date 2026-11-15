@@ -13,8 +13,8 @@ class ExpenseListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icon = switch (expense.kind) {
-      HomeExpenseKind.food => Icons.fastfood_outlined,
-      HomeExpenseKind.shopping => Icons.shopping_cart_outlined,
+      HomeExpenseKind.food => Icons.fastfood,
+      HomeExpenseKind.shopping => Icons.shopping_cart,
     };
 
     return SizedBox(

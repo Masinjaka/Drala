@@ -169,7 +169,7 @@
   "termsIntro": "Manazava ny fitsipika fampiasana an'i Drala ireo fepetra ireo.",
   "termsDetails": "Ampiasao amin'ny fitantanana ara-dalàna ny volanao manokana ihany i Drala. Anjaranao ny manamarina ireo firaketana noforonin'ny AI alohan'ny hianteherana aminy. Mety hiova ny fisian'ny tolotra rehefa mivoatra ny fampiharana.",
   "privacyIntro": "Anao ny mombamomba ny volanao.",
-  "privacyDetails": "Mitahiry angona momba ny kaonty sy ny fifanakalozana i Drala mba hampandeha ny fampiharana. Ny rosia noskenina dia tehirizina amin'ny toerana manokana ho an'ny mpampiasa tsirairay ary alefa amin'ny mpamatsy AI voafantina amin'ny alalan'ny lohamilina mba hakana ny angona. Afaka mamafa rosia tsirairay ao amin'ny Rosia noskenina ianao, na mamafa ny angona rehetra na ny kaontinao manontolo ao amin'ny Hanova ny mombamomba.",
+  "privacyDetails": "Mitahiry angona momba ny kaonty sy ny fifanakalozana i Drala mba hampandeha ny fampiharana. Ny rosia noskenina dia tehirizina amin'ny toerana manokana ho an'ny mpampiasa tsirairay ary alefa amin'ny mpamatsy AI voafantina amin'ny alalan'ny lohamilina mba hakana ny angona. Afaka mamafa rosia tsirairay ao amin'ny Rosia noskenina ianao, na mamafa ny angona rehetra na ny kaontinao manontolo ao amin'ny fizarana Kaonty ao amin'ny Fikirana.",
   "legalLastUpdated": "Nohavaozina farany: 21 Jolay 2026",
   "allowNotifications": "Avelao ny fampandrenesana",
   "dailyReminders": "Fampahatsiahivana isan'andro",
@@ -184,6 +184,7 @@
   "notificationsBlocked": "Voasakana ny fampandrenesana",
   "notificationsBlockedMessage": "Avelao ny fampandrenesana ao amin'ny fikirana amin'ny findainao mba hahazoana fampahatsiahivana sy fampitandremana.",
   "openSettings": "Sokafy ny fikirana",
+  "accountActions": "Kaonty",
   "dangerZone": "Faritra mampidi-doza",
   "deleteAllData": "Hamafa ny angonako rehetra",
   "deleteAllDataSummary": "Mamafa ny angona sy rakitry ny fampiharana, fa mitahiry ny kaonty fidiranao.",
@@ -397,6 +398,11 @@
   "seeMore": "Hijery misimisy",
   "recentTransactions": "Fifanakalozana farany",
   "envelopes": "Valopy",
+  "activityEmptyWithAction": "Somary mangina androany. {action} mba hanombohana.",
+  "homeEmptyEnvelopeMessage": "Omeo toerana ny tetikasanao amin’ny {action}.",
+  "homeEmptyEnvelopeAction": "valopy voalohany",
+  "homeEmptyTransactionMessage": "{action} hanombohana manara-maso ny teti-bolanao.",
+  "homeEmptyTransactionAction": "Ampidiro ny fifanakalozana voalohany",
   "noRecentTransactions": "Ampidiro ny fifanakalozana voalohany hanombohana manara-maso ny teti-bolanao.",
   "overviewLoadFailed": "Tsy afaka nanavao. Andramo indray.",
   "homeHello": "Salama",
@@ -507,5 +513,7 @@
       }
     }
   },
-  "chooseCategoryColor": "Misafidiana loko"
+  "chooseCategoryColor": "Misafidiana loko",
+  "settingsGuestSyncPrompt": "Midira mba hampifanarahana ny teti-bolanao.",
+  "dailyAiCreditsExhausted": "Lany ny crédit AI androany. Hiverina rahampitso izy ireo. Jereo ny Drala Plus hahazoana AI tsy voafetra."
 }

@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_scroll_under_header.dart';
+import 'package:budgets/core/ui/app_glass_surface.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/ui/app_grid_background.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
@@ -32,69 +34,81 @@ class _ResetPasswordPageState extends ConsumerState<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        extendBody: true,
         body: AppGridBackground(
             child: SafeArea(
                 bottom: false,
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 560),
-                    child: GestureDetector(
-                      onTap: () =>
-                          FocusManager.instance.primaryFocus?.unfocus(),
-                      child: SizedBox.expand(
-                        child: SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(),
-                          child: Form(
-                            key: _formKey,
-                            child: Padding(
-                              padding: AppPageSpacing.insets(context,
-                                  top: AppHeaderMetrics.topPadding, bottom: 24),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AuthHeader(
-                                    title: context.l10n.authForgotPassword,
-                                    onBack: () => context.canPop()
-                                        ? context.pop()
-                                        : context.go('/login'),
+                    child: AppScrollUnderHeader(
+                        safeTop: false,
+                        header: Padding(
+                            padding: AppPageSpacing.insets(context,
+                                top: AppHeaderMetrics.topPadding, bottom: 12),
+                            child: AuthHeader(
+                              title: context.l10n.authForgotPassword,
+                              onBack: () => context.canPop()
+                                  ? context.pop()
+                                  : context.go('/login'),
+                            )),
+                        child: GestureDetector(
+                          onTap: () =>
+                              FocusManager.instance.primaryFocus?.unfocus(),
+                          child: SizedBox.expand(
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Form(
+                                key: _formKey,
+                                child: Padding(
+                                  padding: AppPageSpacing.insets(context,
+                                      top: 0, bottom: 24),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(context.l10n.authResetInstruction,
+                                          style:
+                                              AppTextTheme.authBody(context)),
+                                      const SizedBox(height: 28),
+                                      AuthTextField(
+                                        title: Text(context.l10n.authEmail,
+                                            style:
+                                                AppTextTheme.authBody(context)),
+                                        hint: 'example@mail.com',
+                                        controller: _emailController,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        validator: {
+                                          'type': 'email',
+                                          'error': context.l10n.authEmail,
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  Text(context.l10n.authResetInstruction,
-                                      style: AppTextTheme.authBody(context)),
-                                  const SizedBox(height: 28),
-                                  AuthTextField(
-                                    title: Text(context.l10n.authEmail,
-                                        style: AppTextTheme.authBody(context)),
-                                    hint: 'example@mail.com',
-                                    controller: _emailController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: {
-                                      'type': 'email',
-                                      'error': context.l10n.authEmail,
-                                    },
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
+                        )),
                   ),
                 ))),
-        bottomNavigationBar: SafeArea(
-          top: false,
-          child: Padding(
-            padding: AppPageSpacing.insets(context, top: 0, bottom: 30),
-            child: CustomButton(
-              text: context.l10n.send,
-              height: 44,
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Theme.of(context).colorScheme.onPrimary,
-              isLoading: _isLoading,
-              onPressed: _submit,
-            ),
-          ),
-        ),
+        bottomNavigationBar: AppGlassSurface(
+            edge: AppGlassEdge.top,
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: AppPageSpacing.insets(context, top: 0, bottom: 30),
+                child: CustomButton(
+                  text: context.l10n.send,
+                  height: 44,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  isLoading: _isLoading,
+                  onPressed: _submit,
+                ),
+              ),
+            )),
       );
 
   Future<void> _submit() async {

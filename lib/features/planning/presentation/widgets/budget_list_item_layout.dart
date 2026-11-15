@@ -39,8 +39,8 @@ extension _BudgetListItemLayout on _BudgetListItemState {
                     children: [
                       Flexible(
                         child: Icon(
-                          Icons.delete_outline,
-                          color: Theme.of(context).colorScheme.onError,
+                          Icons.delete,
+                          color: AppDangerTheme.onFill,
                           size: 18,
                         ),
                       ),
@@ -51,7 +51,7 @@ extension _BudgetListItemLayout on _BudgetListItemState {
                       curve: Curves.linear,
                       builder: (context, value, child) => DecoratedBox(
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.error,
+                          color: AppDangerTheme.fill,
                           borderRadius: cardBorderRadius,
                         ),
                         child: child,

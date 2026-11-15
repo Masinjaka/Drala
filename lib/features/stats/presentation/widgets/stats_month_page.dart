@@ -1,4 +1,5 @@
-import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/widgets/delayed_skeleton.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/stats/domain/models/monthly_stats.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,12 @@ class StatsMonthPage extends StatelessWidget {
       dailyExpenses: [],
       currencyCode: 'MGA');
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => DelayedSkeleton(
+        pending: loading && stats == null,
+        builder: _buildContent,
+      );
+
+  Widget _buildContent(BuildContext context, bool showSkeleton) {
     final data = stats ?? _empty;
     num convert(num value) =>
         displayCurrency?.convertToSelected(value, data.currencyCode) ?? value;
@@ -46,13 +52,14 @@ class StatsMonthPage extends StatelessWidget {
         child: ListView(
             key: const Key('stats-content-scroll'),
             primary: true,
-            padding: AppPageSpacing.insets(context, top: 0, bottom: 32),
+            padding: AppScrollPadding.insets(context, top: 0, bottom: 32),
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
               StatsNetSummary(
                   amountKey: amountKey,
                   stats: data,
-                  loading: loading,
+                  loading: showSkeleton,
+                  available: stats != null,
                   currency: displayCurrency),
               const SizedBox(height: 25),
               Center(
@@ -71,12 +78,13 @@ class StatsMonthPage extends StatelessWidget {
                           key: const Key('stats-categories-content'),
                           children: [
                               const SizedBox(height: 1),
-                              _animate(
-                                  context,
-                                  StatsCategoryDonut(
-                                      stats: data, loading: loading)),
+                              if (stats != null || showSkeleton)
+                                _animate(
+                                    context,
+                                    StatsCategoryDonut(
+                                        stats: data, loading: showSkeleton)),
                               const SizedBox(height: 4),
-                              if (!loading)
+                              if (stats != null)
                                 _animate(
                                     context,
                                     CategorySpendingList(
@@ -92,7 +100,8 @@ class StatsMonthPage extends StatelessWidget {
                                   context,
                                   StatsMetricsGrid(
                                       stats: data,
-                                      loading: loading,
+                                      loading: showSkeleton,
+                                      available: stats != null,
                                       displayCurrency: displayCurrency)),
                               const SizedBox(height: 16),
                               _animate(
@@ -104,13 +113,13 @@ class StatsMonthPage extends StatelessWidget {
                                       average: convert(data.averageDailySpend),
                                       currencyCode: displayCurrency?.code ??
                                           data.currencyCode,
-                                      loading: loading)),
+                                      loading: stats == null)),
                             ])),
             ]));
   }
 
   Widget _animate(BuildContext context, Widget child) =>
-      loading || MediaQuery.disableAnimationsOf(context)
+      stats == null || MediaQuery.disableAnimationsOf(context)
           ? child
           : child
               .animate()

@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/core/ui/app_card_surface.dart';
 import 'package:budgets/core/ui/app_home_overview_theme.dart';
 import 'package:budgets/features/home/presentation/widgets/home_overview_amount.dart';
@@ -42,7 +43,7 @@ class HomeOverviewFlowPill extends StatelessWidget {
                         size: 22,
                         color: income
                             ? Theme.of(context).colorScheme.onSurface
-                            : Theme.of(context).colorScheme.error)),
+                            : AppFinanceSurfaceTheme.expenseAccent(context))),
                 const SizedBox(width: 10),
                 Expanded(
                     child: HomeOverviewAmount(

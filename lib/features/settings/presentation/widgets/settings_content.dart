@@ -1,6 +1,6 @@
-import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'settings_legal_section.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_settings_theme.dart';
-import 'package:budgets/features/settings/presentation/widgets/settings_logout_button.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_item.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_summary_cards.dart';
@@ -26,9 +26,9 @@ class SettingsContent extends StatelessWidget {
     required this.onPrivacy,
     this.showAdPrivacyOptions = false,
     this.onAdPrivacyOptions,
-    required this.onLogout,
-    required this.isLoggingOut,
+    required this.accountActions,
     this.appVersion,
+    this.syncFeedback,
     super.key,
   });
 
@@ -48,17 +48,18 @@ class SettingsContent extends StatelessWidget {
   final VoidCallback onPrivacy;
   final bool showAdPrivacyOptions;
   final VoidCallback? onAdPrivacyOptions;
-  final VoidCallback onLogout;
-  final bool isLoggingOut;
+  final Widget accountActions;
   final String? appVersion;
+  final Widget? syncFeedback;
 
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
     return ListView(
       key: const Key('settings-content'),
-      padding: AppPageSpacing.insets(context, top: 0, bottom: 28),
+      padding: AppScrollPadding.insets(context, top: 0, bottom: 28),
       children: [
+        if (syncFeedback != null) syncFeedback!,
         Align(alignment: Alignment.center, child: profileHeader),
         const SizedBox(height: 24),
         SettingsSummaryCards(
@@ -75,13 +76,13 @@ class SettingsContent extends StatelessWidget {
           items: [
             SettingsMenuItem(
               title: l.editProfile,
-              iconAsset: 'assets/settings/profile.svg',
+              icon: Icons.person_rounded,
               height: 56,
               onTap: onEditProfile,
             ),
             SettingsMenuItem(
               title: l.changePassword,
-              iconAsset: 'assets/settings/password.svg',
+              icon: Icons.lock_rounded,
               height: 56,
               onTap: onChangePassword,
             ),
@@ -93,59 +94,41 @@ class SettingsContent extends StatelessWidget {
           items: [
             SettingsMenuItem(
               title: l.notification,
-              iconAsset: 'assets/settings/notification.svg',
+              icon: Icons.notifications_rounded,
               onTap: onNotifications,
             ),
             SettingsMenuItem(
               title: l.currency,
-              iconAsset: 'assets/settings/currency.svg',
+              icon: Icons.currency_exchange_rounded,
               onTap: onCurrency,
             ),
             SettingsMenuItem(
               title: l.theme,
-              iconAsset: 'assets/settings/wallet.svg',
+              icon: Icons.palette_rounded,
               onTap: onTheme,
             ),
             SettingsMenuItem(
               title: l.language,
-              iconAsset: 'assets/settings/language.svg',
+              icon: Icons.language_rounded,
               onTap: onLanguage,
             ),
             SettingsMenuItem(
               title: l.scannedReceipts,
-              iconAsset: 'assets/settings/scanned_receipts.svg',
+              icon: Icons.receipt_long_rounded,
               onTap: onScannedReceipts,
             ),
             if (showAdPrivacyOptions && onAdPrivacyOptions != null)
               SettingsMenuItem(
                 title: l.adPrivacyOptions,
-                icon: Icons.ads_click_outlined,
+                icon: Icons.ads_click,
                 onTap: onAdPrivacyOptions!,
               ),
           ],
         ),
         const SizedBox(height: 24),
-        SettingsSectionTitle(l.legal),
-        SettingsMenuGroup(
-          items: [
-            SettingsMenuItem(
-              title: l.termsOfService,
-              iconAsset: 'assets/settings/terms.svg',
-              onTap: onTerms,
-            ),
-            SettingsMenuItem(
-              title: l.privacyPolicy,
-              iconAsset: 'assets/settings/theme.svg',
-              onTap: onPrivacy,
-            ),
-          ],
-        ),
+        SettingsLegalSection(onTerms: onTerms, onPrivacy: onPrivacy),
         const SizedBox(height: 24),
-        SettingsLogoutButton(
-          label: l.logOut,
-          isLoading: isLoggingOut,
-          onPressed: onLogout,
-        ),
+        accountActions,
         const SizedBox(height: 24),
         if (appVersion != null) ...[
           const SizedBox(height: 12),

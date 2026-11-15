@@ -31,8 +31,8 @@ void main() {
     expect(menuStyle.fontFamily,
         AppTheme.lightTheme.textTheme.bodyMedium!.fontFamily);
     expect(find.byIcon(Icons.edit_note_rounded), findsOneWidget);
-    expect(find.byIcon(Icons.note_add_outlined), findsOneWidget);
-    expect(find.byIcon(Icons.document_scanner_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.note_add), findsOneWidget);
+    expect(find.byIcon(Icons.document_scanner), findsOneWidget);
 
     await tester.tapAt(const Offset(20, 100));
     await tester.pumpAndSettle();

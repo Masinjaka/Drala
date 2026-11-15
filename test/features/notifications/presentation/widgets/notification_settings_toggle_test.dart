@@ -13,7 +13,7 @@ void main() {
         home: Scaffold(
           body: NotificationSettingsToggle(
             title: 'Daily reminders',
-            icon: Icons.alarm_outlined,
+            icon: Icons.alarm,
             value: false,
             onChanged: (_) => result.future,
           ),
@@ -39,7 +39,7 @@ void main() {
         home: Scaffold(
           body: NotificationSettingsToggle(
             title: 'Budget alerts',
-            icon: Icons.warning_amber_outlined,
+            icon: Icons.warning_rounded,
             value: false,
             onChanged: (_) => result.future,
           ),

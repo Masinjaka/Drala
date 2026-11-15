@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_category_theme.dart';
 import 'package:budgets/core/ui/value_skeleton.dart';
@@ -18,7 +19,7 @@ class CategoryTabContent extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categories = ref.watch(categoriesProvider);
     return Padding(
-      padding: AppPageSpacing.insets(context, bottom: 24),
+      padding: AppPageSpacing.insets(context),
       child: switch (categories) {
         AsyncData(:final value) => _grid(
             context,
@@ -44,7 +45,8 @@ class CategoryTabContent extends ConsumerWidget {
       final height = 144 + (scaled - 12).clamp(0.0, double.infinity) * 4;
       return GridView.builder(
         key: PageStorageKey(transactionType),
-        padding: EdgeInsets.zero,
+        padding:
+            EdgeInsets.only(bottom: AppScrollPadding.trailing(context, 24)),
         itemCount: categories?.length ?? 6,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: columns,

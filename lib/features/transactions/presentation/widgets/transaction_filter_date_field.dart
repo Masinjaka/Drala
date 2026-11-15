@@ -45,7 +45,7 @@ class TransactionFilterDateField extends StatelessWidget {
         ),
         hintText: hint,
         suffixIcon: Icon(
-          Icons.calendar_month_outlined,
+          Icons.calendar_month,
           color: AppIconForeground.resolve(context, colors.onSurface),
         ),
       ),

@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
+import 'app_header_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_text_role.dart';
@@ -21,8 +23,10 @@ abstract final class AppTextTheme {
         fontFamilyFallback: const [AppTypography.regularFontFamily],
       );
 
-  static TextStyle authTitle(BuildContext context) =>
-      Theme.of(context).textTheme.titleLarge!;
+  static TextStyle authTitle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .titleLarge!
+      .copyWith(shadows: AppHeaderTheme.titleShadows(context));
   static TextStyle onboardingTitle(BuildContext context) =>
       Theme.of(context).textTheme.headlineMedium!;
   static TextStyle setupTitle(BuildContext context) =>
@@ -56,10 +60,10 @@ abstract final class AppTextTheme {
           );
   static TextStyle envelopeWarning(BuildContext context) =>
       Theme.of(context).textTheme.bodySmall!.copyWith(
-            color: Theme.of(context).colorScheme.error,
+            color: AppDangerTheme.criticalWarning(context),
           );
   static Color envelopeWarningBackground(BuildContext context) =>
-      Theme.of(context).colorScheme.error.withValues(alpha: .18);
+      AppDangerTheme.criticalWarning(context).withValues(alpha: .18);
   static TextStyle monthCarousel(BuildContext context,
       {required bool selected}) {
     final theme = Theme.of(context);
@@ -74,7 +78,7 @@ abstract final class AppTextTheme {
       Theme.of(context).textTheme.bodyMedium!;
   static TextStyle notificationBadge(BuildContext context) =>
       AppTextStyle(AppTextRole.badge,
-          color: Theme.of(context).colorScheme.onError);
+          color: AppDangerTheme.onCriticalWarning(context));
 
   static TextTheme create(Color foreground) => TextTheme(
         displayLarge: AppTextStyle(AppTextRole.hero, color: foreground),

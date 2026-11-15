@@ -478,7 +478,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get privacyDetails =>
-      'Drala memorizza i dati dell\'account e delle transazioni per fornire l\'app. Le ricevute scansionate sono conservate in uno spazio privato per ciascun utente e inviate al provider IA configurato tramite il backend per l\'estrazione. Puoi eliminare singole ricevute da Ricevute scansionate, oppure eliminare tutti i dati memorizzati o l\'intero account da Modifica profilo.';
+      'Drala memorizza i dati dell\'account e delle transazioni per fornire l\'app. Le ricevute scansionate sono conservate in uno spazio privato per ciascun utente e inviate al provider IA configurato tramite il backend per l\'estrazione. Puoi eliminare singole ricevute da Ricevute scansionate, oppure eliminare tutti i dati memorizzati o l\'intero account dalla sezione Account delle impostazioni.';
 
   @override
   String get legalLastUpdated => 'Ultimo aggiornamento: 21 luglio 2026';
@@ -523,6 +523,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get openSettings => 'Apri impostazioni';
+
+  @override
+  String get accountActions => 'Account';
 
   @override
   String get dangerZone => 'Zona pericolosa';
@@ -1124,6 +1127,27 @@ class AppLocalizationsIt extends AppLocalizations {
   String get envelopes => 'Buste';
 
   @override
+  String activityEmptyWithAction(String action) {
+    return 'Oggi è un po’ tranquillo. $action per iniziare.';
+  }
+
+  @override
+  String homeEmptyEnvelopeMessage(String action) {
+    return 'Fai spazio ai tuoi progetti con la $action.';
+  }
+
+  @override
+  String get homeEmptyEnvelopeAction => 'prima busta';
+
+  @override
+  String homeEmptyTransactionMessage(String action) {
+    return '$action per iniziare a monitorare il tuo budget.';
+  }
+
+  @override
+  String get homeEmptyTransactionAction => 'Aggiungi una transazione';
+
+  @override
   String get noRecentTransactions =>
       'Aggiungi una transazione per iniziare a monitorare il tuo budget.';
 
@@ -1424,4 +1448,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get chooseCategoryColor => 'Scegli un colore';
+
+  @override
+  String get settingsGuestSyncPrompt =>
+      'Accedi per sincronizzare il tuo budget.';
+
+  @override
+  String get dailyAiCreditsExhausted =>
+      'Hai esaurito i crediti IA di oggi. Si rinnovano domani. Scopri Drala Plus per usare l’IA senza limiti.';
 }

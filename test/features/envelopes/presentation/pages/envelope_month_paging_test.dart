@@ -25,6 +25,8 @@ void main() {
 
     expect(find.byKey(const Key('month-carousel')), findsOneWidget);
     expect(find.byKey(const Key('envelope-month-pages')), findsOneWidget);
+    expect(find.byKey(const Key('envelope-skeleton-card')), findsNothing);
+    await tester.pump(const Duration(milliseconds: 200));
     expect(find.byKey(const Key('envelope-skeleton-card')), findsWidgets);
     expect(find.byKey(const Key('envelope-title-skeleton')), findsNWidgets(4));
     expect(find.text('Envelope'), findsOneWidget);

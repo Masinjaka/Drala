@@ -1,5 +1,7 @@
 import 'package:budgets/features/envelopes/presentation/pages/envelope_page.dart';
 import 'package:budgets/l10n/generated/app_localizations.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_selection_page.dart';
+import 'package:budgets/features/home/presentation/widgets/wallet_selection_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../../support/funding_envelope_repository.dart';
@@ -10,12 +12,33 @@ void main() {
     final repository = FundingEnvelopeRepository();
     await _open(tester, repository);
     final wallet = find.byKey(const Key('envelope-funding-wallet'));
-    expect(tester.widget<DropdownButtonFormField<String>>(wallet).initialValue,
-        'cash');
+    expect(find.descendant(of: wallet, matching: find.text('Cash')),
+        findsOneWidget);
     await tester.ensureVisible(wallet);
     await tester.tap(wallet);
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Bank account').last);
+    final picker = find.byType(WalletSelectionPage);
+    expect(picker, findsOneWidget);
+    expect(tester.widget<WalletSelectionPage>(picker).selected, 'cash');
+    await tester.tap(find.byKey(const Key('wallet-choice-bank')));
+    await tester.pumpAndSettle();
+    expect(picker, findsNothing);
+    expect(find.descendant(of: wallet, matching: find.text('Bank account')),
+        findsOneWidget);
+
+    await tester.ensureVisible(wallet);
+    await tester.tap(wallet);
+    await tester.pumpAndSettle();
+    expect(tester.widget<WalletSelectionPage>(picker).selected, 'bank');
+    expect(
+        tester
+            .widgetList<WalletSelectionTile>(find.byType(WalletSelectionTile))
+            .where((row) => row.selected)
+            .single
+            .wallet
+            .id,
+        'bank');
+    await tester.tap(find.byKey(const Key('wallet-picker-close')));
     await tester.pumpAndSettle();
     await _save(tester);
     expect(repository.fundedWallet, 'bank');
@@ -64,7 +87,6 @@ Future<void> _open(WidgetTester tester, FundingEnvelopeRepository repository,
   await tester.tap(find.byKey(const Key('transaction-category-field')));
   await tester.pumpAndSettle();
   await tester.tap(find.byKey(const Key('category-food-category')));
-  await tester.tap(find.byKey(const Key('category-done')));
   await tester.pumpAndSettle();
 }
 

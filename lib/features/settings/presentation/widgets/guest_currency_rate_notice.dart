@@ -26,7 +26,7 @@ class GuestCurrencyRateNotice extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            Icon(Icons.info_outline,
+            Icon(Icons.info,
                 color: AppIconForeground.resolve(
                     context, theme.colorScheme.onSurfaceVariant)),
             const SizedBox(width: 12),

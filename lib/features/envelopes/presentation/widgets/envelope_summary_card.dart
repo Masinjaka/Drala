@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/metric_surface_card.dart';
@@ -22,7 +23,6 @@ class EnvelopeSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final available = budget - spent;
-    final colors = Theme.of(context).colorScheme;
     final positive = Theme.of(context).brightness == Brightness.dark
         ? AppTheme.positiveAmountDark
         : AppTheme.positiveAmountLight;
@@ -31,19 +31,21 @@ class EnvelopeSummaryCard extends StatelessWidget {
         key: const Key('envelope-available-card'),
         label: context.l10n.availableAcrossEnvelopes,
         value: _amount(available),
-        icon: Icons.savings_outlined,
-        valueColor: available < 0 ? colors.error : positive,
+        icon: Icons.savings,
+        valueColor: available < 0
+            ? AppFinanceSurfaceTheme.expenseAccent(context)
+            : positive,
       ),
       MetricSurfaceCard(
         label: context.l10n.budget,
         value: _amount(budget),
-        icon: Icons.account_balance_wallet_outlined,
+        icon: Icons.account_balance_wallet,
       ),
       MetricSurfaceCard(
         label: context.l10n.spent,
         value: _amount(spent),
-        icon: Icons.payments_outlined,
-        valueColor: colors.error,
+        icon: Icons.payments,
+        valueColor: AppFinanceSurfaceTheme.expenseAccent(context),
       ),
     ];
     return LayoutBuilder(

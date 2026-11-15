@@ -55,6 +55,6 @@ class SettingsProfileHeader extends ConsumerWidget {
           color: Theme.of(context).colorScheme.surface,
           shape: BoxShape.circle,
         ),
-        child: const Icon(Icons.person_outline_rounded, size: 30),
+        child: const Icon(Icons.person_rounded, size: 30),
       );
 }

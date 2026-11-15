@@ -10,7 +10,6 @@ void main() {
       (tester) async {
     var notifications = 0;
     var currency = 0;
-    var defaultWallet = 0;
     var theme = 0;
     var language = 0;
     await tester.pumpWidget(MaterialApp(
@@ -36,19 +35,17 @@ void main() {
           find.byType(SettingsMenuItem),
         )
         .toList();
-    expect(items.map((item) => item.iconAsset), [
-      'assets/settings/notification.svg',
-      'assets/settings/currency.svg',
-      'assets/settings/privacy.svg',
-      'assets/settings/wallet.svg',
-      'assets/settings/language.svg',
+    expect(items.map((item) => item.icon), [
+      Icons.notifications_rounded,
+      Icons.currency_exchange_rounded,
+      Icons.palette_rounded,
+      Icons.language_rounded,
     ]);
 
     for (final item in items) {
       await tester.tap(find.text(item.title));
       await tester.pump();
     }
-    expect([notifications, currency, defaultWallet, theme, language],
-        [1, 1, 1, 1, 1]);
+    expect([notifications, currency, theme, language], [1, 1, 1, 1]);
   });
 }

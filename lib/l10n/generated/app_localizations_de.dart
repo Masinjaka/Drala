@@ -480,7 +480,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get privacyDetails =>
-      'Drala speichert Konto- und Transaktionsdaten, um die App bereitzustellen. Gescannte Belege werden in einem privaten Speicher pro Nutzer aufbewahrt und zur Auswertung über das Backend an den konfigurierten KI-Anbieter gesendet. Du kannst einzelne Belege unter „Gespeicherte Belege“ löschen oder alle gespeicherten Daten beziehungsweise dein gesamtes Konto unter „Profil bearbeiten“ entfernen.';
+      'Drala speichert Konto- und Transaktionsdaten, um die App bereitzustellen. Gescannte Belege werden in einem privaten Speicher pro Nutzer aufbewahrt und zur Auswertung über das Backend an den konfigurierten KI-Anbieter gesendet. Du kannst einzelne Belege unter „Gespeicherte Belege“ löschen oder alle gespeicherten Daten beziehungsweise dein gesamtes Konto im Abschnitt „Konto“ der Einstellungen entfernen.';
 
   @override
   String get legalLastUpdated => 'Zuletzt aktualisiert: 21. Juli 2026';
@@ -525,6 +525,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get openSettings => 'Einstellungen öffnen';
+
+  @override
+  String get accountActions => 'Konto';
 
   @override
   String get dangerZone => 'Gefahrenbereich';
@@ -1128,6 +1131,27 @@ class AppLocalizationsDe extends AppLocalizations {
   String get envelopes => 'Umschläge';
 
   @override
+  String activityEmptyWithAction(String action) {
+    return 'Heute ist es etwas ruhig. $action, um loszulegen.';
+  }
+
+  @override
+  String homeEmptyEnvelopeMessage(String action) {
+    return 'Gib deinen Plänen Raum mit deinem $action.';
+  }
+
+  @override
+  String get homeEmptyEnvelopeAction => 'ersten Umschlag';
+
+  @override
+  String homeEmptyTransactionMessage(String action) {
+    return '$action, um dein Budget zu verfolgen.';
+  }
+
+  @override
+  String get homeEmptyTransactionAction => 'Füge eine Buchung hinzu';
+
+  @override
   String get noRecentTransactions =>
       'Füge eine Buchung hinzu, um dein Budget zu verfolgen.';
 
@@ -1427,4 +1451,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get chooseCategoryColor => 'Farbe wählen';
+
+  @override
+  String get settingsGuestSyncPrompt =>
+      'Melde dich an, um dein Budget zu synchronisieren.';
+
+  @override
+  String get dailyAiCreditsExhausted =>
+      'Deine KI-Credits für heute sind aufgebraucht. Morgen werden sie erneuert. Mit Drala Plus nutzt du KI unbegrenzt.';
 }

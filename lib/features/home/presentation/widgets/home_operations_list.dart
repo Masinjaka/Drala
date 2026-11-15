@@ -1,3 +1,4 @@
+import 'package:budgets/core/widgets/delayed_skeleton.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
@@ -13,6 +14,8 @@ class HomeOperationsList extends StatelessWidget {
   const HomeOperationsList({
     required this.entries,
     required this.isLoading,
+    this.resolved = true,
+    this.date,
     required this.isAdding,
     this.isLoadingMore = false,
     this.onCreate,
@@ -26,6 +29,8 @@ class HomeOperationsList extends StatelessWidget {
   final VoidCallback? onCreate;
   final List<FinanceEntry> entries;
   final bool isLoading;
+  final bool resolved;
+  final DateTime? date;
   final bool isAdding;
   final bool isLoadingMore;
   final ValueChanged<FinanceEntry> onEntryTap;
@@ -34,16 +39,24 @@ class HomeOperationsList extends StatelessWidget {
   final Map<String, FinanceEntryEditChanges> pendingEdits;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => DelayedSkeleton(
+        pending: isLoading && entries.isEmpty,
+        requestKey: date,
+        builder: _buildList,
+      );
+
+  Widget _buildList(BuildContext context, bool showSkeleton) {
     final slivers = <Widget>[
-      SliverToBoxAdapter(
-          child: ActivitiesSummary(entries: entries, currency: currencyState)),
+      if (resolved)
+        SliverToBoxAdapter(
+            child:
+                ActivitiesSummary(entries: entries, currency: currencyState)),
       SliverPadding(
         padding: AppPageSpacing.insets(context),
         sliver: SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              if (isLoading) {
+              if (showSkeleton) {
                 return HomeOperationSkeleton(
                     key: ValueKey('loading-operation-$index'));
               }
@@ -76,13 +89,13 @@ class HomeOperationsList extends StatelessWidget {
                     ),
                   ));
             },
-            childCount: isLoading
+            childCount: showSkeleton
                 ? 3
                 : entries.length + (isAdding ? 1 : 0) + (isLoadingMore ? 3 : 0),
           ),
         ),
       ),
-      if (!isLoading && !isAdding && entries.isEmpty)
+      if (resolved && !isAdding && entries.isEmpty)
         SliverToBoxAdapter(child: ActivityEmptyState(onAdd: onCreate)),
     ];
     if (asSliver) return SliverMainAxisGroup(slivers: slivers);

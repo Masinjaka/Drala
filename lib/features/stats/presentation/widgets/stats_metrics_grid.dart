@@ -9,9 +9,11 @@ class StatsMetricsGrid extends StatelessWidget {
       {required this.stats,
       this.displayCurrency,
       this.loading = false,
+      this.available = true,
       super.key});
   final MonthlyStats stats;
   final bool loading;
+  final bool available;
   final CurrencyState? displayCurrency;
   @override
   Widget build(BuildContext context) => Row(children: [
@@ -19,6 +21,7 @@ class StatsMetricsGrid extends StatelessWidget {
             child: StatsMetricCard(
                 key: const Key('stats-expenses-card'),
                 loading: loading,
+                available: available,
                 label: context.l10n.expenses,
                 value: _convert(stats.expenses),
                 currencyCode: _code)),
@@ -28,6 +31,7 @@ class StatsMetricsGrid extends StatelessWidget {
                 key: const Key('stats-income-card'),
                 income: true,
                 loading: loading,
+                available: available,
                 label: context.l10n.income,
                 value: _convert(stats.income),
                 currencyCode: _code)),

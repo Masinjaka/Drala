@@ -12,6 +12,7 @@ class FirebaseMessagingBootstrap {
   static ForegroundNotificationService? _foregroundService;
 
   static Future<void> initialize() async {
+    if (!kReleaseMode) return;
     if (Firebase.apps.isEmpty) {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,

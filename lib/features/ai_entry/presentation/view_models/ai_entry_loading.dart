@@ -12,25 +12,27 @@ extension AiEntryLoading on AiEntryViewModel {
   Future<void> loadDate(DateTime date) async {
     final generation = ++_loadGeneration;
     final balanceGeneration = ++_balanceGeneration;
+    final sameDate = DateUtils.isSameDay(_selectedDate, date);
     _selectedDate = DateUtils.dateOnly(date);
     final selectedDate = _selectedDate;
     final targetMonth = DateTime(selectedDate.year, selectedDate.month);
     final shouldLoadMonth = _monthlyEntriesMonth == null ||
         _monthlyEntriesMonth!.year != targetMonth.year ||
         _monthlyEntriesMonth!.month != targetMonth.month;
-    _entries = const [];
+    if (!sameDate) {
+      _entries = const [];
+      _entriesResolved = false;
+      _hasMoreEntries = false;
+      _transactionOffset = 0;
+      _transferOffset = 0;
+    }
+    _entriesLoadFailed = false;
     _isLoading = true;
     _isLoadingMoreEntries = false;
-    _hasMoreEntries = false;
-    _transactionOffset = 0;
-    _transferOffset = 0;
     _isSummaryLoading = shouldLoadMonth;
     _notify();
-    final quotaFuture = _quota == null
-        ? _repository.aiQuota().then<AiQuota?>((quota) => quota).catchError(
-              (_) => null,
-            )
-        : Future<AiQuota?>.value(_quota);
+    final quotaFuture =
+        _quota == null ? refreshAiQuota() : Future<void>.value();
     final walletsFuture = _walletsLoaded && !shouldLoadMonth
         ? Future<List<WalletSummary>?>.value(_wallets)
         : _repository
@@ -41,6 +43,16 @@ extension AiEntryLoading on AiEntryViewModel {
         .then((_) => _repository.totalFunds())
         .then<int?>((value) => value)
         .catchError((_) => null);
+    final balances = walletsFuture.then((wallets) async {
+      final total = await totalFuture;
+      if (_disposed || balanceGeneration != _balanceGeneration) return;
+      if (wallets != null) {
+        _wallets = List.unmodifiable(wallets);
+        _walletsLoaded = true;
+      }
+      _totalFunds = total ?? _walletBalance;
+      _notify();
+    });
     final historyFuture = _hasAnyEntries == null
         ? _repository
             .hasAnyEntries()
@@ -63,32 +75,32 @@ extension AiEntryLoading on AiEntryViewModel {
           transactionOffset: 0,
           transferOffset: 0,
         );
-        if (generation != _loadGeneration) return;
+        if (_disposed || generation != _loadGeneration) return;
         _applyPage(page);
       } else {
-        _entries = await repository.entriesForDate(selectedDate);
-        if (generation != _loadGeneration) return;
+        final entries = await repository.entriesForDate(selectedDate);
+        if (_disposed || generation != _loadGeneration) return;
+        _entries = entries;
       }
+      _entriesResolved = true;
       _isLoading = false;
       _notify();
       final monthlyEntries = await monthlyEntriesFuture;
-      if (generation != _loadGeneration) return;
+      if (_disposed || generation != _loadGeneration) return;
       if (monthlyEntries != null) {
         _monthlyEntries = List.unmodifiable(monthlyEntries);
         _monthlyEntriesMonth = targetMonth;
       }
       final hasHistory = await historyFuture;
+      if (_disposed || generation != _loadGeneration) return;
       _hasAnyEntries = _entries.isNotEmpty || (hasHistory ?? true);
-      _quota = await quotaFuture;
-      final wallets = await walletsFuture;
-      final total = await totalFuture;
-      if (balanceGeneration == _balanceGeneration) {
-        if (wallets != null) {
-          _wallets = List.unmodifiable(wallets);
-          _walletsLoaded = true;
-        }
-        _totalFunds = total ?? _walletBalance;
-      }
+      await quotaFuture;
+      if (_disposed || generation != _loadGeneration) return;
+      await balances;
+    } catch (_) {
+      if (_disposed || generation != _loadGeneration) return;
+      _entriesLoadFailed = true;
+      rethrow;
     } finally {
       if (generation == _loadGeneration) {
         _isLoading = false;
@@ -117,7 +129,7 @@ extension AiEntryLoading on AiEntryViewModel {
         transactionOffset: _transactionOffset,
         transferOffset: _transferOffset,
       );
-      if (generation != _loadGeneration) return;
+      if (_disposed || generation != _loadGeneration) return;
       final existingIds = _entries.map((entry) => entry.id).toSet();
       _entries = List.unmodifiable([
         ..._entries,

@@ -1,4 +1,4 @@
-import 'package:budgets/core/ui/app_icon_foreground.dart';
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class NotificationInboxButton extends StatelessWidget {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              const Icon(Icons.notifications_none_rounded, size: 28),
+              const Icon(Icons.notifications_rounded, size: 28),
               if (viewModel.unreadCount > 0)
                 Positioned(
                   right: -5,
@@ -33,10 +33,7 @@ class NotificationInboxButton extends StatelessWidget {
                   child: Icon(
                     Icons.warning_rounded,
                     key: Key('notification-warning-badge'),
-                    color: AppIconForeground.resolve(
-                      context,
-                      Theme.of(context).colorScheme.error,
-                    ),
+                    color: AppDangerTheme.criticalWarning(context),
                     size: 16,
                   ),
                 ),

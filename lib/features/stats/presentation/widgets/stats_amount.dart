@@ -50,7 +50,8 @@ class StatsAmount extends StatelessWidget {
           children: [
             if (symbol.isNotEmpty) ...[
               Text('$sign$symbol',
-                  style: AppStatsTheme.currency(context, currencySize)),
+                  style: style ??
+                      AppStatsTheme.currency(context, currencySize)),
               const SizedBox(width: 4),
             ],
             if (MediaQuery.disableAnimationsOf(context))

@@ -11,6 +11,8 @@ import 'package:budgets/features/home/presentation/widgets/home_dashboard.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
+import 'ai_credit_notice.dart';
+import 'ai_quota_refresh_scope.dart';
 import 'package:budgets/features/home/presentation/widgets/home_activity_composer.dart';
 import 'package:budgets/core/ui/app_activities_theme.dart';
 
@@ -56,11 +58,15 @@ class ChatHomeLayout extends StatefulWidget {
 
 class _ChatHomeLayoutState extends State<ChatHomeLayout> {
   int _selectedIndex = 0;
+  final Set<int> _visitedDataTabs = {};
 
   void _select(int index) {
     if (index == _selectedIndex) return;
     FocusManager.instance.primaryFocus?.unfocus();
-    setState(() => _selectedIndex = index);
+    setState(() {
+      _selectedIndex = index;
+      if (index == 2 || index == 3) _visitedDataTabs.add(index);
+    });
     if (index == 1) widget.onActivitiesSelected();
     if (index == 0) _refreshOverview();
   }
@@ -93,72 +99,96 @@ class _ChatHomeLayoutState extends State<ChatHomeLayout> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor:
-            _selectedIndex <= 1 ? AppActivitiesTheme.background(context) : null,
-        body: Stack(fit: StackFit.expand, children: [
-          if (_selectedIndex == 0)
-            HomeOverview(
-                today: widget.today,
-                displayName: widget.displayName,
-                viewModel: widget.viewModel,
-                overview: widget.overviewViewModel,
-                notifications: widget.notificationViewModel,
-                onNotificationsPressed: widget.onNotificationsPressed,
-                onActivities: () => _select(1),
-                onEnvelopes: () => _select(2),
-                onCreateEnvelope: _createEnvelope,
-                onRefresh: _refreshOverview,
-                currency: widget.currencyState,
-                currencyLoading: widget.isCurrencyLoading),
-          Offstage(
-            offstage: _selectedIndex != 1,
-            child: TickerMode(
-              enabled: _selectedIndex == 1,
-              child: ExcludeFocus(
-                excluding: _selectedIndex != 1,
-                child: HomeDashboard(
-                  today: widget.today,
-                  viewModel: widget.viewModel,
-                  activityCalendarViewModel: widget.activityCalendarViewModel,
-                  notificationViewModel: widget.notificationViewModel,
-                  onNotificationsPressed: widget.onNotificationsPressed,
-                  onFinanceChanged: widget.onFinanceChanged,
-                  onDateSelected: widget.onDateSelected,
-                  currencyState: widget.currencyState,
-                  isCurrencyLoading: widget.isCurrencyLoading,
-                  manualOnly: widget.manualOnly,
+  Widget build(BuildContext context) => AiQuotaRefreshScope(
+      viewModel: widget.viewModel,
+      enabled: !widget.manualOnly,
+      child: ListenableBuilder(
+          listenable: widget.viewModel,
+          builder: (context, _) {
+            final exhausted = !widget.manualOnly &&
+                !widget.viewModel.hasUnlimitedAiRequests &&
+                widget.viewModel.remainingRequests == 0;
+            return Scaffold(
+              resizeToAvoidBottomInset: true,
+              extendBody: true,
+              backgroundColor: AppActivitiesTheme.background(context),
+              body: Stack(fit: StackFit.expand, children: [
+                if (_selectedIndex == 0)
+                  HomeOverview(
+                      today: widget.today,
+                      displayName: widget.displayName,
+                      viewModel: widget.viewModel,
+                      overview: widget.overviewViewModel,
+                      notifications: widget.notificationViewModel,
+                      onNotificationsPressed: widget.onNotificationsPressed,
+                      onActivities: () => _select(1),
+                      onEnvelopes: () => _select(2),
+                      onCreateEnvelope: _createEnvelope,
+                      onRefresh: _refreshOverview,
+                      currency: widget.currencyState),
+                Offstage(
+                  offstage: _selectedIndex != 1,
+                  child: TickerMode(
+                    enabled: _selectedIndex == 1,
+                    child: ExcludeFocus(
+                      excluding: _selectedIndex != 1,
+                      child: HomeDashboard(
+                        today: widget.today,
+                        viewModel: widget.viewModel,
+                        activityCalendarViewModel:
+                            widget.activityCalendarViewModel,
+                        notificationViewModel: widget.notificationViewModel,
+                        onNotificationsPressed: widget.onNotificationsPressed,
+                        onFinanceChanged: widget.onFinanceChanged,
+                        onDateSelected: widget.onDateSelected,
+                        currencyState: widget.currencyState,
+                        isCurrencyLoading: widget.isCurrencyLoading,
+                        manualOnly: widget.manualOnly,
+                      ),
+                    ),
+                  ),
                 ),
+                for (final index in _visitedDataTabs)
+                  Offstage(
+                    key: ValueKey(index),
+                    offstage: _selectedIndex != index,
+                    child: TickerMode(
+                      enabled: _selectedIndex == index,
+                      child: ExcludeFocus(
+                        excluding: _selectedIndex != index,
+                        child: widget.destinations[index - 2],
+                      ),
+                    ),
+                  ),
+                if (_selectedIndex >= 4)
+                  KeyedSubtree(
+                    key: ValueKey(_selectedIndex),
+                    child: widget.destinations[_selectedIndex - 2],
+                  ),
+              ]),
+              bottomNavigationBar: HomeBottomNavigationBar(
+                selectedIndex: _selectedIndex,
+                onSelected: _select,
+                notice: exhausted ? const AiCreditNotice() : null,
+                composer: widget.manualOnly || exhausted
+                    ? null
+                    : HomeActivityComposer(
+                        viewModel: widget.viewModel,
+                        currency: widget.currencyState,
+                        onFinanceChanged: widget.onFinanceChanged),
               ),
-            ),
-          ),
-          if (_selectedIndex >= 2)
-            KeyedSubtree(
-              key: ValueKey(_selectedIndex),
-              child: widget.destinations[_selectedIndex - 2],
-            ),
-        ]),
-        bottomNavigationBar: HomeBottomNavigationBar(
-          selectedIndex: _selectedIndex,
-          onSelected: _select,
-          composer: widget.manualOnly
-              ? null
-              : HomeActivityComposer(
-                  viewModel: widget.viewModel,
-                  currency: widget.currencyState,
-                  onFinanceChanged: widget.onFinanceChanged),
-        ),
-        floatingActionButton: widget.manualOnly && _selectedIndex == 1
-            ? FloatingActionButton(
-                key: const Key('guest-manual-entry-fab'),
-                shape: AppButtonTheme.shape,
-                onPressed: _addManualEntry,
-                tooltip: context.l10n.manualEntry,
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                child: const Icon(Icons.add_rounded),
-              )
-            : null,
-      );
+              floatingActionButton: (widget.manualOnly || exhausted) &&
+                      _selectedIndex == 1
+                  ? FloatingActionButton(
+                      key: const Key('guest-manual-entry-fab'),
+                      shape: AppButtonTheme.shape,
+                      onPressed: _addManualEntry,
+                      tooltip: context.l10n.manualEntry,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      child: const Icon(Icons.add_rounded),
+                    )
+                  : null,
+            );
+          }));
 }

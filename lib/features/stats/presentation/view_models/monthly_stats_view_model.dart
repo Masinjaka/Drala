@@ -9,6 +9,7 @@ class MonthlyStatsViewModel extends ChangeNotifier {
   DateTime _month;
   final Map<DateTime, MonthlyStats> _statsByMonth = {};
   final Map<DateTime, Future<void>> _pendingMonths = {};
+  final Set<DateTime> _failedMonths = {};
   bool _disposed = false;
   DateTime get month => _month;
   MonthlyStats? get stats => statsForMonth(_month);
@@ -16,8 +17,8 @@ class MonthlyStatsViewModel extends ChangeNotifier {
       _statsByMonth[_normalize(month)];
   bool get isLoading => isMonthLoading(_month);
   bool isMonthLoading(DateTime month) =>
-      _pendingMonths.containsKey(_normalize(month)) ||
-      statsForMonth(month) == null;
+      statsForMonth(month) == null &&
+      !_failedMonths.contains(_normalize(month));
   Future<void> load() => _loadWindow(_month, refreshCurrent: true);
   Future<void> changeMonth(int offset) =>
       selectMonth(DateTime(_month.year, _month.month + offset));
@@ -51,6 +52,7 @@ class MonthlyStatsViewModel extends ChangeNotifier {
         _loadMonth(month, refresh: refreshCurrent && month == center),
     ]);
     final retainedMonths = _monthsAround(_month);
+    _failedMonths.removeWhere((month) => !retainedMonths.contains(month));
     _statsByMonth.removeWhere(
       (month, _) => !retainedMonths.contains(month),
     );
@@ -75,9 +77,13 @@ class MonthlyStatsViewModel extends ChangeNotifier {
     final pending = _pendingMonths[key];
     if (pending != null) return pending;
 
+    _failedMonths.remove(key);
     late final Future<void> request;
     request = _repository.statsForMonth(key).then((items) {
       _statsByMonth[key] = items;
+    }).catchError((Object error, StackTrace stack) {
+      _failedMonths.add(key);
+      Error.throwWithStackTrace(error, stack);
     }).whenComplete(() {
       _pendingMonths.remove(key);
       notifyListeners();

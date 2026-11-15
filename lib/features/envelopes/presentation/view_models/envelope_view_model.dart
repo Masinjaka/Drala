@@ -10,7 +10,6 @@ part 'envelope_bulk_deletion.dart';
 class EnvelopeViewModel extends ChangeNotifier {
   EnvelopeViewModel(this._repository, DateTime initialMonth)
       : _month = DateTime(initialMonth.year, initialMonth.month);
-
   final EnvelopeRepository _repository;
   DateTime _month;
   bool _disposed = false;
@@ -27,11 +26,11 @@ class EnvelopeViewModel extends ChangeNotifier {
 
   final Map<DateTime, List<Envelope>> _envelopesByMonth = {};
   final Map<DateTime, Future<void>> _pendingMonths = {};
+  final Set<DateTime> _failedMonths = {};
   List<EnvelopeCategory> _categories = const [];
   bool _isLoadingSharedData = false;
   bool _isSaving = false;
   List<WalletSummary> _wallets = const [];
-
   DateTime get month => _month;
   List<Envelope> get envelopes => envelopesForMonth(_month);
   List<Envelope> envelopesForMonth(DateTime month) =>
@@ -42,11 +41,10 @@ class EnvelopeViewModel extends ChangeNotifier {
   }
 
   bool get isLoading => isMonthLoading(_month) || _isLoadingSharedData;
-  bool isMonthLoading(DateTime month) {
-    final key = _normalize(month);
-    return _pendingMonths.containsKey(key) ||
-        !_envelopesByMonth.containsKey(key);
-  }
+  bool hasMonthData(DateTime month) =>
+      _envelopesByMonth.containsKey(_normalize(month));
+  bool isMonthLoading(DateTime month) =>
+      !hasMonthData(month) && !_failedMonths.contains(_normalize(month));
 
   bool get supportsBulkDeletion => _repository is BulkEnvelopeRepository;
   void _notifyBulkDeletion() => notifyListeners();
@@ -83,9 +81,8 @@ class EnvelopeViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> changeMonth(int offset) async {
-    await selectMonth(DateTime(_month.year, _month.month + offset));
-  }
+  Future<void> changeMonth(int offset) =>
+      selectMonth(DateTime(_month.year, _month.month + offset));
 
   Future<void> selectMonth(DateTime month) async {
     final candidate = _normalize(month);
@@ -159,6 +156,7 @@ class EnvelopeViewModel extends ChangeNotifier {
         _loadMonth(month, refresh: refreshCurrent && month == center),
     ]);
     final retainedMonths = _monthsAround(_month);
+    _failedMonths.removeWhere((month) => !retainedMonths.contains(month));
     _envelopesByMonth.removeWhere(
       (month, _) => !retainedMonths.contains(month),
     );
@@ -183,9 +181,12 @@ class EnvelopeViewModel extends ChangeNotifier {
     final pending = _pendingMonths[key];
     if (pending != null) return pending;
 
-    late final Future<void> request;
-    request = _repository.envelopesForMonth(key).then((items) {
+    _failedMonths.remove(key);
+    final request = _repository.envelopesForMonth(key).then((items) {
       _envelopesByMonth[key] = List.unmodifiable(items);
+    }).catchError((Object error, StackTrace stack) {
+      _failedMonths.add(key);
+      Error.throwWithStackTrace(error, stack);
     }).whenComplete(() {
       _pendingMonths.remove(key);
       notifyListeners();

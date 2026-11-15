@@ -44,7 +44,7 @@ class SettingsCurrencyChoice extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 60),
             child: SettingsChoiceTile(
               title: title,
-              leading: const Icon(Icons.currency_exchange_outlined, size: 20),
+              leading: const Icon(Icons.currency_exchange, size: 20),
               subtitle: code,
               selected: selected,
               onTap: loading ? null : onTap,

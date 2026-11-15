@@ -63,8 +63,7 @@ class HomeDrawer extends StatelessWidget {
                       child: Row(
                         children: [
                           const SizedBox(
-                              width: 22,
-                              child: Icon(Icons.settings_outlined, size: 22)),
+                              width: 22, child: Icon(Icons.settings, size: 22)),
                           const SizedBox(width: 11),
                           Text(context.l10n.settings,
                               style: AppTextTheme.drawerMenu(context)),

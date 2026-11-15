@@ -20,17 +20,13 @@ class DrawerMenuSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _item(context, Icons.mail_outline_rounded, context.l10n.envelope,
+        _item(context, Icons.mail_rounded, context.l10n.envelope,
             const Key('drawer-envelope-button'), onEnvelopePressed),
-        _item(context, Icons.pie_chart_outline_rounded, context.l10n.stats,
+        _item(context, Icons.pie_chart_rounded, context.l10n.stats,
             const Key('drawer-stats-button'), onStatsPressed),
-        _item(
-            context,
-            Icons.account_balance_wallet_outlined,
-            context.l10n.wallets,
-            const Key('drawer-wallets-button'),
-            onWalletsPressed),
-        _item(context, Icons.category_outlined, context.l10n.categories,
+        _item(context, Icons.account_balance_wallet, context.l10n.wallets,
+            const Key('drawer-wallets-button'), onWalletsPressed),
+        _item(context, Icons.category, context.l10n.categories,
             const Key('drawer-categories-button'), onCategoriesPressed),
       ],
     );

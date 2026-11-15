@@ -94,7 +94,6 @@ class DrawerDestinationNavigator {
         FinanceNotificationsPage(
           viewModel: viewModel,
           onSelected: _openNotificationEnvelope,
-          onSettings: openSettings,
         ),
       );
 

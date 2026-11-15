@@ -1,5 +1,3 @@
-import 'package:budgets/core/ui/app_grid_background.dart';
-import 'package:budgets/core/ui/app_bottom_action.dart';
 import 'package:budgets/core/ui/horizontal_page_motion.dart';
 import 'package:budgets/core/ui/bulk_selection_bar.dart';
 import 'package:budgets/core/ui/app_envelope_theme.dart';
@@ -48,6 +46,7 @@ class EnvelopePage extends StatefulWidget {
 class EnvelopePageState extends State<EnvelopePage> {
   static const _initialPage = 1200;
   bool _selecting = false;
+  bool _active = false;
   final Set<String> _selected = {};
   void _update(VoidCallback change) => setState(change);
   late final EnvelopeViewModel _viewModel;
@@ -65,7 +64,22 @@ class EnvelopePageState extends State<EnvelopePage> {
     );
     _pageOrigin = _viewModel.month;
     _pageController = PageController(initialPage: _initialPage);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final active = TickerMode.of(context);
+    if (active && !_active) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _active) _load();
+      });
+    }
+    if (!active) {
+      _selecting = false;
+      _selected.clear();
+    }
+    _active = active;
   }
 
   Future<void> createEnvelope() => _showAddSheet();
@@ -130,37 +144,31 @@ class EnvelopePageState extends State<EnvelopePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: AppBottomAction(
-          buttonKey: const Key('envelope-create'),
-          label: context.l10n.addEnvelope,
-          onPressed: _showAddSheet),
       backgroundColor: AppEnvelopeTheme.background(context),
-      body: AppGridBackground(
-          backgroundColor: AppEnvelopeTheme.background(context),
-          child: ListenableBuilder(
-            listenable: _viewModel,
-            builder: (context, _) => EnvelopePageContent(
-              showBackButton: widget.showBackButton,
-              viewModel: _viewModel,
-              pageController: _pageController,
-              pageOrigin: _pageOrigin,
-              initialPage: _initialPage,
-              initialEnvelopeId: widget.initialEnvelopeId,
-              displayCurrency: widget.displayCurrency,
-              onAdd: _showAddSheet,
-              selectionBar: _selectionBar,
-              onSelect: _viewModel.supportsBulkDeletion && !_selecting
-                  ? () => _update(() => _selecting = true)
-                  : null,
-              selectedIds: _selecting ? _selected : null,
-              onToggleSelection: _toggleSelection,
-              onEdit: _editEnvelope,
-              onMonthChanged: _changeMonth,
-              onPickMonth: _pickMonth,
-              onPageChanged: _selectPage,
-              onRefresh: _load,
-            ),
-          )),
+      body: ListenableBuilder(
+        listenable: _viewModel,
+        builder: (context, _) => EnvelopePageContent(
+          showBackButton: widget.showBackButton,
+          viewModel: _viewModel,
+          pageController: _pageController,
+          pageOrigin: _pageOrigin,
+          initialPage: _initialPage,
+          initialEnvelopeId: widget.initialEnvelopeId,
+          displayCurrency: widget.displayCurrency,
+          onAdd: _showAddSheet,
+          selectionBar: _selectionBar,
+          onSelect: _viewModel.supportsBulkDeletion && !_selecting
+              ? () => _update(() => _selecting = true)
+              : null,
+          selectedIds: _selecting ? _selected : null,
+          onToggleSelection: _toggleSelection,
+          onEdit: _editEnvelope,
+          onMonthChanged: _changeMonth,
+          onPickMonth: _pickMonth,
+          onPageChanged: _selectPage,
+          onRefresh: _load,
+        ),
+      ),
     );
   }
 

@@ -26,7 +26,7 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(find.byIcon(Icons.info_outline), findsOneWidget);
+    expect(find.byIcon(Icons.info), findsOneWidget);
     await tester.tap(find.text('Try again'));
     expect(retries, 1);
   });

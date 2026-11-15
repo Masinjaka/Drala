@@ -87,7 +87,7 @@ extension _BudgetHistoryItems on BudgetHistoryCard {
 
   Widget _buildProgressBar(BuildContext context, double progress) {
     Color getProgressColor() {
-      if (progress > 0.9) return Theme.of(context).colorScheme.error;
+      if (progress > 0.9) return AppDangerTheme.criticalWarning(context);
       if (progress > 0.7) return AppDangerTheme.warning(context);
       return Theme.of(context).primaryColor;
     }

@@ -19,8 +19,13 @@ abstract final class AppNavigationTheme {
           ? const Color(0xFFF4F4F4)
           : Theme.of(context).colorScheme.outlineVariant;
 
-  static Color foreground(BuildContext context, {required bool selected}) =>
-      selected ? Colors.white : const Color(0xFF9E9E9E);
+  static Color foreground(BuildContext context, {required bool selected}) {
+    if (selected) return Colors.white;
+    return Theme.of(context).brightness == Brightness.dark
+        ? const Color(0xFFE0E0E0)
+        : const Color(0xFFD1D1D1);
+  }
+
   static Color icon(BuildContext context, {required bool selected}) =>
       foreground(context, selected: selected);
 

@@ -40,9 +40,9 @@ class WalletSelectionTile extends StatelessWidget {
                     child: Row(children: [
                       Icon(
                           switch (wallet.iconKey) {
-                            'bank' => Icons.account_balance_outlined,
-                            'cash' => Icons.payments_outlined,
-                            _ => Icons.account_balance_wallet_outlined
+                            'bank' => Icons.account_balance,
+                            'cash' => Icons.payments,
+                            _ => Icons.account_balance_wallet
                           },
                           color: foreground,
                           size: 20),

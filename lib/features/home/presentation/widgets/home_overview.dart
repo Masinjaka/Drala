@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_scroll_under_header.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/features/home/presentation/widgets/home_overview_envelopes_section.dart';
@@ -27,7 +29,6 @@ class HomeOverview extends StatelessWidget {
       this.today,
       this.displayName,
       this.currency,
-      this.currencyLoading = false,
       super.key});
   final DateTime? today;
   final String? displayName;
@@ -40,7 +41,6 @@ class HomeOverview extends StatelessWidget {
   final VoidCallback? onCreateEnvelope;
   final Future<void> Function() onRefresh;
   final CurrencyState? currency;
-  final bool currencyLoading;
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
@@ -54,7 +54,11 @@ class HomeOverview extends StatelessWidget {
           final entries =
               overview?.recentEntries ?? viewModel.entries.take(4).toList();
           final envelopes = overview?.envelopes ?? [];
-          final loading = overview?.isLoading ?? viewModel.isLoading;
+          final entriesResolved =
+              overview?.entriesResolved ?? viewModel.entriesResolved;
+          final envelopesResolved = overview?.envelopesResolved ?? true;
+          final loading = overview?.isLoading ?? !viewModel.entriesLoadFailed;
+          final balancePending = !viewModel.walletsLoaded;
           final monthly = overview?.monthlyEntries ?? [];
           num total(bool income) => monthly
               .where((entry) => income ? entry.isIncome : entry.isExpense)
@@ -69,9 +73,16 @@ class HomeOverview extends StatelessWidget {
               gravity: true,
               backgroundColor: AppHomeOverviewTheme.background(context),
               amount: balance,
-              loading: viewModel.isSummaryLoading || currencyLoading,
-              builder: (balanceKey) => SafeArea(
-                  bottom: false,
+              loading: balancePending,
+              builder: (balanceKey) => AppScrollUnderHeader(
+                  header: Padding(
+                      padding: AppPageSpacing.insets(context,
+                          top: AppHeaderMetrics.topPadding, bottom: 12),
+                      child: HomeOverviewHeader(
+                          today: today ?? DateTime.now(),
+                          displayName: displayName,
+                          notifications: notifications,
+                          onNotificationsPressed: onNotificationsPressed)),
                   child: RefreshIndicator(
                     onRefresh: onRefresh,
                     child: SingleChildScrollView(
@@ -81,24 +92,15 @@ class HomeOverview extends StatelessWidget {
                           child: ConstrainedBox(
                         constraints: const BoxConstraints(maxWidth: 620),
                         child: Padding(
-                          padding: AppPageSpacing.insets(context,
-                              top: AppHeaderMetrics.topPadding, bottom: 8),
+                          padding: AppScrollPadding.insets(context, bottom: 8),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                HomeOverviewHeader(
-                                    today: today ?? DateTime.now(),
-                                    displayName: displayName,
-                                    notifications: notifications,
-                                    onNotificationsPressed:
-                                        onNotificationsPressed),
-                                const SizedBox(height: 12),
                                 HomeOverviewBalance(
                                     amountKey: balanceKey,
                                     balance: balance,
                                     currencyCode: code,
-                                    loading: viewModel.isSummaryLoading ||
-                                        currencyLoading),
+                                    loading: balancePending),
                                 const SizedBox(height: 16),
                                 Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -110,8 +112,7 @@ class HomeOverview extends StatelessWidget {
                                               currencyCode: code,
                                               income: true,
                                               label: context.l10n.income,
-                                              loading:
-                                                  loading || currencyLoading,
+                                              loading: !entriesResolved,
                                               onPressed: onActivities)),
                                       const SizedBox(width: 12),
                                       Expanded(
@@ -120,8 +121,7 @@ class HomeOverview extends StatelessWidget {
                                               currencyCode: code,
                                               income: false,
                                               label: context.l10n.expenses,
-                                              loading:
-                                                  loading || currencyLoading,
+                                              loading: !entriesResolved,
                                               onPressed: onActivities)),
                                     ])),
                                 if (overview?.error != null)
@@ -133,14 +133,16 @@ class HomeOverview extends StatelessWidget {
                                 const SizedBox(height: 32),
                                 HomeOverviewEnvelopesSection(
                                     envelopes: envelopes,
-                                    loading: loading,
+                                    loading: loading && !envelopesResolved,
+                                    resolved: envelopesResolved,
                                     onEnvelopes: onEnvelopes,
                                     onCreate: onCreateEnvelope ?? onEnvelopes,
                                     currency: currency),
                                 const SizedBox(height: 4),
                                 HomeOverviewTransactionsSection(
                                     entries: entries,
-                                    loading: loading,
+                                    loading: loading && !entriesResolved,
+                                    resolved: entriesResolved,
                                     viewModel: viewModel,
                                     onActivities: onActivities,
                                     onRefresh: onRefresh,

@@ -15,7 +15,11 @@ void main() {
     addTearDown(viewModel.dispose);
     await _pumpDangerZone(tester, viewModel);
 
-    expect(find.text('Zone de danger'), findsOneWidget);
+    expect(find.text('Compte'), findsOneWidget);
+    expect(find.text('Se déconnecter'), findsOneWidget);
+    final l10n = AppLocalizations.of(tester.element(find.byType(DangerZone)));
+    expect(find.text(l10n.deleteAllDataSummary), findsNothing);
+    expect(find.text(l10n.deleteAccountSummary), findsNothing);
     expect(find.text('Supprimer toutes mes données'), findsOneWidget);
     expect(find.text('Supprimer mon compte'), findsOneWidget);
 
@@ -82,6 +86,7 @@ Future<void> _pumpDangerZone(
           body: DangerZone(
             viewModel: viewModel,
             accountEmail: 'owner@example.com',
+            onLogout: () {},
             onDataDeleted: () {},
             onAccountDeleted: () {},
           ),

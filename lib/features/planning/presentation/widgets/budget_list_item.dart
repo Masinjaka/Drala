@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'package:budgets/features/categories/presentation/widgets/category_icon.dart';
 import 'package:budgets/core/ui/app_text_style.dart';
 import 'package:budgets/core/ui/app_text_role.dart';

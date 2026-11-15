@@ -19,7 +19,7 @@ class HomeOverviewEnvelopeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-      height: 170,
+      height: AppHomeOverviewTheme.envelopeCardHeight,
       child: AppCardSurface(
         color: AppHomeOverviewTheme.surface(context),
         borderRadius: BorderRadius.circular(24),

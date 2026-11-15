@@ -5,6 +5,9 @@ extension AiEntryDataReset on AiEntryViewModel {
     _loadGeneration++;
     ++_balanceGeneration;
     _entries = const [];
+    _entriesResolved = true;
+    _entriesLoadFailed = false;
+    _isLoading = false;
     _hasMoreEntries = false;
     _isLoadingMoreEntries = false;
     _transactionOffset = 0;

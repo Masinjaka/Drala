@@ -59,6 +59,47 @@ void main() {
     expect(find.text('••••'), findsNothing);
   });
 
+  testWidgets(
+      'recent transactions scroll behind the nav and clear it at the end',
+      (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(412, 720);
+    const insets = FakeViewPadding(bottom: 34);
+    tester.view.padding = insets;
+    tester.view.viewPadding = insets;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(overviewFixture());
+    await tester.pumpAndSettle();
+
+    final pill =
+        tester.getRect(find.byKey(const Key('home-navigation-surface')));
+    final scroll = find.byKey(const Key('home-overview-scroll'));
+    final last = find.byType(HomeOverviewTransactionTile).last;
+    expect(tester.getRect(scroll).bottom, greaterThan(pill.bottom));
+    expect(tester.getRect(last).bottom, greaterThan(pill.top));
+
+    await tester.drag(scroll, const Offset(0, -900));
+    await tester.pumpAndSettle();
+    expect(tester.getRect(last).bottom, lessThan(pill.top));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('pulling down at the top refreshes Home transactions',
+      (tester) async {
+    final repository = overviewEntries();
+    await tester.pumpWidget(overviewFixture(entryRepository: repository));
+    await tester.pumpAndSettle();
+    final originalLoads = repository.monthLoadCount;
+
+    await tester.drag(
+        find.byKey(const Key('home-overview-scroll')), const Offset(0, 380));
+    await tester.pumpAndSettle();
+
+    expect(repository.monthLoadCount, greaterThan(originalLoads));
+    expect(find.byType(HomeOverviewTransactionTile), findsNWidgets(4));
+    expect(tester.takeException(), isNull);
+  });
+
   for (final dark in [false, true]) {
     testWidgets('overview fits small screens with large text, dark=$dark',
         (tester) async {

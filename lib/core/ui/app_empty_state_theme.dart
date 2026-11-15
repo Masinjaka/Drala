@@ -1,3 +1,4 @@
+import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_interaction_theme.dart';
 import 'package:flutter/material.dart';
@@ -20,5 +21,12 @@ abstract final class AppEmptyStateTheme {
   static TextStyle homeLabel(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
           fontSize: AppTypography.body,
-          color: Theme.of(context).colorScheme.onSurface);
+          color: Theme.of(context).colorScheme.onSurfaceVariant);
+  static TextStyle supportingMessage(BuildContext context) => message(context)
+      .copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
+
+  static TextStyle inlineLink(BuildContext context) => TextStyle(
+      color: Theme.of(context).brightness == Brightness.dark
+          ? AppTheme.positiveAmountDark
+          : AppTheme.positiveAmountLight);
 }

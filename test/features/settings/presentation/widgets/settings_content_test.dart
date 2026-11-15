@@ -31,8 +31,11 @@ void main() {
             onScannedReceipts: () => taps.add('receipts'),
             onTerms: () => taps.add('terms'),
             onPrivacy: () => taps.add('privacy'),
-            onLogout: () => taps.add('logout'),
-            isLoggingOut: false,
+            accountActions: SettingsMenuItem(
+              title: 'Log out',
+              icon: Icons.logout_rounded,
+              onTap: () => taps.add('logout'),
+            ),
             appVersion: '2.0.2',
           ),
         ),
@@ -45,9 +48,8 @@ void main() {
     expect(find.text('3'), findsOneWidget);
     expect(find.text('Zone de danger'), findsNothing);
     expect(find.text('Version 2.0.2'), findsOneWidget);
-    expect(find.byType(OutlinedButton), findsOneWidget);
     expect(find.byType(SettingsSummaryCard), findsNWidgets(2));
-    expect(find.byType(SettingsMenuIcon), findsNWidgets(9));
+    expect(find.byType(SettingsMenuIcon), findsNWidgets(10));
     expect(
       tester
           .widget<SettingsMenuItem>(
@@ -56,8 +58,8 @@ void main() {
               matching: find.byType(SettingsMenuItem),
             ),
           )
-          .iconAsset,
-      'assets/settings/language.svg',
+          .icon,
+      Icons.language_rounded,
     );
     expect(
       tester
@@ -67,8 +69,8 @@ void main() {
               matching: find.byType(SettingsMenuItem),
             ),
           )
-          .iconAsset,
-      'assets/settings/scanned_receipts.svg',
+          .icon,
+      Icons.receipt_long_rounded,
     );
 
     for (final label in [

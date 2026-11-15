@@ -7,10 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../support/recording_legal_launcher.dart';
 
 void main() {
   testWidgets('guest settings keeps category and wallet summary actions',
       (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(800, 1100);
+    addTearDown(tester.view.reset);
     SharedPreferences.setMockInitialValues({});
     final database = GuestDatabase(NativeDatabase.memory());
     addTearDown(database.close);
@@ -27,12 +31,14 @@ void main() {
     addTearDown(walletChanges.dispose);
     var categoriesOpened = 0;
     var walletsOpened = 0;
+    final legalLauncher = RecordingLegalLauncher();
 
     await tester.pumpWidget(ProviderScope(
       overrides: [guestSessionProvider.overrideWithValue(guest)],
       child: MaterialApp(
         home: GuestSettingsPage(
           isSignedIn: () => false,
+          legalLauncher: legalLauncher,
           walletsListenable: walletChanges,
           walletCountReader: () => 2,
           onCategoriesPressed: () => categoriesOpened++,
@@ -52,5 +58,13 @@ void main() {
     await tester.tap(find.text('Wallets'));
     expect(categoriesOpened, 1);
     expect(walletsOpened, 1);
+
+    for (final label in ['Terms of service', 'Privacy policy']) {
+      final row = find.text(label);
+      await tester.tap(row);
+      await tester.pump();
+    }
+    expect(legalLauncher.opened, ['terms', 'privacy']);
+    expect(find.text('Delete my account'), findsNothing);
   });
 }

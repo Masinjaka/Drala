@@ -24,14 +24,13 @@ extension _ChatHomePageActions on _ChatHomePageState {
   void _resetAfterDataDeletion() {
     _activityCalendarViewModel.clear();
     _notificationViewModel.clear();
+    _overviewViewModel.clear();
+    _invalidateFinanceTabs();
+    unawaited(_overviewViewModel.load());
     unawaited(
-      _aiEntryViewModel
-          .resetAfterDataDeletion()
-          .then((_) => _overviewViewModel.load())
-          .catchError((Object error) {
-        if (mounted) showErrorToast(context, error);
-      }),
-    );
+        _aiEntryViewModel.resetAfterDataDeletion().catchError((Object error) {
+      if (mounted) showErrorToast(context, error);
+    }));
   }
 
   Future<void> _refreshNotifications() async {

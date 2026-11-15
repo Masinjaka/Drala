@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'dart:async';
 
 import 'package:budgets/features/transactions/domain/model/transaction_model.dart';
@@ -137,16 +138,15 @@ class _TransactionListItemState extends ConsumerState<TransactionListItem>
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   Flexible(
-                      child: Icon(Icons.delete_outline,
-                          color: Theme.of(context).colorScheme.onError,
-                          size: 18)),
+                      child: Icon(Icons.delete,
+                          color: AppDangerTheme.onFill, size: 18)),
                 ]),
               ).animate(target: _swipeProgress).custom(
                     duration: 120.ms,
                     curve: Curves.linear,
                     builder: (context, value, child) => DecoratedBox(
                       decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.error,
+                          color: AppDangerTheme.fill,
                           borderRadius: cardBorderRadius),
                       child: child,
                     ),

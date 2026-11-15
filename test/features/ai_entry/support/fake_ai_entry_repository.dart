@@ -20,6 +20,7 @@ class FakeAiEntryRepository implements AiEntryRepository {
   DateTime? submittedDate;
   int remaining = 20;
   int dateLoadCount = 0;
+  Future<List<FinanceEntry>> Function(DateTime)? onEntriesForDate;
   int monthLoadCount = 0;
   bool hasAnyEntriesValue = false;
   Completer<AiEntryResult>? resultCompleter;
@@ -44,6 +45,7 @@ class FakeAiEntryRepository implements AiEntryRepository {
   Future<List<FinanceEntry>> entriesForDate(DateTime date) async {
     dateLoadCount++;
     requestedDate = date;
+    if (onEntriesForDate case final load?) return load(date);
     return List.unmodifiable(entries);
   }
 

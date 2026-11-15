@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_glass_surface.dart';
+import 'package:budgets/core/widgets/delayed_skeleton.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -29,6 +31,12 @@ class _CurrencySelectionPageState extends ConsumerState<CurrencySelectionPage> {
     final currency = state.value;
     return SettingsPageShell(
       title: context.l10n.currency,
+      bottomNavigationBar: const IgnorePointer(
+        child: AppGlassSurface(
+          edge: AppGlassEdge.top,
+          child: SafeArea(top: false, child: SizedBox(height: 32)),
+        ),
+      ),
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Padding(
@@ -54,7 +62,12 @@ class _CurrencySelectionPageState extends ConsumerState<CurrencySelectionPage> {
                     pendingCode: _pendingCode,
                     onChanged: _select,
                   ),
-                  loading: () => const DetailListSkeleton(),
+                  loading: () => DelayedSkeleton(
+                    pending: true,
+                    builder: (_, show) => show
+                        ? const DetailListSkeleton()
+                        : const SizedBox.shrink(),
+                  ),
                   error: (error, _) => Center(
                     child: Text(context.l10n.errorWithMessage('$error')),
                   ),

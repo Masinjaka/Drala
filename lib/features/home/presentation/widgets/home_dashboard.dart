@@ -1,5 +1,6 @@
+import 'package:budgets/core/ui/app_header_scope.dart';
+import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
-import 'package:budgets/core/ui/app_grid_background.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_activities_theme.dart';
 import 'package:budgets/features/home/presentation/view_models/activity_calendar_view_model.dart';
@@ -12,6 +13,7 @@ import 'package:budgets/features/home/presentation/widgets/home_operations_list.
 import 'package:budgets/features/ads/presentation/widgets/home_native_ad.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
 import 'package:flutter/material.dart';
+import 'ai_credit_button.dart';
 
 class HomeDashboard extends StatelessWidget {
   const HomeDashboard(
@@ -42,21 +44,30 @@ class HomeDashboard extends StatelessWidget {
     final actions = HomeEntryActions(viewModel, currencyState: currencyState);
     return ListenableBuilder(
         listenable: viewModel,
-        builder: (context, _) => AppGridBackground(
+        builder: (context, _) => ColoredBox(
               key: const Key('home-dashboard-background'),
-              backgroundColor: AppActivitiesTheme.background(context),
+              color: AppActivitiesTheme.background(context),
               child: SafeArea(
-                  bottom: false,
-                  child: Column(children: [
-                    Padding(
-                        padding: const EdgeInsets.only(
-                            top: AppHeaderMetrics.topPadding),
-                        child: HomeDashboardHeader(
-                            notificationViewModel: notificationViewModel,
-                            onNotificationsPressed: onNotificationsPressed)),
-                    const SizedBox(height: 20),
-                    Expanded(
-                        child: NotificationListener<ScrollNotification>(
+                bottom: false,
+                child: Column(children: [
+                  AppHeaderScope(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          top: AppHeaderMetrics.topPadding, bottom: 20),
+                      child: HomeDashboardHeader(
+                          aiCredits: manualOnly ||
+                                  (viewModel.remainingRequests == null &&
+                                      !viewModel.hasUnlimitedAiRequests)
+                              ? null
+                              : AiCreditButton(
+                                  remaining: viewModel.remainingRequests,
+                                  unlimited: viewModel.hasUnlimitedAiRequests),
+                          notificationViewModel: notificationViewModel,
+                          onNotificationsPressed: onNotificationsPressed),
+                    ),
+                  ),
+                  Expanded(
+                    child: NotificationListener<ScrollNotification>(
                       onNotification: (notification) {
                         if (notification.depth == 0 &&
                             notification.metrics.extentAfter < 240) {
@@ -66,8 +77,14 @@ class HomeDashboard extends StatelessWidget {
                       },
                       child: RefreshIndicator(
                           onRefresh: () async {
-                            await viewModel.loadDate(viewModel.selectedDate);
-                            await onFinanceChanged();
+                            try {
+                              await viewModel.loadDate(viewModel.selectedDate);
+                              await onFinanceChanged();
+                            } catch (error) {
+                              if (context.mounted) {
+                                showErrorToast(context, error);
+                              }
+                            }
                           },
                           child: CustomScrollView(
                             key: const Key('transaction-scroll-view'),
@@ -87,7 +104,10 @@ class HomeDashboard extends StatelessWidget {
                                   },
                                   asSliver: true,
                                   entries: viewModel.entries,
-                                  isLoading: viewModel.isLoading,
+                                  isLoading: !viewModel.entriesResolved &&
+                                      !viewModel.entriesLoadFailed,
+                                  resolved: viewModel.entriesResolved,
+                                  date: viewModel.selectedDate,
                                   isLoadingMore: viewModel.isLoadingMoreEntries,
                                   isAdding: viewModel.isAddingEntry,
                                   pendingEdits: viewModel.pendingEdits,
@@ -111,8 +131,10 @@ class HomeDashboard extends StatelessWidget {
                               }),
                             ],
                           )),
-                    )),
-                  ])),
+                    ),
+                  ),
+                ]),
+              ),
             ));
   }
 }

@@ -42,6 +42,7 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
   late final PageController _pages;
   int _visit = 0;
   bool _categories = false;
+  bool _active = false;
 
   @override
   void initState() {
@@ -55,7 +56,18 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
     );
     _origin = _viewModel.month;
     _pages = PageController(initialPage: _initialPage);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final active = TickerMode.of(context);
+    if (active && !_active) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _active) _load();
+      });
+    }
+    _active = active;
   }
 
   Future<void> _load() async {
@@ -121,7 +133,7 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
               gravity: true,
               backgroundColor: AppStatsTheme.background(context),
               amount: amount,
-              loading: _viewModel.isLoading,
+              loading: stats == null,
               builder: (amountKey) => SafeArea(
                   bottom: false,
                   child: Padding(

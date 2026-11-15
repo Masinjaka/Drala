@@ -1,3 +1,5 @@
+import 'app_danger_theme.dart';
+import 'app_header_theme.dart';
 import 'package:flutter/material.dart';
 import 'app_home_overview_theme.dart';
 import 'app_text_theme.dart';
@@ -6,9 +8,11 @@ import 'app_typography.dart';
 /// Surfaces and type shared by the supplied wallet and entry references.
 abstract final class AppFinanceSurfaceTheme {
   static Color destructive(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark
-          ? const Color(0xffed969b)
-          : const Color(0xffa84e56);
+      Theme.of(context).colorScheme.error;
+
+  static Color expenseAccent(BuildContext context) =>
+      AppDangerTheme.criticalWarning(context);
+
   static ButtonStyle headerButton(BuildContext context) => IconButton.styleFrom(
       backgroundColor: field(context),
       disabledBackgroundColor: field(context),
@@ -31,8 +35,9 @@ abstract final class AppFinanceSurfaceTheme {
       Theme.of(context).colorScheme.outline.withValues(alpha: .35);
   static TextStyle label(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!;
-  static TextStyle title(BuildContext context) =>
-      label(context).copyWith(fontSize: AppTypography.title);
+  static TextStyle title(BuildContext context) => label(context).copyWith(
+      shadows: AppHeaderTheme.titleShadows(context),
+      fontSize: AppTypography.title);
   static TextStyle value(BuildContext context) => AppTextTheme.amount(
       label(context).copyWith(fontSize: AppTypography.headline));
   static TextStyle amount(BuildContext context) => AppTextTheme.amount(

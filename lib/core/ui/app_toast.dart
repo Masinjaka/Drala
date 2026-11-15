@@ -19,7 +19,6 @@ void showAppToast(
 }) {
   final overlay = Navigator.of(context, rootNavigator: true).overlay;
   if (overlay == null) return;
-  final aboveNavigationBar = _hasBottomNavigationBar(context);
   _activeToast?.remove();
 
   late final OverlayEntry entry;
@@ -27,7 +26,7 @@ void showAppToast(
     builder: (_) => AppToastOverlay(
       message: message,
       type: type,
-      aboveNavigationBar: aboveNavigationBar,
+      sourceContext: context,
       onDisposed: () {
         if (_activeToast == entry) _activeToast = null;
       },
@@ -64,17 +63,4 @@ void showErrorToast(BuildContext context, Object error) {
             networkMessage: context.l10n.networkUnavailable),
     type: AppToastType.error,
   );
-}
-
-bool _hasBottomNavigationBar(BuildContext context) {
-  var found = false;
-  context.visitAncestorElements((element) {
-    final widget = element.widget;
-    if (widget is Scaffold && widget.bottomNavigationBar != null) {
-      found = true;
-      return false;
-    }
-    return true;
-  });
-  return found;
 }

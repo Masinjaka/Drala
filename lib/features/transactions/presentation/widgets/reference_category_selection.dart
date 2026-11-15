@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_close_button.dart';
 import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -26,22 +27,15 @@ class ReferenceCategorySelection extends StatelessWidget {
   final bool loading;
   @override
   Widget build(BuildContext context) => Material(
-      color: AppFinanceSurfaceTheme.field(context),
+      color: AppFinanceSurfaceTheme.background(context),
       child: Padding(
           padding: const EdgeInsets.fromLTRB(32, 20, 32, 16),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Align(
                 alignment: AlignmentDirectional.centerEnd,
-                child: IconButton.filledTonal(
-                    key: const Key('category-back'),
-                    tooltip:
-                        MaterialLocalizations.of(context).closeButtonTooltip,
-                    style: IconButton.styleFrom(
-                        backgroundColor:
-                            AppFinanceSurfaceTheme.background(context)),
-                    onPressed: onBack,
-                    icon: const Icon(Icons.close))),
+                child: AppCloseButton(
+                    key: const Key('category-back'), onPressed: onBack)),
             const SizedBox(height: 24),
             TextField(
                 key: const Key('category-search'),
@@ -49,10 +43,8 @@ class ReferenceCategorySelection extends StatelessWidget {
                 onChanged: onSearch,
                 style: AppFinanceSurfaceTheme.label(context),
                 decoration: AppFinanceSurfaceTheme.input(context,
-                        hint: context.l10n.searchCategories,
-                        prefix: const Icon(Icons.search, size: 20))
-                    .copyWith(
-                        fillColor: AppFinanceSurfaceTheme.background(context))),
+                    hint: context.l10n.searchCategories,
+                    prefix: const Icon(Icons.search, size: 20))),
             const SizedBox(height: 24),
             Expanded(
                 child: loading

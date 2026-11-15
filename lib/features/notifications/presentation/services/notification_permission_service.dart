@@ -1,17 +1,22 @@
+import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class NotificationPermissionService {
   NotificationPermissionService({FirebaseMessaging? messaging})
-      : _messaging = messaging ?? FirebaseMessaging.instance;
+      : _providedMessaging = messaging;
 
-  final FirebaseMessaging _messaging;
+  final FirebaseMessaging? _providedMessaging;
+  FirebaseMessaging get _messaging =>
+      _providedMessaging ?? FirebaseMessaging.instance;
 
   Future<bool> isGranted() async {
+    if (!kReleaseMode) return false;
     final settings = await _messaging.getNotificationSettings();
     return isGrantedStatus(settings.authorizationStatus);
   }
 
   Future<bool> request() async {
+    if (!kReleaseMode) return false;
     final settings = await _messaging.requestPermission(
       alert: true,
       announcement: false,

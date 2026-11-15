@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'dart:async';
+import 'transaction_form_keep_alive.dart';
 import 'transaction_picker_scope.dart';
 import 'transaction_sheet_motion.dart';
 import 'package:budgets/core/ui/app_finance_surface_theme.dart';
@@ -25,6 +26,22 @@ class _ReferenceTransactionSurfaceState
   Widget? _picker;
   Completer<String?>? _result;
   bool _closing = false;
+
+  double get _page => widget.controller.hasClients &&
+          widget.controller.position.hasContentDimensions
+      ? (widget.controller.page ?? 0).clamp(0.0, 1.0)
+      : 0.0;
+
+  void _closePicker() {
+    FocusScope.of(context).unfocus();
+    if (_result != null) {
+      _finish(null);
+    } else {
+      widget.controller.animateToPage(0,
+          duration: const Duration(milliseconds: 420),
+          curve: transactionSheetCurve);
+    }
+  }
 
   Future<String?> _open(Widget Function(ValueChanged<String?>) builder) async {
     if (_result != null) return null;
@@ -63,28 +80,25 @@ class _ReferenceTransactionSurfaceState
   }
 
   @override
-  Widget build(BuildContext context) => PopScope(
-      canPop: _picker == null,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && _picker != null) _finish(null);
-      },
-      child: TransactionPickerScope(
-          open: _open,
-          child: AnimatedBuilder(
-              animation: widget.controller,
-              builder: (context, _) => LayoutBuilder(builder: _surface))));
+  Widget build(BuildContext context) => AnimatedBuilder(
+      animation: widget.controller,
+      builder: (context, _) => PopScope(
+          canPop: _picker == null && _page == 0,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop) _closePicker();
+          },
+          child: TransactionPickerScope(
+              open: _open, child: LayoutBuilder(builder: _surface))));
 
   Widget _surface(BuildContext context, BoxConstraints constraints) {
     final media = MediaQuery.of(context);
     final keyboard = media.viewInsets.bottom;
-    final page = widget.controller.hasClients &&
-            widget.controller.position.hasContentDimensions
-        ? (widget.controller.page ?? 0).clamp(0.0, 1.0)
-        : 0.0;
+    final page = _page;
     final height = math
-        .min(media.size.height * (widget.initialHeightFactor - .24 * page),
+        .min(media.size.height * widget.initialHeightFactor,
             constraints.maxHeight - keyboard - media.padding.top - 8)
         .clamp(160.0, double.infinity);
+    final pickerHeight = math.min(media.size.height * .62, height);
     return Padding(
         padding: EdgeInsets.only(bottom: keyboard),
         child: Align(
@@ -104,17 +118,55 @@ class _ReferenceTransactionSurfaceState
                               top: false,
                               child: GestureDetector(
                                   onTap: () => FocusScope.of(context).unfocus(),
-                                  child: PageView(
-                                      controller: widget.controller,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      children: [
-                                        widget.pages.first,
-                                        if (_picker != null)
-                                          _picker!
-                                        else
-                                          ...widget.pages.skip(1)
-                                      ])))),
+                                  child: Stack(fit: StackFit.expand, children: [
+                                    IgnorePointer(
+                                        child: Opacity(
+                                            opacity: 0,
+                                            child: PageView(
+                                                controller: widget.controller,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                children: const [
+                                                  SizedBox.shrink(),
+                                                  SizedBox.shrink(),
+                                                ]))),
+                                    TransactionFormKeepAlive(
+                                        child: widget.pages.first),
+                                    if (page > 0 || _picker != null) ...[
+                                      GestureDetector(
+                                          onTap: _closePicker,
+                                          child: ColoredBox(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .scrim
+                                                  .withValues(
+                                                      alpha: .56 * page))),
+                                      Transform.translate(
+                                          offset: Offset(
+                                              0, pickerHeight * (1 - page)),
+                                          child: Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: SizedBox(
+                                                  height: pickerHeight,
+                                                  width: double.infinity,
+                                                  child: Material(
+                                                      color:
+                                                          AppFinanceSurfaceTheme
+                                                              .background(
+                                                                  context),
+                                                      borderRadius:
+                                                          AppFinanceSurfaceTheme
+                                                              .sheetRadius,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      child: _picker ??
+                                                          (widget.pages.length >
+                                                                  1
+                                                              ? widget.pages[1]
+                                                              : const SizedBox
+                                                                  .shrink()))))),
+                                    ],
+                                  ])))),
                     )))));
   }
 }

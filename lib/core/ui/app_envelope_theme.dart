@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
+import 'app_header_theme.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/ui/app_interaction_theme.dart';
@@ -18,7 +20,7 @@ abstract final class AppEnvelopeTheme {
       Theme.of(context).colorScheme.primary;
   static Color progressTrack(BuildContext context) => background(context);
   static Color progress(BuildContext context, {required bool exceeded}) =>
-      exceeded ? Theme.of(context).colorScheme.error : accent(context);
+      exceeded ? AppDangerTheme.criticalWarning(context) : accent(context);
   static List<BoxShadow> shadows(BuildContext context) => [
         BoxShadow(
             color: Theme.of(context).shadowColor.withValues(
@@ -30,6 +32,7 @@ abstract final class AppEnvelopeTheme {
       ];
   static TextStyle title(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
+          shadows: AppHeaderTheme.titleShadows(context),
           fontSize: AppTypography.headline,
           color: Theme.of(context).colorScheme.onSurface);
   static TextStyle name(BuildContext context) =>
@@ -51,6 +54,14 @@ abstract final class AppEnvelopeTheme {
                   .colorScheme
                   .onSurfaceVariant
                   .withValues(alpha: .65));
+  static ButtonStyle headerActionButton(BuildContext context) =>
+      yearButton(context).copyWith(
+        minimumSize: const WidgetStatePropertyAll(
+          Size.square(AppHeaderMetrics.buttonSize),
+        ),
+        padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+      );
+
   static ButtonStyle yearButton(BuildContext context) =>
       AppInteractionTheme.withoutPressFeedback(TextButton.styleFrom(
           foregroundColor: Theme.of(context).colorScheme.onSurface,

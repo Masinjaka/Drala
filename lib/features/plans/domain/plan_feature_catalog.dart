@@ -9,8 +9,8 @@ abstract final class PlanFeatureCatalog {
     ),
     PlanFeature(
       name: 'AI transaction entry',
-      freeBenefit: '20/day',
-      plusBenefit: 'Generous monthly fair use',
+      freeBenefit: '5/day',
+      plusBenefit: 'Unlimited',
     ),
     PlanFeature(
       name: 'Budgets',

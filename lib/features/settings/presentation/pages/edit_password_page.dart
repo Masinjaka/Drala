@@ -1,5 +1,5 @@
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/navigation/app_modal_page_route.dart';
-import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_page_shell.dart';
@@ -45,7 +45,7 @@ class _EditPasswordPageState extends ConsumerState<EditPasswordPage> {
     final form = Form(
       key: _formKey,
       child: ListView(
-        padding: AppPageSpacing.insets(context, top: 24, bottom: 32),
+        padding: AppScrollPadding.insets(context, top: 24, bottom: 32),
         children: [
           _field(
             title: context.l10n.currentPassword,

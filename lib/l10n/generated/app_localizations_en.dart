@@ -478,7 +478,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyDetails =>
-      'Drala stores account and transaction data to provide the app. Scanned receipts are kept in private per-user storage and are sent to the configured AI provider through the backend for extraction. You can delete individual receipts from Scanned receipts, or delete all stored data or your complete account from Edit profile.';
+      'Drala stores account and transaction data to provide the app. Scanned receipts are kept in private per-user storage and are sent to the configured AI provider through the backend for extraction. You can delete individual receipts from Scanned receipts, or delete all stored data or your complete account from the Account section in Settings.';
 
   @override
   String get legalLastUpdated => 'Last updated: July 21, 2026';
@@ -523,6 +523,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openSettings => 'Open settings';
+
+  @override
+  String get accountActions => 'Account';
 
   @override
   String get dangerZone => 'Danger zone';
@@ -1120,6 +1123,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get envelopes => 'Envelopes';
 
   @override
+  String activityEmptyWithAction(String action) {
+    return 'A little quiet today. $action to get started.';
+  }
+
+  @override
+  String homeEmptyEnvelopeMessage(String action) {
+    return 'Give your plans a little room to grow with your $action.';
+  }
+
+  @override
+  String get homeEmptyEnvelopeAction => 'first envelope';
+
+  @override
+  String homeEmptyTransactionMessage(String action) {
+    return '$action to start tracking your budget.';
+  }
+
+  @override
+  String get homeEmptyTransactionAction => 'Add a transaction';
+
+  @override
   String get noRecentTransactions =>
       'Add a transaction to start tracking your budget.';
 
@@ -1414,4 +1438,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chooseCategoryColor => 'Choose a color';
+
+  @override
+  String get settingsGuestSyncPrompt => 'Sign in to sync your budget.';
+
+  @override
+  String get dailyAiCreditsExhausted =>
+      'You’ve used today’s AI credits. They reset tomorrow. Explore Drala Plus for unlimited AI.';
 }

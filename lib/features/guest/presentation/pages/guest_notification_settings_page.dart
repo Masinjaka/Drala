@@ -1,4 +1,4 @@
-import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
 import 'package:budgets/features/guest/data/guest_preference_store.dart';
@@ -108,13 +108,13 @@ class _GuestNotificationSettingsPageState
       child: settings == null
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
+              padding: AppScrollPadding.insets(context, top: 24, bottom: 28),
               children: [
                 SettingsMenuGroup(flat: true, items: [
                   NotificationSettingsToggle(
                     loading: _saving,
                     title: l.allowNotifications,
-                    icon: Icons.notifications_outlined,
+                    icon: Icons.notifications,
                     value: settings.notificationsEnabled,
                     enabled: !_saving,
                     onChanged: (value) => _save(
@@ -125,7 +125,7 @@ class _GuestNotificationSettingsPageState
                     NotificationSettingsToggle(
                       loading: _saving,
                       title: l.dailyReminders,
-                      icon: Icons.alarm_outlined,
+                      icon: Icons.alarm,
                       value: settings.remindersEnabled,
                       enabled: !_saving,
                       onChanged: (value) => _save(
@@ -144,7 +144,7 @@ class _GuestNotificationSettingsPageState
                     NotificationSettingsToggle(
                       loading: _saving,
                       title: l.budgetAlerts,
-                      icon: Icons.warning_amber_outlined,
+                      icon: Icons.warning_rounded,
                       value: settings.warningsEnabled,
                       enabled: !_saving,
                       onChanged: (value) => _save(

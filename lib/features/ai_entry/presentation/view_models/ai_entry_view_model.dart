@@ -22,6 +22,7 @@ import 'package:flutter/material.dart';
 
 part 'ai_entry_data_reset.dart';
 part 'ai_entry_loading.dart';
+part 'ai_entry_quota.dart';
 part 'ai_entry_edit.dart';
 part 'ai_entry_monthly_totals.dart';
 part 'ai_entry_receipt.dart';
@@ -53,6 +54,8 @@ class AiEntryViewModel extends ChangeNotifier {
   List<FinanceEntry> _monthlyEntries = const [];
   DateTime? _monthlyEntriesMonth;
   bool _isLoading = false;
+  bool _entriesResolved = false;
+  bool _entriesLoadFailed = false;
   bool _isSummaryLoading = false;
   bool _isSubmitting = false;
   bool _isEditing = false;
@@ -75,6 +78,8 @@ class AiEntryViewModel extends ChangeNotifier {
   num get monthlyExpenses => _monthlyTotal((entry) => entry.isExpense);
   bool get supportsManualTransfers => _repository is ManualTransferRepository;
   bool get isLoading => _isLoading;
+  bool get entriesResolved => _entriesResolved;
+  bool get entriesLoadFailed => _entriesLoadFailed;
   bool get hasMoreEntries => _hasMoreEntries;
   bool get isLoadingMoreEntries => _isLoadingMoreEntries;
   bool get isSummaryLoading => _isSummaryLoading;
@@ -183,13 +188,4 @@ class AiEntryViewModel extends ChangeNotifier {
   void _notifyDataReset() => _notify();
 
   void _notifyReceiptChanged() => _notify();
-
-  Future<T> _waitForSubmission<T>(Future<T> operation) => operation.timeout(
-        _submissionTimeout,
-        onTimeout: () => throw AiEntryException(
-          code: 'request_timeout',
-          message: 'The AI request took too long. Please try again.',
-          status: 504,
-        ),
-      );
 }

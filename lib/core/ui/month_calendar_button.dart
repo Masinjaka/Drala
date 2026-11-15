@@ -51,8 +51,7 @@ class MonthCalendarButton extends StatelessWidget {
                             curve: Curves.easeOutCubic,
                             builder: (context, progress, _) =>
                                 Row(mainAxisSize: MainAxisSize.min, children: [
-                                  const Icon(Icons.calendar_month_outlined,
-                                      size: 16),
+                                  const Icon(Icons.calendar_month, size: 16),
                                   const SizedBox(width: 8),
                                   ClipRect(
                                       child: Align(

@@ -26,9 +26,7 @@ class AmountVisibilityButton extends StatelessWidget {
             height: 30,
             child: Center(
               child: Icon(
-                isVisible
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
+                isVisible ? Icons.visibility : Icons.visibility_off,
                 key: ValueKey(isVisible),
                 size: 18,
               )

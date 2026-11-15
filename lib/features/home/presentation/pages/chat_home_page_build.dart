@@ -46,6 +46,7 @@ extension _ChatHomePageBuild on _ChatHomePageState {
             displayCurrency: widget.currencyState,
             showBackButton: false),
         FinanceStatsPage(
+            key: ValueKey(_statsEpoch),
             repository: widget.statsRepository,
             displayCurrency: widget.currencyState,
             showBackButton: false),

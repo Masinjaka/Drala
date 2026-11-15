@@ -1,3 +1,5 @@
+import 'app_header_scope.dart';
+import 'app_scroll_under_header.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +11,7 @@ class MonthScrollLayout extends StatefulWidget {
     required this.child,
     this.carouselBottomPadding = 28,
     this.scrollKey,
+    this.canScroll = true,
     super.key,
   });
 
@@ -17,6 +20,7 @@ class MonthScrollLayout extends StatefulWidget {
   final Widget child;
   final double carouselBottomPadding;
   final Key? scrollKey;
+  final bool canScroll;
 
   @override
   State<MonthScrollLayout> createState() => _MonthScrollLayoutState();
@@ -26,41 +30,50 @@ class _MonthScrollLayoutState extends State<MonthScrollLayout> {
   static const _headerGap = 16.0;
   static const _topPadding = 34.0 - _headerGap;
   static const _carouselHeight = 50.0;
-  final _scroll = ScrollController();
+  final _bodyKey = GlobalKey();
   bool _showMonth = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _scroll.addListener(_updateHeader);
-  }
-
-  void _updateHeader() {
-    final hidden = _scroll.offset >= _topPadding + _carouselHeight;
+  void _updateHeader(double offset) {
+    final hidden = offset >= _topPadding + _carouselHeight;
     if (hidden != _showMonth) setState(() => _showMonth = hidden);
   }
 
   @override
-  void dispose() {
-    _scroll.dispose();
-    super.dispose();
+  void didUpdateWidget(covariant MonthScrollLayout oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.canScroll) _showMonth = false;
   }
 
   @override
-  Widget build(BuildContext context) => Column(children: [
-        widget.headerBuilder(_showMonth),
-        const SizedBox(height: _headerGap),
+  Widget build(BuildContext context) {
+    final header = Column(children: [
+      widget.headerBuilder(_showMonth),
+      const SizedBox(height: _headerGap),
+    ]);
+    final carouselInsets = AppPageSpacing.insets(context,
+        top: _topPadding, bottom: widget.carouselBottomPadding);
+    final body = KeyedSubtree(key: _bodyKey, child: widget.child);
+    if (!widget.canScroll) {
+      return Column(children: [
+        AppHeaderScope(child: header),
+        Padding(padding: carouselInsets, child: widget.carousel),
         Expanded(
-            child: NestedScrollView(
-                key: widget.scrollKey,
-                controller: _scroll,
-                headerSliverBuilder: (context, _) => [
-                      SliverPadding(
-                          padding: AppPageSpacing.insets(context,
-                              top: _topPadding,
-                              bottom: widget.carouselBottomPadding),
-                          sliver: SliverToBoxAdapter(child: widget.carousel)),
-                    ],
-                body: widget.child)),
+            child: MediaQuery.removePadding(
+                context: context, removeTop: true, child: body)),
       ]);
+    }
+    return AppScrollUnderHeader(
+      safeTop: false,
+      scrollKey: widget.scrollKey,
+      onScrollOffset: _updateHeader,
+      header: header,
+      slivers: [
+        SliverPadding(
+          padding: carouselInsets,
+          sliver: SliverToBoxAdapter(child: widget.carousel),
+        ),
+      ],
+      child: body,
+    );
+  }
 }

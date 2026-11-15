@@ -77,7 +77,7 @@ class _CategoryGridCardState extends State<CategoryGridCard> {
                     future: _locked,
                     builder: (context, snapshot) => Icon(
                       snapshot.data == true
-                          ? Icons.lock_outline
+                          ? Icons.lock
                           : Icons.arrow_forward_rounded,
                       size: 18,
                       color: Theme.of(context).colorScheme.onSurfaceVariant,

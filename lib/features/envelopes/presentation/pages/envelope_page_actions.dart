@@ -25,6 +25,7 @@ extension _EnvelopePageActions on EnvelopePageState {
       month: _viewModel.month,
       fundingField: EnvelopeWalletField(
         wallets: _viewModel.wallets,
+        currencyState: widget.displayCurrency,
         onChanged: (value) => walletId = value,
       ),
       onSave: (name, categoryId, amount, repeatsMonthly) => _addEnvelope(
@@ -85,6 +86,7 @@ extension _EnvelopePageActions on EnvelopePageState {
       envelope: envelope,
       fundingField: EnvelopeWalletField(
         wallets: _viewModel.wallets,
+        currencyState: widget.displayCurrency,
         initialWalletId: envelope.fundingWalletId,
         readOnly: true,
       ),

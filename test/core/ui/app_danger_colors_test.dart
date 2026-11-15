@@ -1,4 +1,5 @@
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/app_toast_theme.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,9 @@ void main() {
     });
     test('danger roles are legible in ${theme.brightness}', () {
       final colors = theme.colorScheme;
+      expect(AppDangerTheme.fill, const Color(0xFFD22D39));
+      expect(_contrast(AppDangerTheme.onFill, AppDangerTheme.fill),
+          greaterThanOrEqualTo(4.5));
       for (final surface in [
         colors.surface,
         colors.surfaceContainerLowest,

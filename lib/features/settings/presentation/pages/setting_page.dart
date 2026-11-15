@@ -1,3 +1,6 @@
+import '../widgets/settings_account_actions.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_sync_failure.dart';
+import 'package:budgets/core/ui/app_scroll_under_header.dart';
 import 'package:budgets/core/navigation/app_modal_page_route.dart';
 import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
@@ -6,7 +9,6 @@ import 'package:budgets/core/legal/legal_document_launcher.dart';
 import 'package:budgets/features/ads/data/admob_configuration.dart';
 import 'package:budgets/features/ads/data/admob_consent_service.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
 import 'package:budgets/features/categories/presentation/pages/category_page.dart';
 import 'package:budgets/features/notifications/presentation/view_models/finance_notification_view_model.dart';
@@ -24,7 +26,6 @@ import 'package:budgets/features/settings/presentation/widgets/settings_profile_
 import 'package:budgets/features/receipts/presentation/pages/receipt_gallery_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -58,7 +59,6 @@ class SettingPage extends ConsumerStatefulWidget {
 }
 
 class _SettingPageState extends ConsumerState<SettingPage> {
-  bool _isLoggingOut = false;
   Future<bool>? _privacyOptionsRequired;
   late final Future<PackageInfo> _packageInfo = PackageInfo.fromPlatform();
 
@@ -75,25 +75,23 @@ class _SettingPageState extends ConsumerState<SettingPage> {
     final categoryCount = ref.watch(categoriesProvider).value?.length ?? 0;
     return Scaffold(
       backgroundColor: AppSettingsTheme.background(context),
-      body: SafeArea(
-        bottom: false,
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 520),
-            child: Column(
-              children: [
-                SettingsPageHeader(
-                  title: context.l10n.settings,
-                  showBackButton: widget.showBackButton,
-                  notificationViewModel: widget.notificationViewModel,
-                  onNotifications: widget.onNotificationsPressed ??
-                      () => _open(const NotificationSettingsPage()),
-                ),
-                Expanded(child: _content(categoryCount)),
-              ],
-            ),
+      body: AppScrollUnderHeader(
+        header: Center(
+            child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: SettingsPageHeader(
+            title: context.l10n.settings,
+            showBackButton: widget.showBackButton,
+            notificationViewModel: widget.notificationViewModel,
+            onNotifications: widget.onNotificationsPressed ??
+                () => _open(const NotificationSettingsPage()),
           ),
-        ),
+        )),
+        child: Center(
+            child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: _content(categoryCount),
+        )),
       ),
     );
   }
@@ -112,6 +110,7 @@ class _SettingPageState extends ConsumerState<SettingPage> {
         builder: (context, snapshot) => FutureBuilder<PackageInfo>(
           future: _packageInfo,
           builder: (context, packageSnapshot) => SettingsContent(
+            syncFeedback: const SettingsSyncFailure(),
             profileHeader: const SettingsProfileHeader(),
             categoryCount: categoryCount,
             walletCount: widget.walletCountReader?.call() ?? 0,
@@ -119,8 +118,7 @@ class _SettingPageState extends ConsumerState<SettingPage> {
                 widget.onCategoriesPressed ?? () => _open(const CategoryPage()),
             onWallets: widget.onWalletsPressed ??
                 () => _open(const DefaultWalletPage()),
-            onEditProfile: () => EditProfilePage.show(context,
-                onDataDeleted: widget.onDataDeleted),
+            onEditProfile: () => EditProfilePage.show(context),
             onChangePassword: () => EditPasswordPage.show(context),
             onNotifications: () => _open(const NotificationSettingsPage()),
             onCurrency: () => _open(const CurrencySelectionPage()),
@@ -136,8 +134,8 @@ class _SettingPageState extends ConsumerState<SettingPage> {
             onPrivacy: () => _openLegal(widget.legalLauncher.openPrivacyPolicy),
             showAdPrivacyOptions: snapshot.data ?? false,
             onAdPrivacyOptions: _openAdPrivacyOptions,
-            onLogout: _logout,
-            isLoggingOut: _isLoggingOut,
+            accountActions:
+                SettingsAccountActions(onDataDeleted: widget.onDataDeleted),
             appVersion: packageSnapshot.data?.version,
           ),
         ),
@@ -176,13 +174,5 @@ class _SettingPageState extends ConsumerState<SettingPage> {
     } catch (error) {
       if (mounted) showErrorToast(context, error);
     }
-  }
-
-  Future<void> _logout() async {
-    if (_isLoggingOut) return;
-    setState(() => _isLoggingOut = true);
-    await ref.read(authControllerProvider.notifier).signOut();
-    if (!mounted) return;
-    context.go('/home');
   }
 }

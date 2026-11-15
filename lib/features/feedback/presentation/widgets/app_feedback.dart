@@ -1,4 +1,5 @@
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'package:budgets/features/feedback/presentation/widgets/app_feedback_form.dart';
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,9 @@ class AppFeedback extends StatelessWidget {
       feedbackSheetHeight: .38,
       activeFeedbackModeColor: AppTheme.primaryGreen,
       drawColors: [
-        theme.colorScheme.error,
+        theme.brightness == Brightness.dark
+            ? AppDangerTheme.legacyRedDark
+            : AppDangerTheme.legacyRedLight,
         AppTheme.primaryGreen,
         Colors.blue,
         Colors.black,

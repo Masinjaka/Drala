@@ -1,4 +1,5 @@
 import 'package:budgets/features/home/presentation/widgets/home_calendar_header.dart';
+import 'package:budgets/features/home/presentation/widgets/home_scroll_reveal.dart';
 import 'package:budgets/features/home/presentation/widgets/home_month_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -33,18 +34,37 @@ void main() {
   testWidgets(
       'calendar controls collapse on scroll and return without moving the heading',
       (tester) async {
-    await _open(tester);
+    await _open(tester, entryCount: 16);
     final panel = find.byKey(const Key('home-week-panel'));
-    final before = tester.getSize(panel).height;
-    final title = tester.getTopLeft(find.text('Activities').first).dy;
+    final background = find.byKey(const Key('calendar-pinned-background'));
+    final fade = find.byKey(const Key('activities-calendar-scroll-fade'));
+    final controls = find.byKey(const Key('home-calendar-header-reveal'));
+    final arrow = find.byKey(const Key('home-previous-week'));
     final scroll = find.byKey(const Key('transaction-scroll-view'));
+    final title = tester.getTopLeft(find.text('Activities').first).dy;
+    final before = tester.getSize(panel).height;
+    expect(arrow.hitTestable(), findsOneWidget);
+    expect(fade, findsNothing);
+    expect(find.text('Salary this month'), findsOneWidget);
+
     await tester.drag(scroll, const Offset(0, -180));
     await tester.pumpAndSettle();
     expect(tester.getSize(panel).height, lessThan(before));
     expect(tester.getTopLeft(find.text('Activities').first).dy, title);
-    await tester.drag(scroll, const Offset(0, 240));
+    expect(tester.getTopLeft(background).dy, tester.getTopLeft(scroll).dy);
+    expect(tester.widget<HomeScrollReveal>(controls).visibility.value, 0);
+    expect(arrow.hitTestable(), findsNothing);
+    expect(tester.getTopLeft(fade).dy, tester.getBottomLeft(background).dy);
+
+    await tester.drag(scroll, const Offset(0, -140));
+    await tester.pumpAndSettle();
+    expect(tester.getTopLeft(background).dy, tester.getTopLeft(scroll).dy);
+
+    await tester.drag(scroll, const Offset(0, 600));
     await tester.pumpAndSettle();
     expect(tester.getSize(panel).height, before);
+    expect(arrow.hitTestable(), findsOneWidget);
+    expect(fade, findsNothing);
     expect(tester.takeException(), isNull);
   });
 
@@ -106,11 +126,12 @@ void main() {
   });
 }
 
-Future<void> _open(WidgetTester tester, {bool reducedMotion = false}) async {
+Future<void> _open(WidgetTester tester,
+    {bool reducedMotion = false, int entryCount = 4}) async {
   tester.view.devicePixelRatio = 1;
   tester.view.physicalSize = const Size(412, 917);
   addTearDown(tester.view.reset);
-  final fixture = ActivitiesFixture();
+  final fixture = ActivitiesFixture(entryCount: entryCount);
   addTearDown(fixture.dispose);
   await fixture.load();
   await tester.pumpWidget(fixture.app(reducedMotion: reducedMotion));

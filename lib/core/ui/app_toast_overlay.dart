@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:budgets/core/ui/app_toast_theme.dart';
+import 'app_toast_placement.dart';
 import 'package:budgets/core/ui/app_toast_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -11,7 +12,7 @@ class AppToastOverlay extends StatefulWidget {
     required this.type,
     required this.onDismissed,
     required this.onDisposed,
-    this.aboveNavigationBar = false,
+    this.sourceContext,
     this.displayDuration = const Duration(milliseconds: 3000),
     this.animationDuration = const Duration(milliseconds: 220),
     super.key,
@@ -19,7 +20,7 @@ class AppToastOverlay extends StatefulWidget {
 
   final String message;
   final AppToastType type;
-  final bool aboveNavigationBar;
+  final BuildContext? sourceContext;
   final VoidCallback onDismissed;
   final VoidCallback onDisposed;
   final Duration displayDuration;
@@ -56,22 +57,10 @@ class _AppToastOverlayState extends State<AppToastOverlay> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final safeBottom = MediaQuery.paddingOf(context).bottom;
-    final keyboard = MediaQuery.viewInsetsOf(context).bottom;
-    final navigation = widget.aboveNavigationBar && keyboard == 0
-        ? 57 + (safeBottom > 16 ? safeBottom : 16)
-        : safeBottom;
-    return Positioned(
-      left: 30,
-      right: 30,
-      bottom: keyboard + navigation + 12,
-      child: Align(
-        alignment: Alignment.bottomCenter,
+  Widget build(BuildContext context) => AppToastPlacement(
+        sourceContext: widget.sourceContext,
         child: _buildToast(context),
-      ),
-    );
-  }
+      );
 
   Widget _buildToast(BuildContext context) {
     final theme = Theme.of(context);
@@ -89,49 +78,57 @@ class _AppToastOverlayState extends State<AppToastOverlay> {
       AppToastType.error => Icons.priority_high_rounded,
       AppToastType.info => Icons.info_rounded,
     };
-    final toast = Material(
-      type: MaterialType.transparency,
-      child: Semantics(
-        liveRegion: true,
-        child: Container(
-          key: const Key('app-toast'),
-          constraints: const BoxConstraints(maxWidth: 520, minHeight: 44),
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-          decoration: BoxDecoration(
-            color: colors.background,
-            borderRadius: BorderRadius.circular(11),
-          ),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 11,
-                backgroundColor: accent,
-                child: Icon(icon,
-                    color: widget.type == AppToastType.error
-                        ? colors.errorForeground
-                        : colors.iconForeground,
-                    size: 16),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Text(
-                  widget.message,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors.foreground,
-                  ),
+    final toast = ClipPath(
+      clipper: const ShapeBorderClipper(shape: AppToastTheme.shape),
+      child: BackdropFilter(
+        filter: AppToastTheme.blur,
+        child: Material(
+          type: MaterialType.transparency,
+          child: Semantics(
+            liveRegion: true,
+            child: Container(
+              key: const Key('app-toast'),
+              constraints: const BoxConstraints(maxWidth: 520, minHeight: 44),
+              padding: const EdgeInsetsDirectional.fromSTEB(12, 4, 4, 4),
+              decoration: ShapeDecoration(
+                color: colors.tint(context),
+                shape: AppToastTheme.shape.copyWith(
+                  side: BorderSide(color: colors.border(context)),
                 ),
               ),
-              const SizedBox(width: 12),
-              IconButton(
-                key: const Key('app-toast-close'),
-                onPressed: _dismiss,
-                tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-                iconSize: 24,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-                icon: Icon(Icons.cancel_outlined, color: colors.foreground),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 11,
+                    backgroundColor: accent,
+                    child: Icon(icon,
+                        color: widget.type == AppToastType.error
+                            ? colors.errorForeground
+                            : colors.iconForeground,
+                        size: 16),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      widget.message,
+                      style: colors.messageStyle(context),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  IconButton(
+                    key: const Key('app-toast-close'),
+                    onPressed: _dismiss,
+                    tooltip:
+                        MaterialLocalizations.of(context).closeButtonTooltip,
+                    iconSize: 20,
+                    constraints:
+                        const BoxConstraints(minWidth: 44, minHeight: 44),
+                    color: colors.foreground,
+                    icon: const Icon(Icons.close_rounded),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

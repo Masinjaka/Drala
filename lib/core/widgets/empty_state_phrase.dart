@@ -9,7 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class EmptyStatePhrase extends StatelessWidget {
   const EmptyStatePhrase({
     super.key,
-    required this.title,
+    this.title,
+    this.inlineMessage,
     this.subtitle,
     this.illustrationAsset,
     this.brief = false,
@@ -18,9 +19,10 @@ class EmptyStatePhrase extends StatelessWidget {
     this.action,
     this.titleStyle,
     this.illustrationWidth = AppEmptyStateTheme.illustrationWidth,
-  });
+  }) : assert(title != null || inlineMessage != null);
 
-  final String title;
+  final String? title;
+  final Widget? inlineMessage;
   final String? subtitle;
   final String? illustrationAsset;
   final bool brief;
@@ -45,7 +47,6 @@ class EmptyStatePhrase extends StatelessWidget {
                   'assets/illustrations/empty-budgeting.png',
               lineArt: illustrationAsset != null,
             ),
-            const SizedBox(height: 12),
             if (icon != null) ...[
               Container(
                 width: 60,
@@ -67,11 +68,12 @@ class EmptyStatePhrase extends StatelessWidget {
               ),
               const SizedBox(height: 16),
             ],
-            Text(
-              title,
-              style: titleStyle ?? AppEmptyStateTheme.message(context),
-              textAlign: TextAlign.center,
-            ),
+            inlineMessage ??
+                Text(
+                  title!,
+                  style: titleStyle ?? AppEmptyStateTheme.message(context),
+                  textAlign: TextAlign.center,
+                ),
             if (subtitle case final subtitle?) ...[
               const SizedBox(height: 8),
               Text(

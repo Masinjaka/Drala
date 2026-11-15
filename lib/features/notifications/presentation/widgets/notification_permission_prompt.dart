@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 
 import 'package:budgets/core/ui/app_toast.dart';
@@ -48,7 +49,7 @@ class _NotificationPermissionPromptState
   }
 
   Future<void> _promptIfNeeded() async {
-    if (Firebase.apps.isEmpty) return;
+    if (!kReleaseMode || Firebase.apps.isEmpty) return;
     if (_didPrompt) return;
     _didPrompt = true;
 

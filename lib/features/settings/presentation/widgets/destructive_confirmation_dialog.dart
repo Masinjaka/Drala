@@ -1,4 +1,4 @@
-import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_transaction_field.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -107,9 +107,8 @@ class _DestructiveConfirmationDialogState
                     text: context.l10n.delete,
                     onPressed: _matches ? _confirm : null,
                     height: 40,
-                    backgroundColor:
-                        AppFinanceSurfaceTheme.destructive(context),
-                    foregroundColor: colors.onError,
+                    backgroundColor: AppDangerTheme.fill,
+                    foregroundColor: AppDangerTheme.onFill,
                   ),
                 ),
               ]),

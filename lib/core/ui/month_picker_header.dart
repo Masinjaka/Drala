@@ -31,7 +31,7 @@ class MonthPickerHeader extends StatelessWidget {
           const SizedBox(width: 8),
           OutlinedSquareButton(
               key: pickerKey,
-              icon: Icons.calendar_month_outlined,
+              icon: Icons.calendar_month,
               tooltip: context.l10n.selectDate,
               onPressed: onPickMonth),
         ]),

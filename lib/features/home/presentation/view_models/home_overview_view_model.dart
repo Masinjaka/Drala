@@ -14,6 +14,11 @@ class HomeOverviewViewModel extends ChangeNotifier {
   List<FinanceEntry> _recentEntries = const [];
   List<Envelope> _envelopePreview = const [];
   bool _isLoading = true;
+  bool _entriesResolved = false;
+  bool _envelopesResolved = false;
+  bool get entriesResolved => _entriesResolved;
+  bool get envelopesResolved => _envelopesResolved;
+  int _generation = 0;
   Object? _error;
   List<FinanceEntry> get monthlyEntries => _monthlyEntries;
   List<FinanceEntry> get recentEntries => _recentEntries;
@@ -23,24 +28,43 @@ class HomeOverviewViewModel extends ChangeNotifier {
   bool _disposed = false;
   Future<void>? _pending;
 
-  Future<void> load() =>
-      _pending ??= _load().whenComplete(() => _pending = null);
+  Future<void> load() {
+    final generation = _generation;
+    return _pending ??= _load(generation).whenComplete(() {
+      if (generation == _generation) _pending = null;
+    });
+  }
 
-  Future<void> _load() async {
+  void clear() {
+    _generation++;
+    _pending = null;
+    _monthlyEntries = const [];
+    _recentEntries = const [];
+    _envelopePreview = const [];
+    _entriesResolved = false;
+    _envelopesResolved = false;
+    _isLoading = true;
+    _error = null;
+    _notify();
+  }
+
+  Future<void> _load(int generation) async {
     _isLoading = true;
     _error = null;
     _notify();
     try {
-      await Future.wait([_loadEntries(), _loadEnvelopes()]);
+      await Future.wait([_loadEntries(generation), _loadEnvelopes(generation)]);
     } catch (failure) {
-      _error = failure;
+      if (generation == _generation) _error = failure;
     } finally {
-      _isLoading = false;
-      _notify();
+      if (generation == _generation) {
+        _isLoading = false;
+        _notify();
+      }
     }
   }
 
-  Future<void> _loadEntries() async {
+  Future<void> _loadEntries(int generation) async {
     final month = DateTime(today.year, today.month);
     final repository = _entries;
     final supportsRecent = repository is RecentTransactionRepository;
@@ -63,13 +87,19 @@ class HomeOverviewViewModel extends ChangeNotifier {
     final unique =
         {for (final entry in recent) entry.id: entry}.values.toList();
     unique.sort((a, b) => b.occurredAt.compareTo(a.occurredAt));
+    if (generation != _generation || _disposed) return;
     _monthlyEntries = List.unmodifiable(current);
     _recentEntries = List.unmodifiable(unique.take(4));
+    _entriesResolved = true;
+    _notify();
   }
 
-  Future<void> _loadEnvelopes() async {
+  Future<void> _loadEnvelopes(int generation) async {
     final values = await _envelopes?.envelopesForMonth(today) ?? <Envelope>[];
+    if (generation != _generation || _disposed) return;
     _envelopePreview = List.unmodifiable(values.take(2));
+    _envelopesResolved = true;
+    _notify();
   }
 
   void _notify() {

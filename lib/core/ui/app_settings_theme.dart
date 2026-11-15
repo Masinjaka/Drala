@@ -1,12 +1,22 @@
+import 'app_icon_foreground.dart';
+import 'app_header_theme.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_home_overview_theme.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppSettingsTheme {
+  static Color signInBackground(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black;
+  static Color signInForeground(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : Colors.white;
   static Color background(BuildContext context) =>
       AppHomeOverviewTheme.background(context);
   static Color summaryIcon(BuildContext context) =>
-      AppHomeOverviewTheme.accent(context);
+      AppIconForeground.monochrome(context);
   static Color surface(BuildContext context) =>
       AppHomeOverviewTheme.surface(context);
   static const outerRadius = AppHomeOverviewTheme.transactionOuterRadius;
@@ -43,13 +53,13 @@ abstract final class AppSettingsTheme {
           ? Theme.of(context).iconTheme.color!
           : foreground(context);
 
-  static Color logout(BuildContext context) =>
+  static Color syncFailureIcon(BuildContext context) =>
       Theme.of(context).colorScheme.error;
 
-  static TextStyle pageTitle(BuildContext context) => Theme.of(context)
-      .textTheme
-      .bodyMedium!
-      .copyWith(fontSize: AppTypography.headline);
+  static TextStyle pageTitle(BuildContext context) =>
+      Theme.of(context).textTheme.bodyMedium!.copyWith(
+          shadows: AppHeaderTheme.titleShadows(context),
+          fontSize: AppTypography.headline);
 
   static TextStyle profileName(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -63,8 +73,10 @@ abstract final class AppSettingsTheme {
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           );
 
-  static TextStyle menuLabel(BuildContext context) =>
+  static TextStyle menuLabel(BuildContext context,
+          {bool destructive = false}) =>
       Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: destructive ? Theme.of(context).colorScheme.error : null,
             fontSize: AppTypography.body,
             fontWeight: FontWeight.normal,
           );
@@ -80,13 +92,6 @@ abstract final class AppSettingsTheme {
             fontFamily: AppTypography.amountFontFamily,
             fontSize: AppTypography.headline,
             fontWeight: FontWeight.w600,
-          );
-
-  static TextStyle logoutLabel(BuildContext context) =>
-      Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: logout(context),
-            fontSize: AppTypography.button,
-            fontWeight: FontWeight.normal,
           );
 
   static TextStyle badge(BuildContext context) =>

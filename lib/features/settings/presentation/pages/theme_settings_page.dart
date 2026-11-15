@@ -1,4 +1,4 @@
-import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/features/settings/domain/providers/theme_provider.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_choice_tile.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
@@ -18,17 +18,17 @@ class ThemeSettingsPage extends ConsumerWidget {
     return SettingsPageShell(
       title: context.l10n.theme,
       child: ListView(
-        padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
+        padding: AppScrollPadding.insets(context, top: 24, bottom: 28),
         children: [
           SettingsMenuGroup(
             flat: true,
             items: [
               _choice(ref, current, ThemeMode.light, ThemeOptions.light,
-                  context.l10n.light, Icons.light_mode_outlined),
+                  context.l10n.light, Icons.light_mode),
               _choice(ref, current, ThemeMode.dark, ThemeOptions.dark,
-                  context.l10n.dark, Icons.dark_mode_outlined),
+                  context.l10n.dark, Icons.dark_mode),
               _choice(ref, current, ThemeMode.system, ThemeOptions.system,
-                  context.l10n.system, Icons.brightness_auto_outlined),
+                  context.l10n.system, Icons.brightness_auto),
             ],
           ),
         ],

@@ -53,7 +53,7 @@ void main() {
     expect(overallBalance.style?.fontSize, AppTypography.caption);
     expect(overallBalance.style?.color, Colors.black);
     expect(find.text('All time'), findsNothing);
-    expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.visibility), findsOneWidget);
     final balanceText = tester.widget<Text>(
       find.descendant(
         of: find.byKey(const Key('header-balance-label')),
@@ -77,7 +77,7 @@ void main() {
 
     expect(find.text('1 000 000 MGA'), findsNothing);
     expect(find.text('***'), findsOneWidget);
-    expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.visibility_off), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('balance-visibility-toggle')));
     await tester.pumpAndSettle();

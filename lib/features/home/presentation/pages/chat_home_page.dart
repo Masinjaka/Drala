@@ -60,7 +60,7 @@ class ChatHomePage extends StatefulWidget {
 }
 
 class _ChatHomePageState extends State<ChatHomePage> {
-  final _envelopePageKey = GlobalKey<EnvelopePageState>();
+  var _envelopePageKey = GlobalKey<EnvelopePageState>();
   late final DateTime _today;
   late final AiEntryViewModel _aiEntryViewModel;
   late final HomeOverviewViewModel _overviewViewModel;
@@ -69,6 +69,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
   late DateTime _selectedDate;
   DateTime? _loadedDate;
   int _offlineDataVersion = -1;
+  int _statsEpoch = 0;
   bool _offlineWasOnline = false;
   @override
   void initState() {
@@ -102,6 +103,10 @@ class _ChatHomePageState extends State<ChatHomePage> {
 
   Future<void> _loadSelectedDate() async {
     final targetDate = _selectedDate;
+    if (_aiEntryViewModel.isLoading &&
+        _aiEntryViewModel.selectedDate == targetDate) {
+      return;
+    }
     try {
       await _aiEntryViewModel.loadDate(targetDate);
       if (_selectedDate != targetDate) return;
@@ -111,6 +116,11 @@ class _ChatHomePageState extends State<ChatHomePage> {
       if (mounted) showErrorToast(context, error);
     }
   }
+
+  void _invalidateFinanceTabs() => setState(() {
+        _statsEpoch++;
+        _envelopePageKey = GlobalKey<EnvelopePageState>();
+      });
 
   void _selectDate(DateTime date) {
     setState(() => _selectedDate = DateUtils.dateOnly(date));

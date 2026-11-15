@@ -1,4 +1,4 @@
-import 'package:budgets/core/layout/app_page_spacing.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/core/ui/detail_list_skeleton.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
@@ -93,7 +93,7 @@ class _DefaultWalletPageState extends ConsumerState<DefaultWalletPage> {
       child: _wallets == null
           ? const DetailListSkeleton()
           : ListView(
-              padding: AppPageSpacing.insets(context, top: 24, bottom: 28),
+              padding: AppScrollPadding.insets(context, top: 24, bottom: 28),
               children: [
                 Text(
                   context.l10n.defaultWalletDescription,

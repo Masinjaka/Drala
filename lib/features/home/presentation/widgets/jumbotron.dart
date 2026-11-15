@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/core/ui/app_text_style.dart';
 import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
@@ -135,7 +136,8 @@ class _JumbotronState extends ConsumerState<Jumbotron> {
                             style: AppTextTheme.amount(AppTextStyle(
                                 AppTextRole.display,
                                 color: isNegative
-                                    ? Theme.of(context).colorScheme.error
+                                    ? AppFinanceSurfaceTheme.expenseAccent(
+                                        context)
                                     : textColor)),
                           ),
                   );

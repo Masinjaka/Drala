@@ -29,10 +29,9 @@ void main() {
           ],
         )),
       ));
-      final wallet = tester.widget<DropdownButtonFormField<String>>(
-          find.byKey(const Key('envelope-funding-wallet')));
-      expect(wallet.initialValue, isNull);
-      expect(wallet.onChanged, isNull);
+      final wallet = tester
+          .widget<InkWell>(find.byKey(const Key('envelope-funding-wallet')));
+      expect(wallet.onTap, isNull);
       expect(find.text('Funding wallet unavailable'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });

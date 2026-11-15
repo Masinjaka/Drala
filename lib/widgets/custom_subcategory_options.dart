@@ -54,7 +54,7 @@ extension _CustomSubcategoryOptions on _CustomSubcategoryDropdownState {
                 child: Row(
                   children: [
                     Icon(
-                      Icons.category_outlined,
+                      Icons.category,
                       size: 16,
                       color: AppIconForeground.resolve(
                         context,
@@ -123,7 +123,7 @@ extension _CustomSubcategoryOptions on _CustomSubcategoryDropdownState {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          Icons.add_circle_outline,
+                          Icons.add_circle,
                           size: 16,
                           color: AppIconForeground.resolve(
                             context,

@@ -129,7 +129,7 @@ void main() {
     );
     expect(
         search.decoration?.fillColor,
-        AppFinanceSurfaceTheme.background(
+        AppFinanceSurfaceTheme.field(
             tester.element(find.byKey(const Key('category-search')))));
 
     await tester.tap(find.text('Utility'));

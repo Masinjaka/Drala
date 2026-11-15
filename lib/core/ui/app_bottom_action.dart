@@ -1,3 +1,4 @@
+import 'app_glass_surface.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -13,7 +14,9 @@ class AppBottomAction extends StatelessWidget {
   final VoidCallback? onPressed;
   final Key? buttonKey;
   @override
-  Widget build(BuildContext context) => SafeArea(
+  Widget build(BuildContext context) => AppGlassSurface(
+      edge: AppGlassEdge.top,
+      child: SafeArea(
           child: Padding(
         padding: AppPageSpacing.insets(context, top: 12, bottom: 16),
         child: CustomButton(
@@ -23,5 +26,5 @@ class AppBottomAction extends StatelessWidget {
             backgroundColor: AppFinanceSurfaceTheme.action(context),
             foregroundColor: AppFinanceSurfaceTheme.onAction(context),
             onPressed: onPressed),
-      ));
+      )));
 }

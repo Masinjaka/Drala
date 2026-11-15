@@ -41,32 +41,32 @@ class CollapsedHomeSidebar extends StatelessWidget {
             const Spacer(),
             _destination(
               context: context,
-              icon: Icons.mail_outline_rounded,
+              icon: Icons.mail_rounded,
               tooltip: context.l10n.envelope,
               onPressed: onEnvelopePressed,
             ),
             _destination(
               context: context,
-              icon: Icons.pie_chart_outline_rounded,
+              icon: Icons.pie_chart_rounded,
               tooltip: context.l10n.stats,
               onPressed: onStatsPressed,
             ),
             // Plan is intentionally hidden until subscriptions are ready.
             // _destination(
-            //   icon: Icons.workspace_premium_outlined,
+            //   icon: Icons.workspace_premium,
             //   tooltip: 'Plan',
             //   onPressed: onPlanPressed,
             // ),
             _destination(
               context: context,
-              icon: Icons.feedback_outlined,
+              icon: Icons.feedback,
               tooltip: context.l10n.feedback,
               onPressed: onFeedbackPressed,
             ),
             const SizedBox(height: 10),
             _destination(
               context: context,
-              icon: Icons.settings_outlined,
+              icon: Icons.settings,
               tooltip: context.l10n.settings,
               onPressed: onSettingsPressed,
             ),

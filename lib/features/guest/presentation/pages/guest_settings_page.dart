@@ -1,5 +1,8 @@
+import 'package:budgets/core/legal/legal_document_launcher.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_legal_section.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
+import 'package:budgets/core/ui/app_scroll_under_header.dart';
 import 'package:budgets/core/navigation/app_modal_page_route.dart';
-import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/categories/domain/providers/category_provider.dart';
@@ -29,6 +32,7 @@ class GuestSettingsPage extends ConsumerStatefulWidget {
     required this.walletsListenable,
     required this.walletCountReader,
     this.isSignedIn,
+    this.legalLauncher = const UrlLegalDocumentLauncher(),
     super.key,
   });
 
@@ -37,6 +41,7 @@ class GuestSettingsPage extends ConsumerStatefulWidget {
   final Listenable walletsListenable;
   final int Function() walletCountReader;
   final bool Function()? isSignedIn;
+  final LegalDocumentLauncher legalLauncher;
 
   @override
   ConsumerState<GuestSettingsPage> createState() => _GuestSettingsPageState();
@@ -47,6 +52,14 @@ class _GuestSettingsPageState extends ConsumerState<GuestSettingsPage> {
 
   Future<void> _open(BuildContext context, Widget page) =>
       Navigator.of(context).push(AppModalPageRoute<void>(builder: (_) => page));
+
+  Future<void> _openLegal(Future<void> Function() open) async {
+    try {
+      await open();
+    } catch (error) {
+      if (mounted) showErrorToast(context, error);
+    }
+  }
 
   Future<void> _sync() async {
     if (_syncing) return;
@@ -73,85 +86,79 @@ class _GuestSettingsPageState extends ConsumerState<GuestSettingsPage> {
     final guest = ref.read(guestSessionProvider)!;
     final preferences = GuestPreferenceStore(guest.database, guest.userId);
     return Scaffold(
-      body: SafeArea(
-        bottom: false,
+      body: AppScrollUnderHeader(
+        header: SettingsPageHeader(
+            title: l.settings,
+            showBackButton: false,
+            onNotifications: () =>
+                _open(context, const GuestNotificationSettingsPage())),
         child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 520),
-            child: Column(
-              children: [
-                SettingsPageHeader(
-                  title: l.settings,
-                  showBackButton: false,
-                  onNotifications: () => _open(
-                    context,
-                    const GuestNotificationSettingsPage(),
+            child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: ListView(
+            padding: AppScrollPadding.insets(context, top: 24, bottom: 32),
+            children: [
+              GuestSyncCard(
+                signedIn: widget.isSignedIn?.call() ??
+                    Supabase.instance.client.auth.currentUser != null,
+                isLoading: _syncing,
+                onSignIn: () {
+                  if (Supabase.instance.client.auth.currentUser != null) {
+                    _sync();
+                  } else {
+                    context.push('/sign-in-choice');
+                  }
+                },
+              ),
+              const SizedBox(height: 24),
+              ListenableBuilder(
+                listenable: widget.walletsListenable,
+                builder: (context, _) => SettingsSummaryCards(
+                  categoriesLabel: l.categories,
+                  walletsLabel: l.wallets,
+                  categoryCount:
+                      ref.watch(categoriesProvider).value?.length ?? 0,
+                  walletCount: widget.walletCountReader(),
+                  onCategories: widget.onCategoriesPressed,
+                  onWallets: widget.onWalletsPressed,
+                ),
+              ),
+              const SizedBox(height: 43),
+              GuestSettingsOptions(
+                onNotifications: () => _open(
+                  context,
+                  const GuestNotificationSettingsPage(),
+                ),
+                onCurrency: () => _open(
+                  context,
+                  const CurrencySelectionPage(),
+                ),
+                onTheme: () => _open(
+                  context,
+                  ThemeSettingsPage(
+                    onSelected: (mode) =>
+                        preferences.setProfile('theme_mode', mode),
                   ),
                 ),
-                Expanded(
-                  child: ListView(
-                    padding:
-                        AppPageSpacing.insets(context, top: 24, bottom: 32),
-                    children: [
-                      GuestSyncCard(
-                        signedIn: widget.isSignedIn?.call() ??
-                            Supabase.instance.client.auth.currentUser != null,
-                        isLoading: _syncing,
-                        onSignIn: () {
-                          if (Supabase.instance.client.auth.currentUser !=
-                              null) {
-                            _sync();
-                          } else {
-                            context.push('/sign-in-choice');
-                          }
-                        },
-                      ),
-                      const SizedBox(height: 24),
-                      ListenableBuilder(
-                        listenable: widget.walletsListenable,
-                        builder: (context, _) => SettingsSummaryCards(
-                          categoriesLabel: l.categories,
-                          walletsLabel: l.wallets,
-                          categoryCount:
-                              ref.watch(categoriesProvider).value?.length ?? 0,
-                          walletCount: widget.walletCountReader(),
-                          onCategories: widget.onCategoriesPressed,
-                          onWallets: widget.onWalletsPressed,
-                        ),
-                      ),
-                      const SizedBox(height: 43),
-                      GuestSettingsOptions(
-                        onNotifications: () => _open(
-                          context,
-                          const GuestNotificationSettingsPage(),
-                        ),
-                        onCurrency: () => _open(
-                          context,
-                          const CurrencySelectionPage(),
-                        ),
-                        onTheme: () => _open(
-                          context,
-                          ThemeSettingsPage(
-                            onSelected: (mode) =>
-                                preferences.setProfile('theme_mode', mode),
-                          ),
-                        ),
-                        onLanguage: () => _open(
-                          context,
-                          LanguageSettingsPage(
-                            syncNotifications: false,
-                            onSelected: (code) =>
-                                preferences.setProfile('language_code', code),
-                          ),
-                        ),
-                      ),
-                    ],
+                onLanguage: () => _open(
+                  context,
+                  LanguageSettingsPage(
+                    syncNotifications: false,
+                    onSelected: (code) =>
+                        preferences.setProfile('language_code', code),
                   ),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 24),
+              SettingsLegalSection(
+                onTerms: () =>
+                    _openLegal(widget.legalLauncher.openTermsAndConditions),
+                onPrivacy: () =>
+                    _openLegal(widget.legalLauncher.openPrivacyPolicy),
+              ),
+            ],
           ),
-        ),
+        )),
       ),
     );
   }

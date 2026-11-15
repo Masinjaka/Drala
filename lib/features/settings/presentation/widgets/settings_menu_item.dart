@@ -6,17 +6,17 @@ class SettingsMenuItem extends StatelessWidget {
   const SettingsMenuItem({
     required this.title,
     required this.onTap,
-    this.icon,
-    this.iconAsset,
+    required this.icon,
     this.trailing,
+    this.destructive = false,
     this.height = 56,
     super.key,
-  }) : assert(icon != null || iconAsset != null);
+  });
 
   final String title;
-  final IconData? icon;
-  final String? iconAsset;
-  final VoidCallback onTap;
+  final IconData icon;
+  final VoidCallback? onTap;
+  final bool destructive;
   final Widget? trailing;
   final double height;
 
@@ -29,16 +29,12 @@ class SettingsMenuItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Row(
               children: [
-                if (iconAsset != null)
-                  SettingsMenuIcon(asset: iconAsset!)
-                else
-                  Icon(icon,
-                      size: 24,
-                      color: AppSettingsTheme.iconForeground(context)),
+                SettingsMenuIcon(icon: icon),
                 const SizedBox(width: 16),
                 Expanded(
-                  child:
-                      Text(title, style: AppSettingsTheme.menuLabel(context)),
+                  child: Text(title,
+                      style: AppSettingsTheme.menuLabel(context,
+                          destructive: destructive)),
                 ),
                 const SizedBox(width: 8),
                 trailing ??

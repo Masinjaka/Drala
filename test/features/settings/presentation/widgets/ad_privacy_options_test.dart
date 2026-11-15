@@ -30,8 +30,7 @@ void main() {
           onPrivacy: () {},
           showAdPrivacyOptions: true,
           onAdPrivacyOptions: () => opened = true,
-          onLogout: () {},
-          isLoggingOut: false,
+          accountActions: const SizedBox.shrink(),
         ),
       ),
     ));

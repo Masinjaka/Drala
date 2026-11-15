@@ -47,8 +47,10 @@ void main() {
     await tester.tap(find.text('Open'));
     await tester.pumpAndSettle();
     final surface = find.byKey(const Key('transaction-sheet-surface'));
-    PageController pages() =>
-        tester.widget<PageView>(find.byType(PageView)).controller!;
+    PageController pages() => tester
+        .widget<PageView>(
+            find.descendant(of: surface, matching: find.byType(PageView)).first)
+        .controller!;
     final controller = pages();
     final route =
         ModalRoute.of(tester.element(find.byType(ReferenceWalletField)));

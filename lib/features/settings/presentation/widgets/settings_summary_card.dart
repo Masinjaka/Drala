@@ -33,8 +33,8 @@ class SettingsSummaryCard extends StatelessWidget {
                 Row(children: [
                   Icon(
                     type == SettingsSummaryCardType.categories
-                        ? Icons.category_outlined
-                        : Icons.account_balance_wallet_outlined,
+                        ? Icons.category
+                        : Icons.account_balance_wallet,
                     color: AppSettingsTheme.summaryIcon(context),
                     size: 24,
                   ),

@@ -19,7 +19,7 @@ class NotificationReminderTimeTile extends StatelessWidget {
     return SettingsChoiceTile(
       title: context.l10n.preferredReminderTime,
       subtitle: context.l10n.reminderDeliveryTime,
-      leading: const Icon(Icons.schedule_outlined, size: 20),
+      leading: const Icon(Icons.schedule, size: 20),
       trailing: Text(
         key: const Key('notification-reminder-time-value'),
         MaterialLocalizations.of(context).formatTimeOfDay(

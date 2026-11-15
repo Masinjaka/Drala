@@ -19,7 +19,7 @@ class ReceiptThumbnail extends StatelessWidget {
       return ColoredBox(
         color: Theme.of(context).cardColor,
         child: const Center(
-          child: Icon(Icons.picture_as_pdf_outlined, size: 48),
+          child: Icon(Icons.picture_as_pdf, size: 48),
         ),
       );
     }
@@ -30,7 +30,7 @@ class ReceiptThumbnail extends StatelessWidget {
         child: CircularProgressIndicator(strokeWidth: 2),
       ),
       errorWidget: (_, __, ___) => const Center(
-        child: Icon(Icons.broken_image_outlined),
+        child: Icon(Icons.broken_image),
       ),
     );
   }

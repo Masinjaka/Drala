@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class NotificationCountBadge extends StatelessWidget {
         height: 16,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.error,
+          color: AppDangerTheme.criticalWarning(context),
           shape: BoxShape.circle,
         ),
         child: Text(

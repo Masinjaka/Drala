@@ -39,7 +39,7 @@ class EditableProfileAvatar extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.all(7),
                   child: Icon(
-                    Icons.camera_alt_outlined,
+                    Icons.camera_alt,
                     size: 17,
                     color: AppIconForeground.resolve(
                       context,

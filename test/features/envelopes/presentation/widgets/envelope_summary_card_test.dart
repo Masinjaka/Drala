@@ -27,10 +27,9 @@ void main() {
     expect(find.text('Budget'), findsOneWidget);
     expect(find.text('Dépensé'), findsOneWidget);
     expect(find.byKey(const Key('envelope-available-card')), findsOneWidget);
-    expect(find.byIcon(Icons.savings_outlined), findsOneWidget);
-    expect(find.byIcon(Icons.account_balance_wallet_outlined), findsOneWidget);
-    expect(find.byIcon(Icons.payments_outlined), findsOneWidget);
+    expect(find.byIcon(Icons.savings), findsOneWidget);
+    expect(find.byIcon(Icons.account_balance_wallet), findsOneWidget);
+    expect(find.byIcon(Icons.payments), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
-
 }

@@ -37,7 +37,7 @@ void main() {
         ),
       ),
     ));
-    await tester.pump();
+    await tester.pumpAndSettle();
     expect(find.text('Sign up'), findsOneWidget);
     expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
     expect(find.byType(LegalConsentCheckbox), findsOneWidget);

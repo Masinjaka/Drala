@@ -29,13 +29,13 @@ class ReceiptInputBottomSheet extends StatelessWidget {
                   Navigator.pop(context, ReceiptInputAction.manualEntry)),
           const SizedBox(height: 20),
           ReceiptInputOption(
-              icon: Icons.note_add_outlined,
+              icon: Icons.note_add,
               label: context.l10n.importFile,
               onTap: () =>
                   Navigator.pop(context, ReceiptInputAction.importFile)),
           const SizedBox(height: 20),
           ReceiptInputOption(
-              icon: Icons.document_scanner_outlined,
+              icon: Icons.document_scanner,
               label: context.l10n.scanReceipt,
               onTap: () =>
                   Navigator.pop(context, ReceiptInputAction.scanReceipt)),

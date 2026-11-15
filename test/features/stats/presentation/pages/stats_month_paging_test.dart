@@ -18,6 +18,8 @@ void main() {
             repository: repository, initialMonth: DateTime(2025, 6))));
     await tester.pump();
     expect(find.text('Income'), findsOneWidget);
+    expect(find.byType(ValueSkeleton), findsNothing);
+    await tester.pump(const Duration(milliseconds: 200));
     expect(find.byKey(const Key('stats-value-skeleton')), findsNWidgets(2));
     expect(find.byKey(const Key('stats-chart-empty')), findsOneWidget);
     expect(find.byKey(const Key('stats-line-chart')), findsNothing);

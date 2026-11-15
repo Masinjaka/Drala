@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_header_button_shadow.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -80,7 +81,8 @@ class _OutlinedSquareButtonState extends State<OutlinedSquareButton>
       child: Center(
         child: ScaleTransition(
           scale: _scale,
-          child: CustomButton.icon(
+          child: AppHeaderButtonShadow(
+              child: CustomButton.icon(
             icon: widget.icon,
             iconSize: widget.iconSize,
             width: widget.visualSize,
@@ -90,7 +92,7 @@ class _OutlinedSquareButtonState extends State<OutlinedSquareButton>
                 isDark ? AppTheme.homeBannerText : theme.colorScheme.onSurface,
             tooltip: widget.tooltip,
             onPressed: _handlePressed,
-          ),
+          )),
         ),
       ),
     );

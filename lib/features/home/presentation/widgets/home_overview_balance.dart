@@ -39,10 +39,7 @@ class HomeOverviewBalance extends StatelessWidget {
               onPressed: controller?.toggle,
               tooltip:
                   visible ? context.l10n.hideBalance : context.l10n.showBalance,
-              icon: Icon(
-                  visible
-                      ? Icons.visibility_outlined
-                      : Icons.visibility_off_outlined,
+              icon: Icon(visible ? Icons.visibility : Icons.visibility_off,
                   size: 20),
               color: Theme.of(context).colorScheme.onSurface),
         ]),

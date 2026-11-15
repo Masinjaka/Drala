@@ -11,6 +11,7 @@ class StatsMetricCard extends StatelessWidget {
       this.income = false,
       this.valueColor,
       this.loading = false,
+      this.available = true,
       this.currencyCode,
       this.maskValue = true,
       super.key});
@@ -20,6 +21,7 @@ class StatsMetricCard extends StatelessWidget {
   final bool income;
   final Color? valueColor;
   final bool loading;
+  final bool available;
   final bool maskValue;
   final String? currencyCode;
   @override
@@ -45,7 +47,7 @@ class StatsMetricCard extends StatelessWidget {
         if (loading)
           const ValueSkeleton(
               key: Key('stats-value-skeleton'), height: 26, width: 100)
-        else
+        else if (available)
           FittedBox(
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,

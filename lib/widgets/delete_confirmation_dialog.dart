@@ -1,4 +1,4 @@
-import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'package:budgets/core/utils/animated_dialog.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/widgets/custom_button.dart';
@@ -85,9 +85,8 @@ class DeleteConfirmationDialog extends StatelessWidget {
                     text: confirmText,
                     onPressed: onConfirm,
                     height: 40,
-                    backgroundColor:
-                        AppFinanceSurfaceTheme.destructive(context),
-                    foregroundColor: colors.onError,
+                    backgroundColor: AppDangerTheme.fill,
+                    foregroundColor: AppDangerTheme.onFill,
                   ),
                 ),
               ],

@@ -91,8 +91,8 @@ class _OfflineSyncReviewSheetState extends State<OfflineSyncReviewSheet> {
                           return ListTile(
                               leading: Icon(
                                   row.read<String>('operation') == 'delete'
-                                      ? Icons.delete_outline_rounded
-                                      : Icons.edit_outlined),
+                                      ? Icons.delete_rounded
+                                      : Icons.edit),
                               title: Text(
                                   '${data['title'] ?? data['name'] ?? label}'),
                               subtitle: amount is num

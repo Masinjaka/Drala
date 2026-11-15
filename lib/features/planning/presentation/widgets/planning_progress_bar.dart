@@ -16,7 +16,7 @@ class PlanningProgressBar extends StatelessWidget {
       return Theme.of(context).primaryColor;
     }
     if (progress > 0.9) {
-      return Theme.of(context).colorScheme.error;
+      return AppDangerTheme.criticalWarning(context);
     }
     if (progress > 0.7) {
       return AppDangerTheme.warning(context);

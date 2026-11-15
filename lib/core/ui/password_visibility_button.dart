@@ -19,10 +19,7 @@ class PasswordVisibilityButton extends StatelessWidget {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap)),
         padding: EdgeInsets.zero,
         onPressed: onPressed,
-        icon: Icon(
-            obscured
-                ? Icons.visibility_outlined
-                : Icons.visibility_off_outlined,
+        icon: Icon(obscured ? Icons.visibility : Icons.visibility_off,
             color: AppIconForeground.resolve(
                 context,
                 Theme.of(context).textTheme.bodyLarge?.color ??

@@ -19,7 +19,7 @@ void main() {
                   ? (first + .05) / (second + .05)
                   : (second + .05) / (first + .05);
               expect(ratio, greaterThanOrEqualTo(3));
-              expect(red, isNot(theme.colorScheme.error));
+              expect(red, theme.colorScheme.error);
               return const SizedBox();
             },
           )));

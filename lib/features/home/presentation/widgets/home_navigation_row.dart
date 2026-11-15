@@ -69,11 +69,11 @@ class _HomeNavigationRowState extends State<HomeNavigationRow>
       context.l10n.profile
     ];
     const icons = [
-      Icons.home_outlined,
+      Icons.home,
       Icons.swap_horiz_rounded,
-      Icons.mail_outline_rounded,
-      Icons.pie_chart_outline_rounded,
-      Icons.person_outline_rounded
+      Icons.mail_rounded,
+      Icons.pie_chart_rounded,
+      Icons.person_rounded
     ];
     return LayoutBuilder(
         builder: (context, constraints) => AnimatedBuilder(

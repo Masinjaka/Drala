@@ -73,7 +73,7 @@ class _DefaultWalletSettingCardState extends State<DefaultWalletSettingCard> {
   Widget build(BuildContext context) {
     return SettingCard(
       title: context.l10n.setDefaultWallet,
-      iconData: Icons.account_balance_wallet_outlined,
+      iconData: Icons.account_balance_wallet,
       onTap: _choose,
       showSuffixSettingChoice: true,
       settingChoice: _defaultWallet == null

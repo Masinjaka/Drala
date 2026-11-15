@@ -48,7 +48,7 @@ class DrawerWalletCard extends StatelessWidget {
                       radius: 19,
                       backgroundColor: Theme.of(context).cardColor,
                       child: Icon(
-                        Icons.account_balance_wallet_outlined,
+                        Icons.account_balance_wallet,
                         color: AppIconForeground.resolve(
                             context, Theme.of(context).colorScheme.onSurface),
                         size: 21,

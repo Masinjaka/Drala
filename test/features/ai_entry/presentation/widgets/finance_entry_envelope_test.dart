@@ -33,7 +33,7 @@ void main() {
     );
 
     expect(find.text('Taken from envelope Food'), findsNothing);
-    expect(find.byIcon(Icons.mail_outline_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.mail_rounded), findsOneWidget);
     final tooltip = tester.widget<Tooltip>(
       find.byKey(const Key('finance-entry-envelope-groceries')),
     );

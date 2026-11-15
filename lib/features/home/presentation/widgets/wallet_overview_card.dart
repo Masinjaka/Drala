@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/core/ui/app_card_surface.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/privacy_text.dart';
@@ -54,13 +55,13 @@ class WalletOverviewCard extends StatelessWidget {
                 ],
                 Icon(
                     switch (wallet.iconKey) {
-                      'bank' => Icons.account_balance_outlined,
-                      'cash' => Icons.payments_outlined,
-                      'mobile' || 'mobile_money' => Icons.phone_iphone_outlined,
-                      _ => Icons.account_balance_wallet_outlined,
+                      'bank' => Icons.account_balance,
+                      'cash' => Icons.payments,
+                      'mobile' || 'mobile_money' => Icons.phone_iphone,
+                      _ => Icons.account_balance_wallet,
                     },
                     size: 28,
-                    color: Theme.of(context).colorScheme.primary),
+                    color: AppIconForeground.monochrome(context)),
               ]),
               const Spacer(),
               Text(wallet.name,

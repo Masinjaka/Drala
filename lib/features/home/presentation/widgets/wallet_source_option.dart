@@ -55,8 +55,8 @@ class WalletSourceOption extends StatelessWidget {
                   ),
                   child: Icon(
                     wallet.iconKey == 'bank'
-                        ? Icons.account_balance_outlined
-                        : Icons.account_balance_wallet_outlined,
+                        ? Icons.account_balance
+                        : Icons.account_balance_wallet,
                     size: 20,
                   ),
                 ),

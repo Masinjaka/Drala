@@ -169,7 +169,7 @@
   "termsIntro": "Diese Bedingungen erläutern die Regeln für die Nutzung von Drala.",
   "termsDetails": "Verwende Drala nur zur rechtmäßigen Verwaltung deiner persönlichen Finanzen. Prüfe von KI erstellte Einträge, bevor du dich auf sie verlässt. Die Verfügbarkeit des Dienstes kann sich ändern, während die App weiterentwickelt wird.",
   "privacyIntro": "Deine Finanzdaten gehören dir.",
-  "privacyDetails": "Drala speichert Konto- und Transaktionsdaten, um die App bereitzustellen. Gescannte Belege werden in einem privaten Speicher pro Nutzer aufbewahrt und zur Auswertung über das Backend an den konfigurierten KI-Anbieter gesendet. Du kannst einzelne Belege unter „Gespeicherte Belege“ löschen oder alle gespeicherten Daten beziehungsweise dein gesamtes Konto unter „Profil bearbeiten“ entfernen.",
+  "privacyDetails": "Drala speichert Konto- und Transaktionsdaten, um die App bereitzustellen. Gescannte Belege werden in einem privaten Speicher pro Nutzer aufbewahrt und zur Auswertung über das Backend an den konfigurierten KI-Anbieter gesendet. Du kannst einzelne Belege unter „Gespeicherte Belege“ löschen oder alle gespeicherten Daten beziehungsweise dein gesamtes Konto im Abschnitt „Konto“ der Einstellungen entfernen.",
   "legalLastUpdated": "Zuletzt aktualisiert: 21. Juli 2026",
   "allowNotifications": "Benachrichtigungen erlauben",
   "dailyReminders": "Tägliche Erinnerungen",
@@ -184,6 +184,7 @@
   "notificationsBlocked": "Benachrichtigungen blockiert",
   "notificationsBlockedMessage": "Erlaube Benachrichtigungen in den Geräteeinstellungen, um Erinnerungen und Warnungen zu erhalten.",
   "openSettings": "Einstellungen öffnen",
+  "accountActions": "Konto",
   "dangerZone": "Gefahrenbereich",
   "deleteAllData": "Alle meine Daten löschen",
   "deleteAllDataSummary": "Löscht App-Daten und Dateien, behält aber dein Anmeldekonto.",
@@ -397,6 +398,11 @@
   "seeMore": "Mehr anzeigen",
   "recentTransactions": "Letzte Transaktionen",
   "envelopes": "Umschläge",
+  "activityEmptyWithAction": "Heute ist es etwas ruhig. {action}, um loszulegen.",
+  "homeEmptyEnvelopeMessage": "Gib deinen Plänen Raum mit deinem {action}.",
+  "homeEmptyEnvelopeAction": "ersten Umschlag",
+  "homeEmptyTransactionMessage": "{action}, um dein Budget zu verfolgen.",
+  "homeEmptyTransactionAction": "Füge eine Buchung hinzu",
   "noRecentTransactions": "Füge eine Buchung hinzu, um dein Budget zu verfolgen.",
   "overviewLoadFailed": "Aktualisieren fehlgeschlagen. Erneut versuchen.",
   "homeHello": "Hallo",
@@ -507,5 +513,7 @@
       }
     }
   },
-  "chooseCategoryColor": "Farbe wählen"
+  "chooseCategoryColor": "Farbe wählen",
+  "settingsGuestSyncPrompt": "Melde dich an, um dein Budget zu synchronisieren.",
+  "dailyAiCreditsExhausted": "Deine KI-Credits für heute sind aufgebraucht. Morgen werden sie erneuert. Mit Drala Plus nutzt du KI unbegrenzt."
 }

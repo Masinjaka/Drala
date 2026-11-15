@@ -55,9 +55,7 @@ class _TransactionCategoryChipState extends State<TransactionCategoryChip>
     final colors = Theme.of(context).colorScheme;
     final background = widget.selected
         ? colors.inverseSurface
-        : FinanceSheetScope.of(context)
-            ? AppFinanceSurfaceTheme.background(context)
-            : colors.surfaceContainerLowest;
+        : AppFinanceSurfaceTheme.field(context);
     return ScaleTransition(
       scale: _scale,
       child: GestureDetector(

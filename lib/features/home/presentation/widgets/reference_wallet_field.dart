@@ -15,11 +15,15 @@ class ReferenceWalletField extends StatelessWidget {
       required this.onChanged,
       required this.requiredSelection,
       this.currencyState,
+      this.fieldKey,
+      this.emptyLabel,
       super.key});
   final String label;
   final List<WalletSummary> wallets;
   final String? value;
-  final ValueChanged<String?> onChanged;
+  final ValueChanged<String?>? onChanged;
+  final Key? fieldKey;
+  final String? emptyLabel;
   final bool requiredSelection;
   final CurrencyState? currencyState;
   @override
@@ -40,18 +44,22 @@ class ReferenceWalletField extends StatelessWidget {
                   side: BorderSide(
                       color: AppFinanceSurfaceTheme.border(context))),
               child: InkWell(
-                  key: Key('wallet-field-$label'),
+                  key: fieldKey ?? Key('wallet-field-$label'),
                   borderRadius: AppFinanceSurfaceTheme.fieldRadius,
-                  onTap: () async {
-                    FocusScope.of(context).unfocus();
-                    final selected = await WalletSelectionSheet.show(context,
-                        wallets: wallets,
-                        selected: value,
-                        label: label,
-                        currencyState: currencyState);
-                    if (context.mounted && selected != null)
-                      onChanged(selected);
-                  },
+                  onTap: onChanged == null
+                      ? null
+                      : () async {
+                          FocusScope.of(context).unfocus();
+                          final selected = await WalletSelectionSheet.show(
+                              context,
+                              wallets: wallets,
+                              selected: value,
+                              label: label,
+                              currencyState: currencyState);
+                          if (context.mounted && selected != null) {
+                            onChanged?.call(selected);
+                          }
+                        },
                   child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 16),
@@ -59,18 +67,16 @@ class ReferenceWalletField extends StatelessWidget {
                         Expanded(
                             child: Text(
                                 wallet == null
-                                    ? label
+                                    ? emptyLabel ?? label
                                     : localizedWalletName(context, wallet),
                                 style: AppFinanceSurfaceTheme.label(context))),
                         const SizedBox(width: 8),
                         Icon(
                             switch (wallet?.iconKey) {
-                              'bank' => Icons.account_balance_outlined,
-                              'cash' => Icons.payments_outlined,
-                              'mobile' ||
-                              'mobile_money' =>
-                                Icons.phone_iphone_outlined,
-                              _ => Icons.account_balance_wallet_outlined,
+                              'bank' => Icons.account_balance,
+                              'cash' => Icons.payments,
+                              'mobile' || 'mobile_money' => Icons.phone_iphone,
+                              _ => Icons.account_balance_wallet,
                             },
                             size: 20)
                       ])))),

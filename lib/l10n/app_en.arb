@@ -176,7 +176,7 @@
   "termsIntro": "These terms explain the rules for using Drala.",
   "termsDetails": "Use Drala only for lawful personal finance management. You remain responsible for checking AI-created entries before relying on them. Service availability may change as the app evolves.",
   "privacyIntro": "Your financial information belongs to you.",
-  "privacyDetails": "Drala stores account and transaction data to provide the app. Scanned receipts are kept in private per-user storage and are sent to the configured AI provider through the backend for extraction. You can delete individual receipts from Scanned receipts, or delete all stored data or your complete account from Edit profile.",
+  "privacyDetails": "Drala stores account and transaction data to provide the app. Scanned receipts are kept in private per-user storage and are sent to the configured AI provider through the backend for extraction. You can delete individual receipts from Scanned receipts, or delete all stored data or your complete account from the Account section in Settings.",
   "legalLastUpdated": "Last updated: July 21, 2026",
   "allowNotifications": "Allow notifications",
   "dailyReminders": "Daily reminders",
@@ -191,6 +191,7 @@
   "notificationsBlocked": "Notifications blocked",
   "notificationsBlockedMessage": "Allow notifications in your device settings to receive reminders and alerts.",
   "openSettings": "Open settings",
+  "accountActions": "Account",
   "dangerZone": "Danger zone",
   "deleteAllData": "Delete all my data",
   "deleteAllDataSummary": "Deletes app data and files, but keeps your sign-in account.",
@@ -435,6 +436,34 @@
   "seeMore": "See more",
   "recentTransactions": "Recent transactions",
   "envelopes": "Envelopes",
+  "activityEmptyWithAction": "A little quiet today. {action} to get started.",
+  "@activityEmptyWithAction": {
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "homeEmptyEnvelopeMessage": "Give your plans a little room to grow with your {action}.",
+  "homeEmptyEnvelopeAction": "first envelope",
+  "homeEmptyTransactionMessage": "{action} to start tracking your budget.",
+  "homeEmptyTransactionAction": "Add a transaction",
+  "@homeEmptyEnvelopeMessage": {
+    "description": "Home empty-state sentence. Keep {action} where the tappable phrase belongs.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
+  "@homeEmptyTransactionMessage": {
+    "description": "Home empty-state sentence. Keep {action} where the tappable phrase belongs.",
+    "placeholders": {
+      "action": {
+        "type": "String"
+      }
+    }
+  },
   "noRecentTransactions": "Add a transaction to start tracking your budget.",
   "overviewLoadFailed": "Unable to refresh. Tap to retry.",
   "homeHello": "Hi",
@@ -545,5 +574,7 @@
       }
     }
   },
-  "chooseCategoryColor": "Choose a color"
+  "chooseCategoryColor": "Choose a color",
+  "settingsGuestSyncPrompt": "Sign in to sync your budget.",
+  "dailyAiCreditsExhausted": "You’ve used today’s AI credits. They reset tomorrow. Explore Drala Plus for unlimited AI."
 }

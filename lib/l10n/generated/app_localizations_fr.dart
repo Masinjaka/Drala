@@ -484,7 +484,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get privacyDetails =>
-      'Drala conserve les données de compte et de transaction nécessaires au fonctionnement de l’application. Les reçus numérisés sont stockés dans un espace privé propre à chaque utilisateur et transmis au fournisseur d’IA configuré via le backend pour extraction. Vous pouvez supprimer un reçu depuis Reçus numérisés, toutes vos données ou votre compte complet depuis Modifier le profil.';
+      'Drala conserve les données de compte et de transaction nécessaires au fonctionnement de l’application. Les reçus numérisés sont stockés dans un espace privé propre à chaque utilisateur et transmis au fournisseur d’IA configuré via le backend pour extraction. Vous pouvez supprimer un reçu depuis Reçus numérisés, toutes vos données ou votre compte complet depuis la section Compte des paramètres.';
 
   @override
   String get legalLastUpdated => 'Dernière mise à jour : 21 juillet 2026';
@@ -529,6 +529,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get openSettings => 'Ouvrir les paramètres';
+
+  @override
+  String get accountActions => 'Compte';
 
   @override
   String get dangerZone => 'Zone de danger';
@@ -1133,6 +1136,27 @@ class AppLocalizationsFr extends AppLocalizations {
   String get envelopes => 'Enveloppes';
 
   @override
+  String activityEmptyWithAction(String action) {
+    return 'Une journée encore tranquille. $action pour commencer.';
+  }
+
+  @override
+  String homeEmptyEnvelopeMessage(String action) {
+    return 'Faites une place à vos projets avec votre $action.';
+  }
+
+  @override
+  String get homeEmptyEnvelopeAction => 'première enveloppe';
+
+  @override
+  String homeEmptyTransactionMessage(String action) {
+    return '$action pour commencer à suivre votre budget.';
+  }
+
+  @override
+  String get homeEmptyTransactionAction => 'Ajouter une transaction';
+
+  @override
   String get noRecentTransactions =>
       'Ajoutez une transaction pour commencer à suivre votre budget.';
 
@@ -1432,4 +1456,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get chooseCategoryColor => 'Choisir une couleur';
+
+  @override
+  String get settingsGuestSyncPrompt =>
+      'Connectez-vous pour synchroniser votre budget.';
+
+  @override
+  String get dailyAiCreditsExhausted =>
+      'Vos crédits IA du jour sont épuisés. Ils reviennent demain. Découvrez Drala Plus pour une IA illimitée.';
 }

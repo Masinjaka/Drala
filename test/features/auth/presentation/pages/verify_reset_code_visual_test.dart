@@ -38,7 +38,7 @@ void main() {
         ),
       ),
     ));
-    await tester.pump();
+    await tester.pumpAndSettle();
     expect(find.byType(AuthTextField), findsNWidgets(2));
     expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
     expect(find.byType(ResetCodeOtpRow), findsOneWidget);

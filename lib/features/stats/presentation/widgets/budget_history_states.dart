@@ -8,7 +8,7 @@ extension _BudgetHistoryStates on BudgetHistoryCard {
         child: Column(
           children: [
             Icon(
-              Icons.inbox_outlined,
+              Icons.inbox,
               size: 24,
               color: AppIconForeground.resolve(
                   context, textColor?.withValues(alpha: 0.3)),

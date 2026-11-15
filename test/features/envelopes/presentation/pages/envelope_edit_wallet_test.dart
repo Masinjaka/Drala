@@ -36,15 +36,14 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(ValueKey('envelope-${original.id}')));
     await tester.pumpAndSettle();
-    final wallet = tester.widget<DropdownButtonFormField<String>>(
-        find.byKey(const Key('envelope-funding-wallet')));
-    expect(wallet.initialValue, bank.id);
-    expect(wallet.onChanged, isNull);
+    final wallet = find.byKey(const Key('envelope-funding-wallet'));
+    expect(find.descendant(of: wallet, matching: find.text('Bank account')),
+        findsOneWidget);
+    expect(tester.widget<InkWell>(wallet).onTap, isNull);
     expect(find.text('An existing envelope keeps its original funding wallet.'),
         findsOneWidget);
     await tester.enterText(find.byType(TextFormField).first, '150');
     await tester.enterText(find.byType(TextFormField).at(1), 'Internet');
-    await tester.ensureVisible(find.byKey(const Key('save-envelope-button')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('save-envelope-button')));
     await tester.pumpAndSettle();

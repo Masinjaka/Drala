@@ -36,7 +36,7 @@ void main() {
         ),
       ),
     ));
-    await tester.pump();
+    await tester.pumpAndSettle();
     expect(find.byType(AuthTextField), findsOneWidget);
     expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
     expect(find.text('Forgot password?'), findsOneWidget);

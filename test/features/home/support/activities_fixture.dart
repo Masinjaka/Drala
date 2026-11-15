@@ -12,9 +12,9 @@ import '../../ai_entry/support/fake_ai_entry_repository.dart';
 import '../../notifications/support/fake_finance_notification_repository.dart';
 
 class ActivitiesFixture {
-  ActivitiesFixture() {
+  ActivitiesFixture({int entryCount = 4}) {
     repository.entries = List.generate(
-        4,
+        entryCount,
         (i) => FinanceEntry(
             id: '$i',
             title: i == 1 ? 'Salary this month' : 'Week food',

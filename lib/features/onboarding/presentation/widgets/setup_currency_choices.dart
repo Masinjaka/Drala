@@ -1,3 +1,4 @@
+import 'package:budgets/features/settings/presentation/widgets/settings_currency_list.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_currency_choice.dart';
 import 'package:budgets/core/currency/currency_provider.dart';
 import 'package:budgets/core/currency/currency_defaults.dart';
@@ -37,6 +38,9 @@ class _SetupCurrencyChoicesState extends ConsumerState<SetupCurrencyChoices> {
   static const _choiceHeight = 50.0;
   final search = TextEditingController();
   final _scrollController = ScrollController();
+  ScrollController get _activeScroll => widget.settingsMode
+      ? PrimaryScrollController.maybeOf(context) ?? _scrollController
+      : _scrollController;
   String query = '';
   bool _hasPositionedSelection = false;
 
@@ -81,6 +85,15 @@ class _SetupCurrencyChoicesState extends ConsumerState<SetupCurrencyChoices> {
         return a.compareTo(b);
       });
     _positionSelectedCurrency(codes);
+    if (widget.settingsMode) {
+      return SettingsCurrencyList(
+          search: search,
+          controller: _activeScroll,
+          codes: codes,
+          selected: widget.selected,
+          pending: widget.pendingCode,
+          onChanged: widget.onChanged);
+    }
     return Column(
       children: [
         CurrencySearchField(
@@ -93,8 +106,9 @@ class _SetupCurrencyChoicesState extends ConsumerState<SetupCurrencyChoices> {
           child: rateState?.isLoading == true && rateState?.hasValue != true
               ? const SetupCurrencySkeleton()
               : ListView.separated(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.only(bottom: 28),
+                  controller: _activeScroll,
+                  padding: EdgeInsets.only(
+                      bottom: 28 + MediaQuery.paddingOf(context).bottom),
                   itemCount: codes.length,
                   separatorBuilder: (_, __) =>
                       SizedBox(height: widget.settingsMode ? 4 : 10),
@@ -146,15 +160,15 @@ class _SetupCurrencyChoicesState extends ConsumerState<SetupCurrencyChoices> {
   void _positionSelectedCurrency(List<String> codes) {
     if (query.isNotEmpty || _hasPositionedSelection) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_scrollController.hasClients) return;
+      if (!mounted || !_activeScroll.hasClients) return;
       final index = codes.indexOf(widget.selected);
       if (index < 0) return;
-      final position = _scrollController.position;
+      final position = _activeScroll.position;
       final height = widget.settingsMode ? 76 : _choiceHeight;
       final stride = widget.settingsMode ? 80 : _choiceStride;
       final centeredOffset =
           index * stride - (position.viewportDimension - height) / 2;
-      _scrollController.jumpTo(
+      _activeScroll.jumpTo(
         centeredOffset.clamp(0, position.maxScrollExtent),
       );
       _hasPositionedSelection = true;

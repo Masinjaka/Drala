@@ -1,7 +1,7 @@
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/settings/presentation/view_models/danger_zone_view_model.dart';
-import 'package:budgets/features/settings/presentation/widgets/danger_action_card.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_menu_item.dart';
 import 'package:budgets/features/settings/presentation/widgets/destructive_confirmation_dialog.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_section_title.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
@@ -11,6 +11,8 @@ class DangerZone extends StatelessWidget {
   const DangerZone({
     required this.viewModel,
     required this.accountEmail,
+    required this.onLogout,
+    this.isLoggingOut = false,
     required this.onDataDeleted,
     required this.onAccountDeleted,
     super.key,
@@ -18,6 +20,8 @@ class DangerZone extends StatelessWidget {
 
   final DangerZoneViewModel viewModel;
   final String accountEmail;
+  final VoidCallback onLogout;
+  final bool isLoggingOut;
   final VoidCallback onDataDeleted;
   final VoidCallback onAccountDeleted;
 
@@ -28,29 +32,48 @@ class DangerZone extends StatelessWidget {
       builder: (context, _) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SettingsSectionTitle(context.l10n.dangerZone),
+          SettingsSectionTitle(context.l10n.accountActions),
           SettingsMenuGroup(items: [
-            DangerActionCard(
-              actionKey: const Key('delete-all-data-button'),
-              title: context.l10n.deleteAllData,
-              description: context.l10n.deleteAllDataSummary,
-              icon: Icons.delete_sweep_outlined,
-              isLoading: viewModel.busyAction == DangerZoneAction.deleteData,
-              onTap: viewModel.isBusy ? null : () => _deleteData(context),
+            SettingsMenuItem(
+              key: const Key('settings-logout-button'),
+              title: context.l10n.logOut,
+              icon: Icons.logout_rounded,
+              destructive: true,
+              trailing: isLoggingOut ? _progress : null,
+              onTap: viewModel.isBusy || isLoggingOut ? null : onLogout,
             ),
-            DangerActionCard(
-              actionKey: const Key('delete-account-button'),
+            SettingsMenuItem(
+              key: const Key('delete-all-data-button'),
+              title: context.l10n.deleteAllData,
+              icon: Icons.delete_sweep,
+              destructive: true,
+              trailing: viewModel.busyAction == DangerZoneAction.deleteData
+                  ? _progress
+                  : null,
+              onTap: viewModel.isBusy || isLoggingOut
+                  ? null
+                  : () => _deleteData(context),
+            ),
+            SettingsMenuItem(
+              key: const Key('delete-account-button'),
               title: context.l10n.deleteAccount,
-              description: context.l10n.deleteAccountSummary,
-              icon: Icons.person_off_outlined,
-              isLoading: viewModel.busyAction == DangerZoneAction.deleteAccount,
-              onTap: viewModel.isBusy ? null : () => _deleteAccount(context),
+              icon: Icons.person_off,
+              destructive: true,
+              trailing: viewModel.busyAction == DangerZoneAction.deleteAccount
+                  ? _progress
+                  : null,
+              onTap: viewModel.isBusy || isLoggingOut
+                  ? null
+                  : () => _deleteAccount(context),
             ),
           ]),
         ],
       ),
     );
   }
+
+  static const _progress = SizedBox.square(
+      dimension: 20, child: CircularProgressIndicator(strokeWidth: 2));
 
   Future<void> _deleteData(BuildContext context) async {
     final confirmation = await showDialog<String>(

@@ -45,7 +45,7 @@ extension _AddCategorySavingsInfo on _AddCategoryPageState {
                   child: Row(
                     children: [
                       Icon(
-                        Icons.info_outline,
+                        Icons.info,
                         color: AppIconForeground.resolve(
                             context, Theme.of(context).primaryColor),
                         size: 18,

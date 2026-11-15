@@ -1,6 +1,5 @@
-import 'package:budgets/core/ui/app_card_surface.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
-import 'package:budgets/widgets/custom_button.dart';
+import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:flutter/material.dart';
 
 class GuestSyncCard extends StatelessWidget {
@@ -18,35 +17,39 @@ class GuestSyncCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return AppCardSurface(
-      color: theme.colorScheme.surfaceContainer,
-      borderRadius: BorderRadius.circular(12),
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.l10n.guestChoiceTitle,
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              context.l10n.guestChoiceBody,
-              style: theme.textTheme.bodyMedium,
-            ),
-            const SizedBox(height: 20),
-            CustomButton(
-              text: signedIn
-                  ? context.l10n.guestSyncNow
-                  : context.l10n.authSignIn,
-              onPressed: onSignIn,
-              isLoading: isLoading,
-              height: 44,
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.settingsGuestSyncPrompt,
+          style: theme.textTheme.bodyMedium,
         ),
-      ),
+        const SizedBox(height: 12),
+        IntrinsicWidth(
+          child: FilledButton(
+            key: const Key('guest-settings-sign-in'),
+            onPressed: isLoading ? null : onSignIn,
+            style: FilledButton.styleFrom(
+              backgroundColor: AppSettingsTheme.signInBackground(context),
+              foregroundColor: AppSettingsTheme.signInForeground(context),
+              textStyle: theme.textTheme.bodyMedium,
+              minimumSize: const Size(0, 44),
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+            ),
+            child: isLoading
+                ? SizedBox.square(
+                    dimension: 18,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppSettingsTheme.signInForeground(context),
+                    ),
+                  )
+                : Text(signedIn
+                    ? context.l10n.guestSyncNow
+                    : context.l10n.authSignIn),
+          ),
+        ),
+      ],
     );
   }
 }

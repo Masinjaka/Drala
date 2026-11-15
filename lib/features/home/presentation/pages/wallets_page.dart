@@ -1,3 +1,7 @@
+import 'package:budgets/core/widgets/delayed_skeleton.dart';
+import 'package:budgets/core/layout/app_scroll_padding.dart';
+import 'package:budgets/core/ui/app_scroll_under_header.dart';
+import 'package:budgets/core/ui/app_bottom_action.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_selection_toolbar.dart';
@@ -6,7 +10,6 @@ import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_page_header.dart';
 import 'package:budgets/core/ui/app_finance_surface_theme.dart';
-import 'package:budgets/widgets/custom_button.dart';
 import 'package:budgets/features/home/presentation/widgets/wallet_empty_state.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_editor_result.dart';
@@ -66,76 +69,72 @@ class _WalletsPageState extends State<WalletsPage> {
     final selected = _selected.intersection(selectable);
     return Scaffold(
       backgroundColor: AppFinanceSurfaceTheme.background(context),
-      bottomNavigationBar: SafeArea(
-          child: Padding(
-              padding: AppPageSpacing.insets(context, top: 12, bottom: 16),
-              child: CustomButton(
-                  key: Key(_selecting ? 'cancel-selection' : 'wallet-create'),
-                  text:
-                      _selecting ? context.l10n.cancel : context.l10n.addWallet,
-                  backgroundColor: AppFinanceSurfaceTheme.action(context),
-                  foregroundColor: AppFinanceSurfaceTheme.onAction(context),
-                  height: 48,
-                  onPressed: _deleting
-                      ? null
-                      : _selecting
-                          ? _cancelSelection
-                          : () => _add(context)))),
-      body: SafeArea(
-        bottom: false,
-        child: Padding(
+      extendBody: true,
+      bottomNavigationBar: AppBottomAction(
+          buttonKey: Key(_selecting ? 'cancel-selection' : 'wallet-create'),
+          label: _selecting ? context.l10n.cancel : context.l10n.addWallet,
+          onPressed: _deleting
+              ? null
+              : _selecting
+                  ? _cancelSelection
+                  : () => _add(context)),
+      body: AppScrollUnderHeader(
+        header: Padding(
           padding: const EdgeInsets.only(top: AppHeaderMetrics.topPadding),
-          child: Column(
-            children: [
+          child: Column(children: [
+            Padding(
+              padding: AppPageSpacing.insets(context),
+              child: WalletPageHeader(
+                  selecting: _selecting,
+                  busy: _deleting,
+                  onDelete:
+                      _deleting || selected.isEmpty ? null : _deleteSelected,
+                  onSelect: widget.onDeleteWallets != null && !_selecting
+                      ? () => _update(() => _selecting = true)
+                      : null),
+            ),
+            if (widget.onDeleteWallets != null && _selecting)
               Padding(
-                padding: AppPageSpacing.insets(context),
-                child: WalletPageHeader(
-                    selecting: _selecting,
-                    busy: _deleting,
-                    onDelete:
-                        _deleting || selected.isEmpty ? null : _deleteSelected,
-                    onSelect: widget.onDeleteWallets != null && !_selecting
-                        ? () => _update(() => _selecting = true)
-                        : null),
-              ),
-              if (widget.onDeleteWallets != null && _selecting)
-                Padding(
-                    padding: AppPageSpacing.insets(context),
-                    child: WalletSelectionToolbar(
-                        value: selected.isEmpty
-                            ? false
-                            : selected.length == selectable.length
-                                ? true
-                                : null,
-                        count: selected.length,
-                        onToggleAll: _deleting || selectable.isEmpty
-                            ? null
-                            : _toggleAllWallets)),
-              const SizedBox(height: 19),
-              Expanded(child: _cards()),
-            ],
-          ),
+                  padding: AppPageSpacing.insets(context),
+                  child: WalletSelectionToolbar(
+                      value: selected.isEmpty
+                          ? false
+                          : selected.length == selectable.length
+                              ? true
+                              : null,
+                      count: selected.length,
+                      onToggleAll: _deleting || selectable.isEmpty
+                          ? null
+                          : _toggleAllWallets)),
+            const SizedBox(height: 19),
+          ]),
         ),
+        child: Builder(builder: _cards),
       ),
     );
   }
 
-  Widget _cards() {
+  Widget _cards(BuildContext context) {
     final currentWallets = widget.walletReader?.call() ?? widget.wallets;
     if (widget.loadingReader?.call() == true && currentWallets.isEmpty) {
-      return ListView.separated(
-        padding: AppPageSpacing.insets(context, top: 0, bottom: 32),
-        itemCount: 3,
-        separatorBuilder: (_, __) => const SizedBox(height: 10),
-        itemBuilder: (_, __) => const WalletCardSkeleton(),
+      return DelayedSkeleton(
+        pending: true,
+        builder: (context, show) => show
+            ? ListView.separated(
+                padding: AppScrollPadding.insets(context, top: 0, bottom: 32),
+                itemCount: 3,
+                separatorBuilder: (_, __) => const SizedBox(height: 10),
+                itemBuilder: (_, __) => const WalletCardSkeleton(),
+              )
+            : const SizedBox.shrink(),
       );
     }
     if (currentWallets.isEmpty) {
-      return WalletEmptyState(onAdd: () => _add(context));
+      return const WalletEmptyState();
     }
     return LayoutBuilder(
         builder: (context, constraints) => GridView.builder(
-              padding: AppPageSpacing.insets(context, top: 0, bottom: 32),
+              padding: AppScrollPadding.insets(context, top: 0, bottom: 32),
               itemCount: currentWallets.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount:

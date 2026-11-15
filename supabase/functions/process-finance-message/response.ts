@@ -9,7 +9,7 @@ export function quotaError(value: Record<string, unknown>): ApiError {
   if (value.code === "daily_limit_exceeded") {
     return new ApiError(
       "daily_limit_exceeded",
-      "You have used all 20 AI requests for today. Try again tomorrow.",
+      "You have used all 5 AI credits for today. Try again tomorrow.",
       429,
       { remaining: 0 },
     );

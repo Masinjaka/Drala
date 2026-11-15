@@ -113,7 +113,7 @@ class CustomGreetingAppBar extends ConsumerWidget
                   ),
                   child: IconButton(
                       icon: Icon(
-                        Icons.notifications_none_rounded,
+                        Icons.notifications_rounded,
                         size: 18,
                         color: AppIconForeground.resolve(
                           context,

@@ -10,11 +10,13 @@ class HomeDashboardHeader extends StatelessWidget {
   const HomeDashboardHeader({
     required this.notificationViewModel,
     required this.onNotificationsPressed,
+    this.aiCredits,
     super.key,
   });
 
   final FinanceNotificationViewModel notificationViewModel;
   final VoidCallback onNotificationsPressed;
+  final Widget? aiCredits;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -31,6 +33,10 @@ class HomeDashboardHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppHeaderMetrics.titleGap),
+            if (aiCredits != null) ...[
+              aiCredits!,
+              const SizedBox(width: AppHeaderMetrics.actionGap)
+            ],
             Theme(
                 data: Theme.of(context)
                     .copyWith(cardColor: AppActivitiesTheme.card(context)),
