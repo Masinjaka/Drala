@@ -1,4 +1,3 @@
-import 'package:budgets/core/currency/currency_amount_input.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
 import 'package:budgets/features/home/domain/models/wallet_editor_result.dart';
@@ -28,22 +27,13 @@ class _EditWalletSheetState extends State<EditWalletSheet> {
   final _pages = PageController();
   final _formKey = GlobalKey<FormState>();
   late final _name = TextEditingController(text: widget.wallet.name);
-  late final _balance = TextEditingController(
-      text: CurrencyAmountInput.fromStored(widget.wallet.balance,
-          widget.wallet.currencyCode, widget.currencyState));
   late bool _setAsDefault = widget.wallet.isDefault;
-
-  int? get _amount {
-    final value =
-        CurrencyAmountInput.toMga(_balance.text, widget.currencyState);
-    return value >= 0 ? value : null;
-  }
 
   void _save() {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     Navigator.of(context).pop(WalletEditorResult.save(AddWalletInput(
         name: _name.text.trim(),
-        initialBalance: _amount ?? 0,
+        initialBalance: widget.wallet.balance,
         setAsDefault: _setAsDefault)));
   }
 
@@ -51,7 +41,6 @@ class _EditWalletSheetState extends State<EditWalletSheet> {
   void dispose() {
     _pages.dispose();
     _name.dispose();
-    _balance.dispose();
     super.dispose();
   }
 
@@ -64,7 +53,6 @@ class _EditWalletSheetState extends State<EditWalletSheet> {
             formKey: _formKey,
             editing: true,
             nameController: _name,
-            balanceController: _balance,
             currencyState: widget.currencyState,
             setAsDefault: _setAsDefault,
             onDefaultChanged: (value) => setState(() => _setAsDefault = value),

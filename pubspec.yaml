@@ -137,6 +137,8 @@ flutter:
   fonts:
     - family: Alexandria
       fonts:
+        - asset: assets/fonts/Alexandria-Light.ttf
+          weight: 300
         - asset: assets/fonts/Alexandria-Regular.ttf
           weight: 400
         - asset: assets/fonts/Alexandria-Medium.ttf

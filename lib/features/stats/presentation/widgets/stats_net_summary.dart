@@ -22,42 +22,35 @@ class StatsNetSummary extends StatelessWidget {
   final bool available;
   final CurrencyState? currency;
   @override
-  Widget build(BuildContext context) =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Center(
-            child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          decoration: BoxDecoration(
-              color: AppStatsTheme.background(context),
-              borderRadius: BorderRadius.circular(50),
-              boxShadow: AppStatsTheme.shadows(context)),
-          child:
-              Text(context.l10n.statsNet, style: AppStatsTheme.label(context)),
-        )),
-        // Text(context.l10n.statsNetDescription,
-        //     style: AppStatsTheme.caption(context)),
-        const SizedBox(height: 10),
-        SizedBox(
-            height: 50,
-            child: Align(
-                alignment: AlignmentDirectional.center,
-                child: loading
-                    ? const ValueSkeleton(
-                        key: Key('stats-net-skeleton'), width: 168, height: 30)
-                    : !available
-                        ? null
-                        : FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: AlignmentDirectional.centerStart,
-                            child: StatsAmount(
-                                key: amountKey,
-                                value: currency?.convertToSelected(
-                                        stats.balance, stats.currencyCode) ??
-                                    stats.balance,
-                                currencyCode:
-                                    currency?.code ?? stats.currencyCode,
-                                style: AppHomeOverviewTheme.balance(context),
-                                size: AppTypography.balance,
-                                currencySize: AppTypography.balance)))),
-      ]);
+  Widget build(BuildContext context) => SizedBox(
+      height: 50,
+      child: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    if (loading)
+                      const ValueSkeleton(
+                          key: Key('stats-net-skeleton'),
+                          width: 168,
+                          height: 30)
+                    else if (available)
+                      StatsAmount(
+                          key: amountKey,
+                          value: currency?.convertToSelected(
+                                  stats.balance, stats.currencyCode) ??
+                              stats.balance,
+                          currencyCode: currency?.code ?? stats.currencyCode,
+                          style: AppHomeOverviewTheme.balance(context),
+                          size: AppTypography.balance,
+                          currencySize: AppTypography.balance),
+                    if (loading || available) const SizedBox(width: 8),
+                    Text(context.l10n.statsNet,
+                        style: AppStatsTheme.label(context)),
+                  ]))));
 }

@@ -6,6 +6,8 @@ extension _ChatHomePageBuild on _ChatHomePageState {
     GuestSettingsPage guestSettings() => GuestSettingsPage(
           onCategoriesPressed: () => destinations.openCategories(),
           onWalletsPressed: () => destinations.openWallets(),
+          onNotificationsPressed: () =>
+              destinations.openNotifications(_notificationViewModel),
           walletsListenable: _aiEntryViewModel,
           walletCountReader: () => _aiEntryViewModel.wallets.length,
         );

@@ -1,69 +1,47 @@
-import 'package:budgets/core/ui/finance_sheet_scope.dart';
-import 'category_appearance_choice.dart';
-import 'category_icon.dart';
 import 'package:budgets/core/ui/app_category_icon_theme.dart';
-import 'package:budgets/core/ui/category_icons.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
-import 'package:budgets/widgets/custom_button.dart';
+import 'category_icon.dart';
+import 'category_color_choices.dart';
 
 class CategoryAppearanceField extends StatelessWidget {
-  const CategoryAppearanceField({
-    required this.iconKey,
-    required this.color,
-    required this.onIconTap,
-    required this.onColorTap,
-    super.key,
-  });
-
+  const CategoryAppearanceField(
+      {required this.iconKey,
+      required this.color,
+      required this.onIconTap,
+      required this.onColorTap,
+      required this.onColorChanged,
+      super.key});
   final String iconKey;
   final Color color;
   final VoidCallback onIconTap;
   final VoidCallback onColorTap;
+  final ValueChanged<Color> onColorChanged;
 
   @override
-  Widget build(BuildContext context) {
-    if (FinanceSheetScope.of(context))
-      return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-            child: CategoryAppearanceChoice(
-                key: const Key('category-icon-button'),
-                label: context.l10n.chooseCategoryIcon,
-                onTap: onIconTap,
-                icon: CategoryIcon(
-                    iconKey: iconKey,
-                    size: 28,
-                    colorHex: color.toARGB32().toRadixString(16)))),
-        const SizedBox(width: 16),
-        Expanded(
-            child: CategoryAppearanceChoice(
-                key: const Key('category-color-button'),
-                label: context.l10n.chooseCategoryColor,
-                onTap: onColorTap,
-                icon: Icon(Icons.circle, size: 28, color: color))),
+  Widget build(BuildContext context) => Column(children: [
+        Center(
+            child: SizedBox.square(
+                dimension: 152,
+                child: Stack(alignment: Alignment.center, children: [
+                  CategoryIcon(
+                      key: const Key('category-appearance-preview'),
+                      iconKey: iconKey,
+                      size: 104,
+                      color: color),
+                  PositionedDirectional(
+                      bottom: 0,
+                      end: 0,
+                      child: IconButton(
+                          key: const Key('category-icon-button'),
+                          tooltip: context.l10n.chooseCategoryIcon,
+                          onPressed: onIconTap,
+                          style: AppCategoryIconTheme.appearanceEditButton(
+                              context),
+                          icon: const Icon(Icons.add_rounded, size: 28))),
+                ]))),
+        const SizedBox(height: 24),
+        CategoryColorChoices(
+            color: color, onChanged: onColorChanged, onCustom: onColorTap),
       ]);
-    return Row(children: [
-      Expanded(
-        child: CustomButton.outlined(
-          key: const Key('category-icon-button'),
-          onPressed: onIconTap,
-          icon: CategoryIcons.icon(iconKey: iconKey),
-          iconColor: AppCategoryIconTheme.color(
-              context, color.toARGB32().toRadixString(16)),
-          tooltip: context.l10n.chooseCategoryIcon,
-          text: '',
-        ),
-      ),
-      const SizedBox(width: 12),
-      Expanded(
-        child: CustomButton.outlined(
-          key: const Key('category-color-button'),
-          onPressed: onColorTap,
-          icon: Icons.circle,
-          iconColor: color,
-          text: '',
-        ),
-      ),
-    ]);
-  }
 }

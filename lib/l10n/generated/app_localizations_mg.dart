@@ -1456,5 +1456,8 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get dailyAiCreditsExhausted =>
-      'Lany ny crédit AI androany. Hiverina rahampitso izy ireo. Jereo ny Drala Plus hahazoana AI tsy voafetra.';
+      'Lany ny crédit AI androany. Hiverina rahampitso izy ireo.';
+
+  @override
+  String get logOutConfirmation => 'Tena te hivoaka ve ianao ?';
 }

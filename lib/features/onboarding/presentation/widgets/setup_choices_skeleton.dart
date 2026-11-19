@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:budgets/core/ui/app_setup_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SetupChoicesSkeleton extends StatelessWidget {
@@ -42,7 +43,7 @@ class SetupChoicesSkeleton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 15),
         decoration: _decoration(context).copyWith(
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.all(AppSetupTheme.choiceRadius),
         ),
         alignment: Alignment.center,
         child: _bar(context, width: 112, height: 12),
@@ -104,7 +105,7 @@ class SetupChoicesSkeleton extends StatelessWidget {
 
   BoxDecoration _decoration(BuildContext context) => BoxDecoration(
         color: Theme.of(context).colorScheme.surfaceBright,
-        borderRadius: BorderRadius.circular(999),
+        borderRadius: BorderRadius.all(AppSetupTheme.choiceRadius),
       );
 
   Widget _bar(BuildContext context, {double? width, required double height}) =>

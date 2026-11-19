@@ -78,7 +78,7 @@ class TransferWalletField extends StatelessWidget {
     return !reference
         ? field
         : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(label, style: AppFinanceSurfaceTheme.label(context)),
+            Text(label, style: AppFinanceSurfaceTheme.formLabel(context)),
             const SizedBox(height: 10),
             field
           ]);

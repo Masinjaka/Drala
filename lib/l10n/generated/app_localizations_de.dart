@@ -1458,5 +1458,8 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dailyAiCreditsExhausted =>
-      'Deine KI-Credits für heute sind aufgebraucht. Morgen werden sie erneuert. Mit Drala Plus nutzt du KI unbegrenzt.';
+      'Deine KI-Credits für heute sind aufgebraucht. Morgen werden sie erneuert.';
+
+  @override
+  String get logOutConfirmation => 'Möchtest du dich wirklich abmelden?';
 }

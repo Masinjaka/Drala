@@ -64,11 +64,10 @@ class GuestWalletStore implements DefaultWalletRepository {
     final now = DateTime.now().toUtc().toIso8601String();
     await database.transaction(() async {
       await database.customUpdate(
-        '''UPDATE guest_wallets SET name = ?, balance = ?, updated_at = ?
+        '''UPDATE guest_wallets SET name = ?, updated_at = ?
            WHERE id = ? AND user_id = ?''',
         variables: [
           Variable.withString(input.name),
-          Variable.withInt(input.initialBalance),
           Variable.withString(now),
           Variable.withString(id),
           Variable.withString(userId),
@@ -77,7 +76,6 @@ class GuestWalletStore implements DefaultWalletRepository {
       await GuestSyncJournal(database).record('wallets', id, 'upsert', {
         'id': id,
         'name': input.name,
-        'balance': input.initialBalance,
       });
     });
     if (input.setAsDefault) await setDefault(id);

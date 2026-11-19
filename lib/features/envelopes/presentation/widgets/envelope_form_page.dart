@@ -1,5 +1,6 @@
 import 'package:budgets/features/transactions/presentation/widgets/transaction_reference_layout.dart';
 import 'package:budgets/core/forms/field_validators.dart';
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_amount_field.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_category_field.dart';
@@ -88,9 +89,11 @@ class EnvelopeFormPage extends StatelessWidget {
             value: repeatsMonthly,
             onChanged: saving ? null : onRepeatsMonthlyChanged,
             title: Text(context.l10n.repeatEnvelopeMonthly,
-                style: Theme.of(context).textTheme.bodySmall),
-            subtitle: Text(context.l10n.repeatEnvelopeMonthlyHelp,
-                style: Theme.of(context).textTheme.labelSmall),
+                style: AppFinanceSurfaceTheme.switchTitle(context)),
+            subtitle: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(context.l10n.repeatEnvelopeMonthlyHelp,
+                    style: AppFinanceSurfaceTheme.switchSubtitle(context))),
           ),
         ],
       );

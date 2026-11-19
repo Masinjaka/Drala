@@ -62,7 +62,8 @@ class StatsMonthPage extends StatelessWidget {
                   available: stats != null,
                   currency: displayCurrency),
               const SizedBox(height: 25),
-              Center(
+              Align(
+                  alignment: AlignmentDirectional.centerStart,
                   child: StatsTabSwitcher(
                       categories: categories, onChanged: onTabChanged)),
               const SizedBox(height: 16),

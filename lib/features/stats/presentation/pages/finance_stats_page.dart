@@ -1,6 +1,5 @@
 import 'package:budgets/core/ui/app_header_metrics.dart';
 import 'package:budgets/core/ui/month_scroll_layout.dart';
-import 'package:budgets/core/ui/app_grid_background.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -123,59 +122,46 @@ class _FinanceStatsPageState extends State<FinanceStatsPage> {
       body: ListenableBuilder(
         listenable: _viewModel,
         builder: (context, _) {
-          final stats = _viewModel.stats;
-          final amount = stats == null
-              ? 0
-              : widget.displayCurrency
-                      ?.convertToSelected(stats.balance, stats.currencyCode) ??
-                  stats.balance;
-          return AppGridBackground(
-              gravity: true,
-              backgroundColor: AppStatsTheme.background(context),
-              amount: amount,
-              loading: stats == null,
-              builder: (amountKey) => SafeArea(
-                  bottom: false,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: AppHeaderMetrics.topPadding),
-                    child: MonthScrollLayout(
-                      scrollKey: const Key('stats-page-scroll'),
-                      headerBuilder: (showMonth) => Padding(
-                          padding: AppPageSpacing.insets(context),
-                          child: StatsPageHeader(
-                              showMonth: showMonth,
-                              month: _viewModel.month,
-                              onPickMonth: _pickMonth,
-                              showBackButton: widget.showBackButton)),
-                      carousel: MonthCarousel(
+          return SafeArea(
+              bottom: false,
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(top: AppHeaderMetrics.topPadding),
+                child: MonthScrollLayout(
+                  scrollKey: const Key('stats-page-scroll'),
+                  headerBuilder: (showMonth) => Padding(
+                      padding: AppPageSpacing.insets(context),
+                      child: StatsPageHeader(
+                          showMonth: showMonth,
                           month: _viewModel.month,
-                          onChanged: _changeMonth,
-                          pillStyle: true,
-                          canGoNext: _canGoForward),
-                      child: PageView.builder(
-                        key: const Key('stats-month-pages'),
-                        controller: _pages,
-                        itemCount: _pageFor(DateTime.now()) + 1,
-                        onPageChanged: _selectPage,
-                        itemBuilder: (context, page) {
-                          final month = _monthFor(page);
-                          return StatsMonthPage(
-                              amountKey:
-                                  month == _viewModel.month ? amountKey : null,
-                              key: ValueKey(
-                                  'stats-$month-${month == _viewModel.month ? _visit : -1}'),
-                              categories: _categories,
-                              onTabChanged: (value) =>
-                                  setState(() => _categories = value),
-                              stats: _viewModel.statsForMonth(month),
-                              loading: _viewModel.isMonthLoading(month),
-                              onRefresh: _load,
-                              displayCurrency: widget.displayCurrency);
-                        },
-                      ),
-                    ),
-                  )));
+                          onPickMonth: _pickMonth,
+                          showBackButton: widget.showBackButton)),
+                  carousel: MonthCarousel(
+                      month: _viewModel.month,
+                      onChanged: _changeMonth,
+                      pillStyle: true,
+                      canGoNext: _canGoForward),
+                  child: PageView.builder(
+                    key: const Key('stats-month-pages'),
+                    controller: _pages,
+                    itemCount: _pageFor(DateTime.now()) + 1,
+                    onPageChanged: _selectPage,
+                    itemBuilder: (context, page) {
+                      final month = _monthFor(page);
+                      return StatsMonthPage(
+                          key: ValueKey(
+                              'stats-$month-${month == _viewModel.month ? _visit : -1}'),
+                          categories: _categories,
+                          onTabChanged: (value) =>
+                              setState(() => _categories = value),
+                          stats: _viewModel.statsForMonth(month),
+                          loading: _viewModel.isMonthLoading(month),
+                          onRefresh: _load,
+                          displayCurrency: widget.displayCurrency);
+                    },
+                  ),
+                ),
+              ));
         },
       ),
     );

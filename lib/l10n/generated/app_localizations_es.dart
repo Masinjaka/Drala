@@ -1452,5 +1452,8 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dailyAiCreditsExhausted =>
-      'Has agotado los créditos de IA de hoy. Se renuevan mañana. Descubre Drala Plus para usar la IA sin límites.';
+      'Has agotado los créditos de IA de hoy. Se renuevan mañana.';
+
+  @override
+  String get logOutConfirmation => '¿Seguro que quieres cerrar sesión?';
 }

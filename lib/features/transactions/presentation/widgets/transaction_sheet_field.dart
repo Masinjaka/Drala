@@ -26,7 +26,10 @@ class TransactionSheetField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: Theme.of(context).textTheme.labelMedium),
+        Text(label,
+            style: FinanceSheetScope.of(context)
+                ? AppFinanceSurfaceTheme.formLabel(context)
+                : Theme.of(context).textTheme.labelMedium),
         const SizedBox(height: 7),
         TextFormField(
           controller: controller,

@@ -1,3 +1,4 @@
+import 'package:budgets/features/settings/presentation/pages/settings_inbox_page.dart';
 import 'package:budgets/core/legal/legal_document_launcher.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_legal_section.dart';
 import 'package:budgets/core/layout/app_scroll_padding.dart';
@@ -32,6 +33,7 @@ class GuestSettingsPage extends ConsumerStatefulWidget {
     required this.walletsListenable,
     required this.walletCountReader,
     this.isSignedIn,
+    this.onNotificationsPressed,
     this.legalLauncher = const UrlLegalDocumentLauncher(),
     super.key,
   });
@@ -41,6 +43,7 @@ class GuestSettingsPage extends ConsumerStatefulWidget {
   final Listenable walletsListenable;
   final int Function() walletCountReader;
   final bool Function()? isSignedIn;
+  final VoidCallback? onNotificationsPressed;
   final LegalDocumentLauncher legalLauncher;
 
   @override
@@ -90,8 +93,8 @@ class _GuestSettingsPageState extends ConsumerState<GuestSettingsPage> {
         header: SettingsPageHeader(
             title: l.settings,
             showBackButton: false,
-            onNotifications: () =>
-                _open(context, const GuestNotificationSettingsPage())),
+            onNotifications: widget.onNotificationsPressed ??
+                () => _open(context, const SettingsInboxPage())),
         child: Center(
             child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 520),

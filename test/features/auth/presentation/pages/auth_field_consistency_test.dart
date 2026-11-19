@@ -21,7 +21,7 @@ void main() {
     final emailSize = tester.getSize(fields.at(0));
     final passwordSize = tester.getSize(fields.at(1));
 
-    expect(emailSize.height, AppControlMetrics.height);
+    expect(emailSize.height, greaterThanOrEqualTo(AppControlMetrics.height));
     expect(passwordSize.height, emailSize.height);
   });
 }

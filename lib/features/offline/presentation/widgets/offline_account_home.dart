@@ -45,31 +45,16 @@ class _OfflineAccountHomeState extends State<OfflineAccountHome> {
         final account = widget.account;
         final status = account.status;
         if (!account.hydrated) {
-          final message = switch (status) {
-            SyncStatus.offline => context.l10n.offlineStatus,
-            SyncStatus.conflict => context.l10n.syncConflictTitle,
-            SyncStatus.blocked => context.l10n.offlineSetupUnavailable,
-            SyncStatus.signInRequired => context.l10n.signInSyncRequired,
-            _ => context.l10n.syncingStatus,
-          };
+          if (status == SyncStatus.syncing || status == SyncStatus.connecting) {
+            return const Scaffold(
+                body: Center(child: CircularProgressIndicator()));
+          }
           return Scaffold(
-              body: SafeArea(
-                  child: Center(
-                      child: Padding(
-                          padding: const EdgeInsets.all(24),
-                          child:
-                              Column(mainAxisSize: MainAxisSize.min, children: [
-                            if (status == SyncStatus.syncing ||
-                                status == SyncStatus.connecting)
-                              const CircularProgressIndicator(),
-                            const SizedBox(height: 16),
-                            Text(context.l10n.offlineInitial),
-                            const SizedBox(height: 8),
-                            Text(message),
-                            TextButton(
-                                onPressed: _retry,
-                                child: Text(context.l10n.offlineRetry)),
-                          ])))));
+              body: Center(
+                  child: IconButton(
+                      onPressed: _retry,
+                      tooltip: context.l10n.offlineRetry,
+                      icon: const Icon(Icons.refresh_rounded))));
         }
         return ChatHomePage(
             key: ValueKey(account.id),

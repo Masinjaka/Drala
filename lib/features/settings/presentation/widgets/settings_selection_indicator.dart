@@ -1,4 +1,4 @@
-import 'package:budgets/core/ui/app_icon_foreground.dart';
+import 'settings_selected_mark.dart';
 import 'package:flutter/material.dart';
 
 class SettingsSelectionIndicator extends StatelessWidget {
@@ -33,36 +33,8 @@ class SettingsSelectionIndicator extends StatelessWidget {
                   ),
                 )
               : selected
-                  ? _SelectedMark(key: const ValueKey('selected'))
+                  ? SettingsSelectedMark(key: const ValueKey('selected'))
                   : const SizedBox.shrink(key: ValueKey('empty')),
         ),
       );
-}
-
-class _SelectedMark extends StatelessWidget {
-  const _SelectedMark({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    return Padding(
-      padding: const EdgeInsets.only(right: 2.0),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.onSurface,
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: Icon(
-            Icons.check_rounded,
-            color: AppIconForeground.resolve(context, colors.surface),
-            shadows: Theme.of(context).brightness == Brightness.dark
-                ? [Shadow(color: colors.surface, blurRadius: 4)]
-                : null,
-            size: 15,
-          ),
-        ),
-      ),
-    );
-  }
 }

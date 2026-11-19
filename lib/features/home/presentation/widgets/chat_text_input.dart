@@ -52,7 +52,7 @@ class ChatTextInput extends StatelessWidget {
                       suggestions: focusNode.hasFocus
                           ? [context.l10n.startTyping]
                           : hints,
-                      animate: enabled && !focusNode.hasFocus && !compact,
+                      animate: enabled && !focusNode.hasFocus,
                       style: hintStyle,
                     ),
                   ),

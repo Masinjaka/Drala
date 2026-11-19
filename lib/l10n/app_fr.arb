@@ -487,5 +487,6 @@
   },
   "chooseCategoryColor": "Choisir une couleur",
   "settingsGuestSyncPrompt": "Connectez-vous pour synchroniser votre budget.",
-  "dailyAiCreditsExhausted": "Vos crédits IA du jour sont épuisés. Ils reviennent demain. Découvrez Drala Plus pour une IA illimitée."
+  "dailyAiCreditsExhausted": "Vos crédits IA du jour sont épuisés. Ils reviennent demain.",
+  "logOutConfirmation": "Voulez-vous vraiment vous déconnecter ?"
 }

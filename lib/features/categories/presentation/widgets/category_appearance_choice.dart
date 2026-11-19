@@ -26,6 +26,6 @@ class CategoryAppearanceChoice extends StatelessWidget {
                 const SizedBox(height: 12),
                 Text(label,
                     textAlign: TextAlign.center,
-                    style: AppFinanceSurfaceTheme.label(context))
+                    style: AppFinanceSurfaceTheme.formLabel(context))
               ]))));
 }

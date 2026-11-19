@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_button_theme.dart';
 import 'package:budgets/core/ui/app_control_metrics.dart';
 import 'package:budgets/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class AuthTextField extends StatelessWidget {
       fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
       height: AppControlMetrics.height,
       labelSpacing: 6,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: AppButtonTheme.borderRadius,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       fillColor: Theme.of(context).colorScheme.surfaceContainer);
 }

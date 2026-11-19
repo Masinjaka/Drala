@@ -1,3 +1,5 @@
+import 'package:budgets/features/notifications/presentation/pages/finance_notifications_page.dart';
+import 'package:budgets/features/guest/presentation/pages/guest_notification_settings_page.dart';
 import 'package:budgets/features/guest/data/guest_database.dart';
 import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/features/guest/presentation/pages/guest_settings_page.dart';
@@ -66,5 +68,9 @@ void main() {
     }
     expect(legalLauncher.opened, ['terms', 'privacy']);
     expect(find.text('Delete my account'), findsNothing);
+    await tester.tap(find.byKey(const Key('settings-notification-button')));
+    await tester.pumpAndSettle();
+    expect(find.byType(FinanceNotificationsPage), findsOneWidget);
+    expect(find.byType(GuestNotificationSettingsPage), findsNothing);
   });
 }

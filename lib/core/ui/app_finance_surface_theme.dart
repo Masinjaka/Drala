@@ -35,9 +35,25 @@ abstract final class AppFinanceSurfaceTheme {
       Theme.of(context).colorScheme.outline.withValues(alpha: .35);
   static TextStyle label(BuildContext context) =>
       Theme.of(context).textTheme.bodyMedium!;
+  static TextStyle switchTitle(BuildContext context) => Theme.of(context)
+      .textTheme
+      .labelMedium!
+      .copyWith(fontWeight: FontWeight.bold);
+  static TextStyle switchSubtitle(BuildContext context) =>
+      Theme.of(context).textTheme.bodySmall!.copyWith(
+          fontWeight: FontWeight.normal,
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.grey.shade600
+              : Colors.grey.shade500);
+  static TextStyle formLabel(BuildContext context) => Theme.of(context)
+      .textTheme
+      .labelMedium!
+      .copyWith(fontWeight: FontWeight.bold);
   static TextStyle title(BuildContext context) => label(context).copyWith(
       shadows: AppHeaderTheme.titleShadows(context),
       fontSize: AppTypography.title);
+  static TextStyle sheetTitle(BuildContext context) =>
+      title(context).copyWith(fontWeight: FontWeight.bold);
   static TextStyle value(BuildContext context) => AppTextTheme.amount(
       label(context).copyWith(fontSize: AppTypography.headline));
   static TextStyle amount(BuildContext context) => AppTextTheme.amount(

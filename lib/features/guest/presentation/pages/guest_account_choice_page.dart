@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/app_header_metrics.dart';
+import 'package:budgets/core/ui/app_button_theme.dart';
 import 'package:budgets/core/ui/app_grid_background.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -47,12 +48,12 @@ class GuestAccountChoicePage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  Text(
-                    l.guestChoiceTitle,
-                    textAlign: TextAlign.center,
-                    style: AppTextTheme.onboardingTitle(context),
-                  ),
                   if (showGuestOption) ...[
+                    Text(
+                      l.guestChoiceTitle,
+                      textAlign: TextAlign.center,
+                      style: AppTextTheme.onboardingTitle(context),
+                    ),
                     const SizedBox(height: 12),
                     Text(
                       l.guestChoiceBody,
@@ -72,17 +73,32 @@ class GuestAccountChoicePage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 12),
                   ],
-                  CustomButton.outlined(
-                    text: l.authSignUp,
-                    onPressed: () => context.push('/signup'),
-                    height: 44,
-                  ),
-                  const SizedBox(height: 12),
-                  CustomButton.text(
-                    text: l.authSignIn,
-                    onPressed: () => context.push('/login'),
-                    height: 44,
-                  ),
+                  if (!showGuestOption) ...[
+                    CustomButton(
+                      text: l.authSignUp,
+                      onPressed: () => context.push('/signup'),
+                      height: 44,
+                    ),
+                    const SizedBox(height: 12),
+                    CustomButton.text(
+                      text: l.authSignIn,
+                      foregroundColor: AppButtonTheme.textForeground(context),
+                      onPressed: () => context.push('/login'),
+                      height: 44,
+                    ),
+                  ] else ...[
+                    CustomButton.outlined(
+                      text: l.authSignUp,
+                      onPressed: () => context.push('/signup'),
+                      height: 44,
+                    ),
+                    const SizedBox(height: 12),
+                    CustomButton.text(
+                      text: l.authSignIn,
+                      onPressed: () => context.push('/login'),
+                      height: 44,
+                    ),
+                  ],
                 ],
               ),
             ),

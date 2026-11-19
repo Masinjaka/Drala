@@ -1,3 +1,4 @@
+import 'package:budgets/features/settings/presentation/widgets/logout_page_background.dart';
 import 'package:budgets/features/home/data/services/home_repository_factory.dart';
 import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/features/offline/presentation/widgets/offline_account_home.dart';
@@ -23,6 +24,7 @@ class CurrencyHomePage extends ConsumerWidget {
         ? null
         : ref.watch(userModelProvider).value?.name;
     Widget home() {
+      if (guest?.isSigningOut == true) return const SizedBox.shrink();
       if (guest?.isActive == true) {
         return ChatHomePage(
           key: ValueKey(guest!.userId),
@@ -54,9 +56,10 @@ class CurrencyHomePage extends ConsumerWidget {
             body: Center(
                 child: manager.opening
                     ? const CircularProgressIndicator()
-                    : TextButton(
+                    : IconButton(
                         onPressed: manager.retryOpen,
-                        child: Text(context.l10n.offlineInitial))));
+                        tooltip: context.l10n.offlineRetry,
+                        icon: const Icon(Icons.refresh_rounded))));
       }
       return ChatHomePage(
         key: ValueKey(('remote', HomeRepositoryFactory.signedInAccountId)),
@@ -67,10 +70,13 @@ class CurrencyHomePage extends ConsumerWidget {
       );
     }
 
-    if (guest == null) return home();
-    return ListenableBuilder(
-      listenable: guest,
-      builder: (context, _) => home(),
+    return LogoutPageBackground(
+      child: guest == null
+          ? home()
+          : ListenableBuilder(
+              listenable: guest,
+              builder: (context, _) => home(),
+            ),
     );
   }
 }

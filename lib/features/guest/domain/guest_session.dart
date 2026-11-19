@@ -98,8 +98,7 @@ class GuestSession extends ChangeNotifier {
   }
 
   Future<void> prepareCompletion() async {
-    await _preferences.setBool('guest_completion_pending', true);
-    completionPending = true;
+    await markCompletionSeen();
     markOnboardingComplete();
   }
 
@@ -128,6 +127,13 @@ class GuestSession extends ChangeNotifier {
     );
     markOnboardingComplete();
     await markChoiceSeen();
+  }
+
+  /// Leave an unfinished local draft intact when opening an existing account.
+  Future<void> suspendForSignIn() async {
+    await _preferences.setBool('guest_active', false);
+    isActive = false;
+    notifyListeners();
   }
 
   Future<void> stopAfterSync() async {

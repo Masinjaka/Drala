@@ -70,10 +70,10 @@ class StatsCategoryRow extends StatelessWidget {
                     sign: '-')),
             const SizedBox(height: 6),
             Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
                 decoration: BoxDecoration(
                     color: percentageBackground,
-                    borderRadius: BorderRadius.circular(4)),
+                    borderRadius: BorderRadius.circular(50)),
                 child: Text(
                     AmountVisibilityScope.isVisibleOf(context)
                         ? '${total == 0 ? 0 : (category.amount / total * 100).round()}%'

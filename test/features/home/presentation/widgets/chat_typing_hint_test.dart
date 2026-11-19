@@ -24,7 +24,7 @@ void main() {
     final textSpan = tester
         .widget<RichText>(find.byKey(const Key('chat-typing-hint-text')))
         .text as TextSpan;
-    expect(textSpan.style?.fontSize, 11);
+    expect(textSpan.style?.fontSize, 12);
     expect((textSpan.children![1] as TextSpan).style?.fontSize, 12);
     await tester.pump(const Duration(milliseconds: 220));
     expect(visibleText(), startsWith('Expe'));

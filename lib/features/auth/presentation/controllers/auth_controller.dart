@@ -27,6 +27,13 @@ class AuthController extends _$AuthController {
     try {
       await repo.signInWithPassword(email: email, password: password);
       await _syncGuestIfReady();
+      final guest = ref.read(guestSessionProvider);
+      if (guest?.isActive == true && !guest!.onboardingComplete) {
+        await guest.suspendForSignIn();
+        ref.invalidate(guestSessionProvider);
+        ref.invalidate(categoriesProvider);
+        ref.invalidate(currencyControllerProvider);
+      }
       debugPrint('[AuthController][signIn] Success');
       ref.invalidate(userModelProvider);
       state = const AsyncData(null);

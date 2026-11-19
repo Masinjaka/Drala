@@ -14,7 +14,14 @@ extension _AccountSetupActions on _AccountSetupPageState {
   }
 
   void _back() {
-    if (!busy && !moving && step > 2 && step < 6) _moveTo(step - 1);
+    if (busy || moving) return;
+    if (step > 2) {
+      _moveTo(step - 1);
+    } else if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go('/getting-started');
+    }
   }
 
   Future<void> _moveTo(int target) async {
@@ -62,7 +69,12 @@ extension _AccountSetupActions on _AccountSetupPageState {
           ref.invalidate(categoriesProvider);
           await widget.onConfigured!();
         } else if (mounted) {
-          await _moveTo(6);
+          await widget.onCompleted?.call();
+          ref.invalidate(guestSessionProvider);
+          ref.invalidate(categoriesProvider);
+          ref.invalidate(currencyControllerProvider);
+          ref.invalidate(userModelProvider);
+          if (mounted) context.go(widget.completionRoute);
         }
       } else {
         await repo.save({'step': step + 1, ...selections});

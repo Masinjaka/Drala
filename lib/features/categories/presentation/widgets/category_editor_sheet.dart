@@ -144,7 +144,15 @@ class _CategoryEditorSheetState extends ConsumerState<CategoryEditorSheet> {
                       showDelete: widget.category != null,
                       onDelete:
                           widget.category == null || _saving ? null : _delete),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 24),
+                  CategoryAppearanceField(
+                      iconKey: _iconKey,
+                      color: _color,
+                      onIconTap: _pickIcon,
+                      onColorTap: _pickColor,
+                      onColorChanged: (value) =>
+                          setState(() => _color = value)),
+                  const SizedBox(height: 32),
                   TransactionSheetField(
                       label: context.l10n.name,
                       controller: _name,
@@ -152,12 +160,6 @@ class _CategoryEditorSheetState extends ConsumerState<CategoryEditorSheet> {
                           context, value,
                           message: context.l10n.categoryNameRequired),
                       textInputAction: TextInputAction.done),
-                  const SizedBox(height: 24),
-                  CategoryAppearanceField(
-                      iconKey: _iconKey,
-                      color: _color,
-                      onIconTap: _pickIcon,
-                      onColorTap: _pickColor),
                 ]),
           ]));
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:budgets/core/ui/app_setup_theme.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SetupCurrencySkeleton extends StatelessWidget {
@@ -19,7 +20,7 @@ class SetupCurrencySkeleton extends StatelessWidget {
           color: reducedMotion
               ? colors.onSurface.withValues(alpha: .07)
               : colors.onSurface,
-          borderRadius: BorderRadius.circular(999),
+          borderRadius: BorderRadius.all(AppSetupTheme.choiceRadius),
         ),
       ),
     );

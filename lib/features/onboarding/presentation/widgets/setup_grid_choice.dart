@@ -1,5 +1,7 @@
 import 'package:budgets/core/ui/app_card_surface.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
+import 'package:budgets/core/ui/app_setup_theme.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_selection_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -46,7 +48,6 @@ class _SetupGridChoiceState extends State<SetupGridChoice>
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     return ScaleTransition(
       scale: _scale,
       child: GestureDetector(
@@ -62,8 +63,10 @@ class _SetupGridChoiceState extends State<SetupGridChoice>
           selected: widget.selected,
           button: true,
           child: AppCardSurface(
-            color: colors.surfaceContainer,
-            borderRadius: BorderRadius.circular(999),
+            showShadow: false,
+            color: AppSetupTheme.choiceBackground(context,
+                selected: widget.selected),
+            borderRadius: BorderRadius.all(AppSetupTheme.choiceRadius),
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: widget.height),
               child: Padding(
@@ -81,28 +84,7 @@ class _SetupGridChoiceState extends State<SetupGridChoice>
                       ),
                     ),
                     const SizedBox(width: 4),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 180),
-                      switchInCurve: Curves.easeOutBack,
-                      switchOutCurve: Curves.easeIn,
-                      transitionBuilder: (child, animation) => FadeTransition(
-                        opacity: animation,
-                        child: ScaleTransition(
-                          scale: animation,
-                          child: child,
-                        ),
-                      ),
-                      child: Icon(
-                        widget.selected
-                            ? Icons.check_circle_rounded
-                            : Icons.circle_outlined,
-                        key: ValueKey(widget.selected),
-                        size: 18,
-                        color: widget.selected
-                            ? colors.onSurface
-                            : colors.onSurfaceVariant,
-                      ),
-                    ),
+                    SettingsSelectionIndicator(selected: widget.selected),
                   ],
                 ),
               ),

@@ -27,7 +27,7 @@ void main() {
     ));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const Key('detail-add-button')));
+    await tester.tap(find.byKey(const Key('category-create')));
     await tester.pumpAndSettle();
     expect(find.byType(CategoryEditorSheet), findsOneWidget);
     expect(find.byKey(const Key('transaction-sheet-surface')), findsOneWidget);
@@ -61,7 +61,7 @@ void main() {
       ),
     ));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('detail-add-button')));
+    await tester.tap(find.byKey(const Key('category-create')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('category-icon-button')));
     await tester.pumpAndSettle();

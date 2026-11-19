@@ -1,3 +1,5 @@
+import 'logout_page_background.dart';
+import 'logout_confirmation_dialog.dart';
 import 'package:budgets/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/features/settings/data/repositories/supabase_account_data_repository.dart';
@@ -31,7 +33,7 @@ class _SettingsAccountActionsState extends ConsumerState<SettingsAccountActions>
             offline: ref.read(offlineAccountProvider),
           )),
   );
-  bool _isLoggingOut = false;
+  bool _isConfirmingLogout = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -57,7 +59,6 @@ class _SettingsAccountActionsState extends ConsumerState<SettingsAccountActions>
       viewModel: _viewModel,
       accountEmail: _client?.auth.currentUser?.email ?? '',
       onLogout: _logout,
-      isLoggingOut: _isLoggingOut,
       onDataDeleted: _dataDeleted,
       onAccountDeleted: () => context.go('/getting-started'),
     );
@@ -74,10 +75,15 @@ class _SettingsAccountActionsState extends ConsumerState<SettingsAccountActions>
   }
 
   Future<void> _logout() async {
-    if (_isLoggingOut) return;
-    setState(() => _isLoggingOut = true);
-    await ref.read(authControllerProvider.notifier).signOut();
-    if (!mounted) return;
-    context.go('/home');
+    if (_isConfirmingLogout) return;
+    _isConfirmingLogout = true;
+    final auth = ref.read(authControllerProvider.notifier);
+    try {
+      final completed = await LogoutConfirmationDialog.show(context,
+          onConfirm: () => LogoutPageBackground.hold(context, auth.signOut));
+      if (completed && mounted) context.go('/home');
+    } finally {
+      _isConfirmingLogout = false;
+    }
   }
 }

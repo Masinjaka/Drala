@@ -32,7 +32,7 @@ void main() {
           )
           .first,
     );
-    expect(scale.scale.value, closeTo(0.94, 0.01));
+    expect(scale.scale.value, closeTo(0.98, 0.01));
 
     await gesture.up();
     await tester.pumpAndSettle();

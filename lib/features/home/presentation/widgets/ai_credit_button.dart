@@ -1,6 +1,4 @@
-import 'package:budgets/core/navigation/app_modal_page_route.dart';
 import 'package:budgets/core/ui/app_envelope_theme.dart';
-import 'package:budgets/features/plans/presentation/pages/plan_page.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
 
@@ -9,9 +7,6 @@ class AiCreditButton extends StatelessWidget {
       {required this.remaining, required this.unlimited, super.key});
   final int? remaining;
   final bool unlimited;
-
-  static void openPlans(BuildContext context) => Navigator.of(context)
-      .push(AppModalPageRoute<void>(builder: (_) => const PlanPage()));
 
   @override
   Widget build(BuildContext context) => Tooltip(
@@ -24,7 +19,7 @@ class AiCreditButton extends StatelessWidget {
               boxShadow: AppEnvelopeTheme.shadows(context)),
           child: TextButton(
               key: const Key('activity-ai-credits'),
-              onPressed: () => openPlans(context),
+              onPressed: null,
               style: AppEnvelopeTheme.yearButton(context),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
                 const Icon(Icons.auto_awesome, size: 16),

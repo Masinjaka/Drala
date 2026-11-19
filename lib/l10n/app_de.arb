@@ -515,5 +515,6 @@
   },
   "chooseCategoryColor": "Farbe wählen",
   "settingsGuestSyncPrompt": "Melde dich an, um dein Budget zu synchronisieren.",
-  "dailyAiCreditsExhausted": "Deine KI-Credits für heute sind aufgebraucht. Morgen werden sie erneuert. Mit Drala Plus nutzt du KI unbegrenzt."
+  "dailyAiCreditsExhausted": "Deine KI-Credits für heute sind aufgebraucht. Morgen werden sie erneuert.",
+  "logOutConfirmation": "Möchtest du dich wirklich abmelden?"
 }

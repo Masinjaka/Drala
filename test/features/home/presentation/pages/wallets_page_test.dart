@@ -21,6 +21,7 @@ void main() {
         onDeleteWallet: (_) async {},
       ),
     ));
+    await tester.pump(const Duration(milliseconds: 200));
     expect(find.byType(WalletCardSkeleton), findsNWidgets(3));
 
     loading = false;

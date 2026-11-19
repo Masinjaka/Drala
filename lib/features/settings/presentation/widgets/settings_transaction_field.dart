@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
+import 'package:budgets/core/ui/finance_sheet_scope.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,10 @@ class SettingsTransactionField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomTextField(
-        title: Text(label, style: Theme.of(context).textTheme.bodyMedium),
+        title: Text(label,
+            style: FinanceSheetScope.of(context)
+                ? AppFinanceSurfaceTheme.formLabel(context)
+                : Theme.of(context).textTheme.bodyMedium),
         hint: hint,
         controller: controller,
         isPassword: isPassword,

@@ -140,7 +140,7 @@ void main() {
     );
   });
 
-  testWidgets('animated hint is smaller than entered text with muted color',
+  testWidgets('animated hint uses regular app typography with muted color',
       (tester) async {
     await tester.pumpWidget(
       MaterialApp(
@@ -160,7 +160,7 @@ void main() {
     );
     final style = richText.text.style!;
     expect(style.fontFamily, 'Alexandria');
-    expect(style.fontSize, 13);
+    expect(style.fontSize, 14);
     expect(style.fontWeight, FontWeight.w400);
     expect(style.height, 1.35);
     expect(style.color, AppTheme.mutedTextLight.withValues(alpha: 0.78));

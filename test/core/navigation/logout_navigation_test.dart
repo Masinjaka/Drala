@@ -4,7 +4,7 @@ import 'package:budgets/core/navigation/app_navigation.dart';
 import 'package:budgets/features/guest/data/guest_database.dart';
 import 'package:budgets/features/guest/domain/guest_session.dart';
 import 'package:budgets/features/home/presentation/widgets/home_bottom_navigation_bar.dart';
-import 'package:budgets/features/home/presentation/widgets/home_dashboard.dart';
+import 'package:budgets/features/home/presentation/widgets/home_overview.dart';
 import 'package:budgets/features/onboarding/presentation/pages/getting_started_page.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  testWidgets('ready guest after sign-out lands on Activities', (tester) async {
+  testWidgets('ready guest after sign-out lands on Home', (tester) async {
     SharedPreferences.setMockInitialValues({});
     tester.view.physicalSize = const Size(412, 917);
     tester.view.devicePixelRatio = 1;
@@ -42,7 +42,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(navigation.router.routeInformationProvider.value.uri.path, '/home');
-    expect(find.byType(HomeDashboard), findsOneWidget);
+    expect(find.byType(HomeOverview), findsOneWidget);
     expect(
         tester
             .widget<HomeBottomNavigationBar>(
@@ -90,7 +90,7 @@ void main() {
     guest.setSigningOut(false);
     await tester.pumpAndSettle();
     expect(navigation.router.routeInformationProvider.value.uri.path, '/home');
-    expect(find.byType(HomeDashboard), findsOneWidget);
+    expect(find.byType(HomeOverview), findsOneWidget);
   });
 
   testWidgets('app relaunch after guest login and logout skips onboarding',
@@ -134,7 +134,7 @@ void main() {
 
     expect(navigation.router.routeInformationProvider.value.uri.path, '/home');
     expect(find.byType(GettingStartedPage), findsNothing);
-    expect(find.byType(HomeDashboard), findsOneWidget);
+    expect(find.byType(HomeOverview), findsOneWidget);
     expect(
         tester
             .widget<HomeBottomNavigationBar>(

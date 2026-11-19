@@ -54,16 +54,16 @@ void main() {
       ));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
-      for (var step = 2; step <= 6; step++) {
+      for (var step = 2; step <= 5; step++) {
         expect(find.byKey(ValueKey('setup-progress-$step')), findsOneWidget);
       }
       expect(find.byType(SetupChoice), findsNWidgets(4));
       final french = find.widgetWithText(SetupChoice, 'Francais');
       expect(tester.widget<SetupChoice>(french).selected, isTrue);
-      expect(tester.getRect(french), const Rect.fromLTWH(29, 245, 354, 50));
+      expect(tester.getRect(french), const Rect.fromLTWH(24, 216, 364, 50));
       expect(
         tester.getRect(find.widgetWithText(CustomButton, 'Continue')),
-        const Rect.fromLTWH(29, 808, 354, 44),
+        const Rect.fromLTWH(24, 808, 364, 44),
       );
       await expectLater(
         find.byKey(const Key('language-screen')),

@@ -2611,8 +2611,14 @@ abstract class AppLocalizations {
   /// No description provided for @dailyAiCreditsExhausted.
   ///
   /// In en, this message translates to:
-  /// **'You’ve used today’s AI credits. They reset tomorrow. Explore Drala Plus for unlimited AI.'**
+  /// **'You’ve used today’s AI credits. They reset tomorrow.'**
   String get dailyAiCreditsExhausted;
+
+  /// No description provided for @logOutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get logOutConfirmation;
 }
 
 class _AppLocalizationsDelegate

@@ -13,7 +13,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  testWidgets('wallet setup goes to account choice before completion',
+  testWidgets('wallet setup goes through account choice directly to home',
       (tester) async {
     final guest = await _guest(tester);
     await guest.onboarding.save({
@@ -30,29 +30,31 @@ void main() {
     expect(find.byType(GuestAccountChoicePage), findsOneWidget);
     expect(find.byType(SetupCompletePage), findsNothing);
     expect(guest.onboardingComplete, isTrue);
-    expect(guest.completionPending, isTrue);
+    expect(guest.completionPending, isFalse);
     await tester.tap(find.text('Continue as guest'));
     await tester.pumpAndSettle();
-    expect(navigation.router.routeInformationProvider.value.uri.path,
-        '/setup-complete');
-    expect(find.byType(SetupCompletePage), findsOneWidget);
+    expect(navigation.router.routeInformationProvider.value.uri.path, '/home');
+    expect(find.byType(SetupCompletePage), findsNothing);
     expect(tester.takeException(), isNull);
   });
 
   for (final synced in [false, true]) {
-    testWidgets('restart preserves pending completion with synced=$synced',
+    testWidgets(
+        'legacy completion flag does not interrupt home with synced=$synced',
         (tester) async {
       final guest = await _guest(tester);
       await guest.onboarding.complete(
           currency: 'MGA', language: 'en', categories: [], wallets: []);
       await guest.prepareCompletion();
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('guest_completion_pending', true);
       await guest.markChoiceSeen();
       if (synced) await guest.stopAfterSync();
       final reloaded = await GuestSession.load(guest.database);
       final navigation = await _app(tester, reloaded, signedIn: synced);
-      expect(navigation.router.routeInformationProvider.value.uri.path,
-          '/setup-complete');
-      expect(find.byType(SetupCompletePage), findsOneWidget);
+      expect(
+          navigation.router.routeInformationProvider.value.uri.path, '/home');
+      expect(find.byType(SetupCompletePage), findsNothing);
       await reloaded.markCompletionSeen();
       expect(
           (await GuestSession.load(guest.database)).completionPending, isFalse);

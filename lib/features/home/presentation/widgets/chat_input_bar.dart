@@ -127,8 +127,7 @@ class _ChatInputBarState extends State<ChatInputBar> {
       controller: _controller,
       focusNode: _focusNode,
       enabled: !isBusy && !widget.manualOnly,
-      hints:
-          widget.embedded ? [context.l10n.activitiesComposerHint] : suggestions,
+      hints: suggestions,
       compact: widget.embedded,
       cursorColor:
           theme.textSelectionTheme.cursorColor ?? theme.colorScheme.primary,

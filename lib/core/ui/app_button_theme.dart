@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 abstract final class AppButtonTheme {
   static const shape = StadiumBorder();
   static const borderRadius = BorderRadius.all(Radius.circular(999));
+  static Color textForeground(BuildContext context) =>
+      _foreground(Theme.of(context).brightness);
 
   static ElevatedButtonThemeData elevated(
     Brightness brightness, {

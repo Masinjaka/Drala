@@ -11,7 +11,7 @@ class SetupProgressDots extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        for (var step = 2; step <= 6; step++) ...[
+        for (var step = 2; step <= 5; step++) ...[
           if (step > 2) const SizedBox(width: 4),
           AnimatedContainer(
             key: ValueKey('setup-progress-$step'),

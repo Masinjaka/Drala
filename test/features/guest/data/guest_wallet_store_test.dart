@@ -5,6 +5,23 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('renaming ignores a replacement balance and omits it from sync',
+      () async {
+    final database = GuestDatabase(NativeDatabase.memory());
+    addTearDown(database.close);
+    final store = GuestWalletStore(database, 'guest');
+    final wallet = await store
+        .add(const AddWalletInput(name: 'Cash', initialBalance: 1000));
+    final updated = await store.update(wallet.id,
+        const AddWalletInput(name: 'Renamed', initialBalance: 99999));
+    expect(updated.name, 'Renamed');
+    expect(updated.balance, 1000);
+    final records = await database
+        .customSelect('SELECT payload FROM guest_sync_records ORDER BY rowid')
+        .get();
+    expect(records.last.read<String>('payload'), isNot(contains('balance')));
+  });
+
   test('default wallet selection is exclusive and journaled', () async {
     final database = GuestDatabase(NativeDatabase.memory());
     addTearDown(database.close);

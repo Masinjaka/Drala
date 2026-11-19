@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'setup_choice_content.dart';
 import 'setup_choices_skeleton.dart';
-import 'setup_completion.dart';
 import 'setup_currency_choices.dart';
 import 'setup_delayed_content.dart';
 import 'setup_header.dart';
@@ -15,8 +14,6 @@ class SetupPageView extends StatelessWidget {
     required this.initialStep,
     required this.titles,
     required this.bodies,
-    required this.completionTitle,
-    required this.completionBody,
     required this.language,
     required this.currency,
     required this.categories,
@@ -34,8 +31,6 @@ class SetupPageView extends StatelessWidget {
   final int initialStep;
   final List<String> titles;
   final List<String> bodies;
-  final String completionTitle;
-  final String completionBody;
   final String language;
   final String currency;
   final Set<String> categories;
@@ -55,15 +50,14 @@ class SetupPageView extends StatelessWidget {
               currentStep: controller.hasClients
                   ? (controller.page ?? controller.initialPage).round() + 2
                   : activeStep,
-              onBack: activeStep > 2 && activeStep < 6 ? onBack : null,
-              showDisabledBack: activeStep == 2 || activeStep == 6,
+              onBack: onBack,
             ),
           ),
           Expanded(
             child: PageView.builder(
               controller: controller,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 5,
+              itemCount: 4,
               itemBuilder: (context, index) => _page(index),
             ),
           ),
@@ -71,14 +65,6 @@ class SetupPageView extends StatelessWidget {
       );
 
   Widget _page(int index) {
-    if (index == 4) {
-      if (activeStep != 6) return const SizedBox.shrink();
-      return SetupCompletion(
-        title: completionTitle,
-        subtitle: completionBody,
-        entranceDelay: _delay(6),
-      );
-    }
     final pageStep = index + 2;
     return SetupPageLayout(
       language: index == 0,

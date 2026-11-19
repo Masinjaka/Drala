@@ -1,5 +1,5 @@
 import 'package:budgets/core/ui/app_card_surface.dart';
-import 'package:budgets/core/ui/app_button_theme.dart';
+import 'package:budgets/features/settings/presentation/widgets/settings_selection_indicator.dart';
 import 'package:budgets/core/theme.dart';
 import 'package:budgets/core/ui/app_setup_theme.dart';
 import 'package:budgets/core/ui/app_text_theme.dart';
@@ -110,7 +110,8 @@ class _SetupChoiceState extends State<SetupChoice>
                     context,
                     selected: widget.selected,
                   ),
-            shape: AppButtonTheme.shape,
+            showShadow: false,
+            borderRadius: BorderRadius.all(AppSetupTheme.choiceRadius),
             clipBehavior: Clip.antiAlias,
             child: SizedBox(
               height: widget.height,
@@ -159,6 +160,8 @@ class _SetupChoiceState extends State<SetupChoice>
                         ),
                       ),
                     ],
+                    const SizedBox(width: 12),
+                    SettingsSelectionIndicator(selected: widget.selected),
                   ],
                 ),
               ),

@@ -45,7 +45,11 @@ class _CategoryColorPickerState extends State<CategoryColorPicker> {
                       color: _color,
                       onColorChanged: (value) => setState(() => _color = value),
                       wheelDiameter: 220,
-                      pickersEnabled: const {ColorPickerType.wheel: true}),
+                      pickersEnabled: const {
+                        ColorPickerType.primary: false,
+                        ColorPickerType.accent: false,
+                        ColorPickerType.wheel: true,
+                      }),
                 ])
           ]);
 }

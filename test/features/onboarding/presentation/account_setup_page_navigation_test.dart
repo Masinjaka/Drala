@@ -35,13 +35,8 @@ void main() {
     final dotsTop = tester.getTopLeft(find.byType(SetupProgressDots)).dy;
     expect(tester.getSize(find.byKey(const Key('setup-progress-2'))).width, 24);
     expect(find.widgetWithText(SetupChoice, 'English'), findsOneWidget);
-    expect(_backButton(tester).onPressed, isNull);
+    expect(_backButton(tester).onPressed, isNotNull);
     expect(find.text('Sign up'), findsNothing);
-    await tester.binding.handlePopRoute();
-    await tester.pumpAndSettle();
-    expect(find.text('Your language'), findsOneWidget);
-    expect(find.text('Sign up'), findsNothing);
-
     await tester.tap(find.text('Continue'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
@@ -72,25 +67,28 @@ void main() {
     await tester.tap(find.byIcon(Icons.arrow_back_rounded));
     await tester.pumpAndSettle();
     expect(find.text('Your language'), findsOneWidget);
-    expect(_backButton(tester).onPressed, isNull);
+    expect(_backButton(tester).onPressed, isNotNull);
+    await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+    await tester.pumpAndSettle();
+    expect(find.text('Sign up'), findsOneWidget);
     router.dispose();
   });
 
-  testWidgets('completion screen disables Back', (tester) async {
+  testWidgets('legacy completion draft resumes at wallet setup',
+      (tester) async {
     final router = _router();
     final repo = FakeOnboardingRepository()..draft = {'step': 6};
     await tester.pumpWidget(_app(router, repo));
     router.push('/onboarding');
     await tester.pumpAndSettle();
-
-    expect(find.text('You’re all set !'), findsOneWidget);
-    expect(tester.getSize(find.byKey(const Key('setup-progress-6'))).width, 24);
-    expect(_backButton(tester).onPressed, isNull);
-    expect(find.text('Sign up'), findsNothing);
-    await tester.binding.handlePopRoute();
+    expect(find.text('Your wallets'), findsOneWidget);
+    expect(find.text('You’re all set !'), findsNothing);
+    expect(find.byKey(const Key('setup-progress-6')), findsNothing);
+    expect(_backButton(tester).onPressed, isNotNull);
+    await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
-    expect(find.text('You’re all set !'), findsOneWidget);
-    expect(find.text('Sign up'), findsNothing);
+    expect(find.text('Home destination'), findsOneWidget);
+    expect(find.text('You’re all set !'), findsNothing);
     router.dispose();
   });
 }
@@ -103,6 +101,10 @@ GoRouter _router() => GoRouter(initialLocation: '/signup', routes: [
       GoRoute(
         path: '/signup',
         builder: (_, __) => const Scaffold(body: Text('Sign up')),
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (_, __) => const Scaffold(body: Text('Home destination')),
       ),
       GoRoute(
         path: '/onboarding',

@@ -54,7 +54,6 @@ class WalletService {
         .from('wallets')
         .update({
           'name': input.name,
-          'balance': input.initialBalance,
           'updated_at': DateTime.now().toUtc().toIso8601String(),
         })
         .eq('id', walletId)

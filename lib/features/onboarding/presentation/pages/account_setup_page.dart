@@ -46,7 +46,7 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
   void initState() {
     super.initState();
     final draft = ref.read(onboardingRepositoryProvider).draft;
-    step = (draft['step'] as int? ?? 2).clamp(2, 6);
+    step = (draft['step'] as int? ?? 2).clamp(2, 5);
     initialStep = step;
     currency = draft['currency'] as String? ?? 'MGA';
     language =
@@ -83,10 +83,10 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && !busy && !moving && step > 2 && step < 6) _back();
+        if (!didPop) _back();
       },
       child: Scaffold(
-        backgroundColor: step < 6 ? AppSetupTheme.background(context) : null,
+        backgroundColor: AppSetupTheme.background(context),
         body: AppGridBackground(
             child: SafeArea(
                 bottom: false,
@@ -102,8 +102,6 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
                           initialStep: initialStep,
                           titles: titles,
                           bodies: bodies,
-                          completionTitle: l.setupCompleteTitle,
-                          completionBody: l.setupCompleteBody,
                           language: language,
                           currency: currency,
                           categories: categories,
@@ -121,24 +119,10 @@ class _AccountSetupPageState extends ConsumerState<AccountSetupPage> {
                   ),
                 ))),
         bottomNavigationBar: SetupSubmitBar(
-          pill: step < 6,
-          text: step == 6 ? l.setupDone : l.setupContinue,
-          onPressed: step == 6
-              ? () async {
-                  try {
-                    await widget.onCompleted?.call();
-                    ref.invalidate(guestSessionProvider);
-                    ref.invalidate(categoriesProvider);
-                    ref.invalidate(currencyControllerProvider);
-                    ref.invalidate(userModelProvider);
-                    if (context.mounted) context.go(widget.completionRoute);
-                  } catch (error) {
-                    if (context.mounted) showErrorToast(context, error);
-                  }
-                }
-              : busy || moving || (step == 4 && !presets.hasValue)
-                  ? null
-                  : _next,
+          pill: true,
+          text: l.setupContinue,
+          onPressed:
+              busy || moving || (step == 4 && !presets.hasValue) ? null : _next,
           isLoading: busy,
           primary: true,
         ),

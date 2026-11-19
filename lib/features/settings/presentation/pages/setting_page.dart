@@ -1,4 +1,5 @@
 import '../widgets/settings_account_actions.dart';
+import 'settings_inbox_page.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_sync_failure.dart';
 import 'package:budgets/core/ui/app_scroll_under_header.dart';
 import 'package:budgets/core/navigation/app_modal_page_route.dart';
@@ -84,7 +85,7 @@ class _SettingPageState extends ConsumerState<SettingPage> {
             showBackButton: widget.showBackButton,
             notificationViewModel: widget.notificationViewModel,
             onNotifications: widget.onNotificationsPressed ??
-                () => _open(const NotificationSettingsPage()),
+                () => _open(const SettingsInboxPage()),
           ),
         )),
         child: Center(

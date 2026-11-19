@@ -42,10 +42,17 @@ abstract final class AppActivitiesTheme {
       .copyWith(fontSize: AppTypography.input, height: 1.35);
   static TextStyle composerHint(BuildContext context) =>
       composerText(context).copyWith(
+          fontSize: AppTypography.body,
+          fontWeight: FontWeight.w300,
           color: Theme.of(context)
               .colorScheme
               .onSurfaceVariant
               .withValues(alpha: .78));
+  static TextStyle creditNotice(BuildContext context) =>
+      Theme.of(context).textTheme.bodySmall!.copyWith(
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.white
+              : Theme.of(context).textTheme.bodySmall!.color);
   static TextStyle net(BuildContext context, {required bool positive}) =>
       label(context).copyWith(
           color: positive

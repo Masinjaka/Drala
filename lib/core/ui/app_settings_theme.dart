@@ -5,6 +5,10 @@ import 'package:budgets/core/ui/app_home_overview_theme.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppSettingsTheme {
+  static Color selectionForeground(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
+          : Colors.white;
   static Color signInBackground(BuildContext context) =>
       Theme.of(context).brightness == Brightness.dark
           ? Colors.white

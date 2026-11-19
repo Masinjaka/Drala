@@ -20,15 +20,15 @@ class WalletSelectionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final foreground = selected
-        ? AppFinanceSurfaceTheme.onAction(context)
+        ? Theme.of(context).colorScheme.onInverseSurface
         : Theme.of(context).colorScheme.onSurface;
     return Semantics(
         selected: selected,
         button: true,
         child: Material(
             color: selected
-                ? AppFinanceSurfaceTheme.action(context)
-                : AppFinanceSurfaceTheme.background(context),
+                ? Theme.of(context).colorScheme.inverseSurface
+                : AppFinanceSurfaceTheme.field(context),
             borderRadius: AppFinanceSurfaceTheme.fieldRadius,
             child: InkWell(
                 key: Key('wallet-choice-${wallet.id}'),

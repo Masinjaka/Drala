@@ -60,17 +60,14 @@ void main() {
       _field(const Key('edit-wallet-name-field')),
       'Daily account',
     );
-    await tester.enterText(
-      _field(const Key('edit-wallet-balance-field')),
-      '750000',
-    );
+    expect(find.byKey(const Key('edit-wallet-balance-field')), findsNothing);
     await tester.ensureVisible(find.byKey(const Key('save-wallet')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('save-wallet')));
     await tester.pumpAndSettle();
 
     expect(find.text('Daily account'), findsOneWidget);
-    expect(find.text('750 000 MGA'), findsOneWidget);
+    expect(find.text('600 000 MGA'), findsOneWidget);
 
     await _showWalletEditor(tester, 'bank');
     await tester.ensureVisible(find.byKey(const Key('delete-wallet')));

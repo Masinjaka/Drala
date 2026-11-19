@@ -16,7 +16,7 @@ class WalletFormPage extends StatelessWidget {
   const WalletFormPage({
     this.formKey,
     required this.nameController,
-    required this.balanceController,
+    this.balanceController,
     required this.onSave,
     required this.setAsDefault,
     required this.onDefaultChanged,
@@ -29,7 +29,7 @@ class WalletFormPage extends StatelessWidget {
 
   final GlobalKey<FormState>? formKey;
   final TextEditingController nameController;
-  final TextEditingController balanceController;
+  final TextEditingController? balanceController;
   final CurrencyState? currencyState;
   final VoidCallback onSave;
   final bool setAsDefault;
@@ -62,16 +62,17 @@ class WalletFormPage extends StatelessWidget {
         ),
       ),
       SizedBox(height: reference ? 48 : 37),
-      KeyedSubtree(
-        key:
-            Key(editing ? 'edit-wallet-balance-field' : 'wallet-balance-field'),
-        child: TransactionAmountField(
-          controller: balanceController,
-          validator: (value) => FieldValidators.balance(context, value),
-          currencyCode: currencyState?.code ?? 'MGA',
+      if (!editing) ...[
+        KeyedSubtree(
+          key: const Key('wallet-balance-field'),
+          child: TransactionAmountField(
+            controller: balanceController!,
+            validator: (value) => FieldValidators.balance(context, value),
+            currencyCode: currencyState?.code ?? 'MGA',
+          ),
         ),
-      ),
-      SizedBox(height: reference ? 48 : 25),
+        SizedBox(height: reference ? 48 : 25),
+      ],
       KeyedSubtree(
         key: Key(editing ? 'edit-wallet-name-field' : 'wallet-name-field'),
         child: TransactionSheetField(

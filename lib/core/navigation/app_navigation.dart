@@ -10,7 +10,6 @@ import 'package:budgets/features/guest/data/guest_cloud_sync_service.dart';
 import 'package:budgets/features/guest/presentation/pages/guest_account_choice_page.dart';
 import 'package:budgets/features/onboarding/presentation/pages/getting_started_page.dart';
 import 'package:flutter/widgets.dart';
-import 'package:budgets/features/onboarding/presentation/pages/setup_complete_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -19,10 +18,8 @@ class AppNavigation {
   AppNavigation({
     required bool Function() isSignedIn,
     required Stream<Object?> authChanges,
-    bool Function()? needsOnboarding,
     GuestSession? guestSession,
   })  : _isSignedIn = isSignedIn,
-        _needsOnboarding = needsOnboarding ?? (() => false),
         _guestSession = guestSession,
         _refresh = AuthRouterRefresh(authChanges) {
     router = GoRouter(
@@ -96,7 +93,7 @@ class AppNavigation {
         ),
         GoRoute(
           path: '/setup-complete',
-          builder: (_, __) => const SetupCompletePage(),
+          redirect: (_, __) => '/home',
         ),
         GoRoute(
           path: '/account-choice',
@@ -118,13 +115,9 @@ class AppNavigation {
         isSignedIn: () => client.auth.currentSession != null,
         authChanges: client.auth.onAuthStateChange,
         guestSession: guestSession,
-        needsOnboarding: () =>
-            client.auth.currentUser?.userMetadata?['onboarding_required'] ==
-            true,
       );
 
   final bool Function() _isSignedIn;
-  final bool Function() _needsOnboarding;
   final GuestSession? _guestSession;
   final AuthRouterRefresh _refresh;
   late final GoRouter router;
@@ -144,21 +137,7 @@ class AppNavigation {
     if (_guestSession?.isSigningOut == true) return null;
     final isSignedIn = _isSignedIn();
     final isPublic = _publicPaths.contains(state.matchedLocation);
-    final pending = _guestSession?.completionPending == true;
-    if (state.matchedLocation == '/setup-complete') {
-      return pending
-          ? null
-          : isSignedIn || _guestSession?.isActive == true
-              ? '/home'
-              : '/getting-started';
-    }
-    if (pending &&
-        state.matchedLocation == '/home' &&
-        (isSignedIn && _guestSession?.isActive == false ||
-            !isSignedIn && _guestSession?.accountChoiceSeen == true)) {
-      return '/setup-complete';
-    }
-    if (_guestSession?.isActive == true) {
+    if (!isSignedIn && _guestSession?.isActive == true) {
       if (!isSignedIn &&
           _guestSession!.onboardingComplete &&
           _guestSession.accountChoiceSeen &&
@@ -180,11 +159,6 @@ class AppNavigation {
       return null;
     }
     if (!isSignedIn && !isPublic) return '/getting-started';
-    if (isSignedIn &&
-        _needsOnboarding() &&
-        state.matchedLocation != '/onboarding') {
-      return '/onboarding';
-    }
     if (isSignedIn && isPublic) return '/home';
     return null;
   }

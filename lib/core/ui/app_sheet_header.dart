@@ -32,7 +32,7 @@ class AppSheetHeader extends StatelessWidget {
                     key: titleKey,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: AppFinanceSurfaceTheme.title(context))
+                    style: AppFinanceSurfaceTheme.sheetTitle(context))
                 : Semantics(
                     label: title,
                     header: true,

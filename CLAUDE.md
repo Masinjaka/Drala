@@ -78,3 +78,7 @@ Sentry → Firebase → FCM background handler → French locale → Supabase �
 ## CI/CD
 
 GitHub Actions (`.github/workflows/firebase-distribution.yml`) builds on push to `main` and distributes to Firebase App Distribution. Secrets: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SENTRY_DSN`, Firebase service account.
+
+## Rules
+
+Always refer to the file `AGENTS.md` for rules to follow.

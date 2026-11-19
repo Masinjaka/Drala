@@ -1,7 +1,27 @@
 import 'package:budgets/core/ui/app_typography.dart';
+import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:flutter/material.dart';
 
 abstract final class AppCategoryIconTheme {
+  static const appearanceColors = [
+    Color(0xFFBC2BC9),
+    Color(0xFFE52D68),
+    Color(0xFFFF3025),
+    Color(0xFF10B981),
+    Color(0xFF3864FF),
+    Color(0xFF7533FF),
+    Color(0xFFD9A000),
+    Color(0xFFEF7D24),
+    Color(0xFF607D8B),
+  ];
+  static Color selectionGap(BuildContext context) =>
+      AppFinanceSurfaceTheme.background(context);
+  static ButtonStyle appearanceEditButton(BuildContext context) =>
+      IconButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
+          foregroundColor: Theme.of(context).colorScheme.onSurface,
+          minimumSize: const Size.square(44),
+          shape: const CircleBorder());
   static const double size = 24;
   static Color savedColor(BuildContext context, String? hex,
       {Color? fallback}) {

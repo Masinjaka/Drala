@@ -40,5 +40,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(guest.isActive, true);
     expect(find.byType(AccountSetupPage), findsOneWidget);
+    await tester.tap(find.byIcon(Icons.arrow_back_rounded));
+    await tester.pumpAndSettle();
+    expect(find.byType(GettingStartedPage), findsOneWidget);
+    expect(guest.isActive, true);
   });
 }

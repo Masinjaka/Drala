@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_settings_theme.dart';
 
 /// Theme roles for the onboarding controls.
 abstract final class AppSetupTheme {
@@ -24,15 +25,13 @@ abstract final class AppSetupTheme {
           ? Theme.of(context).colorScheme.surfaceContainerLowest
           : Theme.of(context).scaffoldBackgroundColor;
 
+  static const choiceRadius = AppSettingsTheme.outerRadius;
+
   static Color choiceBackground(BuildContext context,
           {required bool selected}) =>
-      selected
-          ? Theme.of(context).colorScheme.onSurface
-          : Theme.of(context).colorScheme.surfaceContainer;
+      Theme.of(context).colorScheme.surfaceContainer;
 
   static Color choiceForeground(BuildContext context,
           {required bool selected}) =>
-      selected
-          ? Theme.of(context).scaffoldBackgroundColor
-          : Theme.of(context).colorScheme.onSurface;
+      AppSettingsTheme.foreground(context);
 }

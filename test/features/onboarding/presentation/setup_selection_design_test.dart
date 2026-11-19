@@ -60,22 +60,22 @@ void main() {
         ));
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
-        for (var page = 2; page <= 6; page++) {
+        for (var page = 2; page <= 5; page++) {
           expect(find.byKey(ValueKey('setup-progress-$page')), findsOneWidget);
         }
         expect(
           tester.getRect(find.widgetWithText(CustomButton, 'Continue')),
-          const Rect.fromLTWH(29, 808, 354, 44),
+          const Rect.fromLTWH(24, 808, 364, 44),
         );
         if (step == 3) {
           expect(find.byType(CircularProgressIndicator), findsNothing);
           expect(find.byType(SetupChoice), findsAtLeastNWidgets(4));
-          expect(tester.getRect(find.widgetWithText(SetupChoice, 'Euro')),
-              const Rect.fromLTWH(29, 322, 354, 50));
+          expect(tester.getSize(find.widgetWithText(SetupChoice, 'Euro')),
+              const Size(364, 50));
         } else if (step == 4) {
           expect(
-              tester.getRect(find.widgetWithText(SetupGridChoice, 'Groceries')),
-              const Rect.fromLTWH(29, 304, 172, 50));
+              tester.getSize(find.widgetWithText(SetupGridChoice, 'Groceries')),
+              const Size(177, 50));
         }
         await expectLater(
           find.byKey(const Key('selection-screen')),

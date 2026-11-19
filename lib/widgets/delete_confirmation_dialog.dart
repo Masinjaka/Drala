@@ -35,6 +35,9 @@ class DeleteConfirmationDialog extends StatelessWidget {
     required this.cancelText,
     required this.onConfirm,
     required this.onCancel,
+    this.confirmKey = const ValueKey('confirm-delete'),
+    this.cancelKey = const ValueKey('cancel-delete'),
+    this.isLoading = false,
   });
 
   final String title;
@@ -43,6 +46,9 @@ class DeleteConfirmationDialog extends StatelessWidget {
   final String cancelText;
   final VoidCallback onConfirm;
   final VoidCallback onCancel;
+  final Key confirmKey;
+  final Key cancelKey;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -72,18 +78,19 @@ class DeleteConfirmationDialog extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomButton.outlined(
-                    key: const ValueKey('cancel-delete'),
+                    key: cancelKey,
                     text: cancelText,
-                    onPressed: onCancel,
+                    onPressed: isLoading ? null : onCancel,
                     height: 40,
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: CustomButton(
-                    key: const ValueKey('confirm-delete'),
+                    key: confirmKey,
                     text: confirmText,
-                    onPressed: onConfirm,
+                    onPressed: isLoading ? null : onConfirm,
+                    isLoading: isLoading,
                     height: 40,
                     backgroundColor: AppDangerTheme.fill,
                     foregroundColor: AppDangerTheme.onFill,

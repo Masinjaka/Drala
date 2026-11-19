@@ -32,7 +32,7 @@ class SetupLanguageChoices extends StatelessWidget {
               title: languages[index].value,
               height: 50,
               pill: true,
-              centerTitle: true,
+              centerTitle: false,
               selected: selected == languages[index].key,
               onTap: () => onChanged(languages[index].key),
             ),
