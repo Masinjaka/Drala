@@ -56,3 +56,8 @@ app.*.map.json
 .gemini/
 #.codex/
 
+
+# Store listing assets (screenshots, feature graphic, ad video) and their tooling
+store/
+store-assets/
+integration_test/store_screenshots_test.dart
