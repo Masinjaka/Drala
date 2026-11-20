@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:flutter/material.dart';
 
 class SetupCurrencyTrailing extends StatelessWidget {
@@ -31,13 +32,7 @@ class SetupCurrencyTrailing extends StatelessWidget {
                   opacity: progress,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8, right: 2),
-                    child: SizedBox.square(
-                      dimension: 13,
-                      child: CircularProgressIndicator(
-                        color: DefaultTextStyle.of(context).style.color,
-                        strokeWidth: 1.5,
-                      ),
-                    ),
+                    child: const AppLoader(size: 22),
                   ),
                 ),
               ),

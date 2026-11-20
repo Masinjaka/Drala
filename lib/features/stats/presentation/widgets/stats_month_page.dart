@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_refresh_indicator.dart';
 import 'package:budgets/core/widgets/delayed_skeleton.dart';
 import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/currency/currency_state.dart';
@@ -47,7 +48,7 @@ class StatsMonthPage extends StatelessWidget {
     final data = stats ?? _empty;
     num convert(num value) =>
         displayCurrency?.convertToSelected(value, data.currencyCode) ?? value;
-    return RefreshIndicator(
+    return AppRefreshIndicator(
         onRefresh: onRefresh,
         child: ListView(
             key: const Key('stats-content-scroll'),

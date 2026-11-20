@@ -33,11 +33,8 @@ extension _AddGoalBottomSheetStateBuildImagePicker on _AddGoalBottomSheetState {
                         ? CachedNetworkImage(
                             imageUrl: _imagePath!,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => Center(
-                              child: CircularProgressIndicator(
-                                color: Theme.of(context).primaryColor,
-                              ),
-                            ),
+                            placeholder: (context, url) =>
+                                const Center(child: AppLoader(size: 42)),
                             errorWidget: (context, url, error) =>
                                 const Icon(Icons.error),
                           )

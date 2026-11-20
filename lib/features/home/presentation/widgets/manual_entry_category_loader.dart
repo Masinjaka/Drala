@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/core/ui/app_text_style.dart';
 import 'package:budgets/core/ui/app_text_role.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
@@ -45,12 +46,7 @@ class _CategoryLoadingState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _CategoryStatus(
-      child: SizedBox.square(
-        dimension: 22,
-        child: CircularProgressIndicator(strokeWidth: 2),
-      ),
-    );
+    return const _CategoryStatus(child: AppLoader.small());
   }
 }
 

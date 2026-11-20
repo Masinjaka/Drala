@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/app_wheel_picker.dart';
@@ -106,7 +107,7 @@ class _GuestNotificationSettingsPageState
     return SettingsPageShell(
       title: l.notification,
       child: settings == null
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: AppLoader())
           : ListView(
               padding: AppScrollPadding.insets(context, top: 24, bottom: 28),
               children: [

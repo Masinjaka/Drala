@@ -1,0 +1,402 @@
+{
+  "source": "/Users/masinjaka/works/Drala/store-assets/references/collage.png",
+  "generatedAt": "2026-11-20T13:54:23.470Z",
+  "size": [
+    2000,
+    1130
+  ],
+  "measured": {
+    "method": "aspect-estimate (verify visually)",
+    "outerBackground": "#FFFFFF",
+    "panelCount": 3,
+    "seams": [
+      {
+        "between": [
+          1,
+          2
+        ],
+        "meanDiff": 33.8,
+        "continuous": false,
+        "gap": 0
+      },
+      {
+        "between": [
+          2,
+          3
+        ],
+        "meanDiff": 35.7,
+        "continuous": false,
+        "gap": 0
+      }
+    ]
+  },
+  "panels": [
+    {
+      "index": 1,
+      "box": [
+        0,
+        0,
+        667,
+        1130
+      ],
+      "file": "analysis/reference/collage/panel-1.png",
+      "palette": [
+        {
+          "hex": "#F8F8F8",
+          "share": 0.224,
+          "hue": "neutral",
+          "tone": "very light"
+        },
+        {
+          "hex": "#E8E8E8",
+          "share": 0.061,
+          "hue": "neutral",
+          "tone": "light"
+        },
+        {
+          "hex": "#D8D8D8",
+          "share": 0.044,
+          "hue": "neutral",
+          "tone": "light"
+        },
+        {
+          "hex": "#080808",
+          "share": 0.025,
+          "hue": "neutral",
+          "tone": "very dark"
+        },
+        {
+          "hex": "#C8C8C8",
+          "share": 0.014,
+          "hue": "neutral",
+          "tone": "light"
+        }
+      ],
+      "composition": "TODO(agent): describe after viewing",
+      "typography": "TODO",
+      "devicePresentation": "TODO",
+      "role": "TODO",
+      "textToUiRatio": "TODO",
+      "metrics": {
+        "index": 1,
+        "box": [
+          0,
+          0,
+          667,
+          1130
+        ],
+        "aspect": 0.5903,
+        "file": "analysis/reference/collage/panel-1.png",
+        "background": "#F8F8F8",
+        "palette": [
+          {
+            "hex": "#F8F8F8",
+            "share": 0.224,
+            "hue": "neutral",
+            "tone": "very light"
+          },
+          {
+            "hex": "#E8E8E8",
+            "share": 0.061,
+            "hue": "neutral",
+            "tone": "light"
+          },
+          {
+            "hex": "#D8D8D8",
+            "share": 0.044,
+            "hue": "neutral",
+            "tone": "light"
+          },
+          {
+            "hex": "#080808",
+            "share": 0.025,
+            "hue": "neutral",
+            "tone": "very dark"
+          },
+          {
+            "hex": "#C8C8C8",
+            "share": 0.014,
+            "hue": "neutral",
+            "tone": "light"
+          },
+          {
+            "hex": "#A8C888",
+            "share": 0.013,
+            "hue": "chartreuse",
+            "tone": "mid"
+          },
+          {
+            "hex": "#382868",
+            "share": 0.012,
+            "hue": "violet",
+            "tone": "dark"
+          },
+          {
+            "hex": "#B8B8B8",
+            "share": 0.01,
+            "hue": "neutral",
+            "tone": "light"
+          }
+        ],
+        "meanLuminance": 0.673,
+        "colourfulness": 0.225,
+        "negativeSpace": 0.198,
+        "edgeDensity": 0.31,
+        "visualMass": {
+          "top": 0.37,
+          "middle": 0.3,
+          "bottom": 0.33,
+          "leftRight": 0.05
+        }
+      }
+    },
+    {
+      "index": 2,
+      "box": [
+        667,
+        16,
+        664,
+        1114
+      ],
+      "file": "analysis/reference/collage/panel-2.png",
+      "palette": [
+        {
+          "hex": "#F8F8F8",
+          "share": 0.208,
+          "hue": "neutral",
+          "tone": "very light"
+        },
+        {
+          "hex": "#080808",
+          "share": 0.05,
+          "hue": "neutral",
+          "tone": "very dark"
+        },
+        {
+          "hex": "#E8E8E8",
+          "share": 0.044,
+          "hue": "neutral",
+          "tone": "light"
+        },
+        {
+          "hex": "#181818",
+          "share": 0.024,
+          "hue": "neutral",
+          "tone": "very dark"
+        },
+        {
+          "hex": "#282828",
+          "share": 0.02,
+          "hue": "neutral",
+          "tone": "very dark"
+        }
+      ],
+      "composition": "TODO(agent): describe after viewing",
+      "typography": "TODO",
+      "devicePresentation": "TODO",
+      "role": "TODO",
+      "textToUiRatio": "TODO",
+      "metrics": {
+        "index": 2,
+        "box": [
+          667,
+          16,
+          664,
+          1114
+        ],
+        "aspect": 0.5961,
+        "file": "analysis/reference/collage/panel-2.png",
+        "background": "#F8F8F8",
+        "palette": [
+          {
+            "hex": "#F8F8F8",
+            "share": 0.208,
+            "hue": "neutral",
+            "tone": "very light"
+          },
+          {
+            "hex": "#080808",
+            "share": 0.05,
+            "hue": "neutral",
+            "tone": "very dark"
+          },
+          {
+            "hex": "#E8E8E8",
+            "share": 0.044,
+            "hue": "neutral",
+            "tone": "light"
+          },
+          {
+            "hex": "#181818",
+            "share": 0.024,
+            "hue": "neutral",
+            "tone": "very dark"
+          },
+          {
+            "hex": "#282828",
+            "share": 0.02,
+            "hue": "neutral",
+            "tone": "very dark"
+          },
+          {
+            "hex": "#F8E8E8",
+            "share": 0.018,
+            "hue": "red",
+            "tone": "very light"
+          },
+          {
+            "hex": "#787888",
+            "share": 0.018,
+            "hue": "neutral",
+            "tone": "mid"
+          },
+          {
+            "hex": "#D8D8D8",
+            "share": 0.015,
+            "hue": "neutral",
+            "tone": "light"
+          }
+        ],
+        "meanLuminance": 0.616,
+        "colourfulness": 0.198,
+        "negativeSpace": 0.198,
+        "edgeDensity": 0.309,
+        "visualMass": {
+          "top": 0.38,
+          "middle": 0.37,
+          "bottom": 0.25,
+          "leftRight": -0.03
+        }
+      }
+    },
+    {
+      "index": 3,
+      "box": [
+        1331,
+        0,
+        669,
+        1130
+      ],
+      "file": "analysis/reference/collage/panel-3.png",
+      "palette": [
+        {
+          "hex": "#F8F8F8",
+          "share": 0.177,
+          "hue": "neutral",
+          "tone": "very light"
+        },
+        {
+          "hex": "#E8E8E8",
+          "share": 0.098,
+          "hue": "neutral",
+          "tone": "light"
+        },
+        {
+          "hex": "#D8D8D8",
+          "share": 0.046,
+          "hue": "neutral",
+          "tone": "light"
+        },
+        {
+          "hex": "#080808",
+          "share": 0.039,
+          "hue": "neutral",
+          "tone": "very dark"
+        },
+        {
+          "hex": "#080848",
+          "share": 0.024,
+          "hue": "blue",
+          "tone": "very dark"
+        }
+      ],
+      "composition": "TODO(agent): describe after viewing",
+      "typography": "TODO",
+      "devicePresentation": "TODO",
+      "role": "TODO",
+      "textToUiRatio": "TODO",
+      "metrics": {
+        "index": 3,
+        "box": [
+          1331,
+          0,
+          669,
+          1130
+        ],
+        "aspect": 0.592,
+        "file": "analysis/reference/collage/panel-3.png",
+        "background": "#F8F8F8",
+        "palette": [
+          {
+            "hex": "#F8F8F8",
+            "share": 0.177,
+            "hue": "neutral",
+            "tone": "very light"
+          },
+          {
+            "hex": "#E8E8E8",
+            "share": 0.098,
+            "hue": "neutral",
+            "tone": "light"
+          },
+          {
+            "hex": "#D8D8D8",
+            "share": 0.046,
+            "hue": "neutral",
+            "tone": "light"
+          },
+          {
+            "hex": "#080808",
+            "share": 0.039,
+            "hue": "neutral",
+            "tone": "very dark"
+          },
+          {
+            "hex": "#080848",
+            "share": 0.024,
+            "hue": "blue",
+            "tone": "very dark"
+          },
+          {
+            "hex": "#181818",
+            "share": 0.023,
+            "hue": "neutral",
+            "tone": "very dark"
+          },
+          {
+            "hex": "#B8B8B8",
+            "share": 0.023,
+            "hue": "neutral",
+            "tone": "light"
+          },
+          {
+            "hex": "#C8C8C8",
+            "share": 0.018,
+            "hue": "neutral",
+            "tone": "light"
+          }
+        ],
+        "meanLuminance": 0.596,
+        "colourfulness": 0.156,
+        "negativeSpace": 0.241,
+        "edgeDensity": 0.251,
+        "visualMass": {
+          "top": 0.35,
+          "middle": 0.4,
+          "bottom": 0.25,
+          "leftRight": 0
+        }
+      }
+    }
+  ],
+  "strategy": {
+    "concept": "TODO",
+    "narrative": "TODO",
+    "emotion": "TODO",
+    "attention": "TODO",
+    "rhythm": "TODO",
+    "continuity": "TODO"
+  },
+  "principles": [],
+  "doNotCopy": []
+}

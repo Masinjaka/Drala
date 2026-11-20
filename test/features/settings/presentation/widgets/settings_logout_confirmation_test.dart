@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_button_skeleton.dart';
 import 'package:budgets/features/settings/presentation/widgets/logout_page_background.dart';
 import 'dart:async';
 import 'package:budgets/features/settings/presentation/widgets/logout_confirmation_dialog.dart';
@@ -46,7 +47,7 @@ void main() {
     expect(
         find.descendant(
             of: find.byType(LogoutConfirmationDialog),
-            matching: find.byType(CircularProgressIndicator)),
+            matching: find.byType(AppButtonSkeleton)),
         findsOneWidget);
     expect(find.text('Guest home'), findsNothing);
     expect(

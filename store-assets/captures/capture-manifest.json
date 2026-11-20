@@ -1,0 +1,887 @@
+{
+ "version": 1,
+ "captures": [
+  {
+   "id": "activities",
+   "feature": "activities",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/activities.png",
+   "sha1": "15c9b1804fa2",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "ai-idle",
+   "feature": "ai-idle",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/ai-idle.png",
+   "sha1": "8f6f6d4b895b",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "ai-typed",
+   "feature": "ai-typed",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/ai-typed.png",
+   "sha1": "d53d629939e2",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "categories",
+   "feature": "categories",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/categories.png",
+   "sha1": "e29ab674e0a4",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "category-editor",
+   "feature": "category-editor",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/category-editor.png",
+   "sha1": "aa64d423125b",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "currency",
+   "feature": "currency",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/currency.png",
+   "sha1": "5a410fc96c25",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "envelopes-dark",
+   "feature": "envelopes-dark",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/envelopes-dark.png",
+   "sha1": "8de01d4f1dfa",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "envelopes",
+   "feature": "envelopes",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/envelopes.png",
+   "sha1": "5889b2d46d99",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "home-dark",
+   "feature": "home-dark",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/home-dark.png",
+   "sha1": "a5aab4bcf80a",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "home-eur",
+   "feature": "home-eur",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/home-eur.png",
+   "sha1": "08479d1264c4",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "home-signed",
+   "feature": "home-signed",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/home-signed.png",
+   "sha1": "168101a348b5",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "home",
+   "feature": "home",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/home.png",
+   "sha1": "2b3535b260c9",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "notifications",
+   "feature": "notifications",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/notifications.png",
+   "sha1": "4fbbfa92b9fa",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "receipt-sheet",
+   "feature": "receipt-sheet",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/receipt-sheet.png",
+   "sha1": "75afe36b124b",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "reminders",
+   "feature": "reminders",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/reminders.png",
+   "sha1": "cda38dfa1391",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "settings-dark",
+   "feature": "settings-dark",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/settings-dark.png",
+   "sha1": "fa46230db030",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "stats-categories",
+   "feature": "stats-categories",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/stats-categories.png",
+   "sha1": "bd5429f812ff",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "stats-dark",
+   "feature": "stats-dark",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/stats-dark.png",
+   "sha1": "4eb8197f18ec",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "stats",
+   "feature": "stats",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/stats.png",
+   "sha1": "5f183ec26e65",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "wallets",
+   "feature": "wallets",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/wallets.png",
+   "sha1": "97ec13ee1ba4",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "ai-typed-clean",
+   "feature": "Signed-in Activities with a typed AI sentence (composer unfocused)",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Drala_Store_Phone (API 35, 1080x2400 @420dpi)",
+   "width": 1080,
+   "height": 2400,
+   "file": "captures/android/fr/ai-typed-clean.png",
+   "sha1": "a5f251519624",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T18:00:00Z",
+   "issues": [],
+   "deviceClass": "phone"
+  },
+  {
+   "id": "activities",
+   "feature": "activities",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/activities.png",
+   "sha1": "b6d1994ad7a5",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "ai-idle",
+   "feature": "ai-idle",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/ai-idle.png",
+   "sha1": "e94ab3f51d5c",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "ai-typed-clean",
+   "feature": "ai-typed-clean",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/ai-typed-clean.png",
+   "sha1": "25f504b15e3e",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "ai-typed",
+   "feature": "ai-typed",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/ai-typed.png",
+   "sha1": "160c6a276215",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "categories",
+   "feature": "categories",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/categories.png",
+   "sha1": "89f2b9ef6f97",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "category-editor",
+   "feature": "category-editor",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/category-editor.png",
+   "sha1": "e13592efc5cf",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "currency",
+   "feature": "currency",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/currency.png",
+   "sha1": "8d7a94c0b292",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "envelopes-dark",
+   "feature": "envelopes-dark",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "dark",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/envelopes-dark.png",
+   "sha1": "eac19120f113",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "envelopes",
+   "feature": "envelopes",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/envelopes.png",
+   "sha1": "c8c4a80daa7c",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "home-dark",
+   "feature": "home-dark",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "dark",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/home-dark.png",
+   "sha1": "a1febc22a5cc",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "home-eur",
+   "feature": "home-eur",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/home-eur.png",
+   "sha1": "371362380b32",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "home-signed",
+   "feature": "home-signed",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/home-signed.png",
+   "sha1": "8c711ee6f42e",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "home",
+   "feature": "home",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/home.png",
+   "sha1": "ffeb796c7462",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "notifications",
+   "feature": "notifications",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/notifications.png",
+   "sha1": "a13964d418d5",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "receipt-sheet",
+   "feature": "receipt-sheet",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/receipt-sheet.png",
+   "sha1": "e8f074eb03b2",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "reminders",
+   "feature": "reminders",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/reminders.png",
+   "sha1": "7bfccc1e3580",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "settings-dark",
+   "feature": "settings-dark",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "dark",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/settings-dark.png",
+   "sha1": "51cbdd196928",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "stats-categories",
+   "feature": "stats-categories",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/stats-categories.png",
+   "sha1": "f0a7e9113b01",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "stats-dark",
+   "feature": "stats-dark",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "dark",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/stats-dark.png",
+   "sha1": "71e8ff2ca550",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "stats",
+   "feature": "stats",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/stats.png",
+   "sha1": "f0237808b47d",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  },
+  {
+   "id": "wallets",
+   "feature": "wallets",
+   "platform": "android",
+   "locale": "fr",
+   "theme": "light",
+   "device": "Android emulator Pixel_Tablet (API 35, portrait 1600x2560 @320dpi)",
+   "width": 1600,
+   "height": 2560,
+   "file": "captures/android-tablet/fr/wallets.png",
+   "sha1": "4be155787b2a",
+   "steps": [
+    {
+     "flow": "integration_test/store_screenshots_test.dart"
+    }
+   ],
+   "stable": true,
+   "capturedAt": "2026-11-20T20:00:00Z",
+   "issues": [],
+   "deviceClass": "tablet"
+  }
+ ]
+}

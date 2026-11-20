@@ -13,11 +13,8 @@ extension _AddTransactionDialogStateBuild on _AddTransactionDialogState {
         ),
         insetPadding: EdgeInsets.symmetric(horizontal: 20 + 16, vertical: 40),
         child: _isInitializing
-            ? SizedBox(
-                height: 240,
-                child: Center(
-                    child: CircularProgressIndicator(
-                        color: Theme.of(context).primaryColor)))
+            ? const SizedBox(
+                height: 240, child: Center(child: AppLoader()))
             : SingleChildScrollView(
                 child: Padding(
                   padding: EdgeInsets.all(20),

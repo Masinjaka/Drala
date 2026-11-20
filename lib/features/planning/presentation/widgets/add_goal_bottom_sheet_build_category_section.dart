@@ -16,13 +16,9 @@ extension _AddGoalBottomSheetStateBuildCategorySection
         SizedBox(height: 8),
         categoriesAsync.when(
           data: _buildCategoryPills,
-          loading: () => SizedBox(
+          loading: () => const SizedBox(
             height: 41.6,
-            child: Center(
-              child: CircularProgressIndicator(
-                color: Theme.of(context).primaryColor,
-              ),
-            ),
+            child: Center(child: AppLoader(size: 36)),
           ),
           error: (e, _) => Text('Erreur: $e'),
         ),

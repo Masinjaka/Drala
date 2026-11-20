@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/features/offline/data/repositories/offline_receipt_repository.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -47,7 +48,7 @@ class _OfflineAccountHomeState extends State<OfflineAccountHome> {
         if (!account.hydrated) {
           if (status == SyncStatus.syncing || status == SyncStatus.connecting) {
             return const Scaffold(
-                body: Center(child: CircularProgressIndicator()));
+                body: Center(child: AppLoader()));
           }
           return Scaffold(
               body: Center(

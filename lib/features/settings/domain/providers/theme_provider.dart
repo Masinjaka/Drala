@@ -47,6 +47,10 @@ class ThemeNotifier extends _$ThemeNotifier {
     }
   }
 
+  /// Whether this device already holds a theme the user picked.
+  Future<bool> hasStoredSelection() async =>
+      (await SharedPreferences.getInstance()).containsKey(_themePrefsKey);
+
   Future<void> setTheme(ThemeOptions theme) async {
     _hasExplicitSelection = true;
     _setTheme(theme);

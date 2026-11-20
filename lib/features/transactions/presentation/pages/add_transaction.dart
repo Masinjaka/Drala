@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/core/ui/app_typography.dart';
 import 'package:budgets/core/ui/app_text_style.dart';
 import 'package:budgets/core/ui/app_text_role.dart';

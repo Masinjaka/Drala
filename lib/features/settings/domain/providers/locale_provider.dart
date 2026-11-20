@@ -37,6 +37,10 @@ class LocaleNotifier extends Notifier<Locale> {
     }
   }
 
+  /// Whether this device already holds a language the user picked.
+  Future<bool> hasStoredSelection() async =>
+      (await SharedPreferences.getInstance()).containsKey(_localeKey);
+
   Future<void> setLocale(Locale locale) async {
     _changedByUser = true;
     state = _supported(locale);

@@ -35,9 +35,9 @@ class AppTheme {
               : Theme.of(context).colorScheme.onInverseSurface
           : Theme.of(context).colorScheme.onSurface;
   static const String fontFamily = AppTypography.regularFontFamily;
-  static const Color backgroundDark = Color(0xFF1E1E24);
-  static const Color secondaryDark = Color(0xFF2C2B33);
-  static const Color borderColorDark = Color(0xFF595862);
+  static const Color backgroundDark = Color(0xFF0A0B0F);
+  static const Color secondaryDark = Color(0xFF14161B);
+  static const Color borderColorDark = Color(0xFF2B2F37);
   static const Color primaryGreen = Color(0xFF10B981);
   static const Color palettePeach = Color(0xFFFB9F89);
   static const Color paletteTaupe = Color(0xFFC4AF9A);
@@ -58,9 +58,11 @@ class AppTheme {
   static const Color neutralSurface = Color(0xFFF3F3F3);
   static const Color textDark = Color(0xFFF5F5F5);
   static const Color mutedTextDark = Color(0xFFD0D0D0);
-  static const Color raisedSurfaceDark = Color(0xFF3B3A43);
-  static const Color skeletonBaseDark = Color(0xFF585B5F);
-  static const Color skeletonHighlightDark = Color(0xFF8A8E93);
+  static const Color outlineVariantDark = Color(0xFF1F2229);
+  static const Color shadowDark = Color(0xFF000000);
+  static const Color raisedSurfaceDark = Color(0xFF1C1F25);
+  static const Color skeletonBaseDark = Color(0xFF373B42);
+  static const Color skeletonHighlightDark = Color(0xFF4D515A);
   static const Color skeletonBaseLight = Color(0xFFD9DEE3);
   static const Color skeletonHighlightLight = Color(0xFFEFF2F5);
   static const Color backgroundLight = Color(0xFFFEFEFE);
@@ -72,9 +74,9 @@ class AppTheme {
   static const Color incomeBadgeLight = Color(0xFFB9E5C7);
   static const Color expenseBadgeLight = palettePeach;
   static const Color transferBadgeLight = paletteLavender;
-  static const Color incomeBadgeDark = Color(0xFF244C3F);
-  static const Color expenseBadgeDark = Color(0xFF583B35);
-  static const Color transferBadgeDark = Color(0xFF37364F);
+  static const Color incomeBadgeDark = Color(0xFF12382B);
+  static const Color expenseBadgeDark = Color(0xFF3A211D);
+  static const Color transferBadgeDark = Color(0xFF22223A);
   static const Color interactiveTextColor = Colors.black;
   static final ThemeData lightTheme = AppInteractionTheme.apply(ThemeData(
     extensions: const [AppToastTheme.light],
@@ -123,7 +125,7 @@ class AppTheme {
     brightness: Brightness.dark,
     scaffoldBackgroundColor: backgroundDark,
     cardColor: secondaryDark,
-    shadowColor: const Color(0xFF141619),
+    shadowColor: shadowDark,
     primaryColor: primaryGreen,
     fontFamily: fontFamily,
     textSelectionTheme: const TextSelectionThemeData(

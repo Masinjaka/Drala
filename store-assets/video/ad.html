@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Drala ad</title>
+<style>
+  @font-face { font-family: Alexandria; src: url(../../assets/fonts/Alexandria-ExtraBold.ttf); font-weight: 800; }
+  @font-face { font-family: Alexandria; src: url(../../assets/fonts/Alexandria-Bold.ttf); font-weight: 700; }
+  @font-face { font-family: Alexandria; src: url(../../assets/fonts/Alexandria-Medium.ttf); font-weight: 500; }
+  :root { --ink: #0A0C10; --emerald: #059669; --green: #10B981; --lime: #D9F45A; --mint: #34D399; --frame: #15181D; }
+  html, body { margin: 0; background: var(--ink); }
+  #stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--ink);
+    font-family: Alexandria, sans-serif; color: #fff; }
+  .layer { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+  .grid { position: absolute; inset: -200px; background-image:
+    linear-gradient(rgba(255,255,255,.05) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255,255,255,.05) 2px, transparent 2px);
+    background-size: 120px 120px; }
+  .word { position: absolute; font-weight: 800; letter-spacing: -0.035em; line-height: 1; white-space: nowrap; }
+  .kicker { position: absolute; font-weight: 700; font-size: 38px; letter-spacing: .1em; text-transform: uppercase;
+    background: var(--lime); color: var(--ink); padding: 8px 16px; border-radius: 6px; white-space: nowrap; }
+  .caption { position: absolute; left: 72px; right: 72px; font-weight: 800; font-size: 96px; line-height: 1.02;
+    letter-spacing: -0.03em; }
+  .caption em { font-style: normal; color: var(--mint); }
+  .phone { position: absolute; width: 640px; padding: 18px; box-sizing: border-box; background: var(--frame);
+    border-radius: 78px; box-shadow: 0 60px 120px rgba(0,0,0,.55), inset 0 0 0 3px #2a2f37; }
+  .phone .screen { position: relative; width: 604px; height: 1342px; border-radius: 62px; overflow: hidden; background: #f4f4f4; }
+  .phone .screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .phone .hole { position: absolute; left: 50%; top: 26px; width: 26px; height: 26px; margin-left: -13px;
+    background: #050608; border-radius: 50%; z-index: 3; }
+  .crop { position: absolute; background-repeat: no-repeat; box-shadow: 0 40px 90px rgba(0,0,0,.5); }
+  .flash { position: absolute; inset: 0; background: #fff; pointer-events: none; }
+  .logo { position: absolute; width: 420px; height: 420px; border-radius: 92px;
+    box-shadow: 0 50px 120px rgba(0,0,0,.45); background: url(../../assets/icon/full.png) center/cover; }
+  .pill { position: absolute; font-weight: 700; font-size: 44px; padding: 26px 54px; border-radius: 999px;
+    background: var(--ink); color: #fff; white-space: nowrap; }
+  .bar { position: absolute; left: 0; bottom: 0; height: 10px; background: var(--lime); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="bg" class="layer" style="width:1080px;height:1920px"><div class="grid"></div></div>
+  <div id="scene"></div>
+  <div id="flash" class="flash" style="opacity:0"></div>
+  <div id="bar" class="bar"></div>
+</div>
+<script src="ad.js"></script>
+</body>
+</html>

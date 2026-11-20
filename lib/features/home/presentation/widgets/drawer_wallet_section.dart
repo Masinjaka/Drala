@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_button_skeleton.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/home/domain/models/add_wallet_input.dart';
@@ -104,21 +105,19 @@ class DrawerWalletSection extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
-              IconButton(
-                onPressed: isAdding ? null : () => _addWallet(context),
-                icon: isAdding
-                    ? const SizedBox.square(
-                        dimension: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.add_rounded, size: 23),
-                constraints: const BoxConstraints.tightFor(
-                  width: 40,
-                  height: 40,
+              if (isAdding)
+                const AppButtonSkeleton.icon()
+              else
+                IconButton(
+                  onPressed: () => _addWallet(context),
+                  icon: const Icon(Icons.add_rounded, size: 23),
+                  constraints: const BoxConstraints.tightFor(
+                    width: 40,
+                    height: 40,
+                  ),
+                  padding: EdgeInsets.zero,
+                  tooltip: context.l10n.addWallet,
                 ),
-                padding: EdgeInsets.zero,
-                tooltip: context.l10n.addWallet,
-              ),
             ],
           ),
         ),

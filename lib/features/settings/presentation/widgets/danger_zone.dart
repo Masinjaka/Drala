@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/features/settings/presentation/widgets/settings_menu_group.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/features/settings/presentation/view_models/danger_zone_view_model.dart';
@@ -72,8 +73,7 @@ class DangerZone extends StatelessWidget {
     );
   }
 
-  static const _progress = SizedBox.square(
-      dimension: 20, child: CircularProgressIndicator(strokeWidth: 2));
+  static const _progress = AppLoader.small();
 
   Future<void> _deleteData(BuildContext context) async {
     final confirmation = await showDialog<String>(

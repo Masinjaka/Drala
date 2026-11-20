@@ -41,6 +41,7 @@ class _AppColorSchemes {
     onSurface: AppTheme.textDark,
     onSurfaceVariant: AppTheme.mutedTextDark,
     outline: AppTheme.borderColorDark,
+    outlineVariant: AppTheme.outlineVariantDark,
     inverseSurface: Colors.white,
     onInverseSurface: Colors.black,
     tertiary: Color.fromARGB(255, 126, 126, 126),

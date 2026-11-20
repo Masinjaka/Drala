@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_refresh_indicator.dart';
 import 'package:budgets/core/functions/transaction_utils.dart';
 import 'package:budgets/features/transactions/presentation/widgets/transaction_state_widgets.dart';
 import 'package:budgets/features/transactions/presentation/widgets/paginated_transaction_date_group.dart';
@@ -71,7 +72,7 @@ class IncomeTabContent extends ConsumerWidget {
 
     return NotificationListener<ScrollNotification>(
       onNotification: onScrollNotification,
-      child: RefreshIndicator(
+      child: AppRefreshIndicator(
         onRefresh: () async {
           await ref.read(paginatedIncomesProvider.notifier).refresh();
         },

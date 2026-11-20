@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/presentation/widgets/animated_finance_entry_list.dart';
@@ -77,12 +78,7 @@ class DailyEntrySection extends StatelessWidget {
 
   Widget _loadingState() => const Padding(
         padding: EdgeInsets.only(top: 28),
-        child: Center(
-          child: SizedBox.square(
-            dimension: 22,
-            child: CircularProgressIndicator(strokeWidth: 2),
-          ),
-        ),
+        child: Center(child: AppLoader()),
       );
 
   String _summary(BuildContext context) {

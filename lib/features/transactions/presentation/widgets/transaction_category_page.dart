@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/core/ui/finance_sheet_scope.dart';
 import 'reference_category_selection.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
@@ -102,7 +103,7 @@ class _TransactionCategoryPageState extends State<TransactionCategoryPage> {
         const SizedBox(height: 20),
         Expanded(
             child: widget.isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? const Center(child: AppLoader())
                 : SingleChildScrollView(
                     child: Wrap(
                     spacing: 8,

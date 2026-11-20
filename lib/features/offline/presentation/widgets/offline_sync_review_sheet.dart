@@ -1,3 +1,5 @@
+import 'package:budgets/core/ui/app_button_skeleton.dart';
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/core/ui/app_sheet_header.dart';
 import 'dart:convert';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -70,7 +72,7 @@ class _OfflineSyncReviewSheetState extends State<OfflineSyncReviewSheet> {
                   builder: (context, snapshot) {
                     final rows = snapshot.data;
                     if (rows == null) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(child: AppLoader());
                     }
                     return ListView.builder(
                         shrinkWrap: true,
@@ -101,14 +103,19 @@ class _OfflineSyncReviewSheetState extends State<OfflineSyncReviewSheet> {
                                   : Text(label));
                         });
                   })),
-          if (_busy) const LinearProgressIndicator(),
           const SizedBox(height: 12),
-          FilledButton(
-              onPressed: _busy ? null : () => _apply(false),
-              child: Text(context.l10n.offlineRetryChanges)),
-          TextButton(
-              onPressed: _busy ? null : () => _apply(true),
-              child: Text(context.l10n.offlineKeepCloud)),
+          if (_busy) ...[
+            const AppButtonSkeleton(),
+            const SizedBox(height: 8),
+            const AppButtonSkeleton(width: 160, height: 40),
+          ] else ...[
+            FilledButton(
+                onPressed: () => _apply(false),
+                child: Text(context.l10n.offlineRetryChanges)),
+            TextButton(
+                onPressed: () => _apply(true),
+                child: Text(context.l10n.offlineKeepCloud)),
+          ],
         ]),
       ));
 }

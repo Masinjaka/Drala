@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/core/ui/app_close_button.dart';
 import 'package:budgets/core/ui/app_finance_surface_theme.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
@@ -48,7 +49,7 @@ class ReferenceCategorySelection extends StatelessWidget {
             const SizedBox(height: 24),
             Expanded(
                 child: loading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const Center(child: AppLoader())
                     : SingleChildScrollView(
                         child: Wrap(spacing: 8, runSpacing: 10, children: [
                         for (final category in categories)

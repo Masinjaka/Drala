@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'dart:io';
 
 import 'package:budgets/core/ui/app_icon_foreground.dart';
@@ -85,13 +86,8 @@ Widget avatar(BuildContext context, String? url, double size) {
       width: size,
       height: size,
       fit: BoxFit.cover,
-      placeholder: (context, _) => Center(
-        child: SizedBox(
-          width: size * 0.36,
-          height: size * 0.36,
-          child: const CircularProgressIndicator(strokeWidth: 2),
-        ),
-      ),
+      placeholder: (context, _) =>
+          Center(child: AppLoader(size: size * 0.52)),
       errorWidget: (context, _, __) => Icon(Icons.person,
           size: size,
           color:

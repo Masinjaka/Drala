@@ -1,0 +1,556 @@
+{
+  "generatedAt": "2026-11-20T13:54:15.661Z",
+  "projectRoot": "/Users/masinjaka/works/Drala",
+  "framework": "flutter",
+  "frameworkCandidates": [
+    {
+      "id": "flutter",
+      "score": 100,
+      "evidence": [
+        "pubspec.yaml (flutter sdk dependency)"
+      ]
+    }
+  ],
+  "appName": "Drala",
+  "packageName": "budgets",
+  "description": "A new Flutter project.",
+  "language": "Dart",
+  "platforms": [
+    "ios",
+    "android",
+    "web"
+  ],
+  "bundleIds": {
+    "ios": "com.masinjaka.drala",
+    "android": "com.masinjaka.drala"
+  },
+  "entryPoints": [
+    "lib/main.dart"
+  ],
+  "flavors": [],
+  "iosSchemes": [
+    "Runner"
+  ],
+  "supportsIPad": true,
+  "routes": [
+    "/home",
+    "/login",
+    "/onboarding",
+    "/signup"
+  ],
+  "screens": [
+    {
+      "name": "DeleteConfirmationDialog",
+      "file": "lib/widgets/delete_confirmation_dialog.dart",
+      "line": 29
+    },
+    {
+      "name": "PermissionRequestDialog",
+      "file": "lib/widgets/permission_request_dialog.dart",
+      "line": 4
+    },
+    {
+      "name": "TransactionCategoryPage",
+      "file": "lib/features/transactions/presentation/widgets/transaction_category_page.dart",
+      "line": 10
+    },
+    {
+      "name": "TransactionDetailEditPage",
+      "file": "lib/features/transactions/presentation/widgets/transaction_detail_edit_page.dart",
+      "line": 15
+    },
+    {
+      "name": "TransactionEditScrollView",
+      "file": "lib/features/transactions/presentation/widgets/transaction_edit_scroll_view.dart",
+      "line": 4
+    },
+    {
+      "name": "StatsMonthPage",
+      "file": "lib/features/stats/presentation/widgets/stats_month_page.dart",
+      "line": 15
+    },
+    {
+      "name": "FinanceStatsPage",
+      "file": "lib/features/stats/presentation/pages/finance_stats_page.dart",
+      "line": 19
+    },
+    {
+      "name": "DestructiveConfirmationDialog",
+      "file": "lib/features/settings/presentation/widgets/destructive_confirmation_dialog.dart",
+      "line": 7
+    },
+    {
+      "name": "LogoutConfirmationDialog",
+      "file": "lib/features/settings/presentation/widgets/logout_confirmation_dialog.dart",
+      "line": 7
+    },
+    {
+      "name": "SettingsEditorSheet",
+      "file": "lib/features/settings/presentation/widgets/settings_editor_sheet.dart",
+      "line": 5
+    },
+    {
+      "name": "ThemeSelectionDialog",
+      "file": "lib/features/settings/presentation/widgets/theme_selection_dialog.dart",
+      "line": 7
+    },
+    {
+      "name": "LanguageSettingsPage",
+      "file": "lib/features/settings/presentation/pages/language_settings_page.dart",
+      "line": 11
+    },
+    {
+      "name": "LegalSettingsPage",
+      "file": "lib/features/settings/presentation/pages/legal_settings_page.dart",
+      "line": 8
+    },
+    {
+      "name": "SettingsWithBackPage",
+      "file": "lib/features/settings/presentation/pages/settings_with_back_page.dart",
+      "line": 4
+    },
+    {
+      "name": "ThemeSettingsPage",
+      "file": "lib/features/settings/presentation/pages/theme_settings_page.dart",
+      "line": 10
+    },
+    {
+      "name": "ReceiptGalleryPage",
+      "file": "lib/features/receipts/presentation/pages/receipt_gallery_page.dart",
+      "line": 22
+    },
+    {
+      "name": "ReceiptPreviewPage",
+      "file": "lib/features/receipts/presentation/pages/receipt_preview_page.dart",
+      "line": 7
+    },
+    {
+      "name": "PlanPage",
+      "file": "lib/features/plans/presentation/pages/plan_page.dart",
+      "line": 13
+    },
+    {
+      "name": "SetupPageView",
+      "file": "lib/features/onboarding/presentation/widgets/setup_page_view.dart",
+      "line": 10
+    },
+    {
+      "name": "SplashPage",
+      "file": "lib/features/onboarding/presentation/pages/splash_page.dart",
+      "line": 6
+    },
+    {
+      "name": "OfflineSyncReviewSheet",
+      "file": "lib/features/offline/presentation/widgets/offline_sync_review_sheet.dart",
+      "line": 11
+    },
+    {
+      "name": "FinanceNotificationsPage",
+      "file": "lib/features/notifications/presentation/pages/finance_notifications_page.dart",
+      "line": 16
+    },
+    {
+      "name": "NotificationSettingsPage",
+      "file": "lib/features/notifications/presentation/pages/notification_settings_page.dart",
+      "line": 16
+    },
+    {
+      "name": "AddWalletSheet",
+      "file": "lib/features/home/presentation/widgets/add_wallet_sheet.dart",
+      "line": 9
+    },
+    {
+      "name": "EditWalletSheet",
+      "file": "lib/features/home/presentation/widgets/edit_wallet_sheet.dart",
+      "line": 10
+    },
+    {
+      "name": "FinanceEntryDetailSheet",
+      "file": "lib/features/home/presentation/widgets/finance_entry_detail_sheet.dart",
+      "line": 22
+    },
+    {
+      "name": "ManualEntrySheet",
+      "file": "lib/features/home/presentation/widgets/manual_entry_sheet.dart",
+      "line": 31
+    },
+    {
+      "name": "ManualTransferFormPage",
+      "file": "lib/features/home/presentation/widgets/manual_transfer_form_page.dart",
+      "line": 13
+    },
+    {
+      "name": "MultiWalletConsentSheet",
+      "file": "lib/features/home/presentation/widgets/multi_wallet_consent_sheet.dart",
+      "line": 12
+    },
+    {
+      "name": "ReceiptInputBottomSheet",
+      "file": "lib/features/home/presentation/widgets/receipt_input_bottom_sheet.dart",
+      "line": 10
+    },
+    {
+      "name": "WalletFormPage",
+      "file": "lib/features/home/presentation/widgets/wallet_form_page.dart",
+      "line": 15
+    },
+    {
+      "name": "WalletSelectionPage",
+      "file": "lib/features/home/presentation/widgets/wallet_selection_page.dart",
+      "line": 10
+    },
+    {
+      "name": "WalletSelectionSheet",
+      "file": "lib/features/home/presentation/widgets/wallet_selection_sheet.dart",
+      "line": 9
+    },
+    {
+      "name": "WalletSourceSheet",
+      "file": "lib/features/home/presentation/widgets/wallet_source_sheet.dart",
+      "line": 13
+    },
+    {
+      "name": "HomePage",
+      "file": "lib/features/home/presentation/pages/accueil_page.dart",
+      "line": 19
+    },
+    {
+      "name": "ChatHomePage",
+      "file": "lib/features/home/presentation/pages/chat_home_page.dart",
+      "line": 28
+    },
+    {
+      "name": "CurrencyHomePage",
+      "file": "lib/features/home/presentation/pages/currency_home_page.dart",
+      "line": 15
+    },
+    {
+      "name": "WalletsPage",
+      "file": "lib/features/home/presentation/pages/wallets_page.dart",
+      "line": 27
+    },
+    {
+      "name": "GuestAccountChoicePage",
+      "file": "lib/features/guest/presentation/pages/guest_account_choice_page.dart",
+      "line": 15
+    },
+    {
+      "name": "AddEnvelopeSheet",
+      "file": "lib/features/envelopes/presentation/widgets/add_envelope_sheet.dart",
+      "line": 22
+    },
+    {
+      "name": "EnvelopeFormPage",
+      "file": "lib/features/envelopes/presentation/widgets/envelope_form_page.dart",
+      "line": 13
+    },
+    {
+      "name": "EnvelopeMonthPage",
+      "file": "lib/features/envelopes/presentation/widgets/envelope_month_page.dart",
+      "line": 11
+    },
+    {
+      "name": "EnvelopePage",
+      "file": "lib/features/envelopes/presentation/pages/envelope_page.dart",
+      "line": 26
+    },
+    {
+      "name": "AddCategoryDialog",
+      "file": "lib/features/categories/presentation/widgets/add_category_dialog.dart",
+      "line": 6
+    },
+    {
+      "name": "AddSubcategoryDialog",
+      "file": "lib/features/categories/presentation/widgets/add_subcategory_dialog.dart",
+      "line": 12
+    },
+    {
+      "name": "SubcategorySelectionDialog",
+      "file": "lib/features/categories/presentation/widgets/subcategory_selection_dialog.dart",
+      "line": 11
+    },
+    {
+      "name": "CategoryPage",
+      "file": "lib/features/categories/presentation/pages/category_page.dart",
+      "line": 12
+    },
+    {
+      "name": "ImageSourceSheet",
+      "file": "lib/features/auth/presentation/widgets/image_source_sheet.dart",
+      "line": 9
+    }
+  ],
+  "deepLinks": {
+    "schemes": []
+  },
+  "dartDefines": [
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "ADMOB_ANDROID_APP_ID",
+    "ADMOB_IOS_APP_ID",
+    "ADMOB_ANDROID_NATIVE_AD_UNIT_ID",
+    "ADMOB_IOS_NATIVE_AD_UNIT_ID",
+    "SENTRY_DSN",
+    "SENTRY_ENVIRONMENT",
+    "SENTRY_STARTUP_TEST"
+  ],
+  "localization": {
+    "languages": [
+      "de",
+      "en",
+      "es",
+      "fr",
+      "it",
+      "mg"
+    ],
+    "files": [
+      "lib/l10n/app_de.arb",
+      "lib/l10n/app_en.arb",
+      "lib/l10n/app_es.arb",
+      "lib/l10n/app_fr.arb",
+      "lib/l10n/app_it.arb",
+      "lib/l10n/app_mg.arb",
+      "ios lproj: en,fr"
+    ]
+  },
+  "dependencies": [
+    "flutter",
+    "flutter_localizations",
+    "cupertino_icons",
+    "supabase_flutter",
+    "go_router",
+    "flutter_riverpod",
+    "riverpod_annotation",
+    "badges",
+    "intl",
+    "chips_input_autocomplete",
+    "flutter_animate",
+    "flutter_slidable",
+    "firebase_core",
+    "firebase_messaging",
+    "flutter_local_notifications",
+    "flutter_timezone",
+    "timezone",
+    "fl_chart",
+    "table_calendar",
+    "emoji_picker_flutter",
+    "flutter_colorpicker",
+    "flex_color_picker",
+    "flutter_launcher_icons",
+    "smooth_page_indicator",
+    "carousel_slider",
+    "dotted_border",
+    "camera",
+    "cunning_document_scanner",
+    "file_picker",
+    "image_picker",
+    "image_picker_android",
+    "image_picker_platform_interface",
+    "permission_handler",
+    "cached_network_image",
+    "shimmer",
+    "package_info_plus",
+    "shared_preferences",
+    "http",
+    "drift",
+    "vibration",
+    "local_auth",
+    "sentry_flutter",
+    "feedback",
+    "feedback_sentry",
+    "ionicons",
+    "currency_text_input_formatter",
+    "font_awesome_flutter",
+    "path_provider",
+    "uuid",
+    "bottom_picker",
+    "url_launcher",
+    "animated_digit",
+    "animated_text_kit",
+    "google_mobile_ads",
+    "flutter_svg",
+    "lottie",
+    "custom_refresh_indicator"
+  ],
+  "devDependencies": [
+    "flutter_test",
+    "integration_test",
+    "flutter_lints",
+    "riverpod_generator",
+    "build_runner",
+    "custom_lint",
+    "riverpod_lint",
+    "mockito",
+    "mocktail"
+  ],
+  "assets": [
+    "assets/navigation/",
+    "assets/settings/",
+    "assets/profil.png",
+    "assets/icon/",
+    "assets/images/",
+    "assets/illustrations/dark/",
+    "assets/illustrations/light/",
+    "assets/illustrations/empty-budgeting.png",
+    "assets/illustrations/empty_states/",
+    "assets/animations/"
+  ],
+  "fonts": [
+    {
+      "family": "Alexandria",
+      "files": [
+        {
+          "asset": "assets/fonts/Alexandria-Light.ttf",
+          "weight": 300
+        },
+        {
+          "asset": "assets/fonts/Alexandria-Regular.ttf",
+          "weight": 400
+        },
+        {
+          "asset": "assets/fonts/Alexandria-Medium.ttf",
+          "weight": 500
+        },
+        {
+          "asset": "assets/fonts/Alexandria-SemiBold.ttf",
+          "weight": 600
+        },
+        {
+          "asset": "assets/fonts/Alexandria-Bold.ttf",
+          "weight": 700
+        },
+        {
+          "asset": "assets/fonts/Alexandria-ExtraBold.ttf",
+          "weight": 800
+        }
+      ]
+    },
+    {
+      "family": "Inter",
+      "files": [
+        {
+          "asset": "assets/fonts/Inter.ttf",
+          "weight": 400
+        }
+      ]
+    }
+  ],
+  "tests": [
+    "integration_test/admob_native_test.dart"
+  ],
+  "automation": [
+    "integration_test"
+  ],
+  "android": {
+    "manifests": [
+      "app/src/main/AndroidManifest.xml"
+    ],
+    "activities": [
+      ".MainActivity"
+    ],
+    "schemes": [],
+    "label": "Drala",
+    "permissions": [
+      "CAMERA",
+      "READ_EXTERNAL_STORAGE",
+      "POST_NOTIFICATIONS",
+      "RECEIVE_BOOT_COMPLETED",
+      "INTERNET",
+      "USE_BIOMETRIC"
+    ],
+    "applicationId": "com.masinjaka.drala",
+    "flavors": [],
+    "buildTypes": [],
+    "files": [
+      "build.gradle",
+      "app/build.gradle"
+    ]
+  },
+  "ios": {
+    "infoPlist": "Runner/Info.plist",
+    "displayName": "Drala",
+    "bundleId": "com.masinjaka.drala",
+    "urlSchemes": [],
+    "supportsIPad": true,
+    "schemes": [
+      "Runner"
+    ],
+    "localizations": [
+      "en",
+      "fr"
+    ]
+  },
+  "signals": {
+    "auth": [
+      "lib/widgets/custom_textfield_validator.dart:18  case 'password':",
+      "lib/features/transactions/presentation/modules/transaction_module.dart:35  final user = supabase.auth.currentUser;",
+      "lib/features/stats/presentation/modules/authentication_utils.dart:24  final bool didAuthenticate = await _localAuth.authenticate(",
+      "lib/features/settings/presentation/pages/edit_password_page.dart:104  .validate('password', null, value) ??",
+      "lib/features/onboarding/presentation/pages/getting_started_page.dart:79  onPressed: () => context.push('/login'),",
+      "lib/features/onboarding/presentation/module/splash_module.dart:19  final hasSession = supabase.auth.currentSession != null;",
+      "lib/features/onboarding/presentation/module/splash_module.dart:24  _sub ??= supabase.auth.onAuthStateChange.listen((data) {",
+      "lib/features/onboarding/presentation/module/splash_module.dart:31  context.go('/login');",
+      "lib/features/guest/presentation/pages/guest_account_choice_page.dart:86  onPressed: () => context.push('/login'),",
+      "lib/features/guest/presentation/pages/guest_account_choice_page.dart:98  onPressed: () => context.push('/login'),",
+      "lib/features/auth/presentation/post_sign_up_destination.dart:6  return hasSession ? '/onboarding' : '/login';",
+      "lib/features/auth/presentation/widgets/password_requirements_list.dart:17  key: const Key('password-requirements'),",
+      "lib/features/auth/presentation/widgets/password_requirements_list.dart:22  requirementKey: const Key('password-requirement-length'),",
+      "lib/features/auth/presentation/widgets/password_requirements_list.dart:27  requirementKey: const Key('password-requirement-uppercase'),",
+      "lib/features/auth/presentation/widgets/password_requirements_list.dart:32  requirementKey: const Key('password-requirement-lowercase'),"
+    ],
+    "demoMode": [
+      "lib/main.dart:28  const url = String.fromEnvironment('SUPABASE_URL');",
+      "lib/main.dart:29  const anonKey = String.fromEnvironment('SUPABASE_ANON_KEY');",
+      "lib/features/ads/data/admob_configuration.dart:7  static const androidAppId = String.fromEnvironment('ADMOB_ANDROID_APP_ID');",
+      "lib/features/ads/data/admob_configuration.dart:8  static const iosAppId = String.fromEnvironment('ADMOB_IOS_APP_ID');",
+      "lib/features/ads/data/admob_configuration.dart:10  String.fromEnvironment('ADMOB_ANDROID_NATIVE_AD_UNIT_ID');",
+      "lib/features/ads/data/admob_configuration.dart:12  String.fromEnvironment('ADMOB_IOS_NATIVE_AD_UNIT_ID');",
+      "lib/core/monitoring/sentry_bootstrap.dart:13  const dsn = String.fromEnvironment('SENTRY_DSN');",
+      "lib/core/monitoring/sentry_bootstrap.dart:14  const environment = String.fromEnvironment('SENTRY_ENVIRONMENT');",
+      "lib/core/monitoring/sentry_bootstrap.dart:15  const startupTestEnabled = bool.fromEnvironment('SENTRY_STARTUP_TEST');"
+    ],
+    "network": [
+      "lib/main.dart:19  SupabaseClient get supabase => Supabase.instance.client;",
+      "lib/main.dart:39  final offline = OfflineSyncManager(supabase, connectivity);",
+      "lib/main.dart:43  final navigation = AppNavigation.supabase(",
+      "lib/main.dart:57  authClient: supabase,",
+      "lib/features/transactions/presentation/modules/transaction_module.dart:35  final user = supabase.auth.currentUser;",
+      "lib/features/onboarding/presentation/module/splash_module.dart:19  final hasSession = supabase.auth.currentSession != null;",
+      "lib/features/onboarding/presentation/module/splash_module.dart:24  _sub ??= supabase.auth.onAuthStateChange.listen((data) {",
+      "lib/features/offline/data/services/offline_connectivity.dart:4  import 'package:http/http.dart' as http;",
+      "lib/features/offline/data/services/offline_connectivity.dart:13  error is http.ClientException ||",
+      "lib/features/offline/data/services/offline_http_client.dart:2  import 'package:http/http.dart' as http;",
+      "lib/features/offline/data/services/offline_http_client.dart:5  class OfflineHttpClient extends http.BaseClient {",
+      "lib/features/offline/data/services/offline_http_client.dart:6  OfflineHttpClient(this.connectivity, {http.Client? inner})",
+      "lib/features/offline/data/services/offline_http_client.dart:7  : _inner = inner ?? http.Client();",
+      "lib/features/offline/data/services/offline_http_client.dart:9  final http.Client _inner;",
+      "lib/features/offline/data/services/offline_http_client.dart:11  Future<http.StreamedResponse> send(http.BaseRequest request) async {"
+    ],
+    "payments": [],
+    "permissions": [
+      "lib/features/notifications/presentation/widgets/notification_permission_prompt.dart:13  import 'package:permission_handler/permission_handler.dart';",
+      "lib/features/notifications/presentation/services/notification_permission_coordinator.dart:7  import 'package:permission_handler/permission_handler.dart';",
+      "lib/features/notifications/presentation/services/notification_permission_service.dart:20  final settings = await _messaging.requestPermission(",
+      "lib/features/notifications/presentation/controllers/notification_controller.dart:104  .requestPermission()) {",
+      "lib/features/home/presentation/pages/accueil_page.dart:17  import 'package:permission_handler/permission_handler.dart';",
+      "lib/features/guest/presentation/services/device_guest_notification_gateway.dart:43  Future<bool> requestPermission() async =>",
+      "lib/features/guest/presentation/services/guest_notification_gateway.dart:8  Future<bool> requestPermission();",
+      "lib/features/guest/presentation/pages/guest_notification_settings_page.dart:65  .requestPermission()) {",
+      "lib/core/functions/pick_image_with_permissions.dart:12  import 'package:permission_handler/permission_handler.dart';",
+      "lib/core/functions/pick_image_with_permissions.dart:29  // On Android 13+ photos/videos separated; permission_handler maps to photos. Use storage for older versions."
+    ],
+    "experimental": []
+  },
+  "sourceFiles": 881,
+  "readmeExcerpt": "# Drala\n\nDrala is a Flutter mobile app for personal finance tracking. It lets users record expenses and income, organize categories, plan budgets and savings goals, view monthly reports, and store their financial data securely in Supabase.\n\n## What the app does\n\n- Track expenses and income\n- Organize transactions with categories and subcategories\n- Manage budgets and savings goals\n- View monthly reports and chart-based summaries\n- Choose a display currency using synced exchange rates\n- Receive budget warnings and daily reminder notifications\n- Continue using the app offline with local caching and deferred sync\n\n## Stack at a glance\n\n- Frontend: Flutter 3.38.7, Dart, Material UI\n- State management: Riverpod with code generation\n- Navigation: GoRouter\n- Backend: Supabase\n- Offline sync: PowerSync\n- Push notifications: Firebase Cloud Messaging\n- Local notifications: `flutter_local_notifications`\n- Local persistence: Hive and SharedPreferences\n- Monitoring: Sentry\n\n## Supported platforms\n\nThe checked-in configuration is set up for Android and iOS.\n\nThere is a `web/` directory in the repo, but the current Firebase configuration in [`lib/firebase_options.dart`](/home/masy/project/Budgets/lib/firebase_options.dart:1) is not configured for web, so web should be treated as unfinished unless you add your own Firebase setup.\n\n## Core features\n\n- Authentication with sign up, login, password reset, and account profile management\n- Home dashboard with recent activity, sync status, and quick summary widgets\n- Transaction management for expenses and income\n- Category and subcategory management\n- Planning flows for budgets and goals\n- Reports and charts for monthly performance\n- Notification preferences for reminders and budget warnings\n- Profile photo upload with retry support when off",
+  "vcs": "git",
+  "existingStoreAssets": true,
+  "existingScreenshotAutomation": [
+    "integration_test"
+  ],
+  "nextSteps": [
+    "Read the entry point(s) and the top-ranked screens to understand navigation.",
+    "Check signals.auth / signals.demoMode to plan a safe demo state (references/demo-data-strategy.md).",
+    "Run extract-design-tokens next."
+  ]
+}

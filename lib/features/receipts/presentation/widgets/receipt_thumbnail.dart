@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -26,9 +27,7 @@ class ReceiptThumbnail extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: url,
       fit: fit,
-      placeholder: (_, __) => const Center(
-        child: CircularProgressIndicator(strokeWidth: 2),
-      ),
+      placeholder: (_, __) => const Center(child: AppLoader.small()),
       errorWidget: (_, __, ___) => const Center(
         child: Icon(Icons.broken_image),
       ),

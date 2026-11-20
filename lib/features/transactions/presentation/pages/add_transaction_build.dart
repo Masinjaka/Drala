@@ -3,10 +3,7 @@ part of 'add_transaction.dart';
 extension _TransactionCreationPageStateBuild on _TransactionCreationPageState {
   Widget _buildFormContent(BuildContext context) {
     if (_isInitializing) {
-      return Scaffold(
-          body: Center(
-              child: CircularProgressIndicator(
-                  color: Theme.of(context).primaryColor)));
+      return const Scaffold(body: Center(child: AppLoader()));
     }
     return Scaffold(
       extendBodyBehindAppBar: true,

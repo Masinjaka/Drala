@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_button_skeleton.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -38,16 +39,12 @@ class GuestCurrencyRateNotice extends StatelessWidget {
                     context.l10n.guestCurrencyRatePending(preferred, displayed),
                     style: theme.textTheme.bodyMedium,
                   ),
-                  TextButton(
-                    onPressed: isRetrying ? null : onRetry,
-                    child: isRetrying
-                        ? const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(context.l10n.setupRetry),
-                  ),
+                  isRetrying
+                      ? const AppButtonSkeleton(width: 88, height: 40)
+                      : TextButton(
+                          onPressed: onRetry,
+                          child: Text(context.l10n.setupRetry),
+                        ),
                 ],
               ),
             ),

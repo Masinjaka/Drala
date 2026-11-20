@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_refresh_indicator.dart';
 import 'package:budgets/core/widgets/delayed_skeleton.dart';
 import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_finance_surface_theme.dart';
@@ -84,7 +85,7 @@ class _FinanceNotificationsPageState extends State<FinanceNotificationsPage> {
   }
 
   Widget _inbox() {
-    return RefreshIndicator(
+    return AppRefreshIndicator(
       onRefresh: _load,
       child: ListView.separated(
         padding: AppScrollPadding.insets(context, top: 12, bottom: 32),

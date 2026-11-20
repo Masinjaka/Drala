@@ -1,0 +1,1062 @@
+{
+  "generatedAt": "2026-11-20T13:54:15.822Z",
+  "framework": "flutter",
+  "sources": [
+    "lib/core/theme.dart",
+    "lib/core/ui/app_interaction_theme.dart",
+    "lib/core/ui/app_button_theme.dart",
+    "lib/widgets/charts/bar_chart_stats.dart",
+    "lib/core/ui/app_toast_theme.dart",
+    "lib/features/onboarding/presentation/widgets/setup_choice.dart",
+    "lib/features/auth/presentation/pages/verify_reset_code_page.dart",
+    "lib/core/ui/app_danger_theme.dart",
+    "lib/features/stats/presentation/widgets/new_category_breakdown.dart",
+    "lib/core/ui/app_category_icon_theme.dart",
+    "lib/core/ui/app_color_schemes.dart",
+    "lib/core/ui/app_text_theme.dart",
+    "lib/widgets/charts/bar_chart.dart",
+    "lib/core/ui/app_setup_theme.dart",
+    "lib/widgets/animated_amount_field.dart",
+    "lib/core/ui/app_home_overview_theme.dart",
+    "lib/core/ui/app_finance_surface_theme.dart",
+    "lib/core/ui/app_icon_button_theme.dart",
+    "lib/core/ui/app_navigation_theme.dart",
+    "lib/core/ui/app_settings_theme.dart",
+    "lib/features/planning/presentation/widgets/goal_list_item_top_up_fields.dart",
+    "lib/features/onboarding/presentation/widgets/setup_page_layout.dart",
+    "lib/features/onboarding/presentation/widgets/setup_preset_choices.dart",
+    "lib/features/feedback/presentation/widgets/app_feedback.dart",
+    "lib/features/auth/presentation/pages/login_page.dart",
+    "lib/core/ui/app_auth_theme.dart",
+    "lib/core/ui/app_stats_theme.dart",
+    "lib/core/ui/app_text_style.dart",
+    "lib/features/transactions/presentation/widgets/transaction_amount_field.dart",
+    "lib/features/settings/presentation/widgets/currency_search_field.dart",
+    "lib/features/settings/presentation/widgets/settings_choice_tile.dart",
+    "lib/features/planning/presentation/widgets/goal_list_item_build_amount_row.dart",
+    "lib/features/onboarding/presentation/widgets/setup_completion.dart",
+    "lib/features/onboarding/presentation/pages/getting_started_page.dart",
+    "lib/features/guest/presentation/pages/guest_account_choice_page.dart",
+    "lib/features/envelopes/presentation/widgets/envelope_overspend_warning.dart",
+    "lib/features/auth/presentation/widgets/legal_consent_text.dart",
+    "lib/features/auth/presentation/widgets/sign_up_password_fields.dart",
+    "lib/features/auth/presentation/pages/reset_password_page.dart",
+    "lib/features/auth/presentation/pages/sign_up_page.dart",
+    "lib/core/ui/app_activities_theme.dart",
+    "lib/features/settings/presentation/widgets/theme_selection_dialog.dart",
+    "lib/features/settings/presentation/pages/theme_settings_page.dart",
+    "lib/features/settings/domain/providers/theme_provider.dart",
+    "lib/features/home/presentation/widgets/home_colors.dart",
+    "lib/features/home/presentation/widgets/resume_calendar_theme.dart",
+    "lib/features/categories/presentation/widgets/category_color_choice.dart",
+    "lib/features/categories/presentation/widgets/category_color_choices.dart",
+    "lib/features/categories/presentation/widgets/category_color_picker.dart",
+    "lib/features/categories/presentation/pages/add_category_color_and_delete.dart",
+    "lib/core/ui/app_card_theme.dart",
+    "lib/core/ui/app_category_theme.dart",
+    "lib/core/ui/app_empty_state_theme.dart",
+    "lib/core/ui/app_envelope_theme.dart",
+    "lib/core/ui/app_glass_theme.dart",
+    "lib/core/ui/app_grid_theme.dart",
+    "lib/core/ui/app_header_theme.dart",
+    "lib/core/ui/app_skeleton_theme.dart",
+    "lib/core/ui/app_typography.dart",
+    "lib/features/home/presentation/widgets/jumbotron.dart",
+    "lib/widgets/custom_transaction_card.dart",
+    "lib/widgets/skeleton/currency_skeletons.dart",
+    "lib/widgets/charts/pie_chart.dart",
+    "lib/features/transactions/presentation/widgets/subcategory_detail_section.dart",
+    "lib/features/transactions/presentation/widgets/transaction_detail_header.dart",
+    "lib/features/transactions/presentation/widgets/transaction_list_item_content.dart",
+    "lib/features/stats/presentation/widgets/budget_history_items.dart",
+    "lib/features/stats/presentation/widgets/new_balance_card.dart",
+    "lib/features/stats/presentation/widgets/stats_chart_layout.dart",
+    "lib/features/planning/presentation/widgets/budget_list_item_layout.dart",
+    "lib/features/onboarding/presentation/widgets/category_explosion.dart",
+    "lib/features/onboarding/presentation/widgets/setup_grid_choice.dart",
+    "lib/features/onboarding/presentation/widgets/setup_submit_button.dart",
+    "lib/features/onboarding/presentation/widgets/setup_wallet_icon.dart",
+    "lib/features/notifications/presentation/widgets/notification_count_badge.dart",
+    "lib/features/home/presentation/widgets/animated_compact_amount.dart",
+    "lib/features/home/presentation/widgets/drawer_menu_section.dart",
+    "lib/features/home/presentation/widgets/expense_list_item.dart",
+    "lib/features/home/presentation/widgets/home_balance_card.dart",
+    "lib/features/home/presentation/widgets/home_drawer.dart"
+  ],
+  "color": {
+    "roles": {
+      "scaffoldBackgroundColor": {
+        "hex": "#FEFEFE",
+        "from": "backgroundLight (lib/core/theme.dart)"
+      },
+      "background": {
+        "hex": "#10B981",
+        "from": "primaryGreen (lib/core/theme.dart)"
+      },
+      "error": {
+        "hex": "#E68C92",
+        "from": "AppDangerTheme.darkError (lib/core/ui/app_toast_theme.dart)"
+      },
+      "primary": {
+        "hex": "#10B981",
+        "from": "AppTheme.primaryGreen (lib/core/ui/app_color_schemes.dart)"
+      },
+      "secondary": {
+        "hex": "#C4AF9A",
+        "from": "AppTheme.paletteTaupe (lib/core/ui/app_color_schemes.dart)"
+      },
+      "onSurface": {
+        "hex": "#333333",
+        "from": "AppTheme.textLight (lib/core/ui/app_color_schemes.dart)"
+      },
+      "tertiary": {
+        "hex": "#595862",
+        "from": "AppTheme.borderColorDark (lib/core/ui/app_color_schemes.dart)"
+      },
+      "ink": {
+        "hex": "#333333",
+        "from": "inferred: named ink/text colour"
+      },
+      "accent": {
+        "hex": "#FFCF52",
+        "from": "inferred: most frequent saturated colour with a distinct hue from primary"
+      }
+    },
+    "palette": [
+      {
+        "hex": "#37434D",
+        "names": [
+          "color"
+        ],
+        "occurrences": 7,
+        "alpha": 1,
+        "hue": "azure",
+        "tone": "dark",
+        "hsl": {
+          "h": 207,
+          "s": 0.167,
+          "l": 0.259
+        },
+        "luminance": 0.054,
+        "sources": [
+          "lib/widgets/charts/bar_chart_stats.dart:54",
+          "lib/widgets/charts/bar_chart_stats.dart:173",
+          "lib/widgets/charts/bar_chart_stats.dart:299",
+          "lib/widgets/charts/bar_chart.dart:55"
+        ]
+      },
+      {
+        "hex": "#F4F4F4",
+        "names": [
+          "_iconSurfaceLight"
+        ],
+        "occurrences": 4,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "very light",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.957
+        },
+        "luminance": 0.905,
+        "sources": [
+          "lib/core/ui/app_home_overview_theme.dart:22",
+          "lib/core/ui/app_navigation_theme.dart:19",
+          "lib/core/ui/app_settings_theme.dart:30",
+          "lib/core/ui/app_activities_theme.dart:17"
+        ]
+      },
+      {
+        "hex": "#10B981",
+        "names": [
+          "primaryGreen"
+        ],
+        "occurrences": 3,
+        "alpha": 1,
+        "hue": "emerald",
+        "tone": "mid",
+        "hsl": {
+          "h": 160,
+          "s": 0.841,
+          "l": 0.394
+        },
+        "luminance": 0.364,
+        "sources": [
+          "lib/core/theme.dart:41",
+          "lib/features/stats/presentation/widgets/new_category_breakdown.dart:46",
+          "lib/core/ui/app_category_icon_theme.dart:10"
+        ]
+      },
+      {
+        "hex": "#303030",
+        "names": [
+          "background",
+          "iconForeground"
+        ],
+        "occurrences": 3,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "dark",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.188
+        },
+        "luminance": 0.03,
+        "sources": [
+          "lib/core/ui/app_toast_theme.dart:28",
+          "lib/core/ui/app_toast_theme.dart:34",
+          "lib/core/ui/app_toast_theme.dart:44"
+        ]
+      },
+      {
+        "hex": "#333333",
+        "names": [
+          "textLight",
+          "foreground"
+        ],
+        "occurrences": 2,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "dark",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.2
+        },
+        "luminance": 0.033,
+        "sources": [
+          "lib/core/theme.dart:69",
+          "lib/core/ui/app_toast_theme.dart:39"
+        ]
+      },
+      {
+        "hex": "#FFFFFF",
+        "names": [
+          "foreground",
+          "background"
+        ],
+        "occurrences": 2,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "very light",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 1
+        },
+        "luminance": 1,
+        "sources": [
+          "lib/core/ui/app_toast_theme.dart:29",
+          "lib/core/ui/app_toast_theme.dart:38"
+        ]
+      },
+      {
+        "hex": "#1E1E24",
+        "names": [
+          "backgroundDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "very dark",
+        "hsl": {
+          "h": 240,
+          "s": 0.091,
+          "l": 0.129
+        },
+        "luminance": 0.013,
+        "sources": [
+          "lib/core/theme.dart:38"
+        ]
+      },
+      {
+        "hex": "#2C2B33",
+        "names": [
+          "secondaryDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "dark",
+        "hsl": {
+          "h": 248,
+          "s": 0.085,
+          "l": 0.184
+        },
+        "luminance": 0.025,
+        "sources": [
+          "lib/core/theme.dart:39"
+        ]
+      },
+      {
+        "hex": "#595862",
+        "names": [
+          "borderColorDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "dark",
+        "hsl": {
+          "h": 246,
+          "s": 0.054,
+          "l": 0.365
+        },
+        "luminance": 0.1,
+        "sources": [
+          "lib/core/theme.dart:40"
+        ]
+      },
+      {
+        "hex": "#FB9F89",
+        "names": [
+          "palettePeach"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "red",
+        "tone": "light",
+        "hsl": {
+          "h": 12,
+          "s": 0.934,
+          "l": 0.761
+        },
+        "luminance": 0.471,
+        "sources": [
+          "lib/core/theme.dart:42"
+        ]
+      },
+      {
+        "hex": "#C4AF9A",
+        "names": [
+          "paletteTaupe"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "orange",
+        "tone": "mid",
+        "hsl": {
+          "h": 30,
+          "s": 0.263,
+          "l": 0.686
+        },
+        "luminance": 0.447,
+        "sources": [
+          "lib/core/theme.dart:43"
+        ]
+      },
+      {
+        "hex": "#8E8DBE",
+        "names": [
+          "paletteLavender"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "blue",
+        "tone": "mid",
+        "hsl": {
+          "h": 241,
+          "s": 0.274,
+          "l": 0.649
+        },
+        "luminance": 0.285,
+        "sources": [
+          "lib/core/theme.dart:44"
+        ]
+      },
+      {
+        "hex": "#BDE5FB",
+        "names": [
+          "onboardingBlue"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "azure",
+        "tone": "light",
+        "hsl": {
+          "h": 201,
+          "s": 0.886,
+          "l": 0.863
+        },
+        "luminance": 0.738,
+        "sources": [
+          "lib/core/theme.dart:45"
+        ]
+      },
+      {
+        "hex": "#F3FAC7",
+        "names": [
+          "onboardingYellow"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "yellow",
+        "tone": "light",
+        "hsl": {
+          "h": 68,
+          "s": 0.836,
+          "l": 0.88
+        },
+        "luminance": 0.915,
+        "sources": [
+          "lib/core/theme.dart:46"
+        ]
+      },
+      {
+        "hex": "#E7F5FC",
+        "names": [
+          "onboardingPaleBlue"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "azure",
+        "tone": "very light",
+        "hsl": {
+          "h": 200,
+          "s": 0.778,
+          "l": 0.947
+        },
+        "luminance": 0.893,
+        "sources": [
+          "lib/core/theme.dart:49"
+        ]
+      },
+      {
+        "hex": "#006D4E",
+        "names": [
+          "positiveAmountLight"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "emerald",
+        "tone": "dark",
+        "hsl": {
+          "h": 163,
+          "s": 1,
+          "l": 0.214
+        },
+        "luminance": 0.115,
+        "sources": [
+          "lib/core/theme.dart:56"
+        ]
+      },
+      {
+        "hex": "#54DEAC",
+        "names": [
+          "positiveAmountDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "emerald",
+        "tone": "mid",
+        "hsl": {
+          "h": 158,
+          "s": 0.676,
+          "l": 0.6
+        },
+        "luminance": 0.571,
+        "sources": [
+          "lib/core/theme.dart:57"
+        ]
+      },
+      {
+        "hex": "#F3F3F3",
+        "names": [
+          "neutralSurface"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "very light",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.953
+        },
+        "luminance": 0.896,
+        "sources": [
+          "lib/core/theme.dart:58"
+        ]
+      },
+      {
+        "hex": "#F5F5F5",
+        "names": [
+          "textDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "very light",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.961
+        },
+        "luminance": 0.913,
+        "sources": [
+          "lib/core/theme.dart:59"
+        ]
+      },
+      {
+        "hex": "#D0D0D0",
+        "names": [
+          "mutedTextDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "light",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.816
+        },
+        "luminance": 0.631,
+        "sources": [
+          "lib/core/theme.dart:60"
+        ]
+      },
+      {
+        "hex": "#3B3A43",
+        "names": [
+          "raisedSurfaceDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "dark",
+        "hsl": {
+          "h": 247,
+          "s": 0.072,
+          "l": 0.245
+        },
+        "luminance": 0.044,
+        "sources": [
+          "lib/core/theme.dart:61"
+        ]
+      },
+      {
+        "hex": "#585B5F",
+        "names": [
+          "skeletonBaseDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "dark",
+        "hsl": {
+          "h": 214,
+          "s": 0.038,
+          "l": 0.359
+        },
+        "luminance": 0.104,
+        "sources": [
+          "lib/core/theme.dart:62"
+        ]
+      },
+      {
+        "hex": "#8A8E93",
+        "names": [
+          "skeletonHighlightDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "mid",
+        "hsl": {
+          "h": 213,
+          "s": 0.04,
+          "l": 0.559
+        },
+        "luminance": 0.269,
+        "sources": [
+          "lib/core/theme.dart:63"
+        ]
+      },
+      {
+        "hex": "#D9DEE3",
+        "names": [
+          "skeletonBaseLight"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "azure",
+        "tone": "light",
+        "hsl": {
+          "h": 210,
+          "s": 0.152,
+          "l": 0.871
+        },
+        "luminance": 0.725,
+        "sources": [
+          "lib/core/theme.dart:64"
+        ]
+      },
+      {
+        "hex": "#EFF2F5",
+        "names": [
+          "skeletonHighlightLight"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "azure",
+        "tone": "very light",
+        "hsl": {
+          "h": 210,
+          "s": 0.231,
+          "l": 0.949
+        },
+        "luminance": 0.884,
+        "sources": [
+          "lib/core/theme.dart:65"
+        ]
+      },
+      {
+        "hex": "#FEFEFE",
+        "names": [
+          "backgroundLight"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "very light",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.996
+        },
+        "luminance": 0.991,
+        "sources": [
+          "lib/core/theme.dart:66"
+        ]
+      },
+      {
+        "hex": "#606060",
+        "names": [
+          "mutedTextLight"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "dark",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.376
+        },
+        "luminance": 0.117,
+        "sources": [
+          "lib/core/theme.dart:70"
+        ]
+      },
+      {
+        "hex": "#D8D8D8",
+        "names": [
+          "borderColorLight"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "light",
+        "hsl": {
+          "h": 0,
+          "s": 0,
+          "l": 0.847
+        },
+        "luminance": 0.687,
+        "sources": [
+          "lib/core/theme.dart:71"
+        ]
+      },
+      {
+        "hex": "#B9E5C7",
+        "names": [
+          "incomeBadgeLight"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "emerald",
+        "tone": "light",
+        "hsl": {
+          "h": 139,
+          "s": 0.458,
+          "l": 0.812
+        },
+        "luminance": 0.705,
+        "sources": [
+          "lib/core/theme.dart:72"
+        ]
+      },
+      {
+        "hex": "#244C3F",
+        "names": [
+          "incomeBadgeDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "emerald",
+        "tone": "dark",
+        "hsl": {
+          "h": 161,
+          "s": 0.357,
+          "l": 0.22
+        },
+        "luminance": 0.059,
+        "sources": [
+          "lib/core/theme.dart:75"
+        ]
+      },
+      {
+        "hex": "#583B35",
+        "names": [
+          "expenseBadgeDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "red",
+        "tone": "dark",
+        "hsl": {
+          "h": 10,
+          "s": 0.248,
+          "l": 0.276
+        },
+        "luminance": 0.055,
+        "sources": [
+          "lib/core/theme.dart:76"
+        ]
+      },
+      {
+        "hex": "#37364F",
+        "names": [
+          "transferBadgeDark"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "blue",
+        "tone": "dark",
+        "hsl": {
+          "h": 242,
+          "s": 0.188,
+          "l": 0.261
+        },
+        "luminance": 0.04,
+        "sources": [
+          "lib/core/theme.dart:77"
+        ]
+      },
+      {
+        "hex": "#141619",
+        "names": [],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "neutral",
+        "tone": "very dark",
+        "hsl": {
+          "h": 216,
+          "s": 0.111,
+          "l": 0.088
+        },
+        "luminance": 0.008,
+        "sources": [
+          "lib/core/theme.dart:126"
+        ]
+      },
+      {
+        "hex": "#91E7A4",
+        "names": [
+          "success"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "green",
+        "tone": "light",
+        "hsl": {
+          "h": 133,
+          "s": 0.642,
+          "l": 0.737
+        },
+        "luminance": 0.659,
+        "sources": [
+          "lib/core/ui/app_toast_theme.dart:30"
+        ]
+      },
+      {
+        "hex": "#FFCF52",
+        "names": [
+          "info"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "orange",
+        "tone": "mid",
+        "hsl": {
+          "h": 43,
+          "s": 1,
+          "l": 0.661
+        },
+        "luminance": 0.665,
+        "sources": [
+          "lib/core/ui/app_toast_theme.dart:33"
+        ]
+      },
+      {
+        "hex": "#70C485",
+        "names": [
+          "success"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "emerald",
+        "tone": "mid",
+        "hsl": {
+          "h": 135,
+          "s": 0.416,
+          "l": 0.604
+        },
+        "luminance": 0.446,
+        "sources": [
+          "lib/core/ui/app_toast_theme.dart:40"
+        ]
+      },
+      {
+        "hex": "#F0C447",
+        "names": [
+          "info"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "orange",
+        "tone": "mid",
+        "hsl": {
+          "h": 44,
+          "s": 0.849,
+          "l": 0.61
+        },
+        "luminance": 0.585,
+        "sources": [
+          "lib/core/ui/app_toast_theme.dart:43"
+        ]
+      },
+      {
+        "hex": "#D22D39",
+        "names": [
+          "fill"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "red",
+        "tone": "mid",
+        "hsl": {
+          "h": 356,
+          "s": 0.647,
+          "l": 0.5
+        },
+        "luminance": 0.159,
+        "sources": [
+          "lib/core/ui/app_danger_theme.dart:5"
+        ]
+      },
+      {
+        "hex": "#F9E2E3",
+        "names": [
+          "lightContainer"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "red",
+        "tone": "very light",
+        "hsl": {
+          "h": 357,
+          "s": 0.657,
+          "l": 0.931
+        },
+        "luminance": 0.801,
+        "sources": [
+          "lib/core/ui/app_danger_theme.dart:9"
+        ]
+      },
+      {
+        "hex": "#481217",
+        "names": [
+          "lightContainerForeground"
+        ],
+        "occurrences": 1,
+        "alpha": 1,
+        "hue": "red",
+        "tone": "very dark",
+        "hsl": {
+          "h": 354,
+          "s": 0.6,
+          "l": 0.176
+        },
+        "luminance": 0.019,
+        "sources": [
+          "lib/core/ui/app_danger_theme.dart:10"
+        ]
+      }
+    ],
+    "contrast": {
+      "primaryOnBackground": 1,
+      "inkOnBackground": 4.98,
+      "whiteOnPrimary": 2.54
+    },
+    "darkTheme": true
+  },
+  "typography": {
+    "families": [],
+    "fontFiles": [
+      {
+        "family": "Alexandria",
+        "weight": 300,
+        "path": "/Users/masinjaka/works/Drala/assets/fonts/Alexandria-Light.ttf",
+        "relative": "assets/fonts/Alexandria-Light.ttf"
+      },
+      {
+        "family": "Alexandria",
+        "weight": 400,
+        "path": "/Users/masinjaka/works/Drala/assets/fonts/Alexandria-Regular.ttf",
+        "relative": "assets/fonts/Alexandria-Regular.ttf"
+      },
+      {
+        "family": "Alexandria",
+        "weight": 500,
+        "path": "/Users/masinjaka/works/Drala/assets/fonts/Alexandria-Medium.ttf",
+        "relative": "assets/fonts/Alexandria-Medium.ttf"
+      },
+      {
+        "family": "Alexandria",
+        "weight": 600,
+        "path": "/Users/masinjaka/works/Drala/assets/fonts/Alexandria-SemiBold.ttf",
+        "relative": "assets/fonts/Alexandria-SemiBold.ttf"
+      },
+      {
+        "family": "Alexandria",
+        "weight": 700,
+        "path": "/Users/masinjaka/works/Drala/assets/fonts/Alexandria-Bold.ttf",
+        "relative": "assets/fonts/Alexandria-Bold.ttf"
+      },
+      {
+        "family": "Alexandria",
+        "weight": 800,
+        "path": "/Users/masinjaka/works/Drala/assets/fonts/Alexandria-ExtraBold.ttf",
+        "relative": "assets/fonts/Alexandria-ExtraBold.ttf"
+      },
+      {
+        "family": "Inter",
+        "weight": 400,
+        "path": "/Users/masinjaka/works/Drala/assets/fonts/Inter.ttf",
+        "relative": "assets/fonts/Inter.ttf"
+      }
+    ],
+    "scale": [
+      16,
+      10,
+      9
+    ],
+    "styles": [
+      {
+        "role": "style",
+        "fontSize": 10,
+        "fontWeight": null,
+        "letterSpacing": null,
+        "height": null,
+        "fontFamily": null,
+        "file": "lib/widgets/charts/bar_chart_stats.dart"
+      },
+      {
+        "role": "style",
+        "fontSize": 9,
+        "fontWeight": null,
+        "letterSpacing": null,
+        "height": null,
+        "fontFamily": null,
+        "file": "lib/widgets/charts/bar_chart_stats.dart"
+      },
+      {
+        "role": "style",
+        "fontSize": 9,
+        "fontWeight": null,
+        "letterSpacing": null,
+        "height": null,
+        "fontFamily": null,
+        "file": "lib/widgets/charts/bar_chart_stats.dart"
+      },
+      {
+        "role": "style",
+        "fontSize": 10,
+        "fontWeight": null,
+        "letterSpacing": null,
+        "height": null,
+        "fontFamily": null,
+        "file": "lib/widgets/charts/bar_chart.dart"
+      },
+      {
+        "role": "style",
+        "fontSize": 10,
+        "fontWeight": null,
+        "letterSpacing": null,
+        "height": null,
+        "fontFamily": null,
+        "file": "lib/widgets/charts/bar_chart.dart"
+      },
+      {
+        "role": "style",
+        "fontSize": 16,
+        "fontWeight": null,
+        "letterSpacing": null,
+        "height": null,
+        "fontFamily": null,
+        "file": "lib/widgets/custom_transaction_card.dart"
+      },
+      {
+        "role": "titleStyle",
+        "fontSize": null,
+        "fontWeight": null,
+        "letterSpacing": null,
+        "height": null,
+        "fontFamily": null,
+        "file": "lib/widgets/charts/pie_chart.dart"
+      },
+      {
+        "role": "style",
+        "fontSize": 16,
+        "fontWeight": null,
+        "letterSpacing": null,
+        "height": null,
+        "fontFamily": null,
+        "file": "lib/widgets/charts/pie_chart.dart"
+      }
+    ],
+    "note": "Bundled font files can be used for marketing typography (check their licence)."
+  },
+  "radii": [
+    4,
+    6,
+    8,
+    10,
+    12,
+    16,
+    20,
+    24,
+    25,
+    28,
+    40,
+    50,
+    999
+  ],
+  "spacing": [
+    8,
+    12
+  ],
+  "brand": {
+    "appIcon": "ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+    "appIconAbsolute": "/Users/masinjaka/works/Drala/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+    "iconColors": {
+      "dominant": "#08b888"
+    }
+  },
+  "personality": null,
+  "agentNotes": "Fill `personality` (3–5 adjectives with evidence) and correct any mis-inferred roles before designing."
+}

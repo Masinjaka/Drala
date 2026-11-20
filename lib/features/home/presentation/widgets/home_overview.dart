@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_refresh_indicator.dart';
 import 'package:budgets/core/ui/app_scroll_under_header.dart';
 import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
@@ -83,7 +84,7 @@ class HomeOverview extends StatelessWidget {
                           displayName: displayName,
                           notifications: notifications,
                           onNotificationsPressed: onNotificationsPressed)),
-                  child: RefreshIndicator(
+                  child: AppRefreshIndicator(
                     onRefresh: onRefresh,
                     child: SingleChildScrollView(
                       key: const Key('home-overview-scroll'),

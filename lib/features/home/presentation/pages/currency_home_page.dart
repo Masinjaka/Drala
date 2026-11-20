@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/features/settings/presentation/widgets/logout_page_background.dart';
 import 'package:budgets/features/home/data/services/home_repository_factory.dart';
 import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
@@ -55,7 +56,7 @@ class CurrencyHomePage extends ConsumerWidget {
         return Scaffold(
             body: Center(
                 child: manager.opening
-                    ? const CircularProgressIndicator()
+                    ? const AppLoader()
                     : IconButton(
                         onPressed: manager.retryOpen,
                         tooltip: context.l10n.offlineRetry,

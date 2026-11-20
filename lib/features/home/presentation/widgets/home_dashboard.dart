@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_refresh_indicator.dart';
 import 'package:budgets/core/ui/app_header_scope.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/ui/app_header_metrics.dart';
@@ -75,7 +76,7 @@ class HomeDashboard extends StatelessWidget {
                         }
                         return false;
                       },
-                      child: RefreshIndicator(
+                      child: AppRefreshIndicator(
                           onRefresh: () async {
                             try {
                               await viewModel.loadDate(viewModel.selectedDate);

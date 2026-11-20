@@ -21,4 +21,8 @@ class AppPaths {
   static const String noIncomeDark = "assets/illustrations/dark/no-income.png";
   static const String noIncomeLight =
       "assets/illustrations/light/no-income.png";
+
+  // Loading animations (dotLottie)
+  static const String loaderLight = "assets/animations/money-count.lottie";
+  static const String loaderDark = "assets/animations/money-count-dark.lottie";
 }

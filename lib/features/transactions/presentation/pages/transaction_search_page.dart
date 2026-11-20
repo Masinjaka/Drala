@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_refresh_indicator.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/functions/transaction_utils.dart';
 import 'package:budgets/features/categories/domain/models/category_model.dart';
@@ -100,7 +101,7 @@ class _TransactionSearchPageState extends ConsumerState<TransactionSearchPage> {
       body: SafeArea(
         child: NotificationListener<ScrollNotification>(
           onNotification: _onScrollNotification,
-          child: RefreshIndicator(
+          child: AppRefreshIndicator(
             onRefresh: _refresh,
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

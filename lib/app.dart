@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/features/offline/data/services/offline_sync_manager.dart';
 import 'package:budgets/features/offline/presentation/widgets/offline_sync_feedback.dart';
@@ -90,8 +91,11 @@ class _MyAppState extends ConsumerState<MyApp> {
       final locale = ref.read(localeProvider.notifier);
       await locale.ready;
       if (!mounted) return;
+      // The device choice wins; the cloud value only seeds a device that
+      // has none yet, so a stale account value cannot override it.
       if (appearance.language case final String language
-          when supportedAppLocales.any((l) => l.languageCode == language)) {
+          when supportedAppLocales.any((l) => l.languageCode == language) &&
+              !await locale.hasStoredSelection()) {
         if (ref.read(localeProvider).languageCode != language) {
           await locale.setLocale(Locale(language));
         }
@@ -99,9 +103,12 @@ class _MyAppState extends ConsumerState<MyApp> {
       final theme = ThemeOptions.values.where(
         (option) => option.name == appearance.theme,
       );
+      final themes = ref.read(themeProvider.notifier);
       if (theme.isNotEmpty &&
-          ref.read(themeProvider).name != theme.first.name) {
-        await ref.read(themeProvider.notifier).setTheme(theme.first);
+          ref.read(themeProvider).name != theme.first.name &&
+          !await themes.hasStoredSelection()) {
+        if (!mounted) return;
+        await themes.setTheme(theme.first);
       }
       _lastCloudAppearance = key;
     } catch (error, stackTrace) {
@@ -172,7 +179,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             builder: (context, child) => Stack(children: [
               AbsorbPointer(absorbing: guest.isSyncing, child: child!),
               if (guest.isSyncing)
-                const Center(child: CircularProgressIndicator()),
+                const Center(child: AppLoader()),
             ]),
           );
         },

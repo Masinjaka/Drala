@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_button_skeleton.dart';
 import 'package:budgets/core/ui/app_interaction_theme.dart';
 import 'package:budgets/core/ui/app_control_metrics.dart';
 import 'package:budgets/core/ui/app_icon_foreground.dart';
@@ -90,12 +91,18 @@ class CustomButton extends StatelessWidget {
   final bool textOnly;
   @override
   Widget build(BuildContext context) {
+    if (isLoading == true) {
+      return AppButtonSkeleton(
+        width: width ?? double.infinity,
+        height: height ?? AppControlMetrics.height,
+      );
+    }
     final colors = _resolveColors(context);
     final button = SizedBox(
       width: width ?? double.infinity,
       height: height ?? AppControlMetrics.height,
       child: FilledButton(
-        onPressed: isLoading == true ? null : onPressed,
+        onPressed: onPressed,
         style: AppInteractionTheme.withoutPressFeedback(FilledButton.styleFrom(
           backgroundColor: colors.background,
           foregroundColor: colors.foreground,
@@ -110,15 +117,7 @@ class CustomButton extends StatelessWidget {
               : const EdgeInsets.symmetric(horizontal: 16),
           textStyle: textStyle ?? Theme.of(context).textTheme.bodyMedium,
         )),
-        child: isLoading == true
-            ? SizedBox.square(
-                dimension: 18,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: colors.foreground,
-                ),
-              )
-            : _content(context, colors),
+        child: _content(context, colors),
       ),
     );
     return tooltip == null ? button : Tooltip(message: tooltip!, child: button);

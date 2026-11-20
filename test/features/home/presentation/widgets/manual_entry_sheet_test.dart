@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:budgets/core/theme.dart';
+import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/features/ai_entry/domain/models/manual_entry_category.dart';
 import 'package:budgets/features/home/domain/models/manual_entry_sheet_result.dart';
 import 'package:budgets/features/home/presentation/widgets/manual_entry_sheet.dart';
@@ -40,11 +41,11 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('transaction-category-field')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.byType(AppLoader), findsOneWidget);
 
     categories.complete(const []);
     await tester.pumpAndSettle();
-    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(find.byType(AppLoader), findsNothing);
   });
 
   testWidgets('returns a manual income for the selected calendar date',

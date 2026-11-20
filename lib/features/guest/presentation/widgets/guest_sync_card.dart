@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_button_skeleton.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/core/ui/app_settings_theme.dart';
 import 'package:flutter/material.dart';
@@ -25,30 +26,25 @@ class GuestSyncCard extends StatelessWidget {
           style: theme.textTheme.bodyMedium,
         ),
         const SizedBox(height: 12),
-        IntrinsicWidth(
-          child: FilledButton(
-            key: const Key('guest-settings-sign-in'),
-            onPressed: isLoading ? null : onSignIn,
-            style: FilledButton.styleFrom(
-              backgroundColor: AppSettingsTheme.signInBackground(context),
-              foregroundColor: AppSettingsTheme.signInForeground(context),
-              textStyle: theme.textTheme.bodyMedium,
-              minimumSize: const Size(0, 44),
-              padding: const EdgeInsets.symmetric(horizontal: 18),
+        if (isLoading)
+          const AppButtonSkeleton(width: 120, height: 44)
+        else
+          IntrinsicWidth(
+            child: FilledButton(
+              key: const Key('guest-settings-sign-in'),
+              onPressed: onSignIn,
+              style: FilledButton.styleFrom(
+                backgroundColor: AppSettingsTheme.signInBackground(context),
+                foregroundColor: AppSettingsTheme.signInForeground(context),
+                textStyle: theme.textTheme.bodyMedium,
+                minimumSize: const Size(0, 44),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+              ),
+              child: Text(signedIn
+                  ? context.l10n.guestSyncNow
+                  : context.l10n.authSignIn),
             ),
-            child: isLoading
-                ? SizedBox.square(
-                    dimension: 18,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: AppSettingsTheme.signInForeground(context),
-                    ),
-                  )
-                : Text(signedIn
-                    ? context.l10n.guestSyncNow
-                    : context.l10n.authSignIn),
           ),
-        ),
       ],
     );
   }

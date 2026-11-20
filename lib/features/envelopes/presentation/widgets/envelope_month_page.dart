@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_refresh_indicator.dart';
 import 'package:budgets/core/widgets/delayed_skeleton.dart';
 import 'envelope_empty_state.dart';
 import 'package:budgets/core/layout/app_scroll_padding.dart';
@@ -62,7 +63,7 @@ class EnvelopeMonthPage extends StatelessWidget {
         },
       );
     }
-    return RefreshIndicator(
+    return AppRefreshIndicator(
       onRefresh: onRefresh,
       child: ListView(
         key: const Key('envelope-month-list'),
