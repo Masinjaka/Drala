@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:budgets/features/notifications/presentation/widgets/notification_settings_toggle.dart';
+import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -36,6 +37,10 @@ void main() {
     final result = Completer<bool>();
     await tester.pumpWidget(
       MaterialApp(
+        // The error toast must follow the selected language.
+        locale: const Locale('fr'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: NotificationSettingsToggle(
             title: 'Budget alerts',
