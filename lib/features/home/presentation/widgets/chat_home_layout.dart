@@ -15,6 +15,9 @@ import 'ai_credit_notice.dart';
 import 'ai_quota_refresh_scope.dart';
 import 'package:budgets/features/home/presentation/widgets/home_activity_composer.dart';
 import 'package:budgets/core/ui/app_activities_theme.dart';
+import 'home_tab_slot.dart';
+import 'settled_bottom_inset.dart';
+import 'tab_refresh_scheduler.dart';
 
 class ChatHomeLayout extends StatefulWidget {
   const ChatHomeLayout({
@@ -59,6 +62,7 @@ class ChatHomeLayout extends StatefulWidget {
 class _ChatHomeLayoutState extends State<ChatHomeLayout> {
   int _selectedIndex = 0;
   final Set<int> _visitedDataTabs = {};
+  final _refresh = TabRefreshScheduler();
 
   void _select(int index) {
     if (index == _selectedIndex) return;
@@ -67,8 +71,17 @@ class _ChatHomeLayoutState extends State<ChatHomeLayout> {
       _selectedIndex = index;
       if (index == 2 || index == 3) _visitedDataTabs.add(index);
     });
-    if (index == 1) widget.onActivitiesSelected();
-    if (index == 0) _refreshOverview();
+    _refresh.schedule(HomeBottomNavigationBar.transitionDuration(context), () {
+      if (!mounted || _selectedIndex != index) return;
+      if (index == 1) widget.onActivitiesSelected();
+      if (index == 0) _refreshOverview();
+    });
+  }
+
+  @override
+  void dispose() {
+    _refresh.dispose();
+    super.dispose();
   }
 
   void _createEnvelope() {
@@ -112,26 +125,25 @@ class _ChatHomeLayoutState extends State<ChatHomeLayout> {
               resizeToAvoidBottomInset: true,
               extendBody: true,
               backgroundColor: AppActivitiesTheme.background(context),
-              body: Stack(fit: StackFit.expand, children: [
-                if (_selectedIndex == 0)
-                  HomeOverview(
-                      today: widget.today,
-                      displayName: widget.displayName,
-                      viewModel: widget.viewModel,
-                      overview: widget.overviewViewModel,
-                      notifications: widget.notificationViewModel,
-                      onNotificationsPressed: widget.onNotificationsPressed,
-                      onActivities: () => _select(1),
-                      onEnvelopes: () => _select(2),
-                      onCreateEnvelope: _createEnvelope,
-                      onRefresh: _refreshOverview,
-                      currency: widget.currencyState),
-                Offstage(
-                  offstage: _selectedIndex != 1,
-                  child: TickerMode(
-                    enabled: _selectedIndex == 1,
-                    child: ExcludeFocus(
-                      excluding: _selectedIndex != 1,
+              body: SettledBottomInset(
+                  trigger: _selectedIndex,
+                  duration: HomeBottomNavigationBar.transitionDuration(context),
+                  child: Stack(fit: StackFit.expand, children: [
+                    if (_selectedIndex == 0)
+                      HomeOverview(
+                          today: widget.today,
+                          displayName: widget.displayName,
+                          viewModel: widget.viewModel,
+                          overview: widget.overviewViewModel,
+                          notifications: widget.notificationViewModel,
+                          onNotificationsPressed: widget.onNotificationsPressed,
+                          onActivities: () => _select(1),
+                          onEnvelopes: () => _select(2),
+                          onCreateEnvelope: _createEnvelope,
+                          onRefresh: _refreshOverview,
+                          currency: widget.currencyState),
+                    HomeTabSlot(
+                      active: _selectedIndex == 1,
                       child: HomeDashboard(
                         today: widget.today,
                         viewModel: widget.viewModel,
@@ -146,26 +158,18 @@ class _ChatHomeLayoutState extends State<ChatHomeLayout> {
                         manualOnly: widget.manualOnly,
                       ),
                     ),
-                  ),
-                ),
-                for (final index in _visitedDataTabs)
-                  Offstage(
-                    key: ValueKey(index),
-                    offstage: _selectedIndex != index,
-                    child: TickerMode(
-                      enabled: _selectedIndex == index,
-                      child: ExcludeFocus(
-                        excluding: _selectedIndex != index,
+                    for (final index in _visitedDataTabs)
+                      HomeTabSlot(
+                        key: ValueKey(index),
+                        active: _selectedIndex == index,
                         child: widget.destinations[index - 2],
                       ),
-                    ),
-                  ),
-                if (_selectedIndex >= 4)
-                  KeyedSubtree(
-                    key: ValueKey(_selectedIndex),
-                    child: widget.destinations[_selectedIndex - 2],
-                  ),
-              ]),
+                    if (_selectedIndex >= 4)
+                      KeyedSubtree(
+                        key: ValueKey(_selectedIndex),
+                        child: widget.destinations[_selectedIndex - 2],
+                      ),
+                  ])),
               bottomNavigationBar: HomeBottomNavigationBar(
                 selectedIndex: _selectedIndex,
                 onSelected: _select,

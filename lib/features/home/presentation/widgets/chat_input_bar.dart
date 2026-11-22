@@ -93,9 +93,8 @@ class _ChatInputBarState extends State<ChatInputBar> {
       } else {
         await submit(result);
       }
-    } on StateError catch (error) {
-      if (mounted) showAppToast(context, error.message);
     } catch (error) {
+      // Includes the camera/receipt StateErrors, shown in the user's language.
       if (mounted) showErrorToast(context, error);
     } finally {
       if (mounted) setState(() => _isProcessingReceipt = false);
@@ -103,10 +102,11 @@ class _ChatInputBarState extends State<ChatInputBar> {
   }
 
   void _showResult(ReceiptInputResult result) {
-    final label = result.source == ReceiptInputSource.importedFile
-        ? 'File imported'
-        : 'Receipt scanned';
-    showInfoToast(context, '$label and ready for AI extraction.');
+    showInfoToast(
+        context,
+        result.source == ReceiptInputSource.importedFile
+            ? context.l10n.receiptImportedReady
+            : context.l10n.receiptScannedReady);
   }
 
   @override

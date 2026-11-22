@@ -50,12 +50,15 @@ class EnvelopeCard extends StatelessWidget {
                 loading: loading),
             const SizedBox(height: 12),
             if (loading)
-              const ValueSkeleton(width: double.infinity, height: 5)
+              const ValueSkeleton(
+                  width: double.infinity,
+                  height: AppEnvelopeTheme.progressHeight)
             else
               EnvelopeProgress(
                   value: envelope.progress.clamp(0, 1),
                   foregroundColor: AppEnvelopeTheme.progress(context,
-                      exceeded: envelope.isExceeded || envelope.remaining < 0)),
+                      exceeded: envelope.isExceeded || envelope.remaining < 0,
+                      categoryColor: envelope.color)),
             if (envelope.isExceeded && !loading) ...[
               const SizedBox(height: 8),
               EnvelopeOverspendWarning(

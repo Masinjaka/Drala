@@ -1,3 +1,4 @@
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/core/ui/detail_page_shell.dart';
 import 'package:budgets/core/ui/app_glass_surface.dart';
 import 'package:budgets/core/layout/app_scroll_padding.dart';
@@ -32,7 +33,7 @@ class _PlanPageState extends State<PlanPage> {
     if (subscribe == null) {
       showInfoToast(
         context,
-        'Drala Plus checkout will be available once billing is configured.',
+        context.l10n.plusCheckoutUnavailable,
       );
       return;
     }

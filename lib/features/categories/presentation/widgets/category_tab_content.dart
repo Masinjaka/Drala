@@ -1,3 +1,4 @@
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/layout/app_page_spacing.dart';
 import 'package:budgets/core/ui/app_category_theme.dart';
@@ -27,7 +28,7 @@ class CategoryTabContent extends ConsumerWidget {
                 .where((item) => item.transactionType == transactionType)
                 .toList()),
         AsyncError(:final error) => Center(
-            child: Text(friendlyErrorMessage(error),
+            child: Text(friendlyErrorMessage(error, context.l10n),
                 style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center)),
         _ => _grid(context, null),

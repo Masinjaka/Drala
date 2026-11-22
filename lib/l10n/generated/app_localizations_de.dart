@@ -1462,4 +1462,168 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get logOutConfirmation => 'Möchtest du dich wirklich abmelden?';
+
+  @override
+  String get offlineBannerMessage => 'Du bist derzeit offline';
+
+  @override
+  String get dismissOfflineBanner => 'Schließen';
+
+  @override
+  String get entryAdded => 'Eintrag hinzugefügt.';
+
+  @override
+  String get entryUpdated => 'Eintrag aktualisiert.';
+
+  @override
+  String get entryDeleted => 'Eintrag gelöscht.';
+
+  @override
+  String aiEntriesAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge hinzugefügt.',
+      one: '1 Eintrag hinzugefügt.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get insufficientFundsAllWallets =>
+      'Nicht genug Guthaben in allen Wallets.';
+
+  @override
+  String get transactionNotCompletedInsufficientFunds =>
+      'Nicht genug Guthaben. Die Transaktion wurde nicht ausgeführt.';
+
+  @override
+  String get aiPaidTierNotice =>
+      'Diese Anfrage hat einen kostenpflichtigen KI-Tarif genutzt.';
+
+  @override
+  String get receiptImportedReady =>
+      'Datei importiert und bereit für die KI-Auswertung.';
+
+  @override
+  String get receiptScannedReady =>
+      'Beleg gescannt und bereit für die KI-Auswertung.';
+
+  @override
+  String get savingsCategoryLocked =>
+      'Diese Kategorie wird für deine Sparziele verwendet und kann nicht bearbeitet werden.';
+
+  @override
+  String get plusCheckoutUnavailable =>
+      'Der Kauf von Drala Plus ist verfügbar, sobald die Abrechnung eingerichtet ist.';
+
+  @override
+  String get genericError =>
+      'Etwas ist schiefgelaufen. Bitte versuche es erneut.';
+
+  @override
+  String get serverError =>
+      'Ein Serverfehler ist aufgetreten. Bitte versuche es erneut.';
+
+  @override
+  String get signInToContinue => 'Bitte melde dich an, um fortzufahren.';
+
+  @override
+  String get invalidCredentials => 'E-Mail oder Passwort ist falsch.';
+
+  @override
+  String get emailNotConfirmed =>
+      'Bitte bestätige deine E-Mail-Adresse, bevor du dich anmeldest.';
+
+  @override
+  String get accountNotFound =>
+      'Für diese E-Mail-Adresse wurde kein Konto gefunden.';
+
+  @override
+  String get emailAlreadyUsed => 'Diese E-Mail-Adresse wird bereits verwendet.';
+
+  @override
+  String get emailPasswordRequired =>
+      'Bitte gib E-Mail-Adresse und Passwort ein.';
+
+  @override
+  String get weakPassword => 'Das Passwort ist zu schwach.';
+
+  @override
+  String get checkRequiredFields => 'Bitte prüfe die Pflichtfelder.';
+
+  @override
+  String get duplicateEntry => 'Ein identischer Eintrag existiert bereits.';
+
+  @override
+  String get accessDenied => 'Zugriff verweigert. Bitte versuche es erneut.';
+
+  @override
+  String get fileNotFound => 'Datei nicht gefunden.';
+
+  @override
+  String get fileProcessingFailed =>
+      'Die Datei konnte nicht verarbeitet werden. Bitte versuche es erneut.';
+
+  @override
+  String get noCameraAvailable =>
+      'Auf diesem Gerät ist keine Kamera verfügbar.';
+
+  @override
+  String get receiptFileTooLarge =>
+      'Jede Belegdatei muss kleiner als 15 MB sein.';
+
+  @override
+  String get receiptFormatUnsupported =>
+      'Nur Belege im Format JPG, PNG und PDF werden unterstützt.';
+
+  @override
+  String get receiptScanningUnavailable =>
+      'Das Scannen von Belegen ist nicht verfügbar.';
+
+  @override
+  String get receiptUnreadable => 'Dieser Beleg kann nicht gelesen werden.';
+
+  @override
+  String get receiptTooLarge =>
+      'Dieser Beleg ist zu groß. Verwende weniger oder kleinere Seiten.';
+
+  @override
+  String get receiptPdfUnsupported =>
+      'PDF-Belege können derzeit nicht gelesen werden. Scanne oder importiere stattdessen Bilder.';
+
+  @override
+  String get receiptNotFound => 'Beleg nicht gefunden.';
+
+  @override
+  String get aiDailyLimitReached =>
+      'Du hast alle KI-Credits für heute verbraucht. Versuche es morgen erneut.';
+
+  @override
+  String get aiRateLimited =>
+      'Zu viele Anfragen. Warte ein paar Sekunden und versuche es erneut.';
+
+  @override
+  String get aiUnreadableResponse =>
+      'Die KI hat das nicht verstanden. Formuliere es anders.';
+
+  @override
+  String get aiServiceUnavailable =>
+      'Der KI-Dienst ist gerade nicht verfügbar. Bitte versuche es später erneut.';
+
+  @override
+  String get futureDateNotAllowed =>
+      'Transaktionen können nicht in der Zukunft eingetragen werden.';
+
+  @override
+  String get invalidEntryRequest =>
+      'Gib eine gültige Nachricht und ein gültiges Datum ein.';
+
+  @override
+  String get amountOutOfRange =>
+      'Dieser Betrag ist zu klein oder zu groß zum Speichern.';
+
+  @override
+  String get exchangeRateUnavailable =>
+      'Wechselkurse sind gerade nicht verfügbar. Bitte versuche es später erneut.';
 }

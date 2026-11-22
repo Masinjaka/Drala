@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/core/ui/app_toast.dart';
-import 'package:budgets/features/ai_entry/domain/errors/ai_entry_exception.dart';
 import 'package:budgets/features/ai_entry/domain/models/ai_entry_result.dart';
 import 'package:budgets/features/ai_entry/domain/models/finance_entry.dart';
 import 'package:budgets/features/ai_entry/presentation/view_models/ai_entry_view_model.dart';
@@ -70,23 +69,8 @@ class HomeEntryActions {
     } on InsufficientFundsException {
       if (context.mounted) _showInsufficientFunds(context);
       return false;
-    } on AiEntryException catch (error) {
-      if (context.mounted) {
-        final message = switch (error.code) {
-          'provider_timeout' ||
-          'request_timeout' =>
-            context.l10n.aiRequestTimedOut,
-          _ => error.message,
-        };
-        showAppToast(context, message, type: AppToastType.error);
-      }
-      return false;
-    } on StateError catch (error) {
-      if (context.mounted) {
-        showAppToast(context, error.message, type: AppToastType.error);
-      }
-      return false;
     } catch (error) {
+      // AI codes and app errors are all translated by showErrorToast.
       if (context.mounted) showErrorToast(context, error);
       return false;
     }
@@ -150,7 +134,7 @@ class HomeEntryActions {
 
   void _showInsufficientFunds(BuildContext context) => showAppToast(
         context,
-        'Insufficient funds across all wallets.',
+        context.l10n.insufficientFundsAllWallets,
         type: AppToastType.error,
       );
 }

@@ -1,3 +1,4 @@
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/core/enums/transaction_type.dart';
 import 'package:budgets/core/ui/app_card_surface.dart';
 import 'package:budgets/core/ui/app_category_theme.dart';
@@ -38,8 +39,7 @@ class _CategoryGridCardState extends State<CategoryGridCard> {
     if (category_api.isSavingsCategory(widget.category) &&
         await goal_datasource.hasAnyGoals()) {
       if (mounted) {
-        showInfoToast(context,
-            'Cette catégorie est utilisée pour vos objectifs d\'épargne et ne peut pas être modifiée.');
+        showInfoToast(context, context.l10n.savingsCategoryLocked);
       }
       return;
     }

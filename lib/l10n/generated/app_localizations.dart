@@ -2619,6 +2619,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to log out?'**
   String get logOutConfirmation;
+
+  /// No description provided for @offlineBannerMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You are currently offline'**
+  String get offlineBannerMessage;
+
+  /// No description provided for @dismissOfflineBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get dismissOfflineBanner;
+
+  /// No description provided for @entryAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry added.'**
+  String get entryAdded;
+
+  /// No description provided for @entryUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry updated.'**
+  String get entryUpdated;
+
+  /// No description provided for @entryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry deleted.'**
+  String get entryDeleted;
+
+  /// No description provided for @aiEntriesAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 entry added.} other{{count} entries added.}}'**
+  String aiEntriesAdded(int count);
+
+  /// No description provided for @insufficientFundsAllWallets.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient funds across all wallets.'**
+  String get insufficientFundsAllWallets;
+
+  /// No description provided for @transactionNotCompletedInsufficientFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient funds. The transaction was not completed.'**
+  String get transactionNotCompletedInsufficientFunds;
+
+  /// No description provided for @aiPaidTierNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This request used a paid AI provider tier.'**
+  String get aiPaidTierNotice;
+
+  /// No description provided for @receiptImportedReady.
+  ///
+  /// In en, this message translates to:
+  /// **'File imported and ready for AI extraction.'**
+  String get receiptImportedReady;
+
+  /// No description provided for @receiptScannedReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt scanned and ready for AI extraction.'**
+  String get receiptScannedReady;
+
+  /// No description provided for @savingsCategoryLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'This category is used for your savings goals and can’t be edited.'**
+  String get savingsCategoryLocked;
+
+  /// No description provided for @plusCheckoutUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Drala Plus checkout will be available once billing is configured.'**
+  String get plusCheckoutUnavailable;
+
+  /// No description provided for @genericError.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get genericError;
+
+  /// No description provided for @serverError.
+  ///
+  /// In en, this message translates to:
+  /// **'A server error occurred. Please try again.'**
+  String get serverError;
+
+  /// No description provided for @signInToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please sign in to continue.'**
+  String get signInToContinue;
+
+  /// No description provided for @invalidCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect email or password.'**
+  String get invalidCredentials;
+
+  /// No description provided for @emailNotConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm your email before signing in.'**
+  String get emailNotConfirmed;
+
+  /// No description provided for @accountNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No account found for this email.'**
+  String get accountNotFound;
+
+  /// No description provided for @emailAlreadyUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already in use.'**
+  String get emailAlreadyUsed;
+
+  /// No description provided for @emailPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email and password.'**
+  String get emailPasswordRequired;
+
+  /// No description provided for @weakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'The password is too weak.'**
+  String get weakPassword;
+
+  /// No description provided for @checkRequiredFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check the required fields.'**
+  String get checkRequiredFields;
+
+  /// No description provided for @duplicateEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'An identical entry already exists.'**
+  String get duplicateEntry;
+
+  /// No description provided for @accessDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Access denied. Please try again.'**
+  String get accessDenied;
+
+  /// No description provided for @fileNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'File not found.'**
+  String get fileNotFound;
+
+  /// No description provided for @fileProcessingFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'The file couldn’t be processed. Please try again.'**
+  String get fileProcessingFailed;
+
+  /// No description provided for @noCameraAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No camera is available on this device.'**
+  String get noCameraAvailable;
+
+  /// No description provided for @receiptFileTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Each receipt file must be smaller than 15 MB.'**
+  String get receiptFileTooLarge;
+
+  /// No description provided for @receiptFormatUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Only JPG, PNG and PDF receipts are supported.'**
+  String get receiptFormatUnsupported;
+
+  /// No description provided for @receiptScanningUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt scanning is unavailable.'**
+  String get receiptScanningUnavailable;
+
+  /// No description provided for @receiptUnreadable.
+  ///
+  /// In en, this message translates to:
+  /// **'This receipt can’t be read.'**
+  String get receiptUnreadable;
+
+  /// No description provided for @receiptTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'This receipt is too large to process. Use fewer or smaller pages.'**
+  String get receiptTooLarge;
+
+  /// No description provided for @receiptPdfUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF receipts can’t be read right now. Scan or import images instead.'**
+  String get receiptPdfUnsupported;
+
+  /// No description provided for @receiptNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt not found.'**
+  String get receiptNotFound;
+
+  /// No description provided for @aiDailyLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You’ve used all your AI credits for today. Try again tomorrow.'**
+  String get aiDailyLimitReached;
+
+  /// No description provided for @aiRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests. Wait a few seconds and try again.'**
+  String get aiRateLimited;
+
+  /// No description provided for @aiUnreadableResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI couldn’t understand that. Try rephrasing.'**
+  String get aiUnreadableResponse;
+
+  /// No description provided for @aiServiceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI service is unavailable right now. Please try again later.'**
+  String get aiServiceUnavailable;
+
+  /// No description provided for @futureDateNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Transactions can’t be added to a future date.'**
+  String get futureDateNotAllowed;
+
+  /// No description provided for @invalidEntryRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid message and transaction date.'**
+  String get invalidEntryRequest;
+
+  /// No description provided for @amountOutOfRange.
+  ///
+  /// In en, this message translates to:
+  /// **'This amount is too small or too large to store.'**
+  String get amountOutOfRange;
+
+  /// No description provided for @exchangeRateUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange rates are unavailable right now. Please try again later.'**
+  String get exchangeRateUnavailable;
 }
 
 class _AppLocalizationsDelegate

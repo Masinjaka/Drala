@@ -1459,4 +1459,160 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get logOutConfirmation => 'Vuoi davvero uscire?';
+
+  @override
+  String get offlineBannerMessage => 'Al momento sei offline';
+
+  @override
+  String get dismissOfflineBanner => 'Chiudi';
+
+  @override
+  String get entryAdded => 'Movimento aggiunto.';
+
+  @override
+  String get entryUpdated => 'Movimento aggiornato.';
+
+  @override
+  String get entryDeleted => 'Movimento eliminato.';
+
+  @override
+  String aiEntriesAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count movimenti aggiunti.',
+      one: '1 movimento aggiunto.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get insufficientFundsAllWallets =>
+      'Fondi insufficienti in tutti i portafogli.';
+
+  @override
+  String get transactionNotCompletedInsufficientFunds =>
+      'Fondi insufficienti. La transazione non è stata completata.';
+
+  @override
+  String get aiPaidTierNotice =>
+      'Questa richiesta ha usato un piano IA a pagamento.';
+
+  @override
+  String get receiptImportedReady =>
+      'File importato e pronto per l’analisi IA.';
+
+  @override
+  String get receiptScannedReady =>
+      'Ricevuta scansionata e pronta per l’analisi IA.';
+
+  @override
+  String get savingsCategoryLocked =>
+      'Questa categoria è usata per i tuoi obiettivi di risparmio e non può essere modificata.';
+
+  @override
+  String get plusCheckoutUnavailable =>
+      'L’acquisto di Drala Plus sarà disponibile quando la fatturazione sarà configurata.';
+
+  @override
+  String get genericError => 'Qualcosa è andato storto. Riprova.';
+
+  @override
+  String get serverError => 'Si è verificato un errore del server. Riprova.';
+
+  @override
+  String get signInToContinue => 'Accedi per continuare.';
+
+  @override
+  String get invalidCredentials => 'Email o password non corretti.';
+
+  @override
+  String get emailNotConfirmed => 'Conferma la tua email prima di accedere.';
+
+  @override
+  String get accountNotFound => 'Nessun account trovato per questa email.';
+
+  @override
+  String get emailAlreadyUsed => 'Questa email è già in uso.';
+
+  @override
+  String get emailPasswordRequired => 'Inserisci email e password.';
+
+  @override
+  String get weakPassword => 'La password è troppo debole.';
+
+  @override
+  String get checkRequiredFields => 'Controlla i campi obbligatori.';
+
+  @override
+  String get duplicateEntry => 'Esiste già una voce identica.';
+
+  @override
+  String get accessDenied => 'Accesso negato. Riprova.';
+
+  @override
+  String get fileNotFound => 'File non trovato.';
+
+  @override
+  String get fileProcessingFailed => 'Impossibile elaborare il file. Riprova.';
+
+  @override
+  String get noCameraAvailable =>
+      'Nessuna fotocamera disponibile su questo dispositivo.';
+
+  @override
+  String get receiptFileTooLarge =>
+      'Ogni file della ricevuta deve essere inferiore a 15 MB.';
+
+  @override
+  String get receiptFormatUnsupported =>
+      'Sono supportate solo ricevute JPG, PNG e PDF.';
+
+  @override
+  String get receiptScanningUnavailable =>
+      'La scansione delle ricevute non è disponibile.';
+
+  @override
+  String get receiptUnreadable => 'Questa ricevuta non è leggibile.';
+
+  @override
+  String get receiptTooLarge =>
+      'Questa ricevuta è troppo grande. Usa meno pagine o pagine più piccole.';
+
+  @override
+  String get receiptPdfUnsupported =>
+      'Al momento le ricevute PDF non possono essere lette. Scansiona o importa immagini.';
+
+  @override
+  String get receiptNotFound => 'Ricevuta non trovata.';
+
+  @override
+  String get aiDailyLimitReached =>
+      'Hai usato tutti i crediti IA di oggi. Riprova domani.';
+
+  @override
+  String get aiRateLimited =>
+      'Troppe richieste. Attendi qualche secondo e riprova.';
+
+  @override
+  String get aiUnreadableResponse => 'L’IA non ha capito. Prova a riformulare.';
+
+  @override
+  String get aiServiceUnavailable =>
+      'Il servizio IA non è disponibile al momento. Riprova più tardi.';
+
+  @override
+  String get futureDateNotAllowed =>
+      'Non è possibile aggiungere movimenti in una data futura.';
+
+  @override
+  String get invalidEntryRequest => 'Inserisci un messaggio e una data validi.';
+
+  @override
+  String get amountOutOfRange =>
+      'Questo importo è troppo piccolo o troppo grande per essere salvato.';
+
+  @override
+  String get exchangeRateUnavailable =>
+      'I tassi di cambio non sono disponibili al momento. Riprova più tardi.';
 }

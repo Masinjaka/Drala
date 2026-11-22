@@ -1460,4 +1460,165 @@ class AppLocalizationsMg extends AppLocalizations {
 
   @override
   String get logOutConfirmation => 'Tena te hivoaka ve ianao ?';
+
+  @override
+  String get offlineBannerMessage =>
+      'Tsy mifandray amin\'ny internet ianao izao';
+
+  @override
+  String get dismissOfflineBanner => 'Hidio';
+
+  @override
+  String get entryAdded => 'Voampiditra ny fifanakalozana.';
+
+  @override
+  String get entryUpdated => 'Nohavaozina ny fifanakalozana.';
+
+  @override
+  String get entryDeleted => 'Voafafa ny fifanakalozana.';
+
+  @override
+  String aiEntriesAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Fifanakalozana $count voampiditra.',
+      one: 'Fifanakalozana 1 voampiditra.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get insufficientFundsAllWallets =>
+      'Tsy ampy ny vola ao amin’ny poketra rehetra.';
+
+  @override
+  String get transactionNotCompletedInsufficientFunds =>
+      'Tsy ampy ny vola. Tsy vita ny fifanakalozana.';
+
+  @override
+  String get aiPaidTierNotice =>
+      'Nampiasa tolotra AI andoavam-bola ity fangatahana ity.';
+
+  @override
+  String get receiptImportedReady =>
+      'Voafandrika ny rakitra ary vonona hovakian’ny AI.';
+
+  @override
+  String get receiptScannedReady =>
+      'Voaskana ny rosia ary vonona hovakian’ny AI.';
+
+  @override
+  String get savingsCategoryLocked =>
+      'Ampiasaina amin’ny tanjona fitahirizam-bola ity sokajy ity ka tsy azo ovaina.';
+
+  @override
+  String get plusCheckoutUnavailable =>
+      'Ho azo atao ny famandrihana Drala Plus rehefa voalamina ny fandoavam-bola.';
+
+  @override
+  String get genericError => 'Nisy olana. Andramo indray azafady.';
+
+  @override
+  String get serverError =>
+      'Nisy olana teo amin’ny lohamilina. Andramo indray azafady.';
+
+  @override
+  String get signInToContinue => 'Midira amin’ny kaontinao vao manohy azafady.';
+
+  @override
+  String get invalidCredentials => 'Diso ny mailaka na ny teny miafina.';
+
+  @override
+  String get emailNotConfirmed => 'Hamarino aloha ny mailakao vao miditra.';
+
+  @override
+  String get accountNotFound =>
+      'Tsy misy kaonty mifanaraka amin’io mailaka io.';
+
+  @override
+  String get emailAlreadyUsed => 'Efa ampiasaina io mailaka io.';
+
+  @override
+  String get emailPasswordRequired => 'Ampidiro ny mailaka sy ny teny miafina.';
+
+  @override
+  String get weakPassword => 'Malemy loatra ny teny miafina.';
+
+  @override
+  String get checkRequiredFields => 'Hamarino ireo saha tsy maintsy fenoina.';
+
+  @override
+  String get duplicateEntry => 'Efa misy zavatra mitovy amin’izany.';
+
+  @override
+  String get accessDenied => 'Nolavina ny fidirana. Andramo indray azafady.';
+
+  @override
+  String get fileNotFound => 'Tsy hita ny rakitra.';
+
+  @override
+  String get fileProcessingFailed =>
+      'Tsy voahodina ny rakitra. Andramo indray azafady.';
+
+  @override
+  String get noCameraAvailable =>
+      'Tsy misy fakan-tsary amin’ity fitaovana ity.';
+
+  @override
+  String get receiptFileTooLarge =>
+      'Tsy maintsy latsaky ny 15 MB ny rakitra rosia tsirairay.';
+
+  @override
+  String get receiptFormatUnsupported =>
+      'Rosia JPG, PNG ary PDF ihany no ekena.';
+
+  @override
+  String get receiptScanningUnavailable => 'Tsy azo atao ny manaskana rosia.';
+
+  @override
+  String get receiptUnreadable => 'Tsy azo vakiana ity rosia ity.';
+
+  @override
+  String get receiptTooLarge =>
+      'Lehibe loatra ity rosia ity. Ahenao ny pejy na ataovy kely kokoa.';
+
+  @override
+  String get receiptPdfUnsupported =>
+      'Tsy azo vakiana amin’izao ny rosia PDF. Manaskana na mampidira sary kosa.';
+
+  @override
+  String get receiptNotFound => 'Tsy hita ny rosia.';
+
+  @override
+  String get aiDailyLimitReached =>
+      'Lany ny crédit AI-nao androany. Andramo indray rahampitso.';
+
+  @override
+  String get aiRateLimited =>
+      'Be loatra ny fangatahana. Miandrasa segondra vitsivitsy dia andramo indray.';
+
+  @override
+  String get aiUnreadableResponse =>
+      'Tsy azon’ny AI izany. Andramo averina amin’ny fomba hafa.';
+
+  @override
+  String get aiServiceUnavailable =>
+      'Tsy misy ny serivisy AI amin’izao. Andramo indray any aoriana.';
+
+  @override
+  String get futureDateNotAllowed =>
+      'Tsy azo ampidirina amin’ny daty ho avy ny fifanakalozana.';
+
+  @override
+  String get invalidEntryRequest =>
+      'Ampidiro hafatra sy daty fifanakalozana marina.';
+
+  @override
+  String get amountOutOfRange =>
+      'Kely loatra na lehibe loatra ity vola ity ka tsy azo raketina.';
+
+  @override
+  String get exchangeRateUnavailable =>
+      'Tsy misy ny taham-pifanakalozana amin’izao. Andramo indray any aoriana.';
 }

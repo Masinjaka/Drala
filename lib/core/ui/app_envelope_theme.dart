@@ -1,3 +1,4 @@
+import 'package:budgets/core/ui/app_category_icon_theme.dart';
 import 'package:budgets/core/ui/app_danger_theme.dart';
 import 'app_header_theme.dart';
 import 'package:budgets/core/ui/app_typography.dart';
@@ -18,9 +19,24 @@ abstract final class AppEnvelopeTheme {
       Theme.of(context).colorScheme.surfaceContainerLowest;
   static Color accent(BuildContext context) =>
       Theme.of(context).colorScheme.primary;
+  static const progressHeight = 20.0;
+  static const progressRadius =
+      BorderRadius.all(Radius.circular(progressHeight / 2));
   static Color progressTrack(BuildContext context) => background(context);
-  static Color progress(BuildContext context, {required bool exceeded}) =>
-      exceeded ? AppDangerTheme.criticalWarning(context) : accent(context);
+
+  /// Paper-like grain over the filled part of the bar: light fibres catch
+  /// the light and dark specks sink in, on any category color.
+  static const progressGrainLight = Color(0x2EFFFFFF);
+  static const progressGrainDark = Color(0x24000000);
+  static const progressGrainDensity = 0.38;
+  /// Uses the category's own color, toned like its icon so it stays visible
+  /// on the card. Overspending keeps the warning color.
+  static Color progress(BuildContext context,
+          {required bool exceeded, String? categoryColor}) =>
+      exceeded
+          ? AppDangerTheme.criticalWarning(context)
+          : AppCategoryIconTheme.color(context, categoryColor,
+              background: surface(context), fallback: accent(context));
   static List<BoxShadow> shadows(BuildContext context) => [
         BoxShadow(
             color: Theme.of(context).shadowColor.withValues(

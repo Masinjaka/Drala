@@ -1,3 +1,4 @@
+import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:budgets/core/ui/app_toast.dart';
 import 'package:budgets/core/currency/currency_state.dart';
 import 'package:budgets/features/home/domain/models/wallet_funding_choice.dart';
@@ -36,7 +37,7 @@ class WalletFundingPrompt {
       if (context.mounted) {
         showAppToast(
           context,
-          'Insufficient funds across all wallets.',
+          context.l10n.insufficientFundsAllWallets,
           type: AppToastType.error,
         );
       }
@@ -51,7 +52,7 @@ class WalletFundingPrompt {
     if (context.mounted) {
       showAppToast(
         context,
-        'Insufficient funds. The transaction was not completed.',
+        context.l10n.transactionNotCompletedInsufficientFunds,
         type: AppToastType.error,
       );
     }

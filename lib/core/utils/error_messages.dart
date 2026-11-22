@@ -1,118 +1,91 @@
+import 'package:budgets/l10n/generated/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-String friendlyErrorMessage(Object error, {String? networkMessage}) {
-  if (error is AuthRetryableFetchException) {
-    return networkMessage ??
-        "Impossible de joindre le serveur. Vérifiez votre connexion internet et réessayez.";
-  }
+/// Turns any error into a short message in the user's selected language.
+///
+/// Raw server and exception text is never shown: unknown errors fall back to
+/// a generic localized message.
+String friendlyErrorMessage(Object error, AppLocalizations l10n) =>
+    switch (error) {
+      AuthRetryableFetchException() => l10n.networkUnavailable,
+      AuthException() => _auth(error.message, l10n),
+      PostgrestException() => _postgrest(error.message, l10n),
+      StorageException() => _storage(error.message, l10n),
+      StateError() => _generic(error.message, l10n),
+      Exception() => _generic(error.toString(), l10n),
+      _ => l10n.genericError,
+    };
 
-  if (error is AuthException) {
-    return _friendlyAuthMessage(error.message);
+String _auth(String message, AppLocalizations l10n) {
+  final text = message.toLowerCase();
+  bool has(List<String> parts) => parts.any(text.contains);
+  if (has(['invalid login', 'invalid_credentials'])) {
+    return l10n.invalidCredentials;
   }
-
-  if (error is PostgrestException) {
-    return _friendlyPostgrestMessage(error.message);
+  if (has(['email not confirmed', 'email_not_confirmed'])) {
+    return l10n.emailNotConfirmed;
   }
-
-  if (error is StorageException) {
-    return _friendlyStorageMessage(error.message);
+  if (has(['user not found'])) return l10n.accountNotFound;
+  if (has([
+    'already registered',
+    'duplicate key value',
+    'user already exists',
+    'email already',
+  ])) {
+    return l10n.emailAlreadyUsed;
   }
-
-  if (error is StateError) {
-    return _friendlyGenericMessage(error.message);
+  if (has([
+    'missing email',
+    'missing password',
+    'email is required',
+    'password is required',
+  ])) {
+    return l10n.emailPasswordRequired;
   }
-
-  if (error is Exception) {
-    return _friendlyGenericMessage(error.toString());
+  if (has(['invalid email'])) return l10n.invalidEmail;
+  if (has(
+      ['password should be at least', 'weak_password', 'password is too'])) {
+    return l10n.weakPassword;
   }
-
-  return "Une erreur est survenue. Veuillez réessayer.";
+  return _generic(message, l10n);
 }
 
-String _friendlyAuthMessage(String message) {
-  final normalized = message.toLowerCase();
-
-  if (normalized.contains('invalid login credentials') ||
-      normalized.contains('invalid login') ||
-      normalized.contains('invalid_credentials')) {
-    return "Email ou mot de passe incorrect.";
+String _postgrest(String message, AppLocalizations l10n) {
+  final text = message.toLowerCase();
+  if (text.contains('violates foreign key') ||
+      text.contains('violates not-null') ||
+      text.contains('null value')) {
+    return l10n.checkRequiredFields;
   }
-
-  if (normalized.contains('email not confirmed') ||
-      normalized.contains('email_not_confirmed')) {
-    return "Veuillez confirmer votre email avant de vous connecter.";
-  }
-
-  if (normalized.contains('user not found')) {
-    return "Aucun compte trouvé pour cet email.";
-  }
-
-  if (normalized.contains('already registered') ||
-      normalized.contains('duplicate key value') ||
-      normalized.contains('user already exists') ||
-      normalized.contains('email already')) {
-    return "Cet email est déjà utilisé.";
-  }
-
-  if (normalized.contains('missing email') ||
-      normalized.contains('missing password') ||
-      normalized.contains('email is required') ||
-      normalized.contains('password is required')) {
-    return "Veuillez renseigner l'email et le mot de passe.";
-  }
-
-  if (normalized.contains('invalid email')) {
-    return "Adresse email invalide.";
-  }
-
-  if (normalized.contains('password should be at least') ||
-      normalized.contains('weak_password') ||
-      normalized.contains('password is too')) {
-    return "Le mot de passe est trop faible.";
-  }
-
-  return _friendlyGenericMessage(message);
+  if (text.contains('duplicate key value')) return l10n.duplicateEntry;
+  return l10n.serverError;
 }
 
-String _friendlyPostgrestMessage(String message) {
-  final normalized = message.toLowerCase();
-
-  if (normalized.contains('violates foreign key') ||
-      normalized.contains('violates not-null') ||
-      normalized.contains('null value')) {
-    return "Veuillez vérifier les champs requis.";
+String _storage(String message, AppLocalizations l10n) {
+  final text = message.toLowerCase();
+  if (text.contains('permission') || text.contains('not authorized')) {
+    return l10n.accessDenied;
   }
-
-  if (normalized.contains('duplicate key value')) {
-    return "Une entrée identique existe déjà.";
-  }
-
-  return "Une erreur serveur est survenue. Veuillez réessayer.";
+  if (text.contains('not found')) return l10n.fileNotFound;
+  return l10n.fileProcessingFailed;
 }
 
-String _friendlyStorageMessage(String message) {
-  final normalized = message.toLowerCase();
-
-  if (normalized.contains('permission') ||
-      normalized.contains('not authorized')) {
-    return "Accès refusé. Veuillez réessayer.";
+/// Known app-thrown messages; anything else gets the generic message.
+String _generic(String message, AppLocalizations l10n) {
+  final text = message.toLowerCase();
+  if (text.contains('user not authenticated') ||
+      text.contains('no authenticated user') ||
+      text.contains('no authenticated session') ||
+      text.startsWith('please sign in')) {
+    return l10n.signInToContinue;
   }
-
-  if (normalized.contains('not found')) {
-    return "Fichier introuvable.";
+  if (text.contains('no camera is available')) return l10n.noCameraAvailable;
+  if (text.contains('smaller than 15 mb')) return l10n.receiptFileTooLarge;
+  if (text.contains('only jpg, png, and pdf')) {
+    return l10n.receiptFormatUnsupported;
   }
-
-  return "Impossible de traiter le fichier. Veuillez réessayer.";
-}
-
-String _friendlyGenericMessage(String message) {
-  final normalized = message.toLowerCase();
-
-  if (normalized.contains('user not authenticated') ||
-      normalized.contains('no authenticated user') ||
-      normalized.contains('no authenticated session')) {
-    return "Veuillez vous connecter pour continuer.";
+  if (text.contains('receipt scanning is unavailable')) {
+    return l10n.receiptScanningUnavailable;
   }
-
-  return "Une erreur est survenue. Veuillez réessayer.";
+  return l10n.genericError;
 }

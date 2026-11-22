@@ -1,3 +1,4 @@
+import 'package:budgets/features/ai_entry/presentation/ai_entry_error_message.dart';
 import 'package:budgets/features/offline/domain/models/offline_unavailable_exception.dart';
 import 'package:flutter/material.dart';
 import 'package:budgets/core/monitoring/development_log.dart';
@@ -59,8 +60,8 @@ void showErrorToast(BuildContext context, Object error) {
                 : context.l10n.onlineRequired
             : null) ??
         financeErrorMessage(error, context.l10n) ??
-        friendlyErrorMessage(error,
-            networkMessage: context.l10n.networkUnavailable),
+        aiEntryErrorMessage(error, context.l10n) ??
+        friendlyErrorMessage(error, context.l10n),
     type: AppToastType.error,
   );
 }

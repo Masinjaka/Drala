@@ -1,3 +1,4 @@
+import 'package:budgets/core/layout/app_scroll_padding.dart';
 import 'package:budgets/core/ui/app_refresh_indicator.dart';
 import 'package:budgets/core/ui/app_header_scope.dart';
 import 'package:budgets/core/ui/app_toast.dart';
@@ -126,7 +127,12 @@ class HomeDashboard extends StatelessWidget {
                                             HomeCalendarSliverDelegate
                                                 .controlsHeight -
                                             constraints.precedingScrollExtent)
-                                        .clamp(24.0, double.infinity);
+                                        .clamp(
+                                            // Clears the floating composer
+                                            // and navigation bar.
+                                            AppScrollPadding.trailing(
+                                                context, 24),
+                                            double.infinity);
                                 return SliverToBoxAdapter(
                                     child: SizedBox(height: remaining));
                               }),

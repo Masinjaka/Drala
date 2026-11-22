@@ -45,7 +45,7 @@ class ManualFinanceEntryActions {
       if (input.transactionType == 'expense') {
         unawaited(const FinanceWarningDispatcher().dispatch());
       }
-      if (context.mounted) showSuccessToast(context, 'Entry added.');
+      if (context.mounted) showSuccessToast(context, context.l10n.entryAdded);
     } on InsufficientFundsException {
       if (context.mounted) _showInsufficientFunds(context);
     } catch (error) {
@@ -73,7 +73,7 @@ class ManualFinanceEntryActions {
       if (input.transactionType == 'expense') {
         unawaited(const FinanceWarningDispatcher().dispatch());
       }
-      if (context.mounted) showSuccessToast(context, 'Entry updated.');
+      if (context.mounted) showSuccessToast(context, context.l10n.entryUpdated);
     } on InsufficientFundsException {
       if (context.mounted) _showInsufficientFunds(context);
     } catch (error) {
@@ -115,7 +115,7 @@ class ManualFinanceEntryActions {
     );
     if (!confirmed || !context.mounted) return;
     await viewModel.deleteFinanceEntry(entry.id);
-    if (context.mounted) showSuccessToast(context, 'Entry deleted.');
+    if (context.mounted) showSuccessToast(context, context.l10n.entryDeleted);
   }
 
   Future<bool> _saveWithFunding<T>(
@@ -154,7 +154,7 @@ class ManualFinanceEntryActions {
 
   void _showInsufficientFunds(BuildContext context) => showAppToast(
         context,
-        'Insufficient funds across all wallets.',
+        context.l10n.insufficientFundsAllWallets,
         type: AppToastType.error,
       );
 }

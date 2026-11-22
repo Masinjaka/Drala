@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:budgets/core/ui/app_envelope_theme.dart';
+import 'package:budgets/features/envelopes/presentation/widgets/paper_grain_painter.dart';
 
 class EnvelopeProgress extends StatelessWidget {
   const EnvelopeProgress({
@@ -15,10 +16,10 @@ class EnvelopeProgress extends StatelessWidget {
   Widget build(BuildContext context) {
     final progress = value.clamp(0.0, 1.0);
     return ClipRRect(
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: AppEnvelopeTheme.progressRadius,
         child: SizedBox(
             width: double.infinity,
-            height: 5,
+            height: AppEnvelopeTheme.progressHeight,
             child: Stack(children: [
               Positioned.fill(
                   child: ColoredBox(
@@ -26,10 +27,21 @@ class EnvelopeProgress extends StatelessWidget {
               FractionallySizedBox(
                   widthFactor: progress,
                   child: Container(
-                      height: 5,
+                      key: const Key('envelope-progress-fill'),
+                      height: AppEnvelopeTheme.progressHeight,
+                      clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                           color: foregroundColor,
-                          borderRadius: BorderRadius.circular(3)))),
+                          borderRadius: AppEnvelopeTheme.progressRadius),
+                      // Cached as its own layer so the grain is painted once.
+                      child: const RepaintBoundary(
+                          child: CustomPaint(
+                              size: Size.infinite,
+                              painter: PaperGrainPainter(
+                                  light: AppEnvelopeTheme.progressGrainLight,
+                                  dark: AppEnvelopeTheme.progressGrainDark,
+                                  density: AppEnvelopeTheme
+                                      .progressGrainDensity))))),
             ])));
   }
 }

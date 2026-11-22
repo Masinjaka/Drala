@@ -1,4 +1,5 @@
 import 'package:budgets/core/ui/app_navigation_theme.dart';
+import 'package:budgets/features/home/presentation/widgets/home_bottom_navigation_bar.dart';
 import 'package:budgets/features/home/presentation/widgets/home_navigation_item.dart';
 import 'package:budgets/l10n/app_localizations_context.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,8 @@ class _HomeNavigationRowState extends State<HomeNavigationRow>
   late List<double> _toWidths = _fromWidths;
   late double _fromPosition = widget.selectedIndex.toDouble();
   late double _toPosition = _fromPosition;
-  double get _progress => Curves.easeInOutCubic.transform(_controller.value);
+  double get _progress =>
+      HomeBottomNavigationBar.transitionCurve.transform(_controller.value);
   List<double> _widths(int selected) =>
       List.generate(5, (i) => i == selected ? 2.0 : 1.0);
   List<double> get _currentWidths => List.generate(

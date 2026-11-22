@@ -1,6 +1,7 @@
 import 'package:budgets/core/ui/app_loader.dart';
 import 'package:budgets/features/offline/domain/providers/offline_providers.dart';
 import 'package:budgets/features/offline/data/services/offline_sync_manager.dart';
+import 'package:budgets/features/offline/presentation/widgets/offline_banner.dart';
 import 'package:budgets/features/offline/presentation/widgets/offline_sync_feedback.dart';
 import 'dart:async';
 
@@ -165,10 +166,13 @@ class _MyAppState extends ConsumerState<MyApp> {
               manager: ref.read(offlineSyncManagerProvider),
               navigatorKey:
                   widget.navigation.router.routerDelegate.navigatorKey,
-              child: AmountVisibilityScope(
-                controller: _amountVisibilityController,
-                child: AppResponsiveScope(
-                  child: child ?? const SizedBox.shrink(),
+              child: OfflineBanner(
+                connectivity: ref.read(offlineSyncManagerProvider)?.connectivity,
+                child: AmountVisibilityScope(
+                  controller: _amountVisibilityController,
+                  child: AppResponsiveScope(
+                    child: child ?? const SizedBox.shrink(),
+                  ),
                 ),
               ));
           final guest = widget.guestSession;

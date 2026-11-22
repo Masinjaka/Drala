@@ -1448,4 +1448,161 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logOutConfirmation => 'Are you sure you want to log out?';
+
+  @override
+  String get offlineBannerMessage => 'You are currently offline';
+
+  @override
+  String get dismissOfflineBanner => 'Dismiss';
+
+  @override
+  String get entryAdded => 'Entry added.';
+
+  @override
+  String get entryUpdated => 'Entry updated.';
+
+  @override
+  String get entryDeleted => 'Entry deleted.';
+
+  @override
+  String aiEntriesAdded(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries added.',
+      one: '1 entry added.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get insufficientFundsAllWallets =>
+      'Insufficient funds across all wallets.';
+
+  @override
+  String get transactionNotCompletedInsufficientFunds =>
+      'Insufficient funds. The transaction was not completed.';
+
+  @override
+  String get aiPaidTierNotice => 'This request used a paid AI provider tier.';
+
+  @override
+  String get receiptImportedReady =>
+      'File imported and ready for AI extraction.';
+
+  @override
+  String get receiptScannedReady =>
+      'Receipt scanned and ready for AI extraction.';
+
+  @override
+  String get savingsCategoryLocked =>
+      'This category is used for your savings goals and can’t be edited.';
+
+  @override
+  String get plusCheckoutUnavailable =>
+      'Drala Plus checkout will be available once billing is configured.';
+
+  @override
+  String get genericError => 'Something went wrong. Please try again.';
+
+  @override
+  String get serverError => 'A server error occurred. Please try again.';
+
+  @override
+  String get signInToContinue => 'Please sign in to continue.';
+
+  @override
+  String get invalidCredentials => 'Incorrect email or password.';
+
+  @override
+  String get emailNotConfirmed =>
+      'Please confirm your email before signing in.';
+
+  @override
+  String get accountNotFound => 'No account found for this email.';
+
+  @override
+  String get emailAlreadyUsed => 'This email is already in use.';
+
+  @override
+  String get emailPasswordRequired => 'Please enter your email and password.';
+
+  @override
+  String get weakPassword => 'The password is too weak.';
+
+  @override
+  String get checkRequiredFields => 'Please check the required fields.';
+
+  @override
+  String get duplicateEntry => 'An identical entry already exists.';
+
+  @override
+  String get accessDenied => 'Access denied. Please try again.';
+
+  @override
+  String get fileNotFound => 'File not found.';
+
+  @override
+  String get fileProcessingFailed =>
+      'The file couldn’t be processed. Please try again.';
+
+  @override
+  String get noCameraAvailable => 'No camera is available on this device.';
+
+  @override
+  String get receiptFileTooLarge =>
+      'Each receipt file must be smaller than 15 MB.';
+
+  @override
+  String get receiptFormatUnsupported =>
+      'Only JPG, PNG and PDF receipts are supported.';
+
+  @override
+  String get receiptScanningUnavailable => 'Receipt scanning is unavailable.';
+
+  @override
+  String get receiptUnreadable => 'This receipt can’t be read.';
+
+  @override
+  String get receiptTooLarge =>
+      'This receipt is too large to process. Use fewer or smaller pages.';
+
+  @override
+  String get receiptPdfUnsupported =>
+      'PDF receipts can’t be read right now. Scan or import images instead.';
+
+  @override
+  String get receiptNotFound => 'Receipt not found.';
+
+  @override
+  String get aiDailyLimitReached =>
+      'You’ve used all your AI credits for today. Try again tomorrow.';
+
+  @override
+  String get aiRateLimited =>
+      'Too many requests. Wait a few seconds and try again.';
+
+  @override
+  String get aiUnreadableResponse =>
+      'The AI couldn’t understand that. Try rephrasing.';
+
+  @override
+  String get aiServiceUnavailable =>
+      'The AI service is unavailable right now. Please try again later.';
+
+  @override
+  String get futureDateNotAllowed =>
+      'Transactions can’t be added to a future date.';
+
+  @override
+  String get invalidEntryRequest =>
+      'Enter a valid message and transaction date.';
+
+  @override
+  String get amountOutOfRange =>
+      'This amount is too small or too large to store.';
+
+  @override
+  String get exchangeRateUnavailable =>
+      'Exchange rates are unavailable right now. Please try again later.';
 }

@@ -62,7 +62,8 @@ class HomeCalendarSliverDelegate extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       clipBehavior: Clip.none,
       children: [
-        calendar,
+        // Painted below the calendar so the card shadow blends into the fade
+        // instead of being cut off by its opaque top edge.
         if (visibility == 0 && shrinkOffset >= _collapseExtent)
           const Positioned(
             left: 0,
@@ -77,6 +78,7 @@ class HomeCalendarSliverDelegate extends SliverPersistentHeaderDelegate {
               ),
             ),
           ),
+        calendar,
       ],
     );
   }

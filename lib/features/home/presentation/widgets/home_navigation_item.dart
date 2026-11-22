@@ -57,7 +57,7 @@ class HomeNavigationItem extends StatelessWidget {
                           ? selectedLabel
                           : AnimatedSize(
                               duration: duration,
-                              curve: Curves.easeInOutCubic,
+                              curve: Curves.easeOutCubic,
                               child: selectedLabel)),
                 ]),
               ),

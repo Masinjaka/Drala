@@ -19,12 +19,17 @@ class HomeBottomNavigationBar extends StatelessWidget {
   final Widget? notice;
   static const _bottomPadding = 16.0;
 
+  /// Shared by the bar, the page inset freeze and the deferred tab refresh.
+  static Duration transitionDuration(BuildContext context) =>
+      MediaQuery.disableAnimationsOf(context)
+          ? Duration.zero
+          : const Duration(milliseconds: 240);
+  static const transitionCurve = Curves.easeOutCubic;
+
   @override
   Widget build(BuildContext context) {
     final expanded = selectedIndex == 1 && composer != null;
-    final reducedMotion = MediaQuery.disableAnimationsOf(context);
-    final duration =
-        reducedMotion ? Duration.zero : const Duration(milliseconds: 360);
+    final duration = transitionDuration(context);
     final keyboardInset = MediaQuery.viewInsetsOf(context).bottom;
     return Theme(
         data: AppInteractionTheme.withoutInkFeedback(context),
@@ -43,7 +48,7 @@ class HomeBottomNavigationBar extends StatelessWidget {
                 child: TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0, end: expanded ? 1 : 0),
                   duration: duration,
-                  curve: Curves.easeInOutCubic,
+                  curve: transitionCurve,
                   child: composer,
                   builder: (context, progress, child) {
                     final inset = AppPageSpacing.horizontal(context);
